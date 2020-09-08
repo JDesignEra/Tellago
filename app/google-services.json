@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "178046758501",
+    "firebase_url": "https://tellago.firebaseio.com",
+    "project_id": "tellago",
+    "storage_bucket": "tellago.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178046758501:android:329d64d6a1ee1da99f608c",
+        "android_client_info": {
+          "package_name": "com.tellago"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178046758501-psdfm2v957r6au8tud3s43ohthbitbn8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJdXTrTAQpabhK0T_kbF-5el6tExYwp4o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178046758501-psdfm2v957r6au8tud3s43ohthbitbn8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
