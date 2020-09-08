@@ -1,4 +1,4 @@
-package com.example.tellago
+package com.tellago
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

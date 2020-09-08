@@ -1,4 +1,4 @@
-package com.example.tellago
+package com.tellago
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
