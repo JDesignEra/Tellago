@@ -1,4 +1,4 @@
-package com.example.tellago
+package com.tellago
 
 import org.junit.Test
 
