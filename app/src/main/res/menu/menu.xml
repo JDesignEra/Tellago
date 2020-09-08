@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ic_home"
+        android:icon="@drawable/ic_home_24_white"
+        android:title="Home"
+        />
+
+
+    <item
+        android:id="@+id/ic_people"
+        android:icon="@drawable/ic_people_outline_24_white"
+        android:title="Community"
+        />
+
+    <item
+        android:id="@+id/ic_flag"
+        android:icon="@drawable/ic_outlined_flag_24_white"
+        android:title="Life Aspiration"
+        />
+
+
+
+    <item
+        android:id="@+id/ic_profile"
+        android:icon="@drawable/ic_account_box_24_white"
+        android:title="Profile"
+        />
+
+</menu>
