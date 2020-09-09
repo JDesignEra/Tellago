@@ -7,14 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.tellago.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -41,32 +40,13 @@ class MainActivity : AppCompatActivity() {
                     .setIsSmartLockEnabled(false)
                     .setAvailableProviders(signInProviders)
                     .setTheme(R.style.AppTheme)
+                    .setLogo(R.drawable.ic_title_primary)
                     .build(),
                 RC_SIGN_IN
             )
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        replaceFragment(profileFragment)
-        hideSystemUI()
-
-        // the following code will replace the current fragment based on the selected navigation
-        // item from the bottom navigation bar
-        bottom_navigation.setOnNavigationItemSelectedListener {
-            when(it.itemId){
-                R.id.ic_home -> replaceFragment(homeFragment)
-                R.id.ic_people -> replaceFragment(communityFragment)
-                R.id.ic_flag -> replaceFragment(lifeaspirationFragment)
-                R.id.ic_profile -> replaceFragment(profileFragment)
-            }
-
-            true
-        }
-    }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -81,6 +61,8 @@ class MainActivity : AppCompatActivity() {
 
             if (resultCode == Activity.RESULT_OK) {
                 user = FirebaseAuth.getInstance().currentUser
+                addFragment(homeFragment)
+
                 // ...
             }
             else {
@@ -93,12 +75,58 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            hideSystemUI()
+            replaceFragment(homeFragment)
+
+        }
+        else {
+            startActivityForResult(
+                AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(signInProviders)
+                    .setLogo(R.drawable.ic_title_primary)
+                    .build(),
+                RC_SIGN_IN
+            )
+        }
+
+        // the following code will replace the current fragment based on the selected navigation
+        // item from the bottom navigation bar
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.ic_home -> replaceFragment(homeFragment)
+                R.id.ic_people -> replaceFragment(communityFragment)
+                R.id.ic_flag -> replaceFragment(lifeaspirationFragment)
+                R.id.ic_profile -> replaceFragment(profileFragment)
+            }
+
+            true
+        }
+
+    }
+
+    private fun addFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment)
+        transaction.addToBackStack(null);
+        transaction.commit()
+    }
+
     private fun replaceFragment(fragment: Fragment){
         if(fragment != null){
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_container, fragment)
+            transaction.addToBackStack(null);
             transaction.commit()
             //showSystemUI()
+        }
+        else {
+            addFragment(fragment)
         }
     }
 
@@ -125,7 +153,12 @@ class MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
 
+
+
     companion object {
         var user = FirebaseAuth.getInstance().currentUser
+
     }
+
+
 }
