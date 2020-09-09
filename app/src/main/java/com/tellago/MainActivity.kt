@@ -3,26 +3,23 @@ package com.tellago
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.tellago.fragments.CommunityFragment
-import com.tellago.fragments.HomeFragment
-import com.tellago.fragments.LifeAspirationFragment
-import com.tellago.fragments.ProfileFragment
+import com.tellago.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class MainActivity : AppCompatActivity() {
-
     private val communityFragment = CommunityFragment()
     private val homeFragment = HomeFragment()
     private val lifeaspirationFragment = LifeAspirationFragment()
     private val profileFragment = ProfileFragment()
+    private val authFragment = AuthFragment()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        replaceFragment(profileFragment)
+        replaceFragment(authFragment)
 
 
         // the following code will replace the current fragment based on the selected navigation
