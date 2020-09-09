@@ -2,7 +2,6 @@ package com.tellago.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment
 import com.tellago.MainActivity
 import com.tellago.R
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -41,25 +39,14 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
-
-        view.btnLogout.setOnClickListener { view ->
-            AuthUI.getInstance().signOut(requireContext()).addOnSuccessListener {
-                activity?.recreate()
-            }
-        }
-
-        return view
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         btnLogout.setOnClickListener {
             signOut()
-            Log.d("Testingtesting", "FIRED")
-
         }
     }
 

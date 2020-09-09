@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +18,8 @@ class MainActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 1478
     private val signInProviders = Arrays.asList(
         AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
-        AuthUI.IdpConfig.GoogleBuilder().build()
+        AuthUI.IdpConfig.GoogleBuilder().build(),
+        AuthUI.IdpConfig.FacebookBuilder().build()
     )
 
     private val communityFragment = CommunityFragment()
@@ -37,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(
                 AuthUI.getInstance()
                     .createSignInIntentBuilder()
-                    .setIsSmartLockEnabled(false)
                     .setAvailableProviders(signInProviders)
                     .setTheme(R.style.AppTheme)
                     .setLogo(R.drawable.ic_title_primary)
@@ -46,7 +44,6 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
-
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -62,11 +59,8 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 user = FirebaseAuth.getInstance().currentUser
                 addFragment(homeFragment)
-
-                // ...
             }
             else {
-                Log.d("MainActivity", "FIRED")
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
@@ -82,17 +76,6 @@ class MainActivity : AppCompatActivity() {
         if (FirebaseAuth.getInstance().currentUser != null) {
             hideSystemUI()
             replaceFragment(homeFragment)
-
-        }
-        else {
-            startActivityForResult(
-                AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setAvailableProviders(signInProviders)
-                    .setLogo(R.drawable.ic_title_primary)
-                    .build(),
-                RC_SIGN_IN
-            )
         }
 
         // the following code will replace the current fragment based on the selected navigation
@@ -153,12 +136,7 @@ class MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
 
-
-
     companion object {
         var user = FirebaseAuth.getInstance().currentUser
-
     }
-
-
 }
