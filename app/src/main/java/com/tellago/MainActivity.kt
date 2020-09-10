@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.tellago.fragments.*
+import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -71,17 +71,17 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-
             if (resultCode == Activity.RESULT_OK) {
                 user = FirebaseAuth.getInstance().currentUser
+
                 addFragment(homeFragment)
-            }
-            else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
+
+                if (user!!.isAnonymous) {
+                    CustomToast(this, "Welcome to Tellago, Guest").success()
+                }
+                else {
+                    CustomToast(this, "Welcome to Tellago, %s".format(user?.displayName)).success()
+                }
             }
         }
     }
