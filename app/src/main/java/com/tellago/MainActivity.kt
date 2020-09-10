@@ -4,8 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
@@ -14,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.tellago.fragments.*
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -90,7 +95,7 @@ class MainActivity : AppCompatActivity() {
         handler = Handler()
         handlerTask = Runnable { // do something
             hideSystemUI()
-            handler!!.postDelayed(handlerTask, 3000)
+            handler!!.postDelayed(handlerTask, 5000)
         }
 
         handlerTask!!.run()
@@ -99,6 +104,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Indicate that toolbar will replace Actionbar
+        setSupportActionBar(toolbar as Toolbar?)
 
         StartTimer()
 
@@ -124,6 +132,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater : MenuInflater = menuInflater
+        inflater.inflate(R.menu.options_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_logout -> signOut()
+        }
+        return true
+    }
+
     private fun addFragment(fragment: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
@@ -143,8 +165,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun signOut() {
+        AuthUI.getInstance()
+            .signOut(this)
+            .addOnCompleteListener {
+                MainActivity.user = FirebaseAuth.getInstance().currentUser
+                val intent = Intent(this, MainActivity::class.java)
+
+                startActivity(intent)
+            }
+    }
+
     private fun hideSystemUI() {
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                )
     }
 
     // Shows the system bars by removing all the flags

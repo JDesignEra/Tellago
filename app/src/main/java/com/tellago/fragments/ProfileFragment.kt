@@ -19,23 +19,5 @@ class ProfileFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        btnLogout.setOnClickListener {
-            signOut()
-        }
-    }
-
-    private fun signOut() {
-        AuthUI.getInstance()
-            .signOut(this.requireContext())
-            .addOnCompleteListener {
-                MainActivity.user = FirebaseAuth.getInstance().currentUser
-                val intent = Intent(this.requireContext(), MainActivity::class.java)
-
-                startActivity(intent)
-            }
-    }
+    
 }
