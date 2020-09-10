@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -21,8 +20,8 @@ class MainActivity : AppCompatActivity() {
     private val signInProviders = Arrays.asList(
         AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
         AuthUI.IdpConfig.FacebookBuilder().build(),
-        AuthUI.IdpConfig.GoogleBuilder().build(),
-        AuthUI.IdpConfig.AnonymousBuilder().build()
+        AuthUI.IdpConfig.GoogleBuilder().build()
+//        AuthUI.IdpConfig.AnonymousBuilder().build()
     )
 
     private var handler: Handler? = null
@@ -55,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                     .createSignInIntentBuilder()
                     .setAuthMethodPickerLayout(customLayout)
                     .setAvailableProviders(signInProviders)
+                    .setTheme(R.style.AuthTheme)
                     .build(),
                 RC_SIGN_IN
             )
@@ -93,7 +93,6 @@ class MainActivity : AppCompatActivity() {
         handler = Handler()
         handlerTask = Runnable { // do something
             hideSystemUI()
-            Log.e("testing", "StartTimer test here!!")
             handler!!.postDelayed(handlerTask, 3000)
         }
         handlerTask!!.run()

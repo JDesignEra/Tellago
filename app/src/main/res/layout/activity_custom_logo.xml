@@ -19,31 +19,49 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_title_primary" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="48dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/btn_email"
         android:text="@string/fui_sign_in_with_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewLogo" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnFacebook"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="48dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/btn_facebook"
         android:text="@string/fui_sign_in_with_facebook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnEmail" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnGoogle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="48dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/btn_google"
         android:text="@string/fui_sign_in_with_google"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +71,7 @@
         android:id="@+id/divideLine1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintTop_toBottomOf="@id/btnGoogle"
         tools:layout_editor_absoluteX="16dp" />
@@ -62,7 +80,7 @@
         android:id="@+id/stringOR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="OR"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -75,19 +93,26 @@
         android:id="@+id/divideLine2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintTop_toBottomOf="@id/stringOR"
         tools:layout_editor_absoluteX="0dp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnGuest"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="48dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/btn_guest"
         android:text="@string/fui_sign_in_anonymously"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divideLine2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
