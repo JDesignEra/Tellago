@@ -18,7 +18,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 1478
-    private val signInProviders = Arrays.asList(
+    private val authProviders = Arrays.asList(
         AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
         AuthUI.IdpConfig.FacebookBuilder().build(),
         AuthUI.IdpConfig.GoogleBuilder().build(),
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private val communityFragment = CommunityFragment()
     private val homeFragment = HomeFragment()
-    private val lifeaspirationFragment = LifeAspirationFragment()
+    private val lifeAspirationFragment = LifeAspirationFragment()
     private val profileFragment = ProfileFragment()
 
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         // Running is custom layout for landing page (functionality handled by FirebaseUI)
         val customLayout : AuthMethodPickerLayout = AuthMethodPickerLayout
-            .Builder(R.layout.activity_custom_logo)
+            .Builder(R.layout.activity_auth)
             .setEmailButtonId(R.id.btnEmail)
             .setFacebookButtonId(R.id.btnFacebook)
             .setGoogleButtonId(R.id.btnGoogle)
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 AuthUI.getInstance()
                     .createSignInIntentBuilder()
                     .setAuthMethodPickerLayout(customLayout)
-                    .setAvailableProviders(signInProviders)
+                    .setAvailableProviders(authProviders)
                     .setTheme(R.style.AuthTheme)
                     .build(),
                 RC_SIGN_IN
@@ -86,7 +86,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun StartTimer() {
         handler = Handler()
         handlerTask = Runnable { // do something
@@ -105,6 +104,10 @@ class MainActivity : AppCompatActivity() {
 
         if (user != null) {
             replaceFragment(homeFragment)
+
+            if (user!!.isAnonymous) {
+                bottom_navigation.visibility = View.INVISIBLE
+            }
         }
 
         // the following code will replace the current fragment based on the selected navigation
@@ -113,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.ic_home -> replaceFragment(homeFragment)
                 R.id.ic_people -> replaceFragment(communityFragment)
-                R.id.ic_flag -> replaceFragment(lifeaspirationFragment)
+                R.id.ic_flag -> replaceFragment(lifeAspirationFragment)
                 R.id.ic_profile -> replaceFragment(profileFragment)
             }
 
