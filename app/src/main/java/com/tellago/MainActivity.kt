@@ -2,10 +2,11 @@ package com.tellago
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -21,6 +22,9 @@ class MainActivity : AppCompatActivity() {
         AuthUI.IdpConfig.GoogleBuilder().build(),
         AuthUI.IdpConfig.FacebookBuilder().build()
     )
+
+    private var handler: Handler? = null
+    private var handlerTask: Runnable? = null
 
     private val communityFragment = CommunityFragment()
     private val homeFragment = HomeFragment()
@@ -47,7 +51,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) hideSystemUI()
+        if (hasFocus)
+            hideSystemUI()
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -69,12 +76,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun StartTimer() {
+        handler = Handler()
+        handlerTask = Runnable { // do something
+            hideSystemUI()
+            Log.e("testing", "StartTimer test here!!")
+            handler!!.postDelayed(handlerTask, 3000)
+        }
+        handlerTask!!.run()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        StartTimer()
+
         if (FirebaseAuth.getInstance().currentUser != null) {
-            hideSystemUI()
             replaceFragment(homeFragment)
         }
 
@@ -91,6 +110,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+
     }
 
     private fun addFragment(fragment: Fragment){
@@ -106,26 +126,16 @@ class MainActivity : AppCompatActivity() {
             transaction.replace(R.id.fragment_container, fragment)
             transaction.addToBackStack(null);
             transaction.commit()
-            //showSystemUI()
         }
         else {
             addFragment(fragment)
         }
     }
 
+
     private fun hideSystemUI() {
-        // Enables regular immersive mode.
-        // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
-        // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE
-                // Set the content to appear under the system bars so that the
-                // content doesn't resize when the system bars hide and show.
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                // Hide the nav bar and status bar
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+
     }
 
     // Shows the system bars by removing all the flags
