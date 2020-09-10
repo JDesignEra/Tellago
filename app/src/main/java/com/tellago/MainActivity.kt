@@ -19,8 +19,9 @@ class MainActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 1478
     private val signInProviders = Arrays.asList(
         AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
+        AuthUI.IdpConfig.FacebookBuilder().build(),
         AuthUI.IdpConfig.GoogleBuilder().build(),
-        AuthUI.IdpConfig.FacebookBuilder().build()
+        AuthUI.IdpConfig.AnonymousBuilder().build()
     )
 
     private var handler: Handler? = null
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 AuthUI.getInstance()
                     .createSignInIntentBuilder()
                     .setAvailableProviders(signInProviders)
-                    .setTheme(R.style.AppTheme)
+                    .setTheme(R.style.AuthTheme)
                     .setLogo(R.drawable.ic_title_primary)
                     .build(),
                 RC_SIGN_IN
