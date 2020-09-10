@@ -11,6 +11,7 @@ import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.tellago.fragments.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -20,8 +21,8 @@ class MainActivity : AppCompatActivity() {
     private val signInProviders = Arrays.asList(
         AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
         AuthUI.IdpConfig.FacebookBuilder().build(),
-        AuthUI.IdpConfig.GoogleBuilder().build()
-//        AuthUI.IdpConfig.AnonymousBuilder().build()
+        AuthUI.IdpConfig.GoogleBuilder().build(),
+        AuthUI.IdpConfig.AnonymousBuilder().build()
     )
 
     private var handler: Handler? = null
@@ -36,7 +37,9 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        // Running is custom layout for landing page (functionlity handled by FirebaseUI)
+        user = FirebaseAuth.getInstance().currentUser
+
+        // Running is custom layout for landing page (functionality handled by FirebaseUI)
         val customLayout : AuthMethodPickerLayout = AuthMethodPickerLayout
             .Builder(R.layout.activity_custom_logo)
             .setEmailButtonId(R.id.btnEmail)
@@ -44,9 +47,6 @@ class MainActivity : AppCompatActivity() {
             .setGoogleButtonId(R.id.btnGoogle)
             .setAnonymousButtonId(R.id.btnGuest)
             .build()
-
-
-        user = FirebaseAuth.getInstance().currentUser
 
         if (user == null) {
             startActivityForResult(
@@ -63,10 +63,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        if (hasFocus)
-            hideSystemUI()
 
-
+        if (hasFocus) hideSystemUI()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -95,6 +93,7 @@ class MainActivity : AppCompatActivity() {
             hideSystemUI()
             handler!!.postDelayed(handlerTask, 3000)
         }
+
         handlerTask!!.run()
     }
 
@@ -104,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
         StartTimer()
 
-        if (FirebaseAuth.getInstance().currentUser != null) {
+        if (user != null) {
             replaceFragment(homeFragment)
         }
 
@@ -120,8 +119,6 @@ class MainActivity : AppCompatActivity() {
 
             true
         }
-
-
     }
 
     private fun addFragment(fragment: Fragment){
@@ -143,10 +140,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun hideSystemUI() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-
     }
 
     // Shows the system bars by removing all the flags
@@ -158,7 +153,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-
-        var user = FirebaseAuth.getInstance().currentUser
+        var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     }
 }
