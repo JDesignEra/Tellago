@@ -16,9 +16,9 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.tellago.fragments.*
+import com.tellago.services.AuthExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        startService(Intent(this, AuthExitService::class.java))
 
         user = FirebaseAuth.getInstance().currentUser
 
@@ -81,7 +83,7 @@ class MainActivity : AppCompatActivity() {
 
                 addFragment(homeFragment)
 
-                if (user!!.isAnonymous) {
+                if (user != null && user!!.isAnonymous) {
                     CustomToast(this, "Welcome to Tellago, Guest").success()
                 }
                 else {
@@ -166,10 +168,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun signOut() {
+        if (user != null && user!!.isAnonymous) {
+            user!!.delete()
+        }
+
         AuthUI.getInstance()
             .signOut(this)
             .addOnCompleteListener {
-                MainActivity.user = FirebaseAuth.getInstance().currentUser
+                user = FirebaseAuth.getInstance().currentUser
                 val intent = Intent(this, MainActivity::class.java)
 
                 startActivity(intent)
