@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
@@ -32,8 +33,19 @@ class MainActivity : AppCompatActivity() {
     private val lifeaspirationFragment = LifeAspirationFragment()
     private val profileFragment = ProfileFragment()
 
+
     override fun onStart() {
         super.onStart()
+
+        // Running is custom layout for landing page (functionlity handled by FirebaseUI)
+        val customLayout : AuthMethodPickerLayout = AuthMethodPickerLayout
+            .Builder(R.layout.activity_custom_logo)
+            .setEmailButtonId(R.id.btnEmail)
+            .setFacebookButtonId(R.id.btnFacebook)
+            .setGoogleButtonId(R.id.btnGoogle)
+            .setAnonymousButtonId(R.id.btnGuest)
+            .build()
+
 
         user = FirebaseAuth.getInstance().currentUser
 
@@ -41,9 +53,8 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(
                 AuthUI.getInstance()
                     .createSignInIntentBuilder()
+                    .setAuthMethodPickerLayout(customLayout)
                     .setAvailableProviders(signInProviders)
-                    .setTheme(R.style.AuthTheme)
-                    .setLogo(R.drawable.ic_title_primary)
                     .build(),
                 RC_SIGN_IN
             )
@@ -148,6 +159,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+
         var user = FirebaseAuth.getInstance().currentUser
     }
 }
