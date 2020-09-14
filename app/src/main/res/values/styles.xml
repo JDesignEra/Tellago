@@ -7,10 +7,11 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-    <style name="AuthTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AuthTheme" parent="FirebaseUI">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
-
     </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar" />
 </resources>

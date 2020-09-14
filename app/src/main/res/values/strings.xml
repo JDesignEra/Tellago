@@ -1,6 +1,32 @@
 <resources>
-    <string name="app_name">Tellago</string>
+    <string name="app_name">tellsquare</string>
 
+    <!-- Firebase -->
     <string name="facebook_application_id" translatable="false">2693172467590104</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb2693172467590104</string>
+
+    <!-- FirebaseUI -->
+    <plurals name="fui_error_weak_password" translation_description="Inline error for weak password">
+        <item quantity="one" translation_description="Inline error for weak password">
+            Use at least %1$d character and a mix of letters and numbers
+        </item>
+
+        <item quantity="other" translation_description="Inline error for weak password">
+            Use at least %1$d characters and a mix of letters and numbers
+        </item>
+    </plurals>
+
+    <!-- Email common -->
+    <string name="fui_missing_first_and_last_name" translation_description="Inline error for empty email address in input field. [CHAR_LIMIT=60]">
+        Please enter a display name.
+    </string>
+
+    <!-- Email sign up -->
+    <string name="fui_name_hint" translation_description="Hint for last name input field">
+        Display Name
+    </string>
+
+    <string name="fui_trouble_signing_in" translation_description="Link leading to forgot password flow">
+        Forgot Password? Get Help
+    </string>
 </resources>

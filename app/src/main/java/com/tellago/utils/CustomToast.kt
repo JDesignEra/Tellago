@@ -28,7 +28,7 @@ class CustomToast(context: Context, msg: String) {
         val toastView = toast.view
         val toastTxt = toastView.findViewById<TextView>(android.R.id.message)
 
-        toast.setGravity(Gravity.TOP or Gravity.RIGHT, 0, 50)
+        toast.setGravity(Gravity.TOP or Gravity.RIGHT, 0, 300)
         toastView.setBackgroundColor(bgColor)
         toastTxt.setTextColor(txtColor)
 

@@ -1,1 +1,1 @@
-Tellago
+tellsquare

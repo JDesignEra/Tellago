@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.tellago.MainActivity
 import com.tellago.R
+import com.tellago.model.Auth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.toolbar_drawer.*
@@ -27,13 +28,13 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        if (MainActivity.user != null && !MainActivity.user!!.isAnonymous) {
+        if (Auth.user != null && !Auth.user!!.isAnonymous) {
             // User is signed in
-            greeting.text = "Welcome to Tellago, %s".format(MainActivity.user!!.displayName)
+            greeting.text = "Welcome to tellsquare, %s".format(Auth.user!!.displayName)
         }
         else {
             // No user is signed in
-            val greetingText: String = "Welcome to Tellago, Guest"
+            val greetingText: String = "Welcome to tellsquare, Guest"
             greeting.text = greetingText
         }
     }

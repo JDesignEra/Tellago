@@ -21,6 +21,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.tellago.fragments.*
+import com.tellago.model.Auth
 import com.tellago.services.AuthExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -31,7 +32,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 1478
     private val authProviders = Arrays.asList(
-        AuthUI.IdpConfig.EmailBuilder().setRequireName(false).build(),
+        AuthUI.IdpConfig.EmailBuilder().build(),
         AuthUI.IdpConfig.FacebookBuilder().build(),
         AuthUI.IdpConfig.GoogleBuilder().build(),
         AuthUI.IdpConfig.AnonymousBuilder().build()
@@ -51,32 +52,11 @@ class MainActivity : AppCompatActivity() {
 
         startService(Intent(this, AuthExitService::class.java))
 
-        user = FirebaseAuth.getInstance().currentUser
-
         // To hide bottom navigation between sign out & login
 //        bottom_navigation.visibility = View.INVISIBLE
 //        guest_bot_banner.visibility = View.INVISIBLE
 
-        // Running is custom layout for landing page (functionality handled by FirebaseUI)
-        val customLayout: AuthMethodPickerLayout = AuthMethodPickerLayout
-            .Builder(R.layout.activity_auth)
-            .setEmailButtonId(R.id.btnEmail)
-            .setFacebookButtonId(R.id.btnFacebook)
-            .setGoogleButtonId(R.id.btnGoogle)
-            .setAnonymousButtonId(R.id.btnGuest)
-            .build()
-
-        if (user == null) {
-            startActivityForResult(
-                AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setAuthMethodPickerLayout(customLayout)
-                    .setAvailableProviders(authProviders)
-                    .setTheme(R.style.AuthTheme)
-                    .build(),
-                RC_SIGN_IN
-            )
-        }
+        Auth().initSignInInstance(this)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -87,25 +67,26 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == Auth.rcSignIn) {
             if (resultCode == Activity.RESULT_OK) {
-                user = FirebaseAuth.getInstance().currentUser
+                Auth.user = FirebaseAuth.getInstance().currentUser
 
-                if (user != null && user!!.isAnonymous) {
+                if (Auth.user != null && Auth.user!!.isAnonymous) {
                     bottom_navigation.visibility = View.INVISIBLE
                     guest_bot_banner.visibility = View.VISIBLE
-                } else {
+                }
+                else {
                     bottom_navigation.visibility = View.VISIBLE
                     guest_bot_banner.visibility = View.INVISIBLE
                 }
 
                 addFragment(homeFragment)
 
-                if (user != null && user!!.isAnonymous) {
+                if (Auth.user != null && Auth.user!!.isAnonymous) {
                     CustomToast(this, "Welcome to Tellago, Guest").success()
                 } else {
-                    CustomToast(this, "Welcome to Tellago, %s".format(user?.displayName)).success()
-                    user_displayname.text = "Greetings, %s".format(user?.displayName)
+                    CustomToast(this, "Welcome to Tellago, %s".format(Auth.user?.displayName)).success()
+                    user_displayname.text = "Greetings, %s".format(Auth.user?.displayName)
                 }
             }
         }
@@ -128,17 +109,16 @@ class MainActivity : AppCompatActivity() {
         // Indicate that toolbar will replace Actionbar
         setSupportActionBar(toolbar as Toolbar?)
 
-
         configureNavigationDrawer()
         configureToolbar()
         navigation.visibility = View.INVISIBLE
 
         StartTimer()
 
-        if (user != null) {
+        if (Auth.user != null) {
             replaceFragment(homeFragment)
 
-            if (user!!.isAnonymous) {
+            if (Auth.user!!.isAnonymous) {
                 bottom_navigation.visibility = View.INVISIBLE
             }
         }
@@ -174,21 +154,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             addFragment(fragment)
         }
-    }
-
-    private fun signOut() {
-        if (user != null && user!!.isAnonymous) {
-            user!!.delete()
-        }
-
-        AuthUI.getInstance()
-            .signOut(this)
-            .addOnCompleteListener {
-                user = FirebaseAuth.getInstance().currentUser
-                val intent = Intent(this, MainActivity::class.java)
-
-                startActivity(intent)
-            }
     }
 
     private fun configureToolbar() {
@@ -230,7 +195,10 @@ class MainActivity : AppCompatActivity() {
         val menu_itemID = menuItem.itemId
 
         when (menu_itemID) {
-            R.id.logout_from_drawer -> signOut()
+            R.id.logout_from_drawer -> Auth().signOut {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         if (f != null) {
@@ -261,9 +229,5 @@ class MainActivity : AppCompatActivity() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-    }
-
-    companion object {
-        var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     }
 }
