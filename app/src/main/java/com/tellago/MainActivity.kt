@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity() {
         val menu_itemID = menuItem.itemId
 
         when (menu_itemID) {
-            R.id.logout_from_drawer -> Auth().signOut {
+            R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             }
