@@ -52,7 +52,6 @@ class Auth : Activity() {
             .signOut(context)
             .addOnCompleteListener {
                 user = FirebaseAuth.getInstance().currentUser
-
                 onComplete()
             }
     }

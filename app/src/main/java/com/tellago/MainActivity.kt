@@ -16,29 +16,19 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.firebase.ui.auth.AuthMethodPickerLayout
-import com.firebase.ui.auth.AuthUI
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.tellago.fragments.*
+import com.tellago.fragments.CommunityFragment
+import com.tellago.fragments.FeedFragment
+import com.tellago.fragments.HomeFragment
 import com.tellago.model.Auth
 import com.tellago.model.Auth.Companion.user
 import com.tellago.services.AuthExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_header.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private val RC_SIGN_IN = 1478
-    private val authProviders = Arrays.asList(
-        AuthUI.IdpConfig.EmailBuilder().build(),
-        AuthUI.IdpConfig.FacebookBuilder().build(),
-        AuthUI.IdpConfig.GoogleBuilder().build(),
-        AuthUI.IdpConfig.AnonymousBuilder().build()
-    )
-
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
 
@@ -50,12 +40,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
 
         startService(Intent(this, AuthExitService::class.java))
-
-        // To hide bottom navigation between sign out & login
-//        bottom_navigation.visibility = View.INVISIBLE
-//        guest_bot_banner.visibility = View.INVISIBLE
-
-        Auth().initSignInInstance(this)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -66,36 +50,26 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == Auth.rcSignIn) {
-            if (resultCode == Activity.RESULT_OK) {
-                Auth.user = FirebaseAuth.getInstance().currentUser
+        if (requestCode == Auth.rcSignIn && resultCode == Activity.RESULT_OK) {
+            user = FirebaseAuth.getInstance().currentUser
 
-                if (Auth.user != null && Auth.user!!.isAnonymous) {
-                    bottom_navigation.visibility = View.INVISIBLE
-                    guest_bot_banner.visibility = View.VISIBLE
-                }
-                else {
-                    bottom_navigation.visibility = View.VISIBLE
-                    guest_bot_banner.visibility = View.INVISIBLE
-                }
+            if (user != null && user!!.isAnonymous) {
+                bottom_navigation.visibility = View.INVISIBLE
+                guest_bot_banner.visibility = View.VISIBLE
+            }
+            else {
+                bottom_navigation.visibility = View.VISIBLE
+                guest_bot_banner.visibility = View.INVISIBLE
+            }
 
-                if(user != null && user!!.isAnonymous) {
-                    bottom_navigation.visibility = View.INVISIBLE
-                    guest_bot_banner.visibility = View.VISIBLE
-                }
-                else {
-                    bottom_navigation.visibility = View.VISIBLE
-                    guest_bot_banner.visibility = View.INVISIBLE
-                }
+            addFragment(homeFragment)
 
-                addFragment(homeFragment)
-
-                if (Auth.user != null && Auth.user!!.isAnonymous) {
-                    CustomToast(this, "Welcome to Tellago, Guest").success()
-                } else {
-                    CustomToast(this, "Welcome to Tellago, %s".format(Auth.user?.displayName)).success()
-                    user_displayname.text = "Greetings, %s".format(Auth.user?.displayName)
-                }
+            if (user != null && user!!.isAnonymous) {
+                CustomToast(this, "Welcome to Tellago, Guest").success()
+            }
+            else {
+                CustomToast(this, "Welcome to Tellago, %s".format(user?.displayName)).success()
+                user_displayname.text = "Greetings, %s".format(user?.displayName)
             }
         }
     }
@@ -123,10 +97,10 @@ class MainActivity : AppCompatActivity() {
 
         StartTimer()
 
-        if (Auth.user != null) {
+        if (user != null) {
             replaceFragment(homeFragment)
 
-            if (Auth.user!!.isAnonymous) {
+            if (user!!.isAnonymous) {
                 bottom_navigation.visibility = View.INVISIBLE
             }
         }
@@ -159,21 +133,22 @@ class MainActivity : AppCompatActivity() {
             transaction.replace(R.id.fragment_container, fragment)
             transaction.addToBackStack(null);
             transaction.commit()
-        } else {
+        }
+        else {
             addFragment(fragment)
         }
     }
 
-    public fun switchToProfileActivity() {
-        var profileActivity : Intent = Intent(this, ProfileActivity::class.java)
+    private fun switchToProfileActivity() {
+        val profileActivity : Intent = Intent(this, ProfileActivity::class.java)
         startActivity(profileActivity)
+
         //Slide from right to left (with alpha/blackout during animation)
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-
     }
 
-    public fun switchToProfileActivityFromBottom() {
-        var profileActivity : Intent = Intent(this, ProfileActivity::class.java)
+    private fun switchToProfileActivityFromBottom() {
+        val profileActivity : Intent = Intent(this, ProfileActivity::class.java)
         startActivity(profileActivity)
     }
 
@@ -199,6 +174,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureNavigationDrawer() {
         val navigationView: NavigationView = navigation
+
         navigationView.bringToFront()
         navigationView.setNavigationItemSelectedListener {
             onNavigationItemSelected(it)
@@ -208,6 +184,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         val viewRect = Rect()
+
         navigation.getGlobalVisibleRect(viewRect)
         // uncomment the following then make changes so that drawer can be SWIPED open from LEFT
 //        if (!viewRect.contains(ev!!.rawX.toInt(), ev.rawY.toInt())) {
@@ -215,6 +192,7 @@ class MainActivity : AppCompatActivity() {
 //                drawerLayout.closeDrawer(GravityCompat.START)
 //            else drawerLayout.openDrawer(GravityCompat.START)
 //        }
+
         return super.dispatchTouchEvent(ev)
     }
 
@@ -231,7 +209,7 @@ class MainActivity : AppCompatActivity() {
         when (menu_itemID) {
             R.id.view_profile -> switchToProfileActivity()
             R.id.logout_from_drawer -> Auth().signOut(this) {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -239,12 +217,12 @@ class MainActivity : AppCompatActivity() {
         if (f != null) {
             val drawerLayout: DrawerLayout = drawer_layout
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+
             transaction.replace(R.id.fragment_container, f)
             transaction.commit()
             drawerLayout.closeDrawers()
             true
-        } else
-            false
+        } else false
     }
 
     override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
@@ -254,8 +232,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideSystemUI() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                )
+            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
     // Shows the system bars by removing all the flags
