@@ -1,6 +1,5 @@
 package com.tellago
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -26,6 +25,7 @@ import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.menu_header.*
+import kotlinx.android.synthetic.main.menu_header.view.*
 
 class MainActivity : AppCompatActivity() {
     private var handler: Handler? = null
@@ -44,33 +44,6 @@ class MainActivity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) hideSystemUI()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == Auth.rcSignIn && resultCode == Activity.RESULT_OK) {
-            user = FirebaseAuth.getInstance().currentUser
-
-            if (user != null && user!!.isAnonymous) {
-                bottom_navigation.visibility = View.INVISIBLE
-                guest_bot_banner.visibility = View.VISIBLE
-            }
-            else {
-                bottom_navigation.visibility = View.VISIBLE
-                guest_bot_banner.visibility = View.INVISIBLE
-            }
-
-            addFragment(homeFragment)
-
-            if (user != null && user!!.isAnonymous) {
-                CustomToast(this, "Welcome to Tellago, Guest").success()
-            }
-            else {
-                CustomToast(this, "Welcome to Tellago, %s".format(user?.displayName)).success()
-                user_displayname.text = "Greetings, %s".format(user?.displayName)
-            }
-        }
     }
 
     private fun StartTimer() {
@@ -99,6 +72,18 @@ class MainActivity : AppCompatActivity() {
 
             if (user!!.isAnonymous) {
                 bottom_navigation.visibility = View.INVISIBLE
+                guest_bot_banner.visibility = View.VISIBLE
+            }
+            else {
+                bottom_navigation.visibility = View.VISIBLE
+                guest_bot_banner.visibility = View.INVISIBLE
+            }
+
+            if (!user?.displayName.isNullOrEmpty()) {
+                CustomToast(this, "Welcome to tellsquare, %s".format(user?.displayName)).success()
+            }
+            else {
+                CustomToast(this, "Welcome to tellsquare, Guest").success()
             }
         }
 
@@ -115,7 +100,6 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
-
 
     private fun addFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
@@ -156,6 +140,13 @@ class MainActivity : AppCompatActivity() {
         (toolbar as Toolbar?)?.setNavigationOnClickListener {
             val drawerLayout: DrawerLayout = drawer_layout
             drawerLayout.openDrawer(GravityCompat.START)
+
+            if (!user?.displayName.isNullOrEmpty()) {
+                drawerLayout.user_displayname.text = "Greetings, %s".format(user?.displayName)
+            }
+            else {
+                drawerLayout.user_displayname.text = "Greetings, Guest"
+            }
         }
 
         // Set 'Menu icon' as the icon for Navigation button
