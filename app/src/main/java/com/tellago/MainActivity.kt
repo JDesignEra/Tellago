@@ -4,10 +4,13 @@ import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -61,8 +64,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         configureNavigationDrawer()
+
         configureToolbar()
-        navigation.visibility = View.INVISIBLE
 
         StartTimer()
 
@@ -98,6 +101,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             true
+        }
+
+
+        val closeButton: ImageView = closeFromNavView
+        closeButton.setOnClickListener {
+            Log.d("button", "close button clicked!!!")
+            drawer_layout.closeDrawer(GravityCompat.START)
         }
     }
 
@@ -162,6 +172,7 @@ class MainActivity : AppCompatActivity() {
             onNavigationItemSelected(it)
             true
         }
+
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
@@ -185,6 +196,8 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.options_menu, menu)
         return true
     }
+
+
 
     fun onNavigationItemSelected(menuItem: MenuItem) {
         val f: Fragment? = null

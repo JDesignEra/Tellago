@@ -5,7 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.tellago.R
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.toolbar
+import kotlinx.android.synthetic.main.fragment_community.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,15 +36,23 @@ class CommunityFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        //configureToolbar()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // The following code sets toolbar as ActionBar for this fragment
+        // Similar to configureToolbar function in MainActivity
+        (activity as AppCompatActivity).setSupportActionBar(toolbar as Toolbar?)
+        (activity as AppCompatActivity).setTitle("Community")
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_community, container, false)
     }
+
+
 
     companion object {
         /**

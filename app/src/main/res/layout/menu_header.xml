@@ -35,13 +35,5 @@
         android:layout_marginBottom="32dp"
         android:text="Hello User" />
 
-    <ImageView
-        android:id="@+id/drawer_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="14dp"
-        app:srcCompat="@drawable/ic_cancel_drawer" />
 
 </RelativeLayout>
