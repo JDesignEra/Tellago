@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <group android:id="@+id/Life_Aspiration_Group" android:checkableBehavior="none">
+        <item android:id="@+id/view_Life_Aspiration"
+            android:icon="@drawable/ic_outlined_flag_24_white"
+            android:title="View Life Aspirations"
+            />
+
+        <item android:id="@+id/create_Life_Aspiration"
+            android:title="Create New Life Aspiration"
+            />
+
+    </group>
+
+    <group android:id="@+id/Profile_Group" android:checkableBehavior="none">
+        <item android:id="@+id/view_profile"
+            android:icon="@drawable/ic_account_box_24_white"
+            android:title="View Your Profile"
+            />
+
+        <item android:id="@+id/edit_profile"
+            android:title="Edit Your Profile"
+            />
+
+        <item android:id="@+id/logout_from_drawer"
+            android:title="Log Out"
+            />
+
+    </group>
+
+
+
+</menu>

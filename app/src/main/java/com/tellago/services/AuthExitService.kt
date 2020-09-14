@@ -5,10 +5,11 @@ import android.content.Intent
 import android.os.IBinder
 import com.google.firebase.auth.FirebaseAuth
 import com.tellago.MainActivity
+import com.tellago.model.Auth
 
 class AuthExitService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
-        MainActivity.user = FirebaseAuth.getInstance().currentUser
+        Auth.user = FirebaseAuth.getInstance().currentUser
         return null
     }
 
@@ -23,8 +24,8 @@ class AuthExitService : Service() {
     }
 
     fun deleteAnonymous() {
-        if (MainActivity.user != null && MainActivity.user!!.isAnonymous) {
-            MainActivity.user?.delete()
+        if (Auth.user != null && Auth.user!!.isAnonymous) {
+            Auth.user?.delete()
             FirebaseAuth.getInstance().signOut()
         }
     }

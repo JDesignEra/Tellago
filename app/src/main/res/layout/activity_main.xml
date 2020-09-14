@@ -24,6 +24,21 @@
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/menu" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/guest_bot_banner"
+        android:layout_width="match_parent"
+        android:layout_height="46sp"
+        android:clipChildren="false"
+        android:background="@color/colorPrimaryLight"
+        app:itemIconTint="#ffffff"
+        app:itemTextColor="#ffffff"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/guest_menu" />
+
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
@@ -31,5 +46,14 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:headerLayout="@layout/menu_header"
+        app:menu="@menu/toolbar_drawer_items"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
