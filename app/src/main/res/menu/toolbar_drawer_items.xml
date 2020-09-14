@@ -21,9 +21,6 @@
             android:title="View Your Profile"
             />
 
-        <item android:id="@+id/edit_profile"
-            android:title="Edit Your Profile"
-            />
 
         <item android:id="@+id/logout_from_drawer"
             android:title="Log Out"

@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
     private val communityFragment = CommunityFragment()
     private val homeFragment = HomeFragment()
     private val feedFragment = FeedFragment()
-    private val profileFragment = ProfileFragment()
 
     override fun onStart() {
         super.onStart()
@@ -139,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.ic_home -> replaceFragment(homeFragment)
                 R.id.ic_people -> replaceFragment(communityFragment)
                 R.id.ic_feed -> replaceFragment(feedFragment)
-                R.id.ic_profile -> switchToProfileActivity()
+                R.id.ic_profile -> switchToProfileActivityFromBottom()
             }
 
             true
@@ -168,9 +167,14 @@ class MainActivity : AppCompatActivity() {
     public fun switchToProfileActivity() {
         var profileActivity : Intent = Intent(this, ProfileActivity::class.java)
         startActivity(profileActivity)
-        //Slide from right to left
+        //Slide from right to left (with alpha/blackout during animation)
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
 
+    }
+
+    public fun switchToProfileActivityFromBottom() {
+        var profileActivity : Intent = Intent(this, ProfileActivity::class.java)
+        startActivity(profileActivity)
     }
 
     private fun configureToolbar() {
@@ -225,6 +229,7 @@ class MainActivity : AppCompatActivity() {
         val menu_itemID = menuItem.itemId
 
         when (menu_itemID) {
+            R.id.view_profile -> switchToProfileActivity()
             R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
