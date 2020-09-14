@@ -87,9 +87,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Indicate that toolbar will replace Actionbar
-        setSupportActionBar(toolbar as Toolbar?)
-
         configureNavigationDrawer()
         configureToolbar()
         navigation.visibility = View.INVISIBLE
