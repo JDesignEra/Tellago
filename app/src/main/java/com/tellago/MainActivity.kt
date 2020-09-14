@@ -18,14 +18,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.tellago.fragments.CommunityFragment
-import com.tellago.fragments.FeedFragment
-import com.tellago.fragments.HomeFragment
+import com.tellago.fragments.*
 import com.tellago.model.Auth
 import com.tellago.model.Auth.Companion.user
 import com.tellago.services.AuthExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.menu_header.*
 
 class MainActivity : AppCompatActivity() {
@@ -35,10 +34,10 @@ class MainActivity : AppCompatActivity() {
     private val communityFragment = CommunityFragment()
     private val homeFragment = HomeFragment()
     private val feedFragment = FeedFragment()
+    private val profileFragment = ProfileFragment()
 
     override fun onStart() {
         super.onStart()
-
         startService(Intent(this, AuthExitService::class.java))
     }
 
@@ -97,6 +96,7 @@ class MainActivity : AppCompatActivity() {
 
         StartTimer()
 
+
         if (user != null) {
             replaceFragment(homeFragment)
 
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.ic_home -> replaceFragment(homeFragment)
                 R.id.ic_people -> replaceFragment(communityFragment)
                 R.id.ic_feed -> replaceFragment(feedFragment)
-                R.id.ic_profile -> switchToProfileActivityFromBottom()
+                R.id.ic_profile -> replaceFragment(profileFragment)
             }
 
             true
@@ -130,6 +130,12 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         if (fragment != null) {
             val transaction = supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(
+                R.anim.fragment_slide_left_enter,
+                R.anim.fragment_slide_left_exit,
+                R.anim.fragment_slide_right_enter,
+                R.anim.fragment_slide_right_exit
+            )
             transaction.replace(R.id.fragment_container, fragment)
             transaction.addToBackStack(null);
             transaction.commit()
@@ -139,18 +145,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun switchToProfileActivity() {
-        val profileActivity : Intent = Intent(this, ProfileActivity::class.java)
-        startActivity(profileActivity)
-
-        //Slide from right to left (with alpha/blackout during animation)
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-    }
-
-    private fun switchToProfileActivityFromBottom() {
-        val profileActivity : Intent = Intent(this, ProfileActivity::class.java)
-        startActivity(profileActivity)
-    }
 
     private fun configureToolbar() {
         setSupportActionBar(toolbar as Toolbar?)
@@ -198,6 +192,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Method which assigns toolbar actions (based on options_menu)
+        // Must fill actions within options_menu for the following inflate to display those
+        // actions as part of the Toolbar
         menuInflater.inflate(R.menu.options_menu, menu)
         return true
     }
@@ -207,12 +203,13 @@ class MainActivity : AppCompatActivity() {
         val menu_itemID = menuItem.itemId
 
         when (menu_itemID) {
-            R.id.view_profile -> switchToProfileActivity()
+            R.id.view_profile -> replaceFragment(profileFragment)
             R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)
             }
         }
+
 
         if (f != null) {
             val drawerLayout: DrawerLayout = drawer_layout

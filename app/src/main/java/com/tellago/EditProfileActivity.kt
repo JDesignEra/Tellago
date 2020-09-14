@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_profile.*
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -16,21 +15,13 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
         StartTimer()
-
-
     }
 
-    override fun onBackPressed() {
-        //slide from left to right to navigate back to Main Activity
-        switchToProfileActivity()
-    }
 
-    public fun switchToProfileActivity() {
-        var profileActivity : Intent = Intent(this, ProfileActivity::class.java)
-        startActivity(profileActivity)
-        //Slide from left to right
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-    }
+//    override fun onBackPressed() {
+//        //by default, kill the current activity
+//    }
+
 
     private fun StartTimer() {
         handler = Handler()

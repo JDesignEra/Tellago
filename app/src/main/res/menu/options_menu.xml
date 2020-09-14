@@ -3,23 +3,10 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-    <item android:id="@+id/item_search"
-        android:icon="@drawable/ic_search"
-        android:title="Search"
-        app:showAsAction="ifRoom" />
-    
-
-    <item android:id="@+id/item_1"
-        android:title="Item 1"
-        app:showAsAction="never" />
-
-    <item android:id="@+id/item_2"
-        android:title="Item 2"
-        app:showAsAction="never" />
-
-    <item android:id="@+id/item_3"
-        android:title="Item 3"
-        app:showAsAction="never" />
+<!--    <item android:id="@+id/item_search"-->
+<!--        android:icon="@drawable/ic_search"-->
+<!--        android:title="Search"-->
+<!--        app:showAsAction="ifRoom" />-->
 
 
 </menu>

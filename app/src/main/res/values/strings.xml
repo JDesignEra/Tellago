@@ -30,12 +30,12 @@
         Forgot Password? Get Help
     </string>
 
-<!--    For Profile Activity-->
+    <!--    For Profile Activity-->
     <string name="bio_blurb">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</string>
     <string name="edit_profile">Edit Profile</string>
 
 
-<!--    For Profile Tab-->
+    <!--    For Profile Tab-->
     <string name="title_activity_tab">TabActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
