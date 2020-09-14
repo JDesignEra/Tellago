@@ -5,7 +5,9 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorPrimaryLight">#e57373</color>
     <color name="colorAccent">#03DAC5</color>
-
+    <color name="colorGradientStart">#1AE53935</color>
+    <color name="colorGradientEnd">#99E53935</color>
+    <color name="colorProfileBackground">#99B8B3B3</color>
     <color name="toastPrimary">#bfe53935</color>
     <color name="toastSuccess">#bf009688</color>
 </resources>

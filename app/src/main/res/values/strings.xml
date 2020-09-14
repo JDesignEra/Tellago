@@ -29,4 +29,16 @@
     <string name="fui_trouble_signing_in" translation_description="Link leading to forgot password flow">
         Forgot Password? Get Help
     </string>
+
+<!--    For Profile Activity-->
+    <string name="bio_blurb">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</string>
+    <string name="edit_profile">Edit Profile</string>
+
+
+<!--    For Profile Tab-->
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+
+
 </resources>

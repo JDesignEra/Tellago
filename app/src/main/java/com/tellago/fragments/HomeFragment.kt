@@ -13,7 +13,6 @@ import com.tellago.R
 import com.tellago.model.Auth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.toolbar_drawer.*
 
 class HomeFragment : Fragment() {
     override fun onCreateView(
@@ -38,6 +37,5 @@ class HomeFragment : Fragment() {
             greeting.text = greetingText
         }
     }
-
 
 }

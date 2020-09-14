@@ -12,6 +12,7 @@ import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -22,11 +23,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.tellago.fragments.*
 import com.tellago.model.Auth
+import com.tellago.model.Auth.Companion.user
 import com.tellago.services.AuthExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_header.*
-import kotlinx.android.synthetic.main.toolbar_drawer.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private val communityFragment = CommunityFragment()
     private val homeFragment = HomeFragment()
-    private val lifeAspirationFragment = LifeAspirationFragment()
+    private val feedFragment = FeedFragment()
     private val profileFragment = ProfileFragment()
 
     override fun onStart() {
@@ -137,8 +138,8 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.ic_home -> replaceFragment(homeFragment)
                 R.id.ic_people -> replaceFragment(communityFragment)
-                R.id.ic_flag -> replaceFragment(lifeAspirationFragment)
-                R.id.ic_profile -> replaceFragment(profileFragment)
+                R.id.ic_feed -> replaceFragment(feedFragment)
+                R.id.ic_profile -> switchToProfileActivity()
             }
 
             true
@@ -164,15 +165,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    public fun switchToProfileActivity() {
+        var profileActivity : Intent = Intent(this, ProfileActivity::class.java)
+        startActivity(profileActivity)
+        //Slide from right to left
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+
+    }
+
     private fun configureToolbar() {
         setSupportActionBar(toolbar as Toolbar?)
+        // Call the method that assigns toolbar actions
+        onCreateOptionsMenu((toolbar as Toolbar?)?.menu)
+
         val actionbar: ActionBar? = supportActionBar
         // To 'hide' Title display in actionbar
         actionbar?.setTitle("")
 
         // Open up navigation in the event that 'Menu icon' is clicked (it is actually Navigation button)
         (toolbar as Toolbar?)?.setNavigationOnClickListener {
-            navigation.visibility = View.VISIBLE
+            val drawerLayout: DrawerLayout = drawer_layout
+            drawerLayout.openDrawer(GravityCompat.START)
         }
 
         // Set 'Menu icon' as the icon for Navigation button
@@ -182,6 +195,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun configureNavigationDrawer() {
         val navigationView: NavigationView = navigation
+        navigationView.bringToFront()
         navigationView.setNavigationItemSelectedListener {
             onNavigationItemSelected(it)
             true
@@ -191,11 +205,19 @@ class MainActivity : AppCompatActivity() {
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         val viewRect = Rect()
         navigation.getGlobalVisibleRect(viewRect)
-        // if user taps outside of toolbar navigation drawer, then change its visibility to INVISIBLE
-        if (!viewRect.contains(ev!!.rawX.toInt(), ev.rawY.toInt())) {
-            navigation.visibility = View.INVISIBLE
-        }
+        // uncomment the following then make changes so that drawer can be SWIPED open from LEFT
+//        if (!viewRect.contains(ev!!.rawX.toInt(), ev.rawY.toInt())) {
+//            if (drawerLayout.isDrawerVisible((GravityCompat.START)))
+//                drawerLayout.closeDrawer(GravityCompat.START)
+//            else drawerLayout.openDrawer(GravityCompat.START)
+//        }
         return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Method which assigns toolbar actions (based on options_menu)
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
     }
 
     fun onNavigationItemSelected(menuItem: MenuItem) {
@@ -212,7 +234,7 @@ class MainActivity : AppCompatActivity() {
         if (f != null) {
             val drawerLayout: DrawerLayout = drawer_layout
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.toolbar_frame, f)
+            transaction.replace(R.id.fragment_container, f)
             transaction.commit()
             drawerLayout.closeDrawers()
             true
