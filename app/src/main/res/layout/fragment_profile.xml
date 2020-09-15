@@ -15,17 +15,19 @@
 
 
         <RelativeLayout
-            android:id="@+id/profile_image_user"
+            android:id="@+id/profile_image_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/profile_picture_border"
+            android:layout_margin="4dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
             <ImageView
-                android:layout_width="121dp"
-                android:layout_height="121dp"
+                android:id="@+id/profile_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_margin="12dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/profile_picture_shape"
@@ -40,12 +42,12 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="2dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="2dp"
             android:fontFamily="sans-serif-black"
             android:text="Android McAndroid"
             android:textSize="22sp"
-            app:layout_constraintLeft_toRightOf="@+id/profile_image_user"
+            app:layout_constraintLeft_toRightOf="@+id/profile_image_layout"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,7 +60,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:text="215"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/follower_display"
             app:layout_constraintLeft_toLeftOf="@id/follower_display"
             app:layout_constraintRight_toRightOf="@id/follower_display" />
@@ -67,13 +69,14 @@
             android:id="@+id/follower_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="48dp"
-            android:layout_marginEnd="1dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="monospace"
             android:text="FOLLOWERS"
-            android:textSize="16sp"
-            app:layout_constraintLeft_toRightOf="@id/profile_image_user"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toRightOf="@id/profile_image_layout"
+            app:layout_constraintRight_toLeftOf="@id/following_display"
             app:layout_constraintTop_toBottomOf="@id/profile_displayName" />
 
         <TextView
@@ -84,7 +87,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:text="104"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/following_display"
             app:layout_constraintLeft_toLeftOf="@id/following_display"
             app:layout_constraintRight_toRightOf="@id/following_display" />
@@ -93,15 +96,40 @@
             android:id="@+id/following_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="48dp"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="monospace"
             android:text="FOLLOWING"
-            android:textSize="16sp"
-            app:layout_constraintRight_toRightOf="parent"
+            android:textSize="10sp"
+            app:layout_constraintRight_toLeftOf="@id/community_display"
             app:layout_constraintTop_toBottomOf="@id/profile_displayName" />
 
+        <TextView
+            android:id="@+id/community_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="6"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/community_display"
+            app:layout_constraintLeft_toLeftOf="@id/community_display"
+            app:layout_constraintRight_toRightOf="@id/community_display" />
+
+        <TextView
+            android:id="@+id/community_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="monospace"
+            android:text="COMMUNITIES"
+            android:textSize="10sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_displayName" />
 
         <TextView
             android:id="@+id/profile_bio"
@@ -115,7 +143,7 @@
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_image_user" />
+            app:layout_constraintTop_toBottomOf="@id/profile_image_layout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_edit_profile"
@@ -128,12 +156,12 @@
                 android:id="@+id/button_edit_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="8dp"
                 android:background="@color/colorPrimaryLight"
                 android:padding="12dp"
                 android:text="@string/edit_profile"
                 android:textColor="@color/colorBackground"
-                android:textSize="20dp"
+                android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

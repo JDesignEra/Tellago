@@ -5,18 +5,123 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <include
         android:id="@+id/toolbar_editProfile"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="186dp" />
 
-    <TextView
-        android:id="@+id/textViewEditProfile"
+    <RelativeLayout
+        android:id="@+id/profile_image_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="3 Sections Here"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_editProfile"
-        />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/profile_picture_border"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_editProfile">
+
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="121dp"
+            android:layout_height="121dp"
+            android:layout_margin="18dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/profile_picture_shape"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_android_photo" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/changePhoto_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_image_layout">
+
+
+        <TextView
+            android:id="@+id/textView_changePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Profile Picture"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imageView_changePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/ic_edit" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/changeDisplayName_layout"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/changePhoto_layout">
+
+        <TextView
+            android:id="@+id/textView_changeDisplayName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="Display Name"
+            android:textSize="24sp" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editText_changeDisplayName"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/edit_text_border"
+            android:padding="4dp"
+            android:text="Android McAndroid" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/changeBio_layout"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/changeDisplayName_layout">
+
+        <TextView
+            android:id="@+id/textView_changeBio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="Bio"
+            android:textSize="24sp" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editText_changeBio"
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/edit_text_border"
+            android:padding="4dp"
+            android:text="@string/bio_blurb" />
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

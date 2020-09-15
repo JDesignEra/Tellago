@@ -213,14 +213,15 @@ class MainActivity : AppCompatActivity() {
 
 
         if (f != null) {
-            val drawerLayout: DrawerLayout = drawer_layout
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-
             transaction.replace(R.id.fragment_container, f)
             transaction.commit()
-            drawerLayout.closeDrawers()
             true
-        } else false
+        } else
+            false
+
+        val drawerLayout: DrawerLayout = drawer_layout
+        drawerLayout.closeDrawers()
     }
 
     override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
