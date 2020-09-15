@@ -14,8 +14,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.tellago.MainActivity
 import com.tellago.R
-import com.tellago.model.Auth
-import kotlinx.android.synthetic.main.activity_main.*
+import com.tellago.models.Auth
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.tellago.models.Auth
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -21,12 +22,13 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
-        StartTimer()
 
+        StartTimer()
         configureToolbar()
 
+        editText_changeDisplayName.setText(Auth.profile?.displayName ?: "")
+        editText_changeBio.setText(Auth.profile?.bio ?: "")
     }
-
 
 //    override fun onBackPressed() {
 //        //by default, kill the current activity
@@ -45,8 +47,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun hideSystemUI() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                )
+            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
 
@@ -65,5 +66,4 @@ class EditProfileActivity : AppCompatActivity() {
             Log.d("back pressed", "you have pressed backbackback")
         }
     }
-
 }

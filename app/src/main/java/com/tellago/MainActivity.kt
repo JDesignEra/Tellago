@@ -4,32 +4,24 @@ import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
+import com.tellago.activities.AuthActivity
+import com.tellago.activities.SplashActivity
 import com.tellago.fragments.*
-import com.tellago.model.Auth
-import com.tellago.model.Auth.Companion.user
-import com.tellago.services.AuthExitService
+import com.tellago.models.Auth
+import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.menu_header.*
-import kotlinx.android.synthetic.main.menu_header.view.*
 
 class MainActivity : AppCompatActivity() {
     private var handler: Handler? = null
@@ -44,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        startService(Intent(this, AuthExitService::class.java))
+        startService(Intent(this, ExitService::class.java))
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -70,11 +62,10 @@ class MainActivity : AppCompatActivity() {
 
         StartTimer()
 
-
-        if (user != null) {
+        if (Auth.user != null) {
             replaceFragment(homeFragment)
 
-            if (user!!.isAnonymous) {
+            if (Auth.user!!.isAnonymous) {
                 bottom_navigation.visibility = View.INVISIBLE
                 guest_bot_banner.visibility = View.VISIBLE
             }
@@ -83,8 +74,8 @@ class MainActivity : AppCompatActivity() {
                 guest_bot_banner.visibility = View.INVISIBLE
             }
 
-            if (!user?.displayName.isNullOrEmpty()) {
-                CustomToast(this, "Welcome to tellsquare, %s".format(user?.displayName)).success()
+            if (!Auth.user?.displayName.isNullOrEmpty()) {
+                CustomToast(this, "Welcome to tellsquare, %s".format(Auth.user?.displayName)).success()
             }
             else {
                 CustomToast(this, "Welcome to tellsquare, Guest").success()
@@ -143,7 +134,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun configureNavigationDrawer() {
         val navigationView: NavigationView = navigation
 
@@ -152,7 +142,6 @@ class MainActivity : AppCompatActivity() {
             onNavigationItemSelected(it)
             true
         }
-
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
@@ -177,21 +166,18 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-
-
     fun onNavigationItemSelected(menuItem: MenuItem) {
         val f: Fragment? = null
         val menu_itemID = menuItem.itemId
 
         when (menu_itemID) {
             R.id.view_profile -> replaceFragment(profileFragment)
-            R.id.logout_from_drawer -> Auth().signOut(this) {
+            R.id.logout_from_drawer -> AuthActivity().signOut(this) {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)
             }
 
         }
-
 
         if (f != null) {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
