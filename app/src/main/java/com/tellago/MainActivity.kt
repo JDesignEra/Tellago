@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
     private val homeFragment = HomeFragment()
     private val feedFragment = FeedFragment()
     private val profileFragment = ProfileFragment()
+    private val settingsFragment = SettingsFragment()
+
 
     override fun onStart() {
         super.onStart()
@@ -65,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
         configureNavigationDrawer()
 
-        configureToolbar()
+        //configureToolbar()
 
         StartTimer()
 
@@ -103,22 +105,28 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-
+        // Close navDrawer when user clicks on Left Chevron icon
         val closeButton: ImageView = closeFromNavView
         closeButton.setOnClickListener {
-            Log.d("button", "close button clicked!!!")
             drawer_layout.closeDrawer(GravityCompat.START)
+        }
+
+        // Navigate to account fragment when user clicks on 'Gear' icon from navDrawer
+        val accountButton: ImageView = accountSettings
+        accountButton.setOnClickListener {
+            drawer_layout.closeDrawer(GravityCompat.START)
+            addFragment(settingsFragment)
         }
     }
 
-    private fun addFragment(fragment: Fragment) {
+    public fun addFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.addToBackStack(null);
         transaction.commit()
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    public fun replaceFragment(fragment: Fragment) {
         if (fragment != null) {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(
@@ -137,32 +145,32 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun configureToolbar() {
-        setSupportActionBar(toolbar as Toolbar?)
-        // Call the method that assigns toolbar actions
-        onCreateOptionsMenu((toolbar as Toolbar?)?.menu)
-
-        val actionbar: ActionBar? = supportActionBar
-        // To 'hide' Title display in actionbar
-        actionbar?.setTitle("")
-
-        // Open up navigation in the event that 'Menu icon' is clicked (it is actually Navigation button)
-        (toolbar as Toolbar?)?.setNavigationOnClickListener {
-            val drawerLayout: DrawerLayout = drawer_layout
-            drawerLayout.openDrawer(GravityCompat.START)
-
-            if (!user?.displayName.isNullOrEmpty()) {
-                drawerLayout.user_displayname.text = "Greetings, %s".format(user?.displayName)
-            }
-            else {
-                drawerLayout.user_displayname.text = "Greetings, Guest"
-            }
-        }
-
-        // Set 'Menu icon' as the icon for Navigation button
-        actionbar?.setHomeAsUpIndicator(R.drawable.ic_menu)
-        actionbar?.setDisplayHomeAsUpEnabled(true)
-    }
+//    private fun configureToolbar() {
+//        setSupportActionBar(toolbar as Toolbar?)
+//        // Call the method that assigns toolbar actions
+//        onCreateOptionsMenu((toolbar as Toolbar?)?.menu)
+//
+//        val actionbar: ActionBar? = supportActionBar
+//        // To 'hide' Title display in actionbar
+//        actionbar?.setTitle("")
+//
+//        // Open up navigation in the event that 'Menu icon' is clicked (it is actually Navigation button)
+//        (toolbar as Toolbar?)?.setNavigationOnClickListener {
+//            val drawerLayout: DrawerLayout = drawer_layout
+//            drawerLayout.openDrawer(GravityCompat.START)
+//
+//            if (!user?.displayName.isNullOrEmpty()) {
+//                drawerLayout.user_displayname.text = "Greetings, %s".format(user?.displayName)
+//            }
+//            else {
+//                drawerLayout.user_displayname.text = "Greetings, Guest"
+//            }
+//        }
+//
+//        // Set 'Menu icon' as the icon for Navigation button
+//        actionbar?.setHomeAsUpIndicator(R.drawable.ic_menu)
+//        actionbar?.setDisplayHomeAsUpEnabled(true)
+//    }
 
     private fun configureNavigationDrawer() {
         val navigationView: NavigationView = navigation
@@ -209,6 +217,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)
             }
+
         }
 
 
