@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -66,8 +67,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         configureNavigationDrawer()
-
-        //configureToolbar()
 
         StartTimer()
 
@@ -144,33 +143,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-//    private fun configureToolbar() {
-//        setSupportActionBar(toolbar as Toolbar?)
-//        // Call the method that assigns toolbar actions
-//        onCreateOptionsMenu((toolbar as Toolbar?)?.menu)
-//
-//        val actionbar: ActionBar? = supportActionBar
-//        // To 'hide' Title display in actionbar
-//        actionbar?.setTitle("")
-//
-//        // Open up navigation in the event that 'Menu icon' is clicked (it is actually Navigation button)
-//        (toolbar as Toolbar?)?.setNavigationOnClickListener {
-//            val drawerLayout: DrawerLayout = drawer_layout
-//            drawerLayout.openDrawer(GravityCompat.START)
-//
-//            if (!user?.displayName.isNullOrEmpty()) {
-//                drawerLayout.user_displayname.text = "Greetings, %s".format(user?.displayName)
-//            }
-//            else {
-//                drawerLayout.user_displayname.text = "Greetings, Guest"
-//            }
-//        }
-//
-//        // Set 'Menu icon' as the icon for Navigation button
-//        actionbar?.setHomeAsUpIndicator(R.drawable.ic_menu)
-//        actionbar?.setDisplayHomeAsUpEnabled(true)
-//    }
 
     private fun configureNavigationDrawer() {
         val navigationView: NavigationView = navigation
