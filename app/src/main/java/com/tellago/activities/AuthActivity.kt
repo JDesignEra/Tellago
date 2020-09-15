@@ -18,7 +18,7 @@ class AuthActivity: AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        if (Auth.user == null || Auth().getUser() == null) {
+        if (Auth.user == null && Auth().getUser() == null) {
             val authProviders = listOf(
                 AuthUI.IdpConfig.EmailBuilder().build(),
                 AuthUI.IdpConfig.FacebookBuilder().build(),
