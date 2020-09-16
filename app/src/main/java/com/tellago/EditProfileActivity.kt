@@ -1,5 +1,6 @@
 package com.tellago
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -22,6 +23,8 @@ class EditProfileActivity : AppCompatActivity() {
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
 
+    private val PICK_IMAGE_CODE = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -37,7 +40,17 @@ class EditProfileActivity : AppCompatActivity() {
                 displayName = editText_changeDisplayName.text.toString(),
                 bio = editText_changeBio.text.toString()
             )
+
         }
+
+        imageView_changePhoto.setOnClickListener {
+            pickImageIntent()
+        }
+
+        textView_changePhoto.setOnClickListener {
+            pickImageIntent()
+        }
+
     }
 
 //    override fun onBackPressed() {
@@ -73,7 +86,37 @@ class EditProfileActivity : AppCompatActivity() {
         // Navigate back to MainActivity (by closing the current Edit Profile Activity)
         (toolbar_editProfile as Toolbar?)?.setNavigationOnClickListener {
             this.finish()
-            Log.d("back pressed", "you have pressed backbackback")
         }
     }
+
+
+    private fun pickImageIntent(){
+        Log.d("pickImageINTENT", "creating INTENT")
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select an image"), PICK_IMAGE_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_CODE){
+            if (resultCode == Activity.RESULT_OK)
+            {
+                // pick single image
+                val imageUri = data?.data
+
+                // display selected image as profile_image (only shown locally; not yet updated to Storage)
+                profile_image.setImageURI(imageUri)
+
+                // update profile_image for current user (update to Firebase Storage)
+
+
+            }
+        }
+
+    }
+
 }
