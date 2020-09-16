@@ -1,8 +1,10 @@
 package com.tellago
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.ActionBar
@@ -11,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.tellago.models.Auth
+import com.tellago.models.User
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -28,6 +31,13 @@ class EditProfileActivity : AppCompatActivity() {
 
         editText_changeDisplayName.setText(Auth.profile?.displayName ?: "")
         editText_changeBio.setText(Auth.profile?.bio ?: "")
+
+        saveBtn.setOnClickListener {
+            Auth().update(
+                displayName = editText_changeDisplayName.text.toString(),
+                bio = editText_changeBio.text.toString()
+            )
+        }
     }
 
 //    override fun onBackPressed() {

@@ -19,14 +19,18 @@ class Auth {
         }
     }
 
-    fun update(email: String, displayName: String, bio: String?) {
+    fun update(email: String? = null, displayName: String, bio: String?) {
         if (user != null) {
-            user?.updateProfile(UserProfileChangeRequest
-                .Builder()
-                .setDisplayName(displayName)
-                .build())
+            if (!displayName.isNullOrEmpty()) {
+                user?.updateProfile(UserProfileChangeRequest
+                    .Builder()
+                    .setDisplayName(displayName)
+                    .build())
+            }
 
-            user?.updateEmail(email)
+            if (!email.isNullOrEmpty()) {
+                user?.updateEmail(email)
+            }
 
             User(user!!.uid, user!!.email, user!!.displayName, bio).update()
         }

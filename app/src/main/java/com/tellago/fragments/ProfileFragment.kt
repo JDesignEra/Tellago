@@ -2,6 +2,7 @@ package com.tellago.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,7 @@ class ProfileFragment : Fragment() {
         profile_bio.text = Auth.profile?.bio ?: "Introduce yourself to the others."
 
         button_edit_profile.setOnClickListener {
+            Log.e("ProfileFragment", "Fired")
             var nextActivity: Intent = Intent(activity, EditProfileActivity::class.java)
             startActivity(nextActivity)
             activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
