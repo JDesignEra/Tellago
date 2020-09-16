@@ -29,7 +29,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        profile_displayName.text = Auth.user?.displayName ?: "Guest"
+        profile_displayName.text = Auth.profile?.displayName ?: "Guest"
         profile_bio.text = Auth.profile?.bio ?: "Introduce yourself to the others."
 
         button_edit_profile.setOnClickListener {
@@ -43,7 +43,7 @@ class ProfileFragment : Fragment() {
         super.onResume()
         // Code to fetch updated profile information
         // Updated display name
-        profile_displayName.text = Auth.user?.displayName ?: "Guest"
+        profile_displayName.text = Auth.profile?.displayName ?: "Guest"
         // Updated bio
         profile_bio.text = Auth.profile?.bio ?: "Introduce yourself to the others."
 

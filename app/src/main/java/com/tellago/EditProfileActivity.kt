@@ -129,6 +129,8 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
             bio = editText_changeBio.text.toString()
         )
 
+        Log.e("EditProfileActivity", Auth.profile?.displayName)
+
         // Navigate back to the MainActivity + ProfileFragment, but make sure to update first
         finish() //finish EditProfileActivity.
 
