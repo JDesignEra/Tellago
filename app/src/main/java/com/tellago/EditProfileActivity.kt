@@ -1,24 +1,21 @@
 package com.tellago
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.DialogFragment
+import com.tellago.fragments.ConfirmEditProfileFragment
 import com.tellago.models.Auth
-import com.tellago.models.User
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers.Main
 
-class EditProfileActivity : AppCompatActivity() {
+class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.NoticeDialogListener {
 
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
@@ -35,13 +32,13 @@ class EditProfileActivity : AppCompatActivity() {
         editText_changeDisplayName.setText(Auth.profile?.displayName ?: "")
         editText_changeBio.setText(Auth.profile?.bio ?: "")
 
-        saveBtn.setOnClickListener {
-            Auth().update(
-                displayName = editText_changeDisplayName.text.toString(),
-                bio = editText_changeBio.text.toString()
-            )
+        updateBtn.setOnClickListener {
+            Log.d("updateBtn", "opening alert dialog....")
+
+            confirmEditProfileAlert()
 
         }
+
 
         imageView_changePhoto.setOnClickListener {
             pickImageIntent()
@@ -70,7 +67,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun hideSystemUI() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
 
@@ -90,7 +87,7 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
 
-    private fun pickImageIntent(){
+    private fun pickImageIntent() {
         Log.d("pickImageINTENT", "creating INTENT")
         val intent = Intent()
         intent.type = "image/*"
@@ -102,9 +99,8 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGE_CODE){
-            if (resultCode == Activity.RESULT_OK)
-            {
+        if (requestCode == PICK_IMAGE_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
                 // pick single image
                 val imageUri = data?.data
 
@@ -116,7 +112,32 @@ class EditProfileActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun confirmEditProfileAlert() {
+        val newFragment = ConfirmEditProfileFragment()
+        newFragment.show(supportFragmentManager, "Edit Profile Confirmation")
+    }
+
+    // The dialog fragment receives a reference to this Activity through the
+    // Fragment.onAttach() callback, which it uses to call the following methods
+    // defined by the ConfirmEditProfileFragment.NoticeDialogListener interface
+    override fun onDialogPositiveClick(dialog: DialogFragment) {
+        // User touched the dialog's positive button
+        Auth().update(
+            displayName = editText_changeDisplayName.text.toString(),
+            bio = editText_changeBio.text.toString()
+        )
+
+        // Navigate back to the MainActivity + ProfileFragment, but make sure to update first
+        finish() //finish EditProfileActivity.
 
     }
+
+    override fun onDialogNegativeClick(dialog: DialogFragment) {
+        // User touched the dialog's negative button, so close the ConfirmEditProfileFragment()
+        supportFragmentManager.beginTransaction().remove(ConfirmEditProfileFragment()).commit()
+    }
+
 
 }

@@ -38,4 +38,14 @@ class ProfileFragment : Fragment() {
             activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
         }
     }
+
+    override fun onResume(){
+        super.onResume()
+        // Code to fetch updated profile information
+        // Updated display name
+        profile_displayName.text = Auth.user?.displayName ?: "Guest"
+        // Updated bio
+        profile_bio.text = Auth.profile?.bio ?: "Introduce yourself to the others."
+
+    }
 }

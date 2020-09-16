@@ -21,7 +21,7 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".activities.AuthActivity" />
-        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".EditProfileActivity" android:noHistory="true" />
 
         <service
             android:name=".services.ExitService"

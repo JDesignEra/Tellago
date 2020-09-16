@@ -196,6 +196,7 @@ class MainActivity : AppCompatActivity() {
         return super.onMenuOpened(featureId, menu)
     }
 
+
     private fun hideSystemUI() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
             or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
