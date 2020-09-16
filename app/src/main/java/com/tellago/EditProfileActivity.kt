@@ -96,7 +96,6 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
 
 
     private fun pickImageIntent() {
-        Log.d("pickImageINTENT", "creating INTENT")
         val intent = Intent()
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
