@@ -13,4 +13,5 @@
     <color name="toastPrimary">#bfe53935</color>
     <color name="toastSuccess">#bf009688</color>
     <color name="colorLinkBlue">#0095f6</color>
+    <color name="colorTextDarkGray">#565656</color>
 </resources>

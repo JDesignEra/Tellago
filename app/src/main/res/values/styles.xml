@@ -34,4 +34,8 @@
         <item name="android:activityCloseEnterAnimation">@anim/fragment_fade_enter</item>
         <item name="android:activityCloseExitAnimation">@anim/fragment_fade_exit</item>
     </style>
+
+    <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">11dp</item>
+    </style>
 </resources>
