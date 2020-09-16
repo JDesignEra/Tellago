@@ -15,6 +15,7 @@ import com.tellago.R
 import com.tellago.models.Auth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 class HomeFragment : Fragment() {
     override fun onCreateView(
@@ -75,4 +76,6 @@ class HomeFragment : Fragment() {
         else
             super.onOptionsItemSelected(item)
     }
+
+
 }

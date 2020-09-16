@@ -32,7 +32,7 @@ class Auth {
                 user?.updateEmail(email)
             }
 
-            profile = User(user!!.uid, user!!.email, user!!.displayName, bio).update()
+            profile = User(user!!.uid, user!!.email, displayName, bio).update()
         }
     }
 

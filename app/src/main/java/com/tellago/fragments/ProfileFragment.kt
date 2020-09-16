@@ -42,7 +42,7 @@ class ProfileFragment : Fragment() {
     override fun onResume(){
         super.onResume()
         // Code to fetch updated profile information
-        // Updated display name
+        // Updated display name (take from 'Local' Auth.user!!)
         profile_displayName.text = Auth.profile?.displayName ?: "Guest"
         // Updated bio
         profile_bio.text = Auth.profile?.bio ?: "Introduce yourself to the others."

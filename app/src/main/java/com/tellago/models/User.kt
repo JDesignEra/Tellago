@@ -21,9 +21,7 @@ data class User(
     }
 
     fun update(): User? {
-        val user = User(uid, email, displayName, bio)
-
-        collection.document(uid).set(user)
-        return user
+        collection.document(uid).set(this)
+        return this
     }
 }

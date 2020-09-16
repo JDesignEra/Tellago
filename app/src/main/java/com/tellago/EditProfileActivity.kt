@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
+import com.muddzdev.styleabletoast.StyleableToast
 import com.tellago.fragments.ConfirmEditProfileFragment
 import com.tellago.models.Auth
+import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.coroutines.Dispatchers.Main
 
@@ -33,12 +36,17 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
         editText_changeBio.setText(Auth.profile?.bio ?: "")
 
         updateBtn.setOnClickListener {
-            Log.d("updateBtn", "opening alert dialog....")
-
-            confirmEditProfileAlert()
+            if (editText_changeDisplayName.text.isNullOrEmpty()) {
+                val toastMsg: StyleableToast = StyleableToast.makeText(
+                    this,
+                    "ERROR: Display Name cannot be blank!",
+                    R.style.ErrorToastStyle
+                )
+                toastMsg.show()
+            } else
+                confirmEditProfileAlert()
 
         }
-
 
         imageView_changePhoto.setOnClickListener {
             pickImageIntent()
@@ -128,8 +136,6 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
             displayName = editText_changeDisplayName.text.toString(),
             bio = editText_changeBio.text.toString()
         )
-
-        Log.e("EditProfileActivity", Auth.profile?.displayName)
 
         // Navigate back to the MainActivity + ProfileFragment, but make sure to update first
         finish() //finish EditProfileActivity.

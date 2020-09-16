@@ -15,6 +15,12 @@
         <item name="android:windowBackground">@drawable/splash_bg</item>
     </style>
 
+    <style name="ErrorToastStyle">
+        <item name="stTextColor">@color/colorBackground</item>
+        <item name="stColorBackground">#B9FFC107</item>
+        <item name="stIconStart">@drawable/ic_info_24_white</item>
+    </style>
+
     <style name="AuthTheme" parent="FirebaseUI">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
