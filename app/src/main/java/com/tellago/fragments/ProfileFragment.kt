@@ -33,7 +33,6 @@ class ProfileFragment : Fragment() {
         profile_bio.text = Auth.profile?.bio ?: "Introduce yourself to the others."
 
         button_edit_profile.setOnClickListener {
-            Log.e("ProfileFragment", "Fired")
             var nextActivity: Intent = Intent(activity, EditProfileActivity::class.java)
             startActivity(nextActivity)
             activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
