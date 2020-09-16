@@ -4,12 +4,10 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.google.firebase.auth.FirebaseAuth
-import com.tellago.MainActivity
-import com.tellago.model.Auth
+import com.tellago.models.Auth
 
-class AuthExitService : Service() {
+class ExitService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
-        Auth.user = FirebaseAuth.getInstance().currentUser
         return null
     }
 
