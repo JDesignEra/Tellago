@@ -1,22 +1,29 @@
 package com.tellago
 
+import android.R.attr
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
+import com.bumptech.glide.Glide
 import com.muddzdev.styleabletoast.StyleableToast
 import com.tellago.fragments.ConfirmEditProfileFragment
 import com.tellago.models.Auth
-import com.tellago.utils.CustomToast
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageActivity
+import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.coroutines.Dispatchers.Main
+import java.util.jar.Manifest
+
 
 class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.NoticeDialogListener {
 
@@ -100,26 +107,66 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select an image"), PICK_IMAGE_CODE)
+        //startActivityForResult(Intent.createChooser(intent, "Select an image"), PICK_IMAGE_CODE)
+        CropImage.startPickImageActivity(this)
+        Log.d("startPickImageActivity", "FIRED")
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGE_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                // pick single image
-                val imageUri = data?.data
 
-                // display selected image as profile_image (only shown locally; not yet updated to Storage)
-                profile_image.setImageURI(imageUri)
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // pick single image
+            val imageUri = CropImage.getPickImageResultUri(this, data)
 
-                // update profile_image for current user (update to Firebase Storage)
+            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
+                //uri = imageUri
+                requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 0)
+            } else {
+                startCrop(imageUri)
+            }
 
+        }
 
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK) {
+                val resultUri: Uri = result.uri
+                resultUri?.let {
+                    // display selected image as profile_image (only shown locally; not yet updated to Storage)
+                        uri -> setImage(uri)
+
+                    // update profile_image for current user (update to Firebase Storage)
+                    Log.d("Go into FirebaseStorage", "FIRED")
+
+                }
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+                Log.e("TAG", "Crop Error: ${result.error}")
             }
         }
+
     }
+
+
+
+    private fun startCrop(imageUri: Uri) {
+        CropImage.activity(imageUri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .setAspectRatio(1080,1080)
+            .setMultiTouchEnabled(true)
+            .start(this)
+    }
+
+    private fun setImage(uri: Uri){
+        Glide.with(this)
+            .load(uri)
+            .into(profile_image)
+    }
+
 
     private fun confirmEditProfileAlert() {
         val newFragment = ConfirmEditProfileFragment()
