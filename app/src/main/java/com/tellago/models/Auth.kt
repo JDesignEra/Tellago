@@ -8,12 +8,13 @@ class Auth {
     init {
         user = FirebaseAuth.getInstance().currentUser
 
-        if (user != null && !user?.uid.isNullOrEmpty()) {
+        if (user != null || profile == null) {
             User(user!!.uid, user!!.email, user!!.displayName, null).getUserWithUid {
-                profile = it
-
-                if (profile == null) {
-                    profile?.update()
+                if (profile != null) {
+                    profile = it
+                }
+                else {
+                    profile = User(user!!.uid, user!!.email, user!!.displayName, null).update()
                 }
             }
         }
