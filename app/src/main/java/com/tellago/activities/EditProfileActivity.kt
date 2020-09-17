@@ -153,7 +153,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
         CropImage.activity(imageUri)
             .setGuidelines(CropImageView.Guidelines.ON)
             .setCropShape(CropImageView.CropShape.OVAL)
-            .setAspectRatio(1080,1080)
+            .setFixAspectRatio(true)
             .setMultiTouchEnabled(true)
             .start(this)
     }
