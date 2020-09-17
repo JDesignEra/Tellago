@@ -27,12 +27,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Auth.profile?.getDpUri {
-            Glide.with(this)
-                .load(it)
-                .circleCrop()
-                .into(profile_image)
-        }
+        retrieveProfilePicture()
 
         button_edit_profile.setOnClickListener {
             var nextActivity: Intent = Intent(activity, EditProfileActivity::class.java)
@@ -44,10 +39,23 @@ class ProfileFragment : Fragment() {
     override fun onResume(){
         super.onResume()
         // Code to fetch updated profile information
-        // Updated display name (take from 'Local' Auth.user!!)
+        // Updated display name
         profile_displayName.text = Auth.profile?.displayName ?: "Guest"
         // Updated bio
         profile_bio.text = Auth.profile?.bio ?: "Introduce yourself to the others."
+        // Updated profile picture
+        retrieveProfilePicture()
 
+    }
+
+    private fun retrieveProfilePicture() {
+        // Retrieve profile picture tied to current user's unique ID
+        // Display the profile picture in profile_image
+        Auth.profile?.getDpUri {
+            Glide.with(this)
+                .load(it)
+                .circleCrop()
+                .into(profile_image)
+        }
     }
 }

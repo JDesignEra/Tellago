@@ -22,6 +22,8 @@ import com.tellago.utils.CustomToast
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.activity_edit_profile.profile_image
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.NoticeDialogListener {
@@ -37,6 +39,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
 
         StartTimer()
         configureToolbar()
+        retrieveProfilePicture()
 
         editText_changeDisplayName.setText(Auth.profile?.displayName ?: "")
         editText_changeBio.setText(Auth.profile?.bio ?: "")
@@ -156,6 +159,17 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
             .setFixAspectRatio(true)
             .setMultiTouchEnabled(true)
             .start(this)
+    }
+
+    private fun retrieveProfilePicture() {
+        // Retrieve profile picture tied to current user's unique ID
+        // Display the profile picture in profile_image
+        Auth.profile?.getDpUri {
+            Glide.with(this)
+                .load(it)
+                .circleCrop()
+                .into(profile_image)
+        }
     }
 
     private fun setImage(uri: Uri){
