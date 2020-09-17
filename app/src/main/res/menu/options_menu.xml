@@ -3,10 +3,14 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-<!--    <item android:id="@+id/item_search"-->
-<!--        android:icon="@drawable/ic_search"-->
-<!--        android:title="Search"-->
-<!--        app:showAsAction="ifRoom" />-->
+    <item android:id="@+id/item_sign_in_up"
+        android:icon="@drawable/ic_lock_open_48"
+        android:title="Sign In / Sign Up"
+        app:showAsAction="never" />
 
+
+    <item android:id="@+id/item_two"
+        android:title="Item 2"
+        app:showAsAction="never" />
 
 </menu>

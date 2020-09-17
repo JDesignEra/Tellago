@@ -4,27 +4,28 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.ismaeldivita.chipnavigation.ChipNavigationBar
-import com.tellago.MainActivity
-import com.tellago.R
+import com.tellago.*
 import com.tellago.models.Auth
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_guest_to_sign_in_up.*
 
 
 class GuestScrollingActivity : AppCompatActivity() {
+
+
+    private lateinit var userPostAdapter: UserPostRecyclerAdapter
 
     override fun onStart() {
         super.onStart()
@@ -35,15 +36,24 @@ class GuestScrollingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.bottom_guest_to_sign_in_up)
 
+        initRecyclerView()
+        addDataSet()
+
+        // bottomMenuFirebaseAuth()
+
+
         Log.d("onCreate", "Fired onCreate!")
-        bottomMenuFirebaseAuth()
+
+        fab.setOnClickListener {
+            Log.d("Floating Action Button", "Fired Floating Action Button!")
+            Toast.makeText(this, "clicked on Floating Action Button", Toast.LENGTH_SHORT).show()
+        }
 
     }
 
     private fun bottomMenuFirebaseAuth() {
-        val chipNavigationBar: ChipNavigationBar = bottom_nav_menu_bar
 
-        //chipNavigationBar.expand()
+        Log.d("bottomMenuFirebaseAuth", "FIRED")
 
         val authProviders = listOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
@@ -58,6 +68,9 @@ class GuestScrollingActivity : AppCompatActivity() {
             .setGoogleButtonId(R.id.bottom_nav_google_icon)
             .build()
 
+        Log.d("customLayout", "COMPLETED customLayout")
+
+
         startActivityForResult(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
@@ -69,7 +82,34 @@ class GuestScrollingActivity : AppCompatActivity() {
                 .build(),
             AuthActivity.rcSignIn
         )
+
     }
+
+    private fun addDataSet() {
+        // data created in DataSource data class should be retrieved from Firebase Storage & Cloud Firestore
+        val data = DataSource.createDataSet()
+        userPostAdapter.submitList(data)
+        Log.d("addDataSet()", "FIRED")
+    }
+
+    private fun initRecyclerView() {
+        Log.d("initRecyclerView()", "FIRED")
+        // recyclerview from bottom_guest_to_sign_in_up.xml
+        recycler_view.apply {
+
+            // Step 1: set layoutManager for recyclerview
+            layoutManager = LinearLayoutManager(this@GuestScrollingActivity)
+
+            // Step 2: Adding padding decoration for spacing between viewholders (defined in TopSpacingItemDecoration.kt)
+            val topSpacingDecoration = TopSpacingItemDecoration(30)
+            addItemDecoration(topSpacingDecoration)
+
+            // Step 3: Initialise the lateinit variable userPostAdapter
+            userPostAdapter = UserPostRecyclerAdapter()
+            adapter = userPostAdapter
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -87,23 +127,19 @@ class GuestScrollingActivity : AppCompatActivity() {
                 // Sign in failed
                 if (response == null) {
                     Log.w("AuthActivity", "User cancelled the sign-in flow.")
-                }
-                else if (response.error?.errorCode == ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT) {
+                } else if (response.error?.errorCode == ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT) {
                     // Get the non-anoymous credential from the response
-                    val nonAnonymousCredential : AuthCredential? = response.credentialForLinking
+                    val nonAnonymousCredential: AuthCredential? = response.credentialForLinking
                     // Sign in with credential
                     if (nonAnonymousCredential != null) {
                         FirebaseAuth.getInstance().signInWithCredential(nonAnonymousCredential)
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
-                     }
-                }
-
-                else if (response.error?.errorCode == ErrorCodes.NO_NETWORK) {
+                    }
+                } else if (response.error?.errorCode == ErrorCodes.NO_NETWORK) {
                     CustomToast(this, "Requires an Internet Connection").primary()
                 }
             }
         }
-
     }
 }
