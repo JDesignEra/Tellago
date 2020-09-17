@@ -8,7 +8,7 @@ class Auth {
     init {
         user = FirebaseAuth.getInstance().currentUser
 
-        if (user != null && profile == null) {
+        if (user != null && profile == null && !user!!.isAnonymous) {
             User(user!!.uid, user!!.email, user!!.displayName, null).getUserWithUid {
                 profile = it ?: User(user!!.uid, user!!.email, user!!.displayName, null).update()
             }
