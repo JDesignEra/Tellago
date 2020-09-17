@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.tellago.activities.AuthActivity
+import com.tellago.activities.GuestScrollingActivity
 import com.tellago.activities.SplashActivity
 import com.tellago.fragments.*
 import com.tellago.models.Auth
@@ -64,22 +65,28 @@ class MainActivity : AppCompatActivity() {
 
         if (Auth.user != null) {
             replaceFragment(homeFragment)
+            bottom_navigation.visibility = View.VISIBLE
+            guest_bot_banner.visibility = View.INVISIBLE
 
-            if (Auth.user!!.isAnonymous) {
-                bottom_navigation.visibility = View.INVISIBLE
-                guest_bot_banner.visibility = View.VISIBLE
-            }
-            else {
-                bottom_navigation.visibility = View.VISIBLE
-                guest_bot_banner.visibility = View.INVISIBLE
-            }
+//            if (Auth.user!!.isAnonymous) {
+//                bottom_navigation.visibility = View.INVISIBLE
+//                guest_bot_banner.visibility = View.VISIBLE
+//
+//                // when app is opened, redirect user to AuthActivity if they are not signed in
+//                // or if their last use was as a Guest
+//
+//            }
+//            else {
+//                bottom_navigation.visibility = View.VISIBLE
+//                guest_bot_banner.visibility = View.INVISIBLE
+//            }
 
             if (!Auth.user?.displayName.isNullOrEmpty()) {
                 CustomToast(this, "Welcome to tellsquare, %s".format(Auth.user?.displayName)).success()
             }
-            else {
-                CustomToast(this, "Welcome to tellsquare, Guest").success()
-            }
+//            else {
+//                CustomToast(this, "Welcome to tellsquare, Guest").success()
+//            }
         }
 
         // the following code will replace the current fragment based on the selected navigation

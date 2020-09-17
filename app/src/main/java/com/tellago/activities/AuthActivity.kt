@@ -56,14 +56,17 @@ class AuthActivity: AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 Auth()
 
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            }
-            else {
+                if (Auth().getUser()?.isAnonymous!!) {
+                    startActivity(Intent(this, GuestScrollingActivity::class.java))
+                    finish()
+                } else {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
+            } else {
                 if (response == null) {
                     Log.w("AuthActivity", "User cancelled the sign-in flow.")
-                }
-                else if (response.error?.errorCode == ErrorCodes.NO_NETWORK) {
+                } else if (response.error?.errorCode == ErrorCodes.NO_NETWORK) {
                     CustomToast(this, "Requires an Internet Connection").primary()
                 }
             }
