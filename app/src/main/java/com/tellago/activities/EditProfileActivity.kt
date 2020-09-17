@@ -160,6 +160,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
     private fun setImage(uri: Uri){
         Glide.with(this)
             .load(uri)
+            .circleCrop()
             .into(profile_image)
     }
 

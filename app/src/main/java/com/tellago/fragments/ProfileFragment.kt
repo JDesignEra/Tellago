@@ -30,6 +30,7 @@ class ProfileFragment : Fragment() {
         Auth.profile?.getDpUri {
             Glide.with(this)
                 .load(it)
+                .circleCrop()
                 .into(profile_image)
         }
 
