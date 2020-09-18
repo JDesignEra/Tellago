@@ -1,4 +1,4 @@
-package com.tellago
+package com.tellago.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.tellago.R
 import com.tellago.models.UserPost
 import kotlinx.android.synthetic.main.layout_user_post_list_item.view.*
 
@@ -18,7 +19,11 @@ class UserPostRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return UserPostViewHolder(
             // Layout inflator to inflate FROM layout_user_post_list_item
-            LayoutInflater.from(parent.context).inflate(R.layout.layout_user_post_list_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.layout_user_post_list_item,
+                parent,
+                false
+            )
         )
     }
 

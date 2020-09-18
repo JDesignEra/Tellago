@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/ic_home"
-        android:icon="@drawable/ic_home_24_white"
+        android:icon="@drawable/ic_home_48_primary"
         android:title="Home"
+        app:showAsAction="always"
         />
 
 
     <item
         android:id="@+id/ic_people"
-        android:icon="@drawable/ic_people_outline_24_white"
+        android:icon="@drawable/ic_people_outline_48_primary"
         android:title="Community"
+        app:showAsAction="always"
         />
+
 
     <item
         android:id="@+id/ic_feed"
-        android:icon="@drawable/ic_baseline_dynamic_feed_24"
+        android:icon="@drawable/ic_dynamic_feed_48_primary"
         android:title="Feed"
+        app:showAsAction="always"
         />
 
 
 
     <item
         android:id="@+id/ic_profile"
-        android:icon="@drawable/ic_account_box_24_white"
+        android:icon="@drawable/ic_account_box_48_primary"
         android:title="Profile"
+        app:showAsAction="always"
         />
 
 </menu>

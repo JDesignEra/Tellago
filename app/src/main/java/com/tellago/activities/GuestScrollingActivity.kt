@@ -13,6 +13,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.tellago.*
+import com.tellago.adapters.UserPostRecyclerAdapter
 import com.tellago.models.Auth
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
@@ -127,7 +128,7 @@ class GuestScrollingActivity : AppCompatActivity() {
             } else {
                 // Sign in failed
                 if (response == null) {
-                    Log.w("AuthActivity", "User cancelled the sign-in flow.")
+                    Log.w("GuestScrollingActivity", "User cancelled the sign-in flow.")
                 } else if (response.error?.errorCode == ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT) {
                     // Get the non-anoymous credential from the response
                     val nonAnonymousCredential: AuthCredential? = response.credentialForLinking

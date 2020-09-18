@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.tellago.MainActivity"
     tools:openDrawer="start">
 
@@ -33,8 +34,7 @@
                 android:layout_marginBottom="16dp"
                 android:src="@drawable/ic_settings"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                />
+                app:layout_constraintLeft_toLeftOf="parent" />
 
             <ImageView
                 android:id="@+id/closeFromNavView"
@@ -48,51 +48,93 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.navigation.NavigationView>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-<!--        <include-->
-<!--            android:id="@+id/toolbar"-->
-<!--            layout="@layout/toolbar" />-->
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            app:contentInsetStart="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:itemIconTint="#ffffff"
-            app:itemTextColor="#ffffff"
-            app:labelVisibilityMode="labeled"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:menu="@menu/menu" />
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            app:fabAlignmentMode="center"
+            app:fabCradleRoundedCornerRadius="20dp"
+            app:fabCradleVerticalOffset="20dp"
+            app:hideOnScroll="true">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/guest_bot_banner"
-            android:layout_width="match_parent"
-            android:layout_height="46sp"
-            android:background="@color/colorPrimaryLight"
-            android:clipChildren="false"
-            app:itemIconTint="#ffffff"
-            app:itemTextColor="#ffffff"
-            app:labelVisibilityMode="labeled"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:menu="@menu/guest_menu" />
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/menu" />
+        </com.google.android.material.bottomappbar.BottomAppBar>
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-            app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <!--        <com.google.android.material.bottomappbar.BottomAppBar-->
+        <!--            android:id="@+id/bottomAppBar_Navigation"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="bottom"-->
+        <!--            android:layout_marginHorizontal="80dp"-->
+        <!--            android:background="@drawable/round_corners"-->
+        <!--            app:fabAlignmentMode="center"-->
+        <!--            app:fabCradleMargin="10dp"-->
+        <!--            app:fabCradleRoundedCornerRadius="20dp"-->
+        <!--            app:fabCradleVerticalOffset="20dp"-->
+        <!--            app:hideOnScroll="true"-->
+        <!--            app:menu="@menu/menu" />-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:elevation="24dp"
+            android:focusable="true"
+            android:src="@drawable/ic_edit"
+            app:layout_anchor="@id/bottom_app_bar"
+            app:maxImageSize="30dp" />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:orientation="vertical">-->
+
+    <!--        <include-->
+    <!--            android:id="@+id/toolbar"-->
+    <!--            layout="@layout/toolbar" />-->
+
+    <!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
+    <!--            android:id="@+id/bottom_navigation"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@color/colorPrimary"-->
+    <!--            app:contentInsetStart="0dp"-->
+    <!--            app:itemIconTint="#ffffff"-->
+    <!--            app:itemTextColor="#ffffff"-->
+    <!--            app:labelVisibilityMode="labeled"-->
+    <!--            app:layout_behavior=".BottomNavigationBehavior"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintHorizontal_bias="0.0"-->
+    <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--            app:layout_constraintRight_toRightOf="parent"-->
+    <!--            app:menu="@menu/menu" />-->
+
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 </androidx.drawerlayout.widget.DrawerLayout>
