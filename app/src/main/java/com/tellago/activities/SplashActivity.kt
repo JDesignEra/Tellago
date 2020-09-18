@@ -6,19 +6,38 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tellago.MainActivity
 import com.tellago.R
 import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.user
 
 class SplashActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
         if (Auth().getUser() == null) {
-            startActivity(Intent(this, AuthActivity::class.java))
-            finish()
+            startAuthActivity()
         }
         else {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+            if (user?.isAnonymous!!) {
+                startGuestActivity()
+            }
+            else {
+                startMainActivity()
+            }
         }
+    }
+
+    private fun startAuthActivity() {
+        startActivity(Intent(this, AuthActivity::class.java))
+        finish()
+    }
+
+    private fun startMainActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+    private fun startGuestActivity() {
+        startActivity(Intent(this, GuestScrollingActivity::class.java))
+        finish()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

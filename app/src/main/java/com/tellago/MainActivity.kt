@@ -4,10 +4,8 @@ import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
+import android.util.Log
+import android.view.*
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -15,13 +13,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
-import com.tellago.activities.AuthActivity
 import com.tellago.activities.SplashActivity
 import com.tellago.fragments.*
 import com.tellago.models.Auth
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
     private var handler: Handler? = null
@@ -58,41 +56,85 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+        val window: Window = getWindow()
+
+        // In Activity's onCreate() for instance
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
+
         configureNavigationDrawer()
 
         StartTimer()
 
         if (Auth.user != null) {
-            replaceFragment(homeFragment)
+            // starting fragment is communityFragment
+            replaceFragment(communityFragment)
+            bottom_app_bar.visibility = View.VISIBLE
+            //bottom_navigation.visibility = View.VISIBLE
 
-            if (Auth.user!!.isAnonymous) {
-                bottom_navigation.visibility = View.INVISIBLE
-                guest_bot_banner.visibility = View.VISIBLE
-            }
-            else {
-                bottom_navigation.visibility = View.VISIBLE
-                guest_bot_banner.visibility = View.INVISIBLE
-            }
+//            if (Auth.user!!.isAnonymous) {
+//                bottom_navigation.visibility = View.INVISIBLE
+//
+//                // when app is opened, redirect user to AuthActivity if they are not signed in
+//                // or if their last use was as a Guest
+//
+//            }
+//            else {
+//                bottom_navigation.visibility = View.VISIBLE
+//
+//                }
 
             if (!Auth.user?.displayName.isNullOrEmpty()) {
-                CustomToast(this, "Welcome to tellsquare, %s".format(Auth.user?.displayName)).success()
+                CustomToast(
+                    this,
+                    "Welcome to tellsquare, %s".format(Auth.user?.displayName)
+                ).success()
             }
-            else {
-                CustomToast(this, "Welcome to tellsquare, Guest").success()
-            }
+//            else {
+//                CustomToast(this, "Welcome to tellsquare, Guest").success()
+//            }
         }
 
         // the following code will replace the current fragment based on the selected navigation
         // item from the bottom navigation bar
-        bottom_navigation.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.ic_home -> replaceFragment(homeFragment)
-                R.id.ic_people -> replaceFragment(communityFragment)
-                R.id.ic_feed -> replaceFragment(feedFragment)
-                R.id.ic_profile -> replaceFragment(profileFragment)
-            }
+//        bottom_navigation.setOnNavigationItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.ic_home -> replaceFragment(homeFragment)
+//                R.id.ic_people -> replaceFragment(communityFragment)
+//                R.id.ic_feed -> replaceFragment(feedFragment)
+//                R.id.ic_profile -> replaceFragment(profileFragment)
+//            }
+//
+//            true
+//        }
 
-            true
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.ic_home -> {
+                    replaceFragment(homeFragment)
+                    true
+                }
+                R.id.ic_people -> {
+                    replaceFragment(communityFragment)
+                    true
+                }
+                R.id.ic_feed -> {
+                    replaceFragment(feedFragment)
+                    true
+                }
+                R.id.ic_profile -> {
+                    replaceFragment(profileFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        fab_main.setOnClickListener {
+            Log.d("fab_main", "FIRED!!")
         }
 
         // Close navDrawer when user clicks on Left Chevron icon
@@ -128,8 +170,7 @@ class MainActivity : AppCompatActivity() {
             transaction.replace(R.id.fragment_container, fragment)
             transaction.addToBackStack(null);
             transaction.commit()
-        }
-        else {
+        } else {
             addFragment(fragment)
         }
     }
@@ -172,7 +213,7 @@ class MainActivity : AppCompatActivity() {
 
         when (menu_itemID) {
             R.id.view_profile -> replaceFragment(profileFragment)
-            R.id.logout_from_drawer -> AuthActivity().signOut(this) {
+            R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)
             }
@@ -199,7 +240,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideSystemUI() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
     // Shows the system bars by removing all the flags

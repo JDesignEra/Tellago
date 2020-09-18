@@ -16,6 +16,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -34,7 +39,12 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.fragment:fragment:1.2.5'
+    // Card View
     implementation "androidx.cardview:cardview:1.0.0"
+    // Recycler View
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    // For control over item selection of both touch and mouse driven selection
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc02"
     implementation 'com.muddzdev:styleabletoast:2.2.3'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
@@ -42,8 +52,8 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'com.google.firebase:firebase-firestore-ktx:21.6.0'
-    implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
     implementation 'com.google.firebase:firebase-auth:19.4.0'
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
