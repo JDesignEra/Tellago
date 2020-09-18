@@ -1,5 +1,7 @@
 package com.tellago.models
 
+import android.content.Context
+import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -34,6 +36,19 @@ class Auth {
 
     fun getUser(): FirebaseUser? {
         return user
+    }
+
+    fun signOut(context: Context, onComplete: () -> Unit) {
+        if (user != null && user!!.isAnonymous) {
+            user!!.delete()
+        }
+
+        AuthUI.getInstance()
+            .signOut(context)
+            .addOnCompleteListener {
+                user = null
+                onComplete()
+            }
     }
 
     companion object {

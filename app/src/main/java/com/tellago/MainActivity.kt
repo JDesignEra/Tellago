@@ -179,7 +179,7 @@ class MainActivity : AppCompatActivity() {
 
         when (menu_itemID) {
             R.id.view_profile -> replaceFragment(profileFragment)
-            R.id.logout_from_drawer -> AuthActivity().signOut(this) {
+            R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)
             }
