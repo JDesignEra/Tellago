@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:outlineProvider="none"
                 android:background="@color/colorTransparent"
+                app:itemRippleColor="@color/colorTransparent"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/menu" />
         </com.google.android.material.bottomappbar.BottomAppBar>
