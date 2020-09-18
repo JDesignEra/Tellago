@@ -2,7 +2,6 @@ package com.tellago
 
 import android.content.Intent
 import android.graphics.Rect
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -14,7 +13,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
-import com.tellago.activities.AuthActivity
 import com.tellago.activities.SplashActivity
 import com.tellago.fragments.*
 import com.tellago.models.Auth
@@ -112,24 +110,28 @@ class MainActivity : AppCompatActivity() {
 //
 //            true
 //        }
-//
 
-        bottom_app_bar.setOnClickListener {
-            Log.d("bottom_app_bar", "FIRED HERE")
-        }
-
-        bottomNavigationView.setOnClickListener {
-            Log.d("bottomNavigationView", it.id.toString())
-            when(it.id)
-            {
-                R.id.ic_home -> replaceFragment(homeFragment)
-                R.id.ic_people -> replaceFragment(communityFragment)
-                R.id.ic_feed -> replaceFragment(feedFragment)
-                R.id.ic_profile -> replaceFragment(profileFragment)
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.ic_home -> {
+                    replaceFragment(homeFragment)
+                    true
+                }
+                R.id.ic_people -> {
+                    replaceFragment(communityFragment)
+                    true
+                }
+                R.id.ic_feed -> {
+                    replaceFragment(feedFragment)
+                    true
+                }
+                R.id.ic_profile -> {
+                    replaceFragment(profileFragment)
+                    true
+                }
+                else -> false
             }
         }
-
-
 
         fab_main.setOnClickListener {
             Log.d("fab_main", "FIRED!!")

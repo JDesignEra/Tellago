@@ -55,21 +55,22 @@
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottom_app_bar"
-            app:contentInsetStart="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:outlineProvider="none"
+            app:contentInsetStart="0dp"
             app:fabAlignmentMode="center"
             app:fabCradleRoundedCornerRadius="20dp"
-            app:fabCradleVerticalOffset="20dp"
             app:hideOnScroll="true">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
+                style="@style/Widget.MaterialComponents.BottomNavigationView"
                 android:id="@+id/bottomNavigationView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:outlineProvider="none"
+                android:background="@color/colorTransparent"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/menu" />
         </com.google.android.material.bottomappbar.BottomAppBar>
