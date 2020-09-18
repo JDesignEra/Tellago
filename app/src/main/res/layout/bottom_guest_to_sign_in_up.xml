@@ -46,6 +46,7 @@
         android:focusable="false"
         app:labelVisibilityMode="labeled"
         android:layout_gravity="bottom"
+        app:layout_behavior=".BottomNavigationBehavior"
         app:menu="@menu/bottom_nav_menu" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -12,9 +12,10 @@ import com.firebase.ui.auth.IdpResponse
 import com.tellago.MainActivity
 import com.tellago.R
 import com.tellago.models.Auth
+import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 
-class AuthActivity: AppCompatActivity() {
+class AuthActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 

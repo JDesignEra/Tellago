@@ -46,7 +46,10 @@ class GuestScrollingActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             Log.d("Floating Action Button", "Fired Floating Action Button!")
-            Toast.makeText(this, "clicked on Floating Action Button", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "clicked on Floating Action Button", Toast.LENGTH_SHORT).show()
+            // close GuestScrollingActivity.
+            //startActivity(Intent(this, SplashActivity::class.java))
+            finish()
         }
 
     }
