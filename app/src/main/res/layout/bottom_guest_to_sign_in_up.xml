@@ -22,7 +22,6 @@
             android:background="@color/colorPrimaryLight"
             app:title="Guest View"
             app:layout_scrollFlags="scroll|enterAlways" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -31,9 +30,7 @@
         android:layout_height="match_parent"
         android:padding="5dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
     </androidx.recyclerview.widget.RecyclerView>
-
 
 <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
 <!--        android:id="@+id/guest_bottom_navigation"-->
@@ -55,6 +52,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|top"
+        app:borderWidth="0dp"
+        android:backgroundTint="@color/colorPrimaryLight"
         android:background="@color/colorBackground"
         android:src="@drawable/ic_lock_open_48"
         android:layout_margin="16dp"/>

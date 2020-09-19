@@ -39,7 +39,6 @@ class GuestScrollingActivity : AppCompatActivity() {
 
         // bottomMenuFirebaseAuth()
 
-
         Log.d("onCreate", "Fired onCreate!")
 
         fab.setOnClickListener {
@@ -50,11 +49,9 @@ class GuestScrollingActivity : AppCompatActivity() {
             startActivity(Intent(this, AuthActivity::class.java))
             finish()
         }
-
     }
 
     private fun bottomMenuFirebaseAuth() {
-
         Log.d("bottomMenuFirebaseAuth", "FIRED")
 
         val authProviders = listOf(
