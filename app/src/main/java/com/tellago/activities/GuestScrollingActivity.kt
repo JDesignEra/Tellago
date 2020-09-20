@@ -2,8 +2,13 @@ package com.tellago.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.auth.AuthMethodPickerLayout
@@ -32,57 +37,38 @@ class GuestScrollingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+
         setContentView(R.layout.bottom_guest_to_sign_in_up)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Log.d("Guest status bar", "FIRED")
+            //  set status text dark after check for minimum SDK
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+
+        val window: Window = getWindow()
+
+        // In Activity's onCreate() for instance
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
 
         initRecyclerView()
         addDataSet()
 
-        // bottomMenuFirebaseAuth()
 
-        Log.d("onCreate", "Fired onCreate!")
+        Log.d("onCreate Guest", "Fired onCreate!")
 
         fab.setOnClickListener {
             Log.d("Floating Action Button", "Fired Floating Action Button!")
-            //Toast.makeText(this, "clicked on Floating Action Button", Toast.LENGTH_SHORT).show()
             // close GuestScrollingActivity.
-            //startActivity(Intent(this, SplashActivity::class.java))
             startActivity(Intent(this, AuthActivity::class.java))
             finish()
         }
     }
 
-    private fun bottomMenuFirebaseAuth() {
-        Log.d("bottomMenuFirebaseAuth", "FIRED")
-
-        val authProviders = listOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.FacebookBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-
-        val customLayout: AuthMethodPickerLayout = AuthMethodPickerLayout
-            .Builder(R.layout.bottom_guest_to_sign_in_up)
-            .setEmailButtonId(R.id.bottom_nav_email_icon)
-            .setFacebookButtonId(R.id.bottom_nav_facebook_icon)
-            .setGoogleButtonId(R.id.bottom_nav_google_icon)
-            .build()
-
-        Log.d("customLayout", "COMPLETED customLayout")
-
-
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAuthMethodPickerLayout(customLayout)
-                .setAvailableProviders(authProviders)
-                .setTheme(R.style.AuthTheme)
-                .setIsSmartLockEnabled(false)
-                .enableAnonymousUsersAutoUpgrade()
-                .build(),
-            AuthActivity.rcSignIn
-        )
-
-    }
 
     private fun addDataSet() {
         // data created in DataSource data class should be retrieved from Firebase Storage & Cloud Firestore

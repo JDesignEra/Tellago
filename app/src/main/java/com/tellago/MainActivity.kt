@@ -1,7 +1,9 @@
 package com.tellago
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -12,13 +14,17 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.tellago.activities.SplashActivity
 import com.tellago.fragments.*
+import com.tellago.R.color
 import com.tellago.models.Auth
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.menu_header.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -54,9 +60,32 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+
+        //        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
+//            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//        }
+        if (Build.VERSION.SDK_INT >= 19) {
+            window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        }
+        if (Build.VERSION.SDK_INT >= 21) {
+            Log.d("Main status bar_SDK", "FIRED SDK_INT >= 21")
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = resources.getColor(color.colorTransparent)
+        }
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            Log.d("Main status bar_SDK", "FIRED")
+//            //  set status text dark after check for minimum SDK
+//            //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//        }
+
         setContentView(R.layout.activity_main)
 
-        val flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+        //val flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
         val window: Window = getWindow()
 
         // In Activity's onCreate() for instance
@@ -64,6 +93,7 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
+
 
         configureNavigationDrawer()
 
@@ -74,6 +104,7 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(communityFragment)
             bottom_app_bar.visibility = View.VISIBLE
             //bottom_navigation.visibility = View.VISIBLE
+
 
 //            if (Auth.user!!.isAnonymous) {
 //                bottom_navigation.visibility = View.INVISIBLE
@@ -100,16 +131,6 @@ class MainActivity : AppCompatActivity() {
 
         // the following code will replace the current fragment based on the selected navigation
         // item from the bottom navigation bar
-//        bottom_navigation.setOnNavigationItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.ic_home -> replaceFragment(homeFragment)
-//                R.id.ic_people -> replaceFragment(communityFragment)
-//                R.id.ic_feed -> replaceFragment(feedFragment)
-//                R.id.ic_profile -> replaceFragment(profileFragment)
-//            }
-//
-//            true
-//        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId) {
@@ -136,6 +157,7 @@ class MainActivity : AppCompatActivity() {
         fab_main.setOnClickListener {
             Log.d("fab_main", "FIRED!!")
         }
+
 
         // Close navDrawer when user clicks on Left Chevron icon
         val closeButton: ImageView = closeFromNavView
@@ -183,6 +205,14 @@ class MainActivity : AppCompatActivity() {
             onNavigationItemSelected(it)
             true
         }
+
+        // Show user's profile picture & display name in Menu header
+        //retrieveProfilePicture()
+
+        //user_displayname.text = Auth.profile?.displayName ?: "Guest"
+
+        //Log.d("configureNavigationDrawer", "FIRED")
+
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
@@ -234,8 +264,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
         navigation.visibility = View.VISIBLE
+
         return super.onMenuOpened(featureId, menu)
     }
+
+//    private fun retrieveProfilePicture() {
+//        // Retrieve profile picture tied to current user's unique ID
+//        // Display the profile picture in profile_app_logo
+//        Auth.profile?.getDpUri {
+//            Glide.with(this)
+//                .load(it)
+//                .circleCrop()
+//                .into(profile_app_logo)
+//        }
+//    }
 
 
     private fun hideSystemUI() {

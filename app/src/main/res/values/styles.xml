@@ -36,4 +36,10 @@
         <item name="android:activityCloseEnterAnimation">@anim/fragment_fade_enter</item>
         <item name="android:activityCloseExitAnimation">@anim/fragment_fade_exit</item>
     </style>
+
+    <style name="TranslucentStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
 </resources>
