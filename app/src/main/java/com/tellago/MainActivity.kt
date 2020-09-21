@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-
         if (hasFocus) hideSystemUI()
     }
 
@@ -75,9 +74,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (it == View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+                Log.d("HIDE_NAV", "FIRED")
             }
             else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+                Log.d("UNHIDE_NAV", "FIRED")
             }
         }
 
@@ -192,6 +193,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         user_displayname.text = profile?.displayName ?: "tellsquare"
 
         navigation.getGlobalVisibleRect(viewRect)
+
+
         // uncomment the following then make changes so that drawer can be SWIPED open from LEFT
 //        if (!viewRect.contains(ev!!.rawX.toInt(), ev.rawY.toInt())) {
 //            if (drawerLayout.isDrawerVisible((GravityCompat.START)))
@@ -238,7 +241,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun hideSystemUI() {
         window.decorView.apply {
-            systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            systemUiVisibility =
+                View.SYSTEM_UI_FLAG_IMMERSIVE or
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         }
     }
 

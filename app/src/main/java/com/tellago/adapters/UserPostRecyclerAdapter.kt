@@ -59,11 +59,18 @@ class UserPostRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         val post_image : ImageView = itemView.user_post_image
         val post_title : TextView = itemView.user_post_title
         val post_author : TextView = itemView.user_post_author
+        val post_profile_pic: ImageView = itemView.user_post_profile_pic
+        val post_duration: TextView = itemView.post_duration
+        val likes: TextView = itemView.likes
+        val comments: TextView = itemView.comments
 
         // bind method takes user post objects & bind to respective views in the layout
         fun bind(userPost: UserPost) {
             post_title.text = userPost.title
             post_author.text = userPost.displayName
+            post_duration.text = userPost.duration
+            likes.text = userPost.likes
+            comments.text = userPost.comments
 
             // use Glide to set image to post_image
             val requestOptions = RequestOptions()
@@ -71,11 +78,24 @@ class UserPostRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
                 .error(R.drawable.ic_launcher_background)
 
             // allow glide to LOAD (image URI from Firebase storage?) INTO post_image
+            if(userPost.image == "NIL"){
+                post_image.maxWidth = 0;
+                post_image.maxHeight = 0;
+                Glide.with(itemView.context)
+                    .applyDefaultRequestOptions(requestOptions)
+                    .load(userPost.image)
+                    .into(post_image)
+            }
             Glide.with(itemView.context)
                 .applyDefaultRequestOptions(requestOptions)
                 .load(userPost.image)
                 .into(post_image)
 
+            Glide.with(itemView.context)
+                .applyDefaultRequestOptions(requestOptions)
+                .load(userPost.profilePic)
+                .circleCrop()
+                .into(post_profile_pic)
         }
 
     }
