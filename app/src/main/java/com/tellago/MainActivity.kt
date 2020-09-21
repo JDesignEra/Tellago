@@ -14,20 +14,19 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
+import com.tellago.R.color
 import com.tellago.activities.SplashActivity
 import com.tellago.fragments.*
-import com.tellago.R.color
 import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.profile
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.menu_header.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
 
@@ -36,7 +35,6 @@ class MainActivity : AppCompatActivity() {
     private val feedFragment = FeedFragment()
     private val profileFragment = ProfileFragment()
     private val settingsFragment = SettingsFragment()
-
 
     override fun onStart() {
         super.onStart()
@@ -94,7 +92,6 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
 
-
         configureNavigationDrawer()
 
         StartTimer()
@@ -103,20 +100,6 @@ class MainActivity : AppCompatActivity() {
             // starting fragment is communityFragment
             replaceFragment(communityFragment)
             bottom_app_bar.visibility = View.VISIBLE
-            //bottom_navigation.visibility = View.VISIBLE
-
-
-//            if (Auth.user!!.isAnonymous) {
-//                bottom_navigation.visibility = View.INVISIBLE
-//
-//                // when app is opened, redirect user to AuthActivity if they are not signed in
-//                // or if their last use was as a Guest
-//
-//            }
-//            else {
-//                bottom_navigation.visibility = View.VISIBLE
-//
-//                }
 
             if (!Auth.user?.displayName.isNullOrEmpty()) {
                 CustomToast(
@@ -124,14 +107,10 @@ class MainActivity : AppCompatActivity() {
                     "Welcome to tellsquare, %s".format(Auth.user?.displayName)
                 ).success()
             }
-//            else {
-//                CustomToast(this, "Welcome to tellsquare, Guest").success()
-//            }
         }
 
         // the following code will replace the current fragment based on the selected navigation
         // item from the bottom navigation bar
-
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.ic_home -> {
@@ -155,6 +134,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fab_main.setOnClickListener {
+            // TODO: FAB logic
             Log.d("fab_main", "FIRED!!")
         }
 
@@ -173,14 +153,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    public fun addFragment(fragment: Fragment) {
+    fun addFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.addToBackStack(null);
         transaction.commit()
     }
 
-    public fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(fragment: Fragment) {
         if (fragment != null) {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(
@@ -205,18 +185,12 @@ class MainActivity : AppCompatActivity() {
             onNavigationItemSelected(it)
             true
         }
-
-        // Show user's profile picture & display name in Menu header
-        //retrieveProfilePicture()
-
-        //user_displayname.text = Auth.profile?.displayName ?: "Guest"
-
-        //Log.d("configureNavigationDrawer", "FIRED")
-
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         val viewRect = Rect()
+
+        user_displayname.text = profile?.displayName ?: "tellsquare"
 
         navigation.getGlobalVisibleRect(viewRect)
         // uncomment the following then make changes so that drawer can be SWIPED open from LEFT
@@ -229,43 +203,27 @@ class MainActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(ev)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Method which assigns toolbar actions (based on options_menu)
-        // Must fill actions within options_menu for the following inflate to display those
-        // actions as part of the Toolbar
-        menuInflater.inflate(R.menu.options_menu, menu)
-        return true
-    }
-
-    fun onNavigationItemSelected(menuItem: MenuItem) {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val f: Fragment? = null
-        val menu_itemID = menuItem.itemId
 
-        when (menu_itemID) {
+        when (item.itemId) {
             R.id.view_profile -> replaceFragment(profileFragment)
             R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)
             }
-
         }
 
         if (f != null) {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_container, f)
             transaction.commit()
-            true
-        } else
-            false
+        }
 
         val drawerLayout: DrawerLayout = drawer_layout
         drawerLayout.closeDrawers()
-    }
 
-    override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
-        navigation.visibility = View.VISIBLE
-
-        return super.onMenuOpened(featureId, menu)
+        return true
     }
 
 //    private fun retrieveProfilePicture() {

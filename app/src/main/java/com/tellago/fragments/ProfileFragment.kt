@@ -45,7 +45,6 @@ class ProfileFragment : Fragment() {
         profile_bio.text = Auth.profile?.bio ?: "Introduce yourself to the others."
         // Updated profile picture
         retrieveProfilePicture()
-
     }
 
     private fun retrieveProfilePicture() {

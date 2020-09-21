@@ -47,6 +47,7 @@ class Auth {
             .signOut(context)
             .addOnCompleteListener {
                 user = null
+                profile = null
                 onComplete()
             }
     }
