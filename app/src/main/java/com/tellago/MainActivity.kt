@@ -1,7 +1,9 @@
 package com.tellago
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -13,15 +15,18 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
+import com.tellago.R.color
 import com.tellago.activities.SplashActivity
 import com.tellago.fragments.*
 import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.profile
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.menu_header.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
 
@@ -30,7 +35,6 @@ class MainActivity : AppCompatActivity() {
     private val feedFragment = FeedFragment()
     private val profileFragment = ProfileFragment()
     private val settingsFragment = SettingsFragment()
-
 
     override fun onStart() {
         super.onStart()
@@ -54,9 +58,32 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+
+        //        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
+//            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//        }
+        if (Build.VERSION.SDK_INT >= 19) {
+            window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        }
+        if (Build.VERSION.SDK_INT >= 21) {
+            Log.d("Main status bar_SDK", "FIRED SDK_INT >= 21")
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = resources.getColor(color.colorTransparent)
+        }
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            Log.d("Main status bar_SDK", "FIRED")
+//            //  set status text dark after check for minimum SDK
+//            //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//        }
+
         setContentView(R.layout.activity_main)
 
-        val flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+        //val flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
         val window: Window = getWindow()
 
         // In Activity's onCreate() for instance
@@ -70,22 +97,9 @@ class MainActivity : AppCompatActivity() {
         StartTimer()
 
         if (Auth.user != null) {
-            // starting fragment is communityFragment
-            replaceFragment(communityFragment)
+            // starting fragment is homeFragment
+            replaceFragment(homeFragment)
             bottom_app_bar.visibility = View.VISIBLE
-            //bottom_navigation.visibility = View.VISIBLE
-
-//            if (Auth.user!!.isAnonymous) {
-//                bottom_navigation.visibility = View.INVISIBLE
-//
-//                // when app is opened, redirect user to AuthActivity if they are not signed in
-//                // or if their last use was as a Guest
-//
-//            }
-//            else {
-//                bottom_navigation.visibility = View.VISIBLE
-//
-//                }
 
             if (!Auth.user?.displayName.isNullOrEmpty()) {
                 CustomToast(
@@ -93,24 +107,10 @@ class MainActivity : AppCompatActivity() {
                     "Welcome to tellsquare, %s".format(Auth.user?.displayName)
                 ).success()
             }
-//            else {
-//                CustomToast(this, "Welcome to tellsquare, Guest").success()
-//            }
         }
 
         // the following code will replace the current fragment based on the selected navigation
         // item from the bottom navigation bar
-//        bottom_navigation.setOnNavigationItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.ic_home -> replaceFragment(homeFragment)
-//                R.id.ic_people -> replaceFragment(communityFragment)
-//                R.id.ic_feed -> replaceFragment(feedFragment)
-//                R.id.ic_profile -> replaceFragment(profileFragment)
-//            }
-//
-//            true
-//        }
-
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.ic_home -> {
@@ -134,8 +134,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         fab_main.setOnClickListener {
+            // TODO: FAB logic
             Log.d("fab_main", "FIRED!!")
         }
+
 
         // Close navDrawer when user clicks on Left Chevron icon
         val closeButton: ImageView = closeFromNavView
@@ -151,14 +153,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    public fun addFragment(fragment: Fragment) {
+    fun addFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.addToBackStack(null);
         transaction.commit()
     }
 
-    public fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(fragment: Fragment) {
         if (fragment != null) {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.setCustomAnimations(
@@ -188,6 +190,8 @@ class MainActivity : AppCompatActivity() {
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         val viewRect = Rect()
 
+        user_displayname.text = profile?.displayName ?: "tellsquare"
+
         navigation.getGlobalVisibleRect(viewRect)
         // uncomment the following then make changes so that drawer can be SWIPED open from LEFT
 //        if (!viewRect.contains(ev!!.rawX.toInt(), ev.rawY.toInt())) {
@@ -199,43 +203,39 @@ class MainActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(ev)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Method which assigns toolbar actions (based on options_menu)
-        // Must fill actions within options_menu for the following inflate to display those
-        // actions as part of the Toolbar
-        menuInflater.inflate(R.menu.options_menu, menu)
-        return true
-    }
-
-    fun onNavigationItemSelected(menuItem: MenuItem) {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val f: Fragment? = null
-        val menu_itemID = menuItem.itemId
 
-        when (menu_itemID) {
+        when (item.itemId) {
             R.id.view_profile -> replaceFragment(profileFragment)
             R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)
             }
-
         }
 
         if (f != null) {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_container, f)
             transaction.commit()
-            true
-        } else
-            false
+        }
 
         val drawerLayout: DrawerLayout = drawer_layout
         drawerLayout.closeDrawers()
+
+        return true
     }
 
-    override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
-        navigation.visibility = View.VISIBLE
-        return super.onMenuOpened(featureId, menu)
-    }
+//    private fun retrieveProfilePicture() {
+//        // Retrieve profile picture tied to current user's unique ID
+//        // Display the profile picture in profile_app_logo
+//        Auth.profile?.getDpUri {
+//            Glide.with(this)
+//                .load(it)
+//                .circleCrop()
+//                .into(profile_app_logo)
+//        }
+//    }
 
 
     private fun hideSystemUI() {

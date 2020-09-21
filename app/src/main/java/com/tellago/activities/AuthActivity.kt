@@ -2,6 +2,7 @@ package com.tellago.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthMethodPickerLayout
@@ -16,8 +17,11 @@ import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 
 class AuthActivity : AppCompatActivity() {
+
     override fun onResume() {
         super.onResume()
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
 
         val authProviders = listOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
@@ -37,8 +41,8 @@ class AuthActivity : AppCompatActivity() {
         var intentBuilder = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAuthMethodPickerLayout(customLayout)
-            .setAvailableProviders(authProviders)
             .setTheme(R.style.AuthTheme)
+            .setAvailableProviders(authProviders)
             .setIsSmartLockEnabled(false)
 
         if (user == null && Auth().getUser() == null) {
@@ -80,9 +84,11 @@ class AuthActivity : AppCompatActivity() {
                             FirebaseAuth.getInstance()
                                 .signInWithCredential(response.credentialForLinking!!)
                                 .addOnSuccessListener {
-                                    startMainActivity()
+                                    Auth()
                                 }
                         }
+
+                        startMainActivity()
                     }
                 }
             }

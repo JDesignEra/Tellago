@@ -8,6 +8,7 @@
     <color name="colorGradientStart">#1AE53935</color>
     <color name="colorGradientEnd">#99E53935</color>
     <color name="colorProfileBackground">#99B8B3B3</color>
+    <color name="colorUnderlyingBackground">#99CFCACA</color>
     <color name="colorTransparent">#00FFFFFF</color>
     <color name="colorTextBlack">#000000</color>
     <color name="colorIconGrey">#AFAFAF</color>
