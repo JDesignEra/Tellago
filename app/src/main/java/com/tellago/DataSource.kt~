@@ -8,7 +8,7 @@ class DataSource {
 
     companion object{
 
-        /*fun createDataSet(): ArrayList<UserPost>{
+        fun createDataSet(): ArrayList<UserPost>{
             val list = ArrayList<UserPost>()
             list.add(
                 UserPost(
@@ -52,7 +52,7 @@ class DataSource {
                 )
             )
             return list
-        }*/
+        }
 
 
         // Another function to generate posts for 'Home' fragment RecyclerView
@@ -62,106 +62,11 @@ class DataSource {
             list.add(
                 UserPost(
                     "Terrarium",
-                "https://lmg-labmanager.s3.amazonaws.com/assets/articleNo/1509/aImg/39230/do-plants-think--l.png",
-                    "James",
-                "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "13wks ago",
-                "1980",
-                    "150"
-                )
-            )
-
-            list.add(
-                UserPost(
-                    "Freelance Android Developer, Donn Felker",
-                    "NIL",
-                    "Donn Felker",
-                    "https://raw.githubusercontent.com/mitchtabian/Kotlin-RecyclerView-Example/json-data-source/app/src/main/res/drawable/freelance_android_dev_donn_felker.png",
-                    "13wks ago",
-                    "1980",
-                    "150"
-                )
-            )
-
-            list.add(
-                UserPost(
-                    "Terrarium",
-                    "https://www.thoughtco.com/thmb/e5vWvhKU49h0061hqcjqby-iyOU=/4000x2250/smart/filters:no_upscale()/tree-against-white-background-887508916-5c0f078ac9e77c0001c1bf28.jpg",
-                    "James",
-                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "13wks ago",
-                    "1980",
-                    "150"
-                )
-            )
-
-            list.add(
-                UserPost(
-                    "Freelance Android Developer, Donn Felker",
-                    "NIL",
-                    "Donn Felker",
-                    "https://raw.githubusercontent.com/mitchtabian/Kotlin-RecyclerView-Example/json-data-source/app/src/main/res/drawable/freelance_android_dev_donn_felker.png",
-                    "13wks ago",
-                    "1980",
-                    "150"
-                )
-            )
-
-            list.add(
-                UserPost(
-                    "Terrarium",
-                    "https://www.thoughtco.com/thmb/e5vWvhKU49h0061hqcjqby-iyOU=/4000x2250/smart/filters:no_upscale()/tree-against-white-background-887508916-5c0f078ac9e77c0001c1bf28.jpg",
-                    "James",
-                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "13wks ago",
-                    "1980",
-                    "150"
-                )
-            )
-            list.add(
-                UserPost(
-                    "Terrarium",
-                    "https://www.thoughtco.com/thmb/e5vWvhKU49h0061hqcjqby-iyOU=/4000x2250/smart/filters:no_upscale()/tree-against-white-background-887508916-5c0f078ac9e77c0001c1bf28.jpg",
-                    "James",
-                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "13wks ago",
-                    "1980",
-                    "150"
-                )
-            )
-            list.add(
-                UserPost(
-                    "Terrarium",
-                    "https://www.thoughtco.com/thmb/e5vWvhKU49h0061hqcjqby-iyOU=/4000x2250/smart/filters:no_upscale()/tree-against-white-background-887508916-5c0f078ac9e77c0001c1bf28.jpg",
-                    "James",
-                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "13wks ago",
-                    "1980",
-                    "150"
-                )
-            )
-            list.add(
-                UserPost(
-                    "Terrarium",
-                    "https://www.thoughtco.com/thmb/e5vWvhKU49h0061hqcjqby-iyOU=/4000x2250/smart/filters:no_upscale()/tree-against-white-background-887508916-5c0f078ac9e77c0001c1bf28.jpg",
-                    "James",
-                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "13wks ago",
-                    "1980",
-                    "150"
-                )
-            )
-
-
-            /*list.add(
-                UserPost(
-                    "Terrarium",
                     "Aspire to grow my own plants, starting with my very own terrarium.",
                     "https://raw.githubusercontent.com/mitchtabian/Kotlin-RecyclerView-Example/json-data-source/app/src/main/res/drawable/freelance_android_dev_vasiliy_zukanov.png",
                     "Steven"
                 )
             )
-
             list.add(
                 UserPost(
                     "Freelance Android Developer, Donn Felker",
@@ -194,8 +99,7 @@ class DataSource {
                     "https://firebasestorage.googleapis.com/v0/b/tellago.appspot.com/o/uploads%2Fimages%2Fbabyshark.png?alt=media&token=632caca3-3048-4182-b2bd-9174b6a354d5",
                     "John"
                 )
-            )*/
-
+            )
             return list
         }
 

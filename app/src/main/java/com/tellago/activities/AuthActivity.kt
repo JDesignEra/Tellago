@@ -3,8 +3,6 @@ package com.tellago.activities
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.os.Build
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.Window
@@ -46,8 +44,8 @@ class AuthActivity : AppCompatActivity() {
         var intentBuilder = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAuthMethodPickerLayout(customLayout)
-            .setAvailableProviders(authProviders)
             .setTheme(R.style.AuthTheme)
+            .setAvailableProviders(authProviders)
             .setIsSmartLockEnabled(false)
 
         if (user == null && Auth().getUser() == null) {
@@ -89,9 +87,11 @@ class AuthActivity : AppCompatActivity() {
                             FirebaseAuth.getInstance()
                                 .signInWithCredential(response.credentialForLinking!!)
                                 .addOnSuccessListener {
-                                    startMainActivity()
+                                    Auth()
                                 }
                         }
+
+                        startMainActivity()
                     }
                 }
             }
