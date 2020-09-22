@@ -89,7 +89,7 @@ class DataSource {
             list.add(
                 UserPost(
                     "Terrarium",
-                    "https://www.thoughtco.com/thmb/e5vWvhKU49h0061hqcjqby-iyOU=/4000x2250/smart/filters:no_upscale()/tree-against-white-background-887508916-5c0f078ac9e77c0001c1bf28.jpg",
+                    "NIL",
                     "James",
                     "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                     "12wks ago",
@@ -112,7 +112,7 @@ class DataSource {
             list.add(
                 UserPost(
                     "Terrarium",
-                    "https://www.thoughtco.com/thmb/e5vWvhKU49h0061hqcjqby-iyOU=/4000x2250/smart/filters:no_upscale()/tree-against-white-background-887508916-5c0f078ac9e77c0001c1bf28.jpg",
+                    "NIL",
                     "James",
                     "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                     "13wks ago",
