@@ -29,10 +29,11 @@
             app:layout_constraintTop_toBottomOf="@id/toolbar_Account"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Note: Your Personal Account Information will not appear in your Public Profile.">
+                android:text="Note: Your Personal Account Information will not appear in your Public Profile. You will be redirected to the sign in page after changing your email and/or password.">
 
             </TextView>
         </LinearLayout>
