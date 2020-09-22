@@ -15,15 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tellago.DataSource
 import com.tellago.R
 import com.tellago.TopSpacingItemDecoration
-import com.tellago.adapters.HomePostRecyclerAdapter
-import com.tellago.models.Auth
+import com.tellago.adapters.ProfilePostRecyclerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.bottom_guest_to_sign_in_up.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
-
-    private lateinit var homePostAdapter: HomePostRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,8 +33,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerView()
-        addDataSet()
 
 //        if (Auth.user != null && !Auth.user!!.isAnonymous) {
 //            // User is signed in
@@ -94,33 +88,6 @@ class HomeFragment : Fragment() {
             true
         else
             super.onOptionsItemSelected(item)
-    }
-
-
-    private fun addDataSet() {
-        // data created in DataSource data class should be retrieved from Firebase Storage & Cloud Firestore
-        val data = DataSource.createDataSetForHome()
-        homePostAdapter.submitList(data)
-        Log.d("addDataSet()", "FIRED")
-    }
-
-    private fun initRecyclerView() {
-        Log.d("initRecyclerView()", "FIRED")
-        // recyclerview from fragment_home.xml
-        recycler_view_home_fragment.apply {
-
-            // Step 1: set layoutManager for recyclerview
-            Log.d("LayoutManager Home", "FIRED")
-            layoutManager = LinearLayoutManager(activity?.application?.baseContext)
-
-            // Step 2: Adding padding decoration for spacing between viewholders (defined in TopSpacingItemDecoration.kt)
-            val topSpacingDecoration = TopSpacingItemDecoration(20)
-            addItemDecoration(topSpacingDecoration)
-
-            // Step 3: Initialise the lateinit variable homePostAdapter
-            homePostAdapter = HomePostRecyclerAdapter()
-            adapter = homePostAdapter
-        }
     }
 
 

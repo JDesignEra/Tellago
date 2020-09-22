@@ -3,7 +3,6 @@ package com.tellago
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Rect
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -46,16 +45,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (hasFocus) hideSystemUI()
     }
 
-    private fun StartTimer() {
-        handler = Handler()
-        handlerTask = Runnable { // do something
-            hideSystemUI()
-            handler!!.postDelayed(handlerTask, 5000)
-        }
-
-        handlerTask!!.run()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -64,15 +53,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
 //            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 //        }
-        if (Build.VERSION.SDK_INT >= 19) {
-            window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        }
-        if (Build.VERSION.SDK_INT >= 21) {
-            Log.d("Main status bar_SDK", "FIRED SDK_INT >= 21")
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = resources.getColor(color.colorTransparent)
-        }
+//        if (Build.VERSION.SDK_INT >= 19) {
+//            window.decorView.systemUiVisibility =
+//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//        }
+//        if (Build.VERSION.SDK_INT >= 21) {
+//            Log.d("Main status bar_SDK", "FIRED SDK_INT >= 21")
+//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//            window.statusBarColor = resources.getColor(color.colorTransparent)
+//        }
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 //            Log.d("Main status bar_SDK", "FIRED")
@@ -81,25 +70,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 //        }
 
+        window.decorView.setOnSystemUiVisibilityChangeListener {
+            (bottomAppBarCoordinatorLayout.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = 0
+
+            if (it == View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+                Log.d("HIDE_NAV", "FIRED")
+            }
+            else {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+                Log.d("UNHIDE_NAV", "FIRED")
+            }
+        }
+
         setContentView(R.layout.activity_main)
 
-        //val flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-        val window: Window = getWindow()
-
-        // In Activity's onCreate() for instance
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
-
         configureNavigationDrawer()
-
         StartTimer()
 
         if (Auth.user != null) {
-            // starting fragment is communityFragment
-            replaceFragment(communityFragment)
-            bottom_app_bar.visibility = View.VISIBLE
+            // starting fragment is homeFragment
+            replaceFragment(homeFragment)
 
             if (!Auth.user?.displayName.isNullOrEmpty()) {
                 CustomToast(
@@ -177,6 +168,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private fun StartTimer() {
+        handler = Handler()
+        handlerTask = Runnable { // do something
+            hideSystemUI()
+            handler!!.postDelayed(handlerTask, 5000)
+        }
+
+        handlerTask!!.run()
+    }
+
     private fun configureNavigationDrawer() {
         val navigationView: NavigationView = navigation
 
@@ -193,6 +194,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         user_displayname.text = profile?.displayName ?: "tellsquare"
 
         navigation.getGlobalVisibleRect(viewRect)
+
+
         // uncomment the following then make changes so that drawer can be SWIPED open from LEFT
 //        if (!viewRect.contains(ev!!.rawX.toInt(), ev.rawY.toInt())) {
 //            if (drawerLayout.isDrawerVisible((GravityCompat.START)))
@@ -237,10 +240,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        }
 //    }
 
-
     private fun hideSystemUI() {
-        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+        window.decorView.apply {
+            systemUiVisibility =
+                View.SYSTEM_UI_FLAG_IMMERSIVE or
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        }
     }
 
     // Shows the system bars by removing all the flags
