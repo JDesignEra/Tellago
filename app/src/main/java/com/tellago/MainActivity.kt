@@ -22,6 +22,7 @@ import com.tellago.models.Auth.Companion.profile
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.menu_header.*
 
 

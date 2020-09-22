@@ -81,7 +81,7 @@
                     android:id="@+id/setting_privacy_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Privacy"
+                    android:text="Privacy Policy"
                     android:textSize="24sp"
                     android:layout_marginLeft="24dp"
                     app:layout_constraintTop_toTopOf="parent"
@@ -90,6 +90,34 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/setting_terms_conditions_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                >
+
+                <ImageView
+                    android:id="@+id/setting_terms_conditions_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:src="@drawable/ic_assignment"
+                    />
+
+                <TextView
+                    android:id="@+id/setting_terms_conditions_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Terms and Conditions"
+                    android:textSize="24sp"
+                    android:layout_marginLeft="24dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/setting_terms_conditions_image"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/setting_about_layout"
@@ -122,6 +150,7 @@
 
 
         </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
