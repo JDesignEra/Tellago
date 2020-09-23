@@ -8,11 +8,13 @@ import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.tellago.R.color
 import com.tellago.activities.AccountSettingsActivity
@@ -23,8 +25,11 @@ import com.tellago.models.Auth.Companion.profile
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.menu_header.*
+import kotlinx.android.synthetic.main.menu_header.profile_displayName
+import kotlinx.android.synthetic.main.menu_header.profile_image
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -139,7 +144,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         // Navigate to account fragment when user clicks on 'Gear' icon from navDrawer
-        val accountButton: ImageView = accountSettings
+        val accountButton: LinearLayout = accountSettings
         accountButton.setOnClickListener {
             drawer_layout.closeDrawer(GravityCompat.START)
             val intent = Intent(this, AccountSettingsActivity::class.java)
@@ -194,10 +199,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         val viewRect = Rect()
 
-        user_displayname.text = profile?.displayName ?: "tellsquare"
-
+        profile_displayName.text = profile?.displayName ?: "Guest"
+        profile_displayEmail.text = profile?.email ?: "guest@gmail.com"
         navigation.getGlobalVisibleRect(viewRect)
-
+        retrieveProfilePicture()
 
         // uncomment the following then make changes so that drawer can be SWIPED open from LEFT
 //        if (!viewRect.contains(ev!!.rawX.toInt(), ev.rawY.toInt())) {
@@ -207,6 +212,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        }
 
         return super.dispatchTouchEvent(ev)
+    }
+
+    private fun retrieveProfilePicture() {
+        // Retrieve profile picture tied to current user's unique ID
+        // Display the profile picture in profile_image
+        Auth.profile?.getDpUri {
+            Glide.with(this)
+                .load(it)
+                .circleCrop()
+                .into(profile_image)
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

@@ -76,70 +76,59 @@ class DataSource {
 
             list.add(
                 UserPost(
-                    "Terrarium",
-                "https://lmg-labmanager.s3.amazonaws.com/assets/articleNo/1509/aImg/39230/do-plants-think--l.png",
+                    "New TellSquare office coming soon! Cant wait.",
+                "https://www.ajminteriors.com/site/wp-content/uploads/2012/11/construction.jpg",
                     "James",
-                "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "11wks ago",
-                "1980",
+                "https://firebasestorage.googleapis.com/v0/b/tellago.appspot.com/o/uploads%2Fdp%2FnS1lzldixjYhi7vNvtpgDa0bCux2?alt=media&token=f0ea4560-2964-47bb-80b1-b5f74d763381",
+                    "2s ago",
+                "129",
+                    "35"
+                )
+            )
+
+            list.add(
+                UserPost(
+                    "1 more year till I get the keys to my BTO. I am so grateful. Buyer beware, many people are wiping their CPF to get a BTO. My recommendation? Unless you are passively investing (ETF STIs or S&P500), do not wipe your CPF. Instead, consider carrying some of the load with your cash. Why? Inflation and Missed out Interest rates. If your not passively investing, money that you save in your bank will just suffer from inflation. Additionally, by wiping your CPF, you are missing out on compounded interest.",
+                    "NIL",
+                    "James",
+                    "https://firebasestorage.googleapis.com/v0/b/tellago.appspot.com/o/uploads%2Fdp%2FnS1lzldixjYhi7vNvtpgDa0bCux2?alt=media&token=f0ea4560-2964-47bb-80b1-b5f74d763381",
+                    "2wks ago",
+                    "198",
                     "150"
                 )
             )
 
             list.add(
                 UserPost(
-                    "Terrarium",
+                    "Lets talk Insurance! Im relatively inexperienced so do leave comments below for any corrections or tips! What insurance to buy? Heres the two IMPORTANT types of Insurance you need to consider. Health Insurance (MediShield Life and Integrated Shield Plan) AND Life Insurance (wont settle medical bills but will make sure your loved ones are set if you get disabled/die/cannot work!)",
+                    "https://www.investopedia.com/thmb/wz64TF5pgVE1tqS_a4OWJ5RbFPc=/2667x2000/smart/filters:no_upscale()/types-of-insurance-policies-you-need-1289675-Final-6f1548b2756741f6944757e8990c7258.png",
+                    "James",
+                    "https://firebasestorage.googleapis.com/v0/b/tellago.appspot.com/o/uploads%2Fdp%2FnS1lzldixjYhi7vNvtpgDa0bCux2?alt=media&token=f0ea4560-2964-47bb-80b1-b5f74d763381",
+                    "1mth ago",
+                    "101",
+                    "33"
+                )
+            )
+            list.add(
+                UserPost(
+                    "I recently chanced upon a great SG financial content creator online! Check out their content! @thewokesalaryman",
                     "NIL",
                     "James",
-                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "12wks ago",
-                    "1980",
-                    "150"
-                )
-            )
-
-            list.add(
-                UserPost(
-                    "Terrarium",
-                    "https://www.thoughtco.com/thmb/e5vWvhKU49h0061hqcjqby-iyOU=/4000x2250/smart/filters:no_upscale()/tree-against-white-background-887508916-5c0f078ac9e77c0001c1bf28.jpg",
-                    "James",
-                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "13wks ago",
-                    "1980",
-                    "150"
+                    "https://firebasestorage.googleapis.com/v0/b/tellago.appspot.com/o/uploads%2Fdp%2FnS1lzldixjYhi7vNvtpgDa0bCux2?alt=media&token=f0ea4560-2964-47bb-80b1-b5f74d763381",
+                    "3mths ago",
+                    "77",
+                    "159"
                 )
             )
             list.add(
                 UserPost(
-                    "Terrarium",
-                    "NIL",
+                    "Are you investing in ETF STIs or maybe into the S&P500? Its best to start as early as possible. Investing terms may sound confusing to many. But it is so essential to beating inflation. And if your not investing passively early on, your already a step behind the pack! ",
+                    "https://upload.wikimedia.org/wikipedia/commons/7/7e/S_and_P_500_chart_1950_to_2016_with_averages.png",
                     "James",
-                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "13wks ago",
-                    "1980",
-                    "150"
-                )
-            )
-            list.add(
-                UserPost(
-                    "Terrarium",
-                    "https://www.thoughtco.com/thmb/e5vWvhKU49h0061hqcjqby-iyOU=/4000x2250/smart/filters:no_upscale()/tree-against-white-background-887508916-5c0f078ac9e77c0001c1bf28.jpg",
-                    "James",
-                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "13wks ago",
-                    "1980",
-                    "150"
-                )
-            )
-            list.add(
-                UserPost(
-                    "Terrarium",
-                    "https://www.thoughtco.com/thmb/e5vWvhKU49h0061hqcjqby-iyOU=/4000x2250/smart/filters:no_upscale()/tree-against-white-background-887508916-5c0f078ac9e77c0001c1bf28.jpg",
-                    "James",
-                    "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                    "13wks ago",
-                    "1980",
-                    "150"
+                    "https://firebasestorage.googleapis.com/v0/b/tellago.appspot.com/o/uploads%2Fdp%2FnS1lzldixjYhi7vNvtpgDa0bCux2?alt=media&token=f0ea4560-2964-47bb-80b1-b5f74d763381",
+                    "3mths ago",
+                    "67",
+                    "39"
                 )
             )
 

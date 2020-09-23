@@ -2,32 +2,51 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/Life_Aspiration_Group"
+        android:checkableBehavior="none"
+        android:title="Activity">
+        <menu>
+            <item
+                android:id="@+id/view_Life_Aspiration"
+                android:icon="@drawable/ic_baseline_outlined_flag_24"
+                android:title="Your Goals" />
+            <item
+                android:id="@+id/view_Notification"
+                android:icon="@drawable/ic_baseline_notifications_none_24"
+                android:title="Notifications"></item>
+        </menu>
 
-    <group android:id="@+id/Life_Aspiration_Group" android:checkableBehavior="none">
-        <item android:id="@+id/view_Life_Aspiration"
-            android:icon="@drawable/ic_outlined_flag_24_white"
-            android:title="View Life Aspirations"
-            />
+    </item>
+    <item android:title="Information">
+        <menu>
+            <item
+                android:id="@+id/view_Who_Are_We"
+                android:icon="@drawable/ic_baseline_people_outline_24"
+                android:title="Who are we?" />
+            <item
+                android:id="@+id/view_FAQ"
+                android:icon="@drawable/ic_baseline_help_outline_24"
+                android:title="FAQ" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/Profile_Group"
 
-        <item android:id="@+id/create_Life_Aspiration"
-            android:title="Create New Life Aspiration"
-            />
+        android:checkableBehavior="none"
+        android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/view_profile"
+                android:icon="@drawable/ic_baseline_person_outline_24"
+                android:title="View Your Profile" />
 
-    </group>
-
-    <group android:id="@+id/Profile_Group" android:checkableBehavior="none">
-        <item android:id="@+id/view_profile"
-            android:icon="@drawable/ic_account_box_24_white"
-            android:title="View Your Profile"
-            />
-
-
-        <item android:id="@+id/logout_from_drawer"
-            android:title="Log Out"
-            />
-
-    </group>
-
+            <item
+                android:id="@+id/logout_from_drawer"
+                android:icon="@drawable/ic_baseline_exit_to_app_24"
+                android:title="Log Out" />
+        </menu>
+    </item>
 
 
 </menu>

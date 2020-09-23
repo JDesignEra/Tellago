@@ -59,7 +59,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="4dp"
             android:text="I have successfully travelled half the world. Thats crazy!"
-            android:textSize="13dp"
+            android:textSize="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_post_profile_pic"></TextView>
 

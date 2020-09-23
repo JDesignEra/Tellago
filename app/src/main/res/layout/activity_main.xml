@@ -11,11 +11,13 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation"
-        android:layout_width="wrap_content"
+        android:layout_width="320dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/menu_header"
-        app:menu="@menu/toolbar_drawer_items">
+        app:menu="@menu/toolbar_drawer_items"
+        app:itemTextColor="@color/colorTextDarkGray"
+        app:itemIconTint="@color/colorTextDarkGray">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,15 +26,33 @@
             android:clickable="true"
             android:orientation="vertical">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/accountSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:orientation="horizontal"
                 android:layout_marginBottom="16dp"
-                android:src="@drawable/ic_settings"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:layout_marginLeft="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_settings"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:text="Settings"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginTop="4dp"
+                    android:textAlignment="center"></TextView>
+
+            </LinearLayout>
+
 
             <ImageView
                 android:id="@+id/closeFromNavView"
