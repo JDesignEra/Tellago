@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
+    val showGoalsFragment : Fragment = ShowGoalsFragment()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,8 +35,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         configureToolbar()
+
+        btn_ShowAllGoals.setOnClickListener {
+            addFragmentFromFragment(showGoalsFragment)
+        }
+
     }
 
     private fun configureToolbar() {
@@ -81,5 +87,18 @@ class HomeFragment : Fragment() {
             super.onOptionsItemSelected(item)
     }
 
+
+    private fun addFragmentFromFragment(fragment: Fragment) {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        if (transaction != null) {
+            transaction.replace(R.id.fragment_container, fragment)
+        }
+        if (transaction != null) {
+            transaction.addToBackStack(null)
+        };
+        if (transaction != null) {
+            transaction.commit()
+        }
+    }
 
 }
