@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".fragments.AccountFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_Account"
@@ -37,7 +37,9 @@
 
             </TextView>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/linear_layout_password_provider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/note_msg"
@@ -119,34 +121,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="" />
+
             <Button
+                android:id="@+id/updateBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/superlightgray"
                 android:text="UPDATE"
-                android:textColor="@color/colorTextDarkGray"></Button>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:layout_marginRight="10dp"
-                    android:backgroundTint="@color/com_facebook_blue"
-                    android:text="Facebook?"></Button>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:layout_marginLeft="10dp"
-                    android:text="Google?"></Button>
-            </LinearLayout>
+                android:textColor="@color/colorTextDarkGray" />
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/linear_layout_social_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Link your social media handles to this account using the buttons below.">
+
+            </TextView>
+
+            <ImageButton
+                android:id="@+id/btnFacebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:src="@drawable/btn_facebook"
+                android:backgroundTint="@color/colorTransparent" />
+
+            <ImageButton
+                android:id="@+id/btnGoogle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/btn_google"
+                android:backgroundTint="@color/colorTransparent" />
+        </LinearLayout>
+    </LinearLayout>
 
 
 

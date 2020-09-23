@@ -1,44 +1,57 @@
 package com.tellago.fragments
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FacebookAuthProvider
 import com.tellago.R
+import com.tellago.activities.AuthActivity
+import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.user
+import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.fragment_account.*
-import kotlinx.android.synthetic.main.fragment_settings.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AccountFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AccountFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val fbCbManager = CallbackManager.Factory.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
 
+        LoginManager.getInstance().registerCallback(
+            fbCbManager,
+            object : FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult) {
+                    Auth().linkWithCredentials(getFacebookCredential(loginResult.accessToken)) {
+                        CustomToast(requireContext(), "Facebook account linked successfully").success()
+                    }
+                }
+
+                override fun onCancel() {
+
+                }
+
+                override fun onError(error: FacebookException) {
+
+                }
+            }
+        )
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_account, container, false)
     }
 
@@ -46,8 +59,73 @@ class AccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         configureToolbar()
-        //configureNavigationDrawer()
 
+        editText_email.setText(user?.email ?: "")
+
+        if (!Auth().checkProvider()) {
+            note_msg.visibility = View.GONE
+            linear_layout_password_provider.visibility = View.GONE
+        }
+
+        btnFacebook.setOnClickListener {
+            LoginManager.getInstance().logInWithReadPermissions(
+                this,
+                listOf("email", "public_profile")
+            )
+        }
+
+        updateBtn.setOnClickListener {
+            if (editText_email.text.isNullOrBlank()) {
+                editText_email.error = "Email address is needed"
+            }
+            else {
+                Auth().update(
+                    editText_email.text.toString(),
+                    editText_currentPassword.text.toString(),
+                    editText_newPassword.text.toString(),
+                    editText_cfmPassword.text.toString()
+                ) {
+                    if (it.isNotEmpty()) {
+                        if (!it["email"].isNullOrEmpty()) {
+                            editText_email.error = it["email"]
+                        }
+
+                        if (!it["currPassword"].isNullOrEmpty()) {
+                            editText_currentPassword.error = it["currPassword"]
+                        }
+
+                        if (!it["password"].isNullOrEmpty()) {
+                            editText_newPassword.error = it["password"]
+                        }
+
+                        if (!it["cfmPassword"].isNullOrEmpty()) {
+                            editText_cfmPassword.error = it["cfmPassword"]
+                        }
+                    }
+                    else {
+                        editText_currentPassword.text?.clear()
+                        editText_newPassword.text?.clear()
+                        editText_cfmPassword.text?.clear()
+
+                        CustomToast(requireContext(), "Account settings updated successfully").success()
+
+                        Handler().postDelayed({
+                            startActivity(Intent(requireContext(), AuthActivity::class.java))
+                        }, 1500)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        fbCbManager.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun getFacebookCredential(token: AccessToken): AuthCredential {
+        return FacebookAuthProvider.getCredential(token.token)
     }
 
     private fun configureToolbar() {
@@ -56,67 +134,5 @@ class AccountFragment : Fragment() {
             // Allow user to return to previous fragment in the Stack
             activity?.supportFragmentManager?.popBackStack()
         }
-    }
-
-
-    // public fun NavigationBuilder : NavigationBuilder
-
-
-//    private fun configureNavigationDrawer() {
-//        val navigationView: NavigationView = navigation
-//
-//        navigationView.bringToFront()
-//        navigationView.setNavigationItemSelectedListener {
-//            onNavigationItemSelected(it)
-//            true
-//        }
-//
-//    }
-
-//    fun onNavigationItemSelected(menuItem: MenuItem) {
-//        val f: Fragment? = null
-//        val menu_itemID = menuItem.itemId
-//
-//        when (menu_itemID) {
-//            R.id.view_profile -> replaceFragment(profileFragment)
-//            R.id.logout_from_drawer -> Auth().signOut(this) {
-//                val intent = Intent(this, SplashActivity::class.java)
-//                startActivity(intent)
-//            }
-//
-//        }
-//
-//
-//        if (f != null) {
-//            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-//            transaction.replace(R.id.fragment_container, f)
-//            transaction.commit()
-//            true
-//        } else
-//            false
-//
-//        val drawerLayout: DrawerLayout = drawer_layout
-//        drawerLayout.closeDrawers()
-//    }
-
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AccountFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AccountFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

@@ -17,7 +17,6 @@ import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 
 class AuthActivity : AppCompatActivity() {
-
     override fun onResume() {
         super.onResume()
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

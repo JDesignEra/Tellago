@@ -36,7 +36,9 @@ class AccountSettingsActivity : AppCompatActivity() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
 
         window.decorView.setOnSystemUiVisibilityChangeListener {
-//            (bottomAppBarCoordinatorLayout.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = 0
+            if (bottomAppBarCoordinatorLayout != null) {
+                (bottomAppBarCoordinatorLayout.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = 0
+            }
 
             if (it == View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)

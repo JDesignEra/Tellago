@@ -204,8 +204,8 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
     override fun onDialogPositiveClick(dialog: DialogFragment) {
         // User touched the dialog's positive button
         Auth().update(
-            displayName = editText_changeDisplayName.text.toString(),
-            bio = editText_changeBio.text.toString()
+            editText_changeDisplayName.text.toString(),
+            editText_changeBio.text.toString()
         )
 
         // Navigate back to the MainActivity + ProfileFragment, but make sure to update first
