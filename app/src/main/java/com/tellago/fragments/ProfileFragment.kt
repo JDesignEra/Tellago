@@ -15,7 +15,10 @@ import com.tellago.R
 import com.tellago.TopSpacingItemDecoration
 import com.tellago.adapters.ProfilePostRecyclerAdapter
 import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.profile
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.profile_image
 import kotlinx.android.synthetic.main.fragment_profile.recycler_view_home_fragment
 
 class ProfileFragment : Fragment() {
@@ -35,7 +38,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        retrieveProfilePicture()
+        profile?.displayProfilePicture(requireContext(), profile_image)
         initRecyclerView()
         addDataSet()
 
@@ -52,22 +55,11 @@ class ProfileFragment : Fragment() {
         super.onResume()
         // Code to fetch updated profile information
         // Updated display name
-        profile_displayName.text = Auth.profile?.displayName ?: "Guest"
+        profile_displayName.text = profile?.displayName ?: "Guest"
         // Updated bio
-        profile_bio.text = Auth.profile?.bio ?: "Introduce yourself to the others."
+        profile_bio.text = profile?.bio ?: "Introduce yourself to the others."
         // Updated profile picture
-        retrieveProfilePicture()
-    }
-
-    private fun retrieveProfilePicture() {
-        // Retrieve profile picture tied to current user's unique ID
-        // Display the profile picture in profile_image
-        Auth.profile?.getDpUri {
-            Glide.with(this)
-                .load(it)
-                .circleCrop()
-                .into(profile_image)
-        }
+        profile?.displayProfilePicture(requireContext(), profile_image)
     }
 
     private fun addDataSet() {

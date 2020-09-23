@@ -21,12 +21,12 @@ import com.muddzdev.styleabletoast.StyleableToast
 import com.tellago.R
 import com.tellago.fragments.ConfirmEditProfileFragment
 import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.profile
 import com.tellago.utils.CustomToast
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_edit_profile.profile_image
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.NoticeDialogListener {
@@ -53,10 +53,10 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
 
         StartTimer()
         configureToolbar()
-        retrieveProfilePicture()
+        profile?.displayProfilePicture(this, profile_image)
 
-        editText_changeDisplayName.setText(Auth.profile?.displayName ?: "")
-        editText_changeBio.setText(Auth.profile?.bio ?: "")
+        editText_changeDisplayName.setText(profile?.displayName ?: "")
+        editText_changeBio.setText(profile?.bio ?: "")
 
         updateBtn.setOnClickListener {
             if (editText_changeDisplayName.text.isNullOrEmpty()) {
@@ -150,7 +150,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
                     // display selected image as profile_image (only shown locally; not yet updated to Storage)
                     uri ->  setImage(uri)
 
-                    Auth.profile?.uploadDp(uri)?.addOnProgressListener {
+                    profile?.uploadDp(uri)?.addOnProgressListener {
                         // Can display a progress bar for upload status
                         val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
                     }?.addOnSuccessListener {
@@ -173,17 +173,6 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
             .setFixAspectRatio(true)
             .setMultiTouchEnabled(true)
             .start(this)
-    }
-
-    private fun retrieveProfilePicture() {
-        // Retrieve profile picture tied to current user's unique ID
-        // Display the profile picture in profile_image
-        Auth.profile?.getDpUri {
-            Glide.with(this)
-                .load(it)
-                .circleCrop()
-                .into(profile_image)
-        }
     }
 
     private fun setImage(uri: Uri){

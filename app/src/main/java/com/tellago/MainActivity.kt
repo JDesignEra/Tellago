@@ -23,11 +23,9 @@ import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.menu_header.*
-import kotlinx.android.synthetic.main.menu_header.profile_displayName
 import kotlinx.android.synthetic.main.menu_header.profile_image
 
 
@@ -55,26 +53,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-
-        //        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
-//            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-//        }
-//        if (Build.VERSION.SDK_INT >= 19) {
-//            window.decorView.systemUiVisibility =
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//        }
-//        if (Build.VERSION.SDK_INT >= 21) {
-//            Log.d("Main status bar_SDK", "FIRED SDK_INT >= 21")
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-//            window.statusBarColor = resources.getColor(color.colorTransparent)
-//        }
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            Log.d("Main status bar_SDK", "FIRED")
-//            //  set status text dark after check for minimum SDK
-//            //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
-//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-//        }
 
         window.decorView.setOnSystemUiVisibilityChangeListener {
             (bottomAppBarCoordinatorLayout.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = 0
@@ -201,7 +179,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         profile_displayName.text = profile?.displayName ?: "Guest"
         profile_displayEmail.text = profile?.email ?: "guest@gmail.com"
         navigation.getGlobalVisibleRect(viewRect)
-        retrieveProfilePicture()
+        profile?.displayProfilePicture(this, profile_image)
 
         // uncomment the following then make changes so that drawer can be SWIPED open from LEFT
 //        if (!viewRect.contains(ev!!.rawX.toInt(), ev.rawY.toInt())) {
@@ -211,17 +189,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        }
 
         return super.dispatchTouchEvent(ev)
-    }
-
-    private fun retrieveProfilePicture() {
-        // Retrieve profile picture tied to current user's unique ID
-        // Display the profile picture in profile_image
-        Auth.profile?.getDpUri {
-            Glide.with(this)
-                .load(it)
-                .circleCrop()
-                .into(profile_image)
-        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -247,7 +214,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-//    private fun retrieveProfilePicture() {
+//    private fun profile?.displayProfilePicture(this, profile_image) {
 //        // Retrieve profile picture tied to current user's unique ID
 //        // Display the profile picture in profile_app_logo
 //        Auth.profile?.getDpUri {
