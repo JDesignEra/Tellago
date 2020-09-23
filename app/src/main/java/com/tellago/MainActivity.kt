@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.tellago.R.color
+import com.tellago.activities.AccountSettingsActivity
 import com.tellago.activities.SplashActivity
 import com.tellago.fragments.*
 import com.tellago.models.Auth
@@ -141,7 +142,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val accountButton: ImageView = accountSettings
         accountButton.setOnClickListener {
             drawer_layout.closeDrawer(GravityCompat.START)
-            addFragment(settingsFragment)
+            val intent = Intent(this, AccountSettingsActivity::class.java)
+            startActivity(intent)
         }
     }
 

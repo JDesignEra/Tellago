@@ -84,15 +84,15 @@ class SettingsFragment : Fragment() {
     private fun configureToolbar() {
         toolbar_Setting.setNavigationIcon(R.drawable.ic_arrow_back_36)
         toolbar_Setting.setNavigationOnClickListener {
-            // Allow user to return to previous fragment in the Stack
-            activity?.supportFragmentManager?.popBackStack()
+            //finish AccountSettingsActivity
+            activity?.finish()
         }
     }
 
     private fun addFragmentFromFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         if (transaction != null) {
-            transaction.replace(R.id.fragment_container, fragment)
+            transaction.replace(R.id.accountSettings_fragment_container, fragment)
         }
         if (transaction != null) {
             transaction.addToBackStack(null)
