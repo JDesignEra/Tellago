@@ -14,7 +14,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.tellago.activities.AccountSettingsActivity
 import com.tellago.activities.SplashActivity
@@ -23,11 +22,8 @@ import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_header.*
-import kotlinx.android.synthetic.main.menu_header.profile_image
-
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private var handler: Handler? = null

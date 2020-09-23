@@ -3,23 +3,18 @@ package com.tellago.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.tellago.DataSource
-import com.tellago.activities.EditProfileActivity
 import com.tellago.R
 import com.tellago.TopSpacingItemDecoration
+import com.tellago.activities.EditProfileActivity
 import com.tellago.adapters.ProfilePostRecyclerAdapter
-import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.profile_image
-import kotlinx.android.synthetic.main.fragment_profile.recycler_view_home_fragment
 
 class ProfileFragment : Fragment() {
     private lateinit var profilePostAdapter: ProfilePostRecyclerAdapter

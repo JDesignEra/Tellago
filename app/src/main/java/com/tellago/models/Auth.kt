@@ -1,11 +1,9 @@
 package com.tellago.models
 
 import android.content.Context
-import android.net.Credentials
 import android.util.Patterns
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.*
-import com.google.firebase.ktx.Firebase
 
 class Auth {
     init {
@@ -96,11 +94,6 @@ class Auth {
         }
     }
 
-    /**
-     * @description Check for account provider.
-     * @param[providerName] e.g. "google.com" or "facebook.com", if null it will check
-     * for passwordprovider by default
-     */
     fun checkProvider(providerName: String? = null): Boolean {
         var providerData = user?.providerData
 
@@ -111,12 +104,6 @@ class Auth {
         }
 
         return false
-    }
-
-    fun linkWithCredentials(credential: AuthCredential, onComplete: (success: Boolean) -> Unit?) {
-        user?.linkWithCredential(credential)?.addOnCompleteListener {
-            onComplete(it.isSuccessful)
-        }
     }
 
     fun getUser(): FirebaseUser? {

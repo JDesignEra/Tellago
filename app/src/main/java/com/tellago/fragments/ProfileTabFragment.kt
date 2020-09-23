@@ -13,7 +13,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.tellago.R
 import kotlinx.android.synthetic.main.fragment_profile_tab.*
 
-
 class ProfileTabFragment : Fragment() {
 
     companion object {

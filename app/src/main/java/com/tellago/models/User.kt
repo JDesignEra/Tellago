@@ -7,10 +7,8 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.tellago.R
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 import java.io.File
 import java.net.URI
 
