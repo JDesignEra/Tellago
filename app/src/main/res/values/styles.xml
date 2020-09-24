@@ -20,20 +20,25 @@
         <item name="stIconStart">@drawable/ic_info_24_white</item>
     </style>
 
-    <style name="AuthTheme" parent="AppTheme">
+    <style name="AuthTheme" parent="FirebaseUI">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorPrimary</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowAnimationStyle">@style/AuthAnimations</item>
+        <item name="android:windowAnimationStyle">@style/NoAnimation</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="SocialAuth" parent="Theme.MaterialComponents.Dialog">
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:windowFullscreen">true</item>
+        <item name="android:windowAnimationStyle">@style/NoAnimation</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AuthAnimations" parent="@android:style/Animation.Activity">
+    <style name="NoAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/fragment_fade_enter</item>
         <item name="android:activityOpenExitAnimation">@anim/fragment_fade_exit</item>
         <item name="android:activityCloseEnterAnimation">@anim/fragment_fade_enter</item>

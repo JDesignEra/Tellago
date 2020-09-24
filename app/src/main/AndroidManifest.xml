@@ -46,7 +46,6 @@
             android:theme="@style/SocialAuth"/>
 
         <activity android:name=".activities.AuthActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AuthTheme"/>
 
         <activity android:name=".activities.GuestScrollingActivity" />
