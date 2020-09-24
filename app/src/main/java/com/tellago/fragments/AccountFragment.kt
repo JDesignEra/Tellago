@@ -70,15 +70,27 @@ class AccountFragment : Fragment() {
                         }
 
                         if (!it["currPassword"].isNullOrEmpty()) {
-                            editText_currentPassword.error = it["currPassword"]
+                            currentPassword_input_layout.error = it["currPassword"]
+                            currentPassword_input_layout.isErrorEnabled = true
+                        }
+                        else {
+                            currentPassword_input_layout.isErrorEnabled = false
                         }
 
                         if (!it["password"].isNullOrEmpty()) {
-                            editText_newPassword.error = it["password"]
+                            newPassword_input_layout.error = it["password"]
+                            newPassword_input_layout.isErrorEnabled = true
+                        }
+                        else {
+                            newPassword_input_layout.isErrorEnabled = false
                         }
 
                         if (!it["cfmPassword"].isNullOrEmpty()) {
-                            editText_cfmPassword.error = it["cfmPassword"]
+                            cfmPassword_input_layout.error = it["cfmPassword"]
+                            cfmPassword_input_layout.isErrorEnabled = true
+                        }
+                        else {
+                            cfmPassword_input_layout.isErrorEnabled = false
                         }
                     }
                     else {
