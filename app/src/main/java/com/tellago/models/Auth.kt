@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Patterns
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.*
+import com.google.firebase.ktx.Firebase
 
 class Auth {
     init {
@@ -53,7 +54,8 @@ class Auth {
                     errors["cfmPassword"] = "Confirm Password does not match password"
                 }
             }
-            else if (email == user!!.email) {
+
+            if (email == user!!.email) {
                 errors["email"] = "Your email is the same as your current email"
             }
         }
@@ -66,13 +68,20 @@ class Auth {
                 user!!.reauthenticate(
                     EmailAuthProvider.getCredential(user!!.email!!, currPassword!!)
                 ).addOnSuccessListener {
-                    if (password != null) user!!.updatePassword(password)
-
                     user!!.updateEmail(email).addOnCompleteListener {
-                        profile = User(user!!.uid, email, profile!!.displayName, profile!!.bio).update()
-                        signOut()
+                        if (it.isSuccessful) {
+                            if (password != null) user!!.updatePassword(password)
 
-                        onComplete(errors)
+                            profile = User(user!!.uid, email, profile!!.displayName, profile!!.bio).update()
+                            signOut()
+
+                            onComplete(errors)
+                        }
+                        else {
+                            errors["email"] = "Email address is already registered"
+
+                            onComplete(errors)
+                        }
                     }
                 }.addOnFailureListener {
                     errors["currPassword"] = "Incorrect current password"
@@ -82,10 +91,17 @@ class Auth {
             }
             else {
                 user!!.updateEmail(email).addOnCompleteListener {
-                    profile = User(user!!.uid, email, profile!!.displayName, profile!!.bio).update()
-                    signOut()
+                    if (it.isSuccessful) {
+                        profile = User(user!!.uid, email, profile!!.displayName, profile!!.bio).update()
+                        signOut()
 
-                    onComplete(errors)
+                        onComplete(errors)
+                    }
+                    else {
+                        errors["email"] = "Email address is already registered"
+
+                        onComplete(errors)
+                    }
                 }
             }
         }
