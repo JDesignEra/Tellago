@@ -35,12 +35,12 @@ class AccountFragment : Fragment() {
             linear_layout_password_provider.visibility = View.GONE
         }
 
-        if (!Auth().checkProvider("com.facebook")) {
+        if (Auth().checkProvider("facebook.com")) {
             btnFacebook.text = "Linked with Facebook"
             btnFacebook.isEnabled = false
         }
 
-        if (!Auth().checkProvider("com.google")) {
+        if (Auth().checkProvider("google.com")) {
             btnGoogle.text = "Linked with Google"
             btnGoogle.isEnabled = false
         }
