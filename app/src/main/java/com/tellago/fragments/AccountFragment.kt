@@ -3,69 +3,35 @@ package com.tellago.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import com.tellago.R
 import com.tellago.activities.AuthActivity
+import com.tellago.activities.FacebookActivity
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.fragment_account.*
 
 class AccountFragment : Fragment() {
-    private val gSignInRc = 1820
-    private lateinit var gsc: GoogleSignInClient
-    private val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken(getString(R.string.default_web_client_id))
-        .requestEmail()
-        .build()
-
-    private val fbCbManager = CallbackManager.Factory.create()
+//    private val gSignInRc = 1820
+//    private lateinit var gsc: GoogleSignInClient
+//    private val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//        .requestIdToken(getString(R.string.default_web_client_id))
+//        .requestEmail()
+//        .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        gsc = GoogleSignIn.getClient(requireContext(), gso)
-
-        LoginManager.getInstance().registerCallback(
-            fbCbManager,
-            object : FacebookCallback<LoginResult> {
-                override fun onSuccess(loginResult: LoginResult) {
-                    user?.linkWithCredential(getFacebookCredential(loginResult.accessToken))
-                        ?.addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                CustomToast(requireContext(), "Facebook account linked successfully")
-                            }
-                        }
-                }
-
-                override fun onCancel() {
-                    // TODO
-                }
-
-                override fun onError(error: FacebookException) {
-                    // TODO
-                }
-            }
-        )
-
-        GoogleSignIn.getClient(requireContext(), gso)
+//        gsc = GoogleSignIn.getClient(requireContext(), gso)
+//        GoogleSignIn.getClient(requireContext(), gso)
     }
 
     override fun onCreateView(
@@ -88,14 +54,14 @@ class AccountFragment : Fragment() {
         }
 
         btnFacebook.setOnClickListener {
-            LoginManager.getInstance().logInWithReadPermissions(
-                this,
-                listOf("email", "public_profile")
+            startActivity(
+                Intent(requireContext(), FacebookActivity::class.java)
+                    .putExtra("linkFlag", true)
             )
         }
 
         btnGoogle.setOnClickListener {
-            startActivityForResult(gsc.signInIntent, gSignInRc)
+//            startActivityForResult(gsc.signInIntent, gSignInRc)
         }
 
         updateBtn.setOnClickListener {
@@ -145,25 +111,22 @@ class AccountFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == gSignInRc) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-
-            try {
-                val account = task.getResult(ApiException::class.java)!!
-                user?.linkWithCredential(getGoogleCredential(account.idToken!!))
-                    ?.addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            CustomToast(requireContext(), "Google account linked successfully")
-                        }
-                    }
-            }
-            catch (e: ApiException) {
-                Log.w("AccountFragment", "Google sign in failed", e)
-            }
-        }
-        else {
-            fbCbManager.onActivityResult(requestCode, resultCode, data)
-        }
+//        if (requestCode == gSignInRc) {
+//            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+//
+//            try {
+//                val account = task.getResult(ApiException::class.java)!!
+//                user?.linkWithCredential(getGoogleCredential(account.idToken!!))
+//                    ?.addOnCompleteListener {
+//                        if (it.isSuccessful) {
+//                            CustomToast(requireContext(), "Google account linked successfully")
+//                        }
+//                    }
+//            }
+//            catch (e: ApiException) {
+//                Log.w("AccountFragment", "Google sign in failed", e)
+//            }
+//        }
     }
 
     private fun getGoogleCredential(idToken: String): AuthCredential {
