@@ -47,4 +47,12 @@
         <item name="android:activityCloseExitAnimation">@anim/fragment_fade_exit</item>
     </style>
 
+    <style name="FacebookMaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/facebook_material_button</item>
+    </style>
+
+    <style name="GoogleMaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/google_material_button</item>
+    </style>
+
 </resources>

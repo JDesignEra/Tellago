@@ -32,8 +32,17 @@ class AccountFragment : Fragment() {
         editText_email.setText(user?.email ?: "")
 
         if (!Auth().checkProvider()) {
-            note_msg.visibility = View.GONE
             linear_layout_password_provider.visibility = View.GONE
+        }
+
+        if (!Auth().checkProvider("com.facebook")) {
+            btnFacebook.text = "Linked with Facebook"
+            btnFacebook.isEnabled = false
+        }
+
+        if (!Auth().checkProvider("com.google")) {
+            btnGoogle.text = "Linked with Google"
+            btnGoogle.isEnabled = false
         }
 
         btnFacebook.setOnClickListener {
