@@ -2,6 +2,7 @@ package com.tellago.models
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,7 +22,7 @@ data class User(
     private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val collection = db.collection("users")
     private val storage = FirebaseStorage.getInstance("gs://tellago.appspot.com")
-    private val dpStorageRef = storage.reference.child("uploads/dp/$uid")
+    private val storageRef = storage.reference
 
     fun getUserWithUid(onComplete: (user: User?) -> Unit) {
         collection.document(uid).get().addOnSuccessListener {
@@ -36,7 +37,7 @@ data class User(
 
     fun displayProfilePicture(context: Context, imageView: ImageView) {
         Glide.with(context)
-            .load(dpStorageRef)
+            .load(storageRef.child("uploads/dp/$uid"))
             .error(R.drawable.ic_android_photo)
             .circleCrop()
             .into(imageView)
@@ -45,6 +46,6 @@ data class User(
     fun uploadDp(uri: Uri): UploadTask {
         val file = Uri.fromFile((File(URI.create(uri.toString()))))
 
-        return dpStorageRef.putFile(file)
+        return storageRef.child("uploads/dp/$uid").putFile(file)
     }
 }
