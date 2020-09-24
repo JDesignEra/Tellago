@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">tellsquare</string>
 
-    <!-- Firebase -->
+    <!-- Facebook -->
     <string name="facebook_application_id" translatable="false">2693172467590104</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb2693172467590104</string>
 
@@ -35,7 +35,7 @@
     <string name="edit_profile">Edit Profile</string>
 
 
-    <!--    For Profile Tab-->
+    <!-- For Profile Tab -->
     <string name="title_activity_tab">TabActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>

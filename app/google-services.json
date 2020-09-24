@@ -15,6 +15,46 @@
       },
       "oauth_client": [
         {
+          "client_id": "178046758501-3jm3q5ub79vrqisu231r21pgo1t82978.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tellago",
+            "certificate_hash": "b7252072220583b3b60e8ccbf4309ac32fae880b"
+          }
+        },
+        {
+          "client_id": "178046758501-e78kq2t84mp4d1q1a85og8cu2hgb95b0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tellago",
+            "certificate_hash": "c62ae984caccf5eb239ed15bf8e8b88d405d480e"
+          }
+        },
+        {
+          "client_id": "178046758501-7pdujlk83pq2r4ssovidr1a4akojqv58.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tellago",
+            "certificate_hash": "638c028ec7ca04dd4741acc2fe911647e788faee"
+          }
+        },
+        {
+          "client_id": "178046758501-6fo3tb8btavn8ie2v0ls6j0jfibmll9e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tellago",
+            "certificate_hash": "7f97945a7bfda87ce99ed3ef7fb39c419098e6e5"
+          }
+        },
+        {
+          "client_id": "178046758501-jdloufpli8iht1q4adfaq010ueie811b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tellago",
+            "certificate_hash": "86760a73451a7df3fbc5da7cac32aab08e836c1d"
+          }
+        },
+        {
           "client_id": "178046758501-psdfm2v957r6au8tud3s43ohthbitbn8.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -58,8 +58,6 @@ class FacebookActivity : AppCompatActivity() {
                 }
             }
         )
-
-        Log.e("FacebookActivity", "onCreate")
     }
 
     override fun onStart() {
@@ -69,14 +67,11 @@ class FacebookActivity : AppCompatActivity() {
             this,
             listOf("email", "public_profile")
         )
-
-        Log.e("FacebookActivity", "onResume")
     }
 
     override fun onRestart() {
         super.onRestart()
 
-        Log.e("FacebookActivity", "onRestart")
         finish()
     }
 
