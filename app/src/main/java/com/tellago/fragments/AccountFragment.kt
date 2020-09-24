@@ -7,10 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.facebook.AccessToken
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.GoogleAuthProvider
 import com.tellago.R
 import com.tellago.activities.AuthActivity
 import com.tellago.activities.FacebookActivity

@@ -3,15 +3,12 @@ package com.tellago.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
-import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FacebookAuthProvider
 import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
@@ -24,7 +21,7 @@ class FacebookActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        linkFlag = intent.getBooleanExtra("linkFlag", true)
+        linkFlag = intent.getBooleanExtra("linkFlag", false)
 
         LoginManager.getInstance().registerCallback(
             fbCbManager,
@@ -48,21 +45,21 @@ class FacebookActivity : AppCompatActivity() {
                                         "Facebook account is already registered or linked."
                                     ).primary()
                                 }
-
-                                this@FacebookActivity.finish()
                             }
                     }
                 }
 
                 override fun onCancel() {
-                    // TODO
+                    Log.e("FacebookActivity", "User canceled the action")
                 }
 
-                override fun onError(error: FacebookException) {
-                    // TODO
+                override fun onError(e: FacebookException) {
+                    Log.e("FacebookActivity", e.message.toString())
                 }
             }
         )
+
+        Log.e("FacebookActivity", "onCreate")
     }
 
     override fun onStart() {
@@ -72,10 +69,21 @@ class FacebookActivity : AppCompatActivity() {
             this,
             listOf("email", "public_profile")
         )
+
+        Log.e("FacebookActivity", "onResume")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+
+        Log.e("FacebookActivity", "onRestart")
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         fbCbManager.onActivityResult(requestCode, resultCode, data)
+        finish()
     }
 }

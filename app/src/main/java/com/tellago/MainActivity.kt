@@ -210,17 +210,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-//    private fun profile?.displayProfilePicture(this, profile_image) {
-//        // Retrieve profile picture tied to current user's unique ID
-//        // Display the profile picture in profile_app_logo
-//        Auth.profile?.getDpUri {
-//            Glide.with(this)
-//                .load(it)
-//                .circleCrop()
-//                .into(profile_app_logo)
-//        }
-//    }
-
     private fun hideSystemUI() {
         window.decorView.apply {
             systemUiVisibility =
