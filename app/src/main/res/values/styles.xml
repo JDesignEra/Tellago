@@ -21,21 +21,16 @@
     </style>
 
     <style name="AuthTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowAnimationStyle">@style/AuthAnimations</item>
     </style>
 
-    <style name="FacebookAuthTheme" parent="com_facebook_activity_theme">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowNoTitle">true</item>
+    <style name="SocialAuth" parent="Theme.MaterialComponents.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowAnimationStyle">@style/AuthAnimations</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AuthAnimations" parent="@android:style/Animation.Activity">

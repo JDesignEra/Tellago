@@ -3,6 +3,7 @@ package com.tellago.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -23,20 +24,32 @@ class FacebookActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        linkFlag = intent.getBooleanExtra("linkFlag", false)
-
-        Log.e("FacebookActivity", linkFlag.toString())
+        linkFlag = intent.getBooleanExtra("linkFlag", true)
 
         LoginManager.getInstance().registerCallback(
             fbCbManager,
             object : FacebookCallback<LoginResult> {
                 override fun onSuccess(loginResult: LoginResult) {
+                    val token = loginResult.accessToken.token
+                    val credential = FacebookAuthProvider.getCredential(token)
+
                     if (linkFlag) {
-                        user?.linkWithCredential(getFacebookCredential(loginResult.accessToken))
+                        user?.linkWithCredential(credential)
                             ?.addOnCompleteListener {
                                 if (it.isSuccessful) {
-                                    CustomToast(this@FacebookActivity, "Facebook account linked successfully")
+                                    CustomToast(
+                                        baseContext,
+                                        "Facebook account linked successfully"
+                                    ).success()
                                 }
+                                else {
+                                    CustomToast(
+                                        baseContext,
+                                        "Facebook account is already registered or linked."
+                                    ).primary()
+                                }
+
+                                this@FacebookActivity.finish()
                             }
                     }
                 }
@@ -52,8 +65,8 @@ class FacebookActivity : AppCompatActivity() {
         )
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
 
         LoginManager.getInstance().logInWithReadPermissions(
             this,
@@ -63,13 +76,6 @@ class FacebookActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (fbCbManager.onActivityResult(requestCode, resultCode, data)) {
-            finish()
-        }
-    }
-
-    private fun getFacebookCredential(token: AccessToken): AuthCredential {
-        return FacebookAuthProvider.getCredential(token.token)
+        fbCbManager.onActivityResult(requestCode, resultCode, data)
     }
 }

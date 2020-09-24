@@ -14,26 +14,13 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.tellago.R
 import com.tellago.activities.AuthActivity
 import com.tellago.activities.FacebookActivity
+import com.tellago.activities.GoogleActivity
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.fragment_account.*
 
 class AccountFragment : Fragment() {
-//    private val gSignInRc = 1820
-//    private lateinit var gsc: GoogleSignInClient
-//    private val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//        .requestIdToken(getString(R.string.default_web_client_id))
-//        .requestEmail()
-//        .build()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-//        gsc = GoogleSignIn.getClient(requireContext(), gso)
-//        GoogleSignIn.getClient(requireContext(), gso)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,14 +41,11 @@ class AccountFragment : Fragment() {
         }
 
         btnFacebook.setOnClickListener {
-            startActivity(
-                Intent(requireContext(), FacebookActivity::class.java)
-                    .putExtra("linkFlag", true)
-            )
+            initFacebookLink()
         }
 
         btnGoogle.setOnClickListener {
-//            startActivityForResult(gsc.signInIntent, gSignInRc)
+            initGoogleLink()
         }
 
         updateBtn.setOnClickListener {
@@ -108,40 +92,25 @@ class AccountFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-//        if (requestCode == gSignInRc) {
-//            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-//
-//            try {
-//                val account = task.getResult(ApiException::class.java)!!
-//                user?.linkWithCredential(getGoogleCredential(account.idToken!!))
-//                    ?.addOnCompleteListener {
-//                        if (it.isSuccessful) {
-//                            CustomToast(requireContext(), "Google account linked successfully")
-//                        }
-//                    }
-//            }
-//            catch (e: ApiException) {
-//                Log.w("AccountFragment", "Google sign in failed", e)
-//            }
-//        }
-    }
-
-    private fun getGoogleCredential(idToken: String): AuthCredential {
-        return GoogleAuthProvider.getCredential(idToken, null)
-    }
-
-    private fun getFacebookCredential(token: AccessToken): AuthCredential {
-        return FacebookAuthProvider.getCredential(token.token)
-    }
-
     private fun configureToolbar() {
         toolbar_Account.setNavigationIcon(R.drawable.ic_arrow_back_36)
         toolbar_Account.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
             activity?.supportFragmentManager?.popBackStack()
         }
+    }
+
+    private fun initFacebookLink() {
+        startActivity(
+            Intent(requireContext(), FacebookActivity::class.java)
+                .putExtra("linkFlag", true)
+        )
+    }
+
+    private fun initGoogleLink() {
+        startActivity(
+            Intent(requireContext(), GoogleActivity::class.java)
+                .putExtra("linkFlag", true)
+        )
     }
 }

@@ -29,7 +29,8 @@
 
         <activity
             android:name=".activities.FacebookActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SocialAuth">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -39,6 +40,10 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activities.GoogleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SocialAuth"/>
 
         <activity android:name=".activities.AuthActivity"
             android:screenOrientation="portrait"
