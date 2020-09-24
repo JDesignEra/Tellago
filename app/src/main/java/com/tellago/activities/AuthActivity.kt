@@ -19,8 +19,8 @@ import com.tellago.utils.CustomToast
 class AuthActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
 
         val authProviders = listOf(
             AuthUI.IdpConfig.EmailBuilder().build(),

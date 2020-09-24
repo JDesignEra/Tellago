@@ -9,7 +9,7 @@ data class Goal(
     var gDeadline: Timestamp? = null,
     var gFullAmount: Long = 0,
     var gIcon: String = "",
-    var gLastReminder: String = "",
+    var gLastReminder: Timestamp? = null,
     var gOwner: String = "",
     var gProgressTracker: String = "",
     var gReminderFreq: String = "",
