@@ -30,7 +30,7 @@
         <activity
             android:name=".activities.AuthActivity"
             android:exported="true"
-            android:theme="@style/FacebookAuthTheme">
+            android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
