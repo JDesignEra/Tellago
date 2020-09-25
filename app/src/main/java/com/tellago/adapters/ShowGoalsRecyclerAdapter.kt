@@ -17,6 +17,8 @@ import com.tellago.R
 import com.tellago.fragments.ShowGoalsFragment
 import com.tellago.models.Goal
 import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
+import java.text.DecimalFormat
+import java.util.*
 
 class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
     FirestoreRecyclerAdapter<Goal, ShowGoalsRecyclerAdapter.GoalViewHolder>(options) {
@@ -72,7 +74,10 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
         holder.tv_gCreationDate.text = model.gCreationDate.toString()
 //        holder.tv_gCurrentAmount.text = model.gCurrentAmount.toString()
 //        holder.tv_gDeadline.text = model.gDeadline.toString()
-        holder.tv_gFullAmount.text = model.gFullAmount.toString()
+
+
+        holder.tv_gFullAmount.setText(DecimalFormat("$#,###").format(model.gFullAmount))
+
         holder.iv_gIcon.setImageResource(R.drawable.ic_account_box_48_primary)
 //        holder.tv_gLastReminder.text = model.gLastReminder
 //        holder.tv_gOwner.text = model.gOwner
