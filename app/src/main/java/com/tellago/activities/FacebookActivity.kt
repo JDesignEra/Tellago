@@ -10,6 +10,7 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
+import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 import kotlin.properties.Delegates
@@ -31,21 +32,26 @@ class FacebookActivity : AppCompatActivity() {
                     val credential = FacebookAuthProvider.getCredential(token)
 
                     if (linkFlag) {
-                        user?.linkWithCredential(credential)
-                            ?.addOnCompleteListener {
-                                if (it.isSuccessful) {
-                                    CustomToast(
-                                        baseContext,
-                                        "Facebook account linked successfully"
-                                    ).success()
+                        if (Auth().checkProvider("facebook.com") && Auth().getProviderCount() > 1) {
+                            user?.unlink("facebook.com")
+                        }
+                        else {
+                            user?.linkWithCredential(credential)
+                                ?.addOnCompleteListener {
+                                    if (it.isSuccessful) {
+                                        CustomToast(
+                                            baseContext,
+                                            "Facebook account linked successfully"
+                                        ).success()
+                                    }
+                                    else {
+                                        CustomToast(
+                                            baseContext,
+                                            "Facebook account is already registered or linked."
+                                        ).primary()
+                                    }
                                 }
-                                else {
-                                    CustomToast(
-                                        baseContext,
-                                        "Facebook account is already registered or linked."
-                                    ).primary()
-                                }
-                            }
+                        }
                     }
                 }
 

@@ -13,22 +13,20 @@ import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.fragments.SettingsFragment
 import com.tellago.services.ExitService
+import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class AccountSettingsActivity : AppCompatActivity() {
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
 
+    private val fragmentUtils = FragmentUtils(supportFragmentManager, R.id.accountSettings_fragment_container)
     private val settingsFragment = SettingsFragment()
-
-
 
     override fun onStart() {
         super.onStart()
         startService(Intent(this, ExitService::class.java))
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,35 +50,10 @@ class AccountSettingsActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_account_settings)
 
-        addFragment(settingsFragment)
+        fragmentUtils.add(settingsFragment)
 
         StartTimer()
 
-    }
-
-
-    fun addFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.accountSettings_fragment_container, fragment)
-        transaction.addToBackStack(null);
-        transaction.commit()
-    }
-
-    fun replaceFragment(fragment: Fragment) {
-        if (fragment != null) {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.setCustomAnimations(
-                R.anim.fragment_slide_left_enter,
-                R.anim.fragment_slide_left_exit,
-                R.anim.fragment_slide_right_enter,
-                R.anim.fragment_slide_right_exit
-            )
-            transaction.replace(R.id.accountSettings_fragment_container, fragment)
-            transaction.addToBackStack(null);
-            transaction.commit()
-        } else {
-            addFragment(fragment)
-        }
     }
 
     private fun StartTimer() {

@@ -16,19 +16,27 @@ import com.tellago.DataSource
 import com.tellago.R
 import com.tellago.TopSpacingItemDecoration
 import com.tellago.adapters.ProfilePostRecyclerAdapter
+import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
+    private lateinit var fragmentUtils: FragmentUtils
+    private val showGoalsFragment : Fragment = ShowGoalsFragment()
 
-    val showGoalsFragment : Fragment = ShowGoalsFragment()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fragmentUtils = FragmentUtils(
+            requireActivity().supportFragmentManager,
+            R.id.fragment_container
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -38,7 +46,7 @@ class HomeFragment : Fragment() {
         configureToolbar()
 
         btn_ShowAllGoals.setOnClickListener {
-            addFragmentFromFragment(showGoalsFragment)
+            fragmentUtils.addFragmentToFragment(showGoalsFragment)
         }
 
     }
@@ -86,19 +94,4 @@ class HomeFragment : Fragment() {
         else
             super.onOptionsItemSelected(item)
     }
-
-
-    private fun addFragmentFromFragment(fragment: Fragment) {
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        if (transaction != null) {
-            transaction.replace(R.id.fragment_container, fragment)
-        }
-        if (transaction != null) {
-            transaction.addToBackStack(null)
-        };
-        if (transaction != null) {
-            transaction.commit()
-        }
-    }
-
 }

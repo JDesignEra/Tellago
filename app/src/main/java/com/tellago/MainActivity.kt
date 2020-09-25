@@ -22,6 +22,7 @@ import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
+import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_header.*
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
 
+    private val fragmentUtils = FragmentUtils(supportFragmentManager, R.id.fragment_container)
     private val communityFragment = CommunityFragment()
     private val homeFragment = HomeFragment()
     private val feedFragment = FeedFragment()
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (Auth.user != null) {
             // starting fragment is homeFragment
-            replaceFragment(homeFragment)
+            fragmentUtils.replace(homeFragment)
 
             if (!Auth.user?.displayName.isNullOrEmpty()) {
                 CustomToast(
@@ -85,19 +87,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.ic_home -> {
-                    replaceFragment(homeFragment)
+                    fragmentUtils.replace(homeFragment)
                     true
                 }
                 R.id.ic_people -> {
-                    replaceFragment(communityFragment)
+                    fragmentUtils.replace(communityFragment)
                     true
                 }
                 R.id.ic_feed -> {
-                    replaceFragment(feedFragment)
+                    fragmentUtils.replace(feedFragment)
                     true
                 }
                 R.id.ic_profile -> {
-                    replaceFragment(profileFragment)
+                    fragmentUtils.replace(profileFragment)
                     true
                 }
                 else -> false
@@ -122,30 +124,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawer_layout.closeDrawer(GravityCompat.START)
             val intent = Intent(this, AccountSettingsActivity::class.java)
             startActivity(intent)
-        }
-    }
-
-    fun addFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
-        transaction.addToBackStack(null);
-        transaction.commit()
-    }
-
-    fun replaceFragment(fragment: Fragment) {
-        if (fragment != null) {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.setCustomAnimations(
-                R.anim.fragment_slide_left_enter,
-                R.anim.fragment_slide_left_exit,
-                R.anim.fragment_slide_right_enter,
-                R.anim.fragment_slide_right_exit
-            )
-            transaction.replace(R.id.fragment_container, fragment)
-            transaction.addToBackStack(null);
-            transaction.commit()
-        } else {
-            addFragment(fragment)
         }
     }
 
@@ -191,7 +169,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val f: Fragment? = null
 
         when (item.itemId) {
-            R.id.view_profile -> replaceFragment(profileFragment)
+            R.id.view_profile -> fragmentUtils.replace(profileFragment)
             R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)

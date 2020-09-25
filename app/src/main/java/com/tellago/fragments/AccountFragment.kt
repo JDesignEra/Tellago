@@ -66,7 +66,11 @@ class AccountFragment : Fragment() {
                 ) {
                     if (it.isNotEmpty()) {
                         if (!it["email"].isNullOrEmpty()) {
-                            editText_email.error = it["email"]
+                            email_text_input_layout.error = it["email"]
+                            email_text_input_layout.isErrorEnabled = true
+                        }
+                        else {
+                            email_text_input_layout.isErrorEnabled = false
                         }
 
                         if (!it["currPassword"].isNullOrEmpty()) {

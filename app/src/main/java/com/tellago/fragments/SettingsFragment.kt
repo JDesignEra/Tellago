@@ -11,11 +11,13 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.tellago.R
 import com.tellago.models.Auth
+import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.menu_header.*
 
 class SettingsFragment : Fragment() {
+    private lateinit var fragmentUtils: FragmentUtils
     private val accountFragment = AccountFragment()
     private val privacyPolicyFragment = PrivacyPolicyScrollingFragment()
     private val termsAndConditionsFragment = TermsConditionsScrollingFragment()
@@ -25,6 +27,11 @@ class SettingsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        fragmentUtils = FragmentUtils(
+            requireActivity().supportFragmentManager,
+            R.id.accountSettings_fragment_container
+        )
     }
 
     override fun onCreateView(
@@ -46,22 +53,22 @@ class SettingsFragment : Fragment() {
         }
 
         accountClick.setOnClickListener {
-            addFragmentFromFragment(accountFragment)
+            fragmentUtils.addFragmentToFragment(accountFragment)
         }
 
         configureToolbar()
         //configureNavigationDrawer()
 
         setting_privacy_layout.setOnClickListener {
-            addFragmentFromFragment(privacyPolicyFragment)
+            fragmentUtils.addFragmentToFragment(privacyPolicyFragment)
         }
 
         setting_terms_conditions_layout.setOnClickListener {
-            addFragmentFromFragment(termsAndConditionsFragment)
+            fragmentUtils.addFragmentToFragment(termsAndConditionsFragment)
         }
 
         setting_about_layout.setOnClickListener {
-            addFragmentFromFragment(aboutUsFragment)
+            fragmentUtils.addFragmentToFragment(aboutUsFragment)
         }
 
     }
@@ -71,19 +78,6 @@ class SettingsFragment : Fragment() {
         toolbar_Setting.setNavigationOnClickListener {
             //finish AccountSettingsActivity
             activity?.finish()
-        }
-    }
-
-    private fun addFragmentFromFragment(fragment: Fragment) {
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        if (transaction != null) {
-            transaction.replace(R.id.accountSettings_fragment_container, fragment)
-        }
-        if (transaction != null) {
-            transaction.addToBackStack(null)
-        };
-        if (transaction != null) {
-            transaction.commit()
         }
     }
 }

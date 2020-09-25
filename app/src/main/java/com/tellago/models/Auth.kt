@@ -1,6 +1,7 @@
 package com.tellago.models
 
 import android.content.Context
+import android.util.Log
 import android.util.Patterns
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.*
@@ -120,6 +121,20 @@ class Auth {
         }
 
         return false
+    }
+
+    fun getProviderCount(): Int {
+        var providerData = user?.providerData
+        var count: Int = 0
+
+        if (!providerData.isNullOrEmpty()) {
+            providerData.forEach {
+                Log.e("Auth", it.providerId)
+                if (it.providerId != "firebase") count++
+            }
+        }
+
+        return count
     }
 
     fun getUser(): FirebaseUser? {
