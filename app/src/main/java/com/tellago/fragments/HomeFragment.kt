@@ -24,6 +24,7 @@ class HomeFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
     private val showGoalsFragment : Fragment = ShowGoalsFragment()
     private val createGoalFragment: Fragment = CreateGoalFragment()
+    private val createGoalPassDataFragment: Fragment = CreateGoalFragmentOne()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +53,10 @@ class HomeFragment : Fragment() {
         }
 
         btn_AddGoal.setOnClickListener {
-            fragmentUtils.addFragmentToFragment(createGoalFragment)
+            // Test for inserting new document into Firestore (COMPLETE)
+//            fragmentUtils.addFragmentToFragment(createGoalFragment)
+            // Test for passing data between fragments
+            fragmentUtils.addFragmentToFragment(createGoalPassDataFragment)
         }
 
     }
