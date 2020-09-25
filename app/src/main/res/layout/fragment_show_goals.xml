@@ -46,6 +46,24 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp" />
 
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_add_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="24dp"
+                android:backgroundTint="@color/colorGradientStart"
+                android:clickable="true"
+                android:elevation="12dp"
+                android:focusable="true"
+                android:src="@drawable/ic_add_48"
+                app:borderWidth="0dp"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:maxImageSize="40dp" />
+
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
     private val showGoalsFragment : Fragment = ShowGoalsFragment()
+    private val createGoalFragment: Fragment = CreateGoalFragment()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,10 @@ class HomeFragment : Fragment() {
 
         btn_ShowAllGoals.setOnClickListener {
             fragmentUtils.addFragmentToFragment(showGoalsFragment)
+        }
+
+        btn_AddGoal.setOnClickListener {
+            fragmentUtils.addFragmentToFragment(createGoalFragment)
         }
 
     }

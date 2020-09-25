@@ -18,6 +18,7 @@ import com.tellago.R
 import com.tellago.TopSpacingItemDecoration
 import com.tellago.adapters.ShowGoalsRecyclerAdapter
 import com.tellago.models.Goal
+import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_goals.*
 import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
 
@@ -27,12 +28,20 @@ class ShowGoalsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var firebaseFirestore : FirebaseFirestore
-    private lateinit var adapter : FirestoreRecyclerAdapter<Goal, ShowGoalsRecyclerAdapter.GoalViewHolder>
+
+    private lateinit var fragmentUtils: FragmentUtils
+    private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var adapter: FirestoreRecyclerAdapter<Goal, ShowGoalsRecyclerAdapter.GoalViewHolder>
+
+    private val createGoalFragment: Fragment = CreateGoalFragment()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fragmentUtils = FragmentUtils(
+            requireActivity().supportFragmentManager,
+            R.id.fragment_container
+        )
 
     }
 
@@ -52,11 +61,11 @@ class ShowGoalsFragment : Fragment() {
 
 
         // Query
-        val query : Query = firebaseFirestore.collection("goals")
+        val query: Query = firebaseFirestore.collection("goals")
 
 
         // RecyclerOptions
-        val options : FirestoreRecyclerOptions<Goal> = FirestoreRecyclerOptions.Builder<Goal>()
+        val options: FirestoreRecyclerOptions<Goal> = FirestoreRecyclerOptions.Builder<Goal>()
             .setQuery(query, Goal::class.java)
             .build()
 
@@ -79,6 +88,12 @@ class ShowGoalsFragment : Fragment() {
 
         Log.d("Adapter assigned", "FIRED")
 
+
+        fab_add_goal.setOnClickListener {
+            fragmentUtils.addFragmentToFragment(createGoalFragment)
+        }
+
+
     }
 //
 //    override fun onStart() {
@@ -91,8 +106,6 @@ class ShowGoalsFragment : Fragment() {
         super.onStop()
         adapter.stopListening()
     }
-
-
 
 
     companion object {
