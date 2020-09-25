@@ -1,23 +1,32 @@
 package com.tellago.adapters
 
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.Timestamp
 import com.tellago.MainActivity
 import com.tellago.R
 import com.tellago.fragments.ShowGoalsFragment
 import com.tellago.models.Goal
 import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
@@ -66,12 +75,23 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(
         holder: ShowGoalsRecyclerAdapter.GoalViewHolder,
         position: Int,
         model: Goal
     ) {
-        holder.tv_gCreationDate.text = model.gCreationDate.toString()
+
+        val timestamp_firebase = model.gCreationDate
+        val local_date = timestamp_firebase?.seconds?.let {
+            Instant.ofEpochSecond(it)
+                .atZone(ZoneId.of("Asia/Singapore"))
+                .toLocalDate()
+        }
+
+        holder.tv_gCreationDate.setText(local_date.toString())
+
+
 //        holder.tv_gCurrentAmount.text = model.gCurrentAmount.toString()
 //        holder.tv_gDeadline.text = model.gDeadline.toString()
 

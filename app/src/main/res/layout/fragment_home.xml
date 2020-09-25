@@ -71,6 +71,8 @@
                 android:textColor="@color/colorTextBlack"
                 android:text="Add Goal" />
 
+
+                
             <Button
                 android:id="@+id/btn_ShowAllGoals"
                 android:layout_width="wrap_content"
