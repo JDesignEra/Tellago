@@ -7,7 +7,7 @@ import com.google.firebase.firestore.ktx.toObject
 import java.util.*
 
 data class Goal(
-    @DocumentId val gid: String?,
+    @DocumentId var gid: String? = null,
     val uid: String? = null,
     val jid: String? = null,
     val title: String? = null,
@@ -23,25 +23,28 @@ data class Goal(
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val collection = db.collection("goals")
 
-    fun getGoal(onComplete: (goal: Goal) -> Unit?) {
-        collection.whereEqualTo("gid", gid).whereEqualTo("uid", uid).get().addOnSuccessListener {
-            onComplete(it.first().toObject<Goal>())
+    fun getGoal(onComplete: ((goal: Goal?) -> Unit)? = null) {
+        if (gid != null) {
+            collection.document(gid!!).get().addOnSuccessListener {
+                onComplete?.invoke(it.toObject<Goal>())
+            }
         }
     }
 
-    fun getUserGoals(onComplete: (goals: List<Goal>?) -> Unit?) {
+    fun getUserGoals(onComplete: ((goals: List<Goal>?) -> Unit)? = null) {
         collection.whereEqualTo("uid", uid).get().addOnSuccessListener {
-            onComplete(it.toObjects(Goal::class.java))
+            onComplete?.invoke(it.toObjects(Goal::class.java))
         }
     }
 
-    fun add(onComplete: ((goal: Goal) -> Unit?)) {
+    fun add(onComplete: ((goal: Goal) -> Unit)? = null) {
         collection.add(this).addOnSuccessListener {
-            onComplete(this)
+            gid = it.id
+            onComplete?.invoke(this)
         }
     }
 
-    fun update(onComplete: (goal: Goal) -> Unit?) {
+    fun update(onComplete: ((goal: Goal) -> Unit)? = null) {
         val data = hashMapOf<String, Any?>()
         if (uid != null) data["uid"] = uid
         if (jid != null) data["jid"] = jid
@@ -55,15 +58,13 @@ data class Goal(
         if (reminderFreq != null) data["currentAmt"] = reminderFreq
 
         if (gid != null) {
-            collection.document(gid).update(data).addOnSuccessListener {
-                onComplete(this)
+            collection.document(gid!!).update(data).addOnSuccessListener {
+                onComplete?.invoke(this)
             }
         }
     }
 
     fun delete() {
-        if (gid != null) {
-            collection.document(gid).delete()
-        }
+        if (gid != null) collection.document(gid!!).delete()
     }
 }
