@@ -29,7 +29,7 @@ import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_header.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, CreateGoalCommunicator {
     private lateinit var toast: CustomToast
 
     private var handler: Handler? = null
@@ -191,78 +191,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-//    override fun passStringDataComOne(editTextStringInput: String) {
-//        val bundle = Bundle()
-//        bundle.putString("string 1", editTextStringInput)
-//        Log.d("bundlePutString", editTextStringInput.toString())
-//
-//        val transaction = this.supportFragmentManager.beginTransaction()
-//        val fragmentTwo = CreateGoalFragmentTwo()
-//        fragmentTwo.arguments = bundle
-//
-//        transaction.replace(R.id.fragment_container, fragmentTwo)
-//        transaction.commit()
-//
-//    }
-
-    fun passStringDataComOne(editTextStringInput: String) {
+    override fun passStringDataComOne(editTextStringInput: String) {
         val bundle = Bundle()
         bundle.putString("string 1", editTextStringInput)
         Log.d("bundlePutString", editTextStringInput.toString())
 
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentTwo = CreateGoalFragmentTwo()
+        fragmentTwo.arguments = bundle
 
-//    override fun passTimestampDataComOne(TimeStampInput: Timestamp) {
-//        val bundle = Bundle()
-//        bundle.putString("Timestamp to String 1", TimeStampInput.toString())
-//
-//        val transaction = this.supportFragmentManager.beginTransaction()
-//        val fragmentTwo = CreateGoalFragmentTwo()
-//        fragmentTwo.arguments = bundle
-//
-//        transaction.replace(R.id.fragment_container, fragmentTwo)
-//        transaction.commit()
-//    }
-//
-//
-//    override fun passStringDataComTwo(editTextStringInput: String) {
-//        val bundle = Bundle()
-//        bundle.putString("string 2", editTextStringInput)
-//
-//        val transaction = this.supportFragmentManager.beginTransaction()
-//        val fragmentThree = CreateGoalFragmentThree()
-//        fragmentThree.arguments = bundle
-//
-//        transaction.replace(R.id.fragment_container, fragmentThree)
-//        transaction.commit()
-//
-//    }
-//
-//    override fun passLongDataComTwo(LongInput: Long) {
-//        val bundle = Bundle()
-//        bundle.putLong("Long 2", LongInput)
-//
-//        val transaction = this.supportFragmentManager.beginTransaction()
-//        val fragmentThree = CreateGoalFragmentThree()
-//        fragmentThree.arguments = bundle
-//
-//        transaction.replace(R.id.fragment_container, fragmentThree)
-//        transaction.commit()
-//    }
-//
-//    override fun passTimestampDataComTwo(TimeStampInput: Timestamp) {
-//        val bundle = Bundle()
-//        bundle.putString("Timestamp to String 2", TimeStampInput.toString())
-//
-//        val transaction = this.supportFragmentManager.beginTransaction()
-//        val fragmentThree = CreateGoalFragmentThree()
-//        fragmentThree.arguments = bundle
-//
-//        transaction.replace(R.id.fragment_container, fragmentThree)
-//        transaction.commit()
-//    }
+        transaction.replace(R.id.fragment_container, fragmentTwo)
+        transaction.commit()
+
+    }
 
 
-    fun passLongDataComOne(LongInput: Long) {
+    override fun passLongDataComOne(LongInput: Long) {
         val bundle = Bundle()
         bundle.putLong("Long 1", LongInput)
 
@@ -275,7 +219,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-    fun passTimestampDataComOne(TimeStampInput: Timestamp) {
+    override fun passTimestampDataComOne(TimeStampInput: Timestamp) {
         val bundle = Bundle()
         bundle.putString("Timestamp to String 1", TimeStampInput.toString())
 
@@ -288,7 +232,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-    fun passStringDataComTwo(editTextStringInput: String) {
+    override fun passStringDataComTwo(editTextStringInput: String) {
         val bundle = Bundle()
         bundle.putString("string 2", editTextStringInput)
 
@@ -301,7 +245,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    fun passLongDataComTwo(LongInput: Long) {
+    override fun passLongDataComTwo(LongInput: Long) {
         val bundle = Bundle()
         bundle.putLong("Long 2", LongInput)
 
@@ -313,7 +257,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         transaction.commit()
     }
 
-    fun passTimestampDataComTwo(TimeStampInput: Timestamp) {
+    override fun passTimestampDataComTwo(TimeStampInput: Timestamp) {
         val bundle = Bundle()
         bundle.putString("Timestamp to String 2", TimeStampInput.toString())
 
@@ -324,8 +268,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         transaction.replace(R.id.fragment_container, fragmentThree)
         transaction.commit()
     }
-
-
+    
 
     private fun hideSystemUI() {
         window.decorView.apply {
