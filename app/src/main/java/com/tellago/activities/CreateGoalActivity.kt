@@ -148,12 +148,10 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         bundle.putInt("familySelected", stateFamily)
         bundle.putInt("leisureSelected", stateLeisure)
 
-        val transaction = this.supportFragmentManager.beginTransaction()
         val fragmentTwo = CreateGoalFragment_2()
         fragmentTwo.arguments = bundle
+        fragmentUtils.addFragmentToFragment(fragmentTwo)
 
-        transaction.replace(R.id.fragment_container_create_goal, fragmentTwo)
-        transaction.commit()
     }
 
     override fun secondFormSubmit(
@@ -175,13 +173,10 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         bundle.putString("duration String", durationStringInput)
         bundle.putInt("reminder Int", reminderInput)
 
-
-        val transaction = this.supportFragmentManager.beginTransaction()
         val fragmentThree = CreateGoalFragment_3()
         fragmentThree.arguments = bundle
+        fragmentUtils.addFragmentToFragment(fragmentThree)
 
-        transaction.replace(R.id.fragment_container_create_goal, fragmentThree)
-        transaction.commit()
     }
 
 

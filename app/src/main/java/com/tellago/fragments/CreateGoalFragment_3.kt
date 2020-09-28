@@ -29,6 +29,18 @@ class CreateGoalFragment_3 : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_create_goal_3, container, false)
 
+        view.btn_BackToFragmentTwo.setOnClickListener {
+            // Return to previous fragment
+            fragmentManager?.popBackStack()
+        }
+
+
+        // Code to submit form & create goal in Firestore
+//        view.btn_CreateGoal.setOnClickListener {
+//
+//
+//        }
+
 
         return view
 
@@ -45,8 +57,10 @@ class CreateGoalFragment_3 : Fragment() {
                     arguments?.getInt("careerSelected").toString() +
                     arguments?.getInt("familySelected").toString() +
                     arguments?.getInt("leisureSelected").toString() +
+                            "Duration is: " +
                     arguments?.getInt("duration Int").toString() +
                     arguments?.getString("duration String") +
+                            "Reminder frequency is: " +
                     arguments?.getInt("reminder Int").toString()
 
 

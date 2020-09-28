@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.fragment.app.FragmentManager
 import com.tellago.R
 import com.tellago.interfaces.CreateGoalCommunicator
 import com.tellago.utils.CustomToast
+import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_1.*
 import kotlinx.android.synthetic.main.fragment_create_goal_1.view.*
 import kotlinx.android.synthetic.main.fragment_create_goal_one.view.*
@@ -19,6 +21,11 @@ class CreateGoalFragment_1 : Fragment() {
     private lateinit var communicator: CreateGoalCommunicator
 
     private lateinit var toast: CustomToast
+
+
+    private var checkbox_state1 : Int = 0
+    private var checkbox_state2 : Int = 0
+    private var checkbox_state3 : Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,17 +43,13 @@ class CreateGoalFragment_1 : Fragment() {
         communicator = activity as CreateGoalCommunicator
 
         view.btn_ToFragmentTwo.setOnClickListener {
-            var checkbox_state1 : Int = 0
-            var checkbox_state2 : Int = 0
-            var checkbox_state3 : Int = 0
-
 
             // If checkbox states have changed:
             if(view.category_btn_1.isChecked)
-                // pass int 1 to communicator if 1st category button (Career) is selected
+            // pass int 1 to communicator if 1st category button (Career) is selected
                 checkbox_state1 = 1
             else
-                // pass int 0 to communicator if 1st category button (Career) is not selected
+            // pass int 0 to communicator if 1st category button (Career) is not selected
                 checkbox_state1 = 0
             if(view.category_btn_2.isChecked)
             // pass int 1 to communicator if 2nd category button (Family) is selected
@@ -68,6 +71,10 @@ class CreateGoalFragment_1 : Fragment() {
                 checkbox_state2,
                 checkbox_state3
             )
+
+            Log.d("checkbox_state1 sent", checkbox_state1.toString())
+            Log.d("checkbox_state2 sent", checkbox_state2.toString())
+            Log.d("checkbox_state3 sent", checkbox_state3.toString())
 
         }
 
