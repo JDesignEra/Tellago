@@ -29,7 +29,7 @@ import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_header.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, CreateGoalCommunicator {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var toast: CustomToast
 
     private var handler: Handler? = null
@@ -190,85 +190,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-
-    override fun passStringDataComOne(editTextStringInput: String) {
-        val bundle = Bundle()
-        bundle.putString("string 1", editTextStringInput)
-        Log.d("bundlePutString", editTextStringInput.toString())
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentTwo = CreateGoalFragmentTwo()
-        fragmentTwo.arguments = bundle
-
-        transaction.replace(R.id.fragment_container, fragmentTwo)
-        transaction.commit()
-
-    }
-
-
-    override fun passLongDataComOne(LongInput: Long) {
-        val bundle = Bundle()
-        bundle.putLong("Long 1", LongInput)
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentTwo = CreateGoalFragmentTwo()
-        fragmentTwo.arguments = bundle
-
-        transaction.replace(R.id.fragment_container, fragmentTwo)
-        transaction.commit()
-    }
-
-
-    override fun passTimestampDataComOne(TimeStampInput: Timestamp) {
-        val bundle = Bundle()
-        bundle.putString("Timestamp to String 1", TimeStampInput.toString())
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentTwo = CreateGoalFragmentTwo()
-        fragmentTwo.arguments = bundle
-
-        transaction.replace(R.id.fragment_container, fragmentTwo)
-        transaction.commit()
-    }
-
-
-    override fun passStringDataComTwo(editTextStringInput: String) {
-        val bundle = Bundle()
-        bundle.putString("string 2", editTextStringInput)
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentThree = CreateGoalFragmentThree()
-        fragmentThree.arguments = bundle
-
-        transaction.replace(R.id.fragment_container, fragmentThree)
-        transaction.commit()
-
-    }
-
-    override fun passLongDataComTwo(LongInput: Long) {
-        val bundle = Bundle()
-        bundle.putLong("Long 2", LongInput)
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentThree = CreateGoalFragmentThree()
-        fragmentThree.arguments = bundle
-
-        transaction.replace(R.id.fragment_container, fragmentThree)
-        transaction.commit()
-    }
-
-    override fun passTimestampDataComTwo(TimeStampInput: Timestamp) {
-        val bundle = Bundle()
-        bundle.putString("Timestamp to String 2", TimeStampInput.toString())
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentThree = CreateGoalFragmentThree()
-        fragmentThree.arguments = bundle
-
-        transaction.replace(R.id.fragment_container, fragmentThree)
-        transaction.commit()
-    }
-    
 
     private fun hideSystemUI() {
         window.decorView.apply {
