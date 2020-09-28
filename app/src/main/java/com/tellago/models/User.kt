@@ -18,7 +18,7 @@ data class User(
     val displayName: String? = null,
     val bio: String? = null
 ) {
-    private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val collection = db.collection("users")
     private val storage = FirebaseStorage.getInstance("gs://tellago.appspot.com")
     private val storageRef = storage.reference

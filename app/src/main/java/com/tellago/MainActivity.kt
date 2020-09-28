@@ -23,6 +23,7 @@ import com.tellago.interfaces.CreateGoalCommunicator
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
 import com.tellago.models.Auth.Companion.user
+import com.tellago.models.Goal
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils

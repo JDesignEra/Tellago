@@ -89,17 +89,17 @@ class CreateGoalFragment : Fragment() {
         Log.d("Input #1:", goalTitle)
         Log.d("Input #2:", goalFullAmount.toString())
 
-        val newGoal = Goal(
-            gCreationDate = Timestamp(Date()),
-            gTitle = goalTitle,
-            gFullAmount = goalFullAmount)
+//        val newGoal = Goal(
+//            gCreationDate = Timestamp(Date()),
+//            gTitle = goalTitle,
+//            gFullAmount = goalFullAmount)
 
         Log.d("Adding to Collection", "FIRED")
 
         // Inserting record into database
         // (.add(newGoal) allows Firestore to provide unique name for new document)
-        db.collection("goals")
-            .add(newGoal)
+//        db.collection("goals")
+//            .add(newGoal)
 
     }
 
