@@ -40,5 +40,7 @@ class FragmentUtils(
         transaction.commit()
     }
 
-
+    fun popBackStack() {
+        fragmentManager.popBackStack()
+    }
 }

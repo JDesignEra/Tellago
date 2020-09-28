@@ -1,6 +1,5 @@
 package com.tellago.models
 
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -12,13 +11,13 @@ data class Goal(
     val jid: String? = null,
     val title: String? = null,
     val category: List<String>? = null,
-    val targetAmt: Long? = null,
-    val currentAmt: Long? = null,
+    val targetAmt: Int? = null,
+    val currentAmt: Int? = null,
     val bucketList: List<String>? = null,
-    val deadline: Timestamp? = null,
-    val lastReminder: Timestamp? = null,
-    val reminderFreq: Timestamp? = null,
-    val createDate: Timestamp = Timestamp(Date())
+    val deadline: Date? = null,
+    val lastReminder: Calendar? = null,
+    val reminderMonthsFreq: Int? = null,
+    val createDate: Date = Calendar.getInstance(TimeZone.getTimeZone("Asia/Singapore"), Locale("en", "SG")).time
 ) {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val collection = db.collection("goals")
@@ -37,10 +36,12 @@ data class Goal(
         }
     }
 
-    fun add(onComplete: ((goal: Goal) -> Unit)? = null) {
+    fun add(onComplete: ((goal: Goal?) -> Unit)? = null) {
         collection.add(this).addOnSuccessListener {
             gid = it.id
             onComplete?.invoke(this)
+        }.addOnFailureListener {
+            onComplete?.invoke(null)
         }
     }
 
@@ -55,7 +56,7 @@ data class Goal(
         if (bucketList != null) data["bucketList"] = bucketList
         if (deadline != null) data["category"] = deadline
         if (lastReminder != null) data["targetAmt"] = lastReminder
-        if (reminderFreq != null) data["currentAmt"] = reminderFreq
+        if (reminderMonthsFreq != null) data["reminderMonthsFreq"] = reminderMonthsFreq
 
         if (gid != null) {
             collection.document(gid!!).update(data).addOnSuccessListener {

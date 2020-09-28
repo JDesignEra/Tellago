@@ -1,95 +1,48 @@
 package com.tellago.fragments
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import com.tellago.R
-import com.tellago.interfaces.CreateGoalCommunicator
-import com.tellago.utils.CustomToast
-import com.tellago.utils.FragmentUtils
-import kotlinx.android.synthetic.main.fragment_create_goal_1.*
+import com.tellago.interfaces.GoalsCommunicator
 import kotlinx.android.synthetic.main.fragment_create_goal_1.view.*
 
-
 class CreateGoalFragment_1 : Fragment() {
-
-    private lateinit var communicator: CreateGoalCommunicator
-
-    private lateinit var toast: CustomToast
-
-
-    private var checkbox_state1 : Int = 0
-    private var checkbox_state2 : Int = 0
-    private var checkbox_state3 : Int = 0
-
+    private lateinit var communicator: GoalsCommunicator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        toast = CustomToast(requireContext())
+
+        communicator = activity as GoalsCommunicator
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_create_goal_1, container, false)
-        communicator = activity as CreateGoalCommunicator
 
         view.btn_ToFragmentTwo.setOnClickListener {
+            if (!view.et_goalTitle.text.isNullOrBlank()) {
+                communicator.requestKey = "goal2"
 
-            // If checkbox states have changed:
-            if(view.category_btn_1.isChecked)
-            // pass int 1 to communicator if 1st category button (Career) is selected
-                checkbox_state1 = 1
-            else
-            // pass int 0 to communicator if 1st category button (Career) is not selected
-                checkbox_state1 = 0
-            if(view.category_btn_2.isChecked)
-            // pass int 1 to communicator if 2nd category button (Family) is selected
-                checkbox_state2 = 1
-            else
-            // pass int 0 to communicator if 2nd category button (Family) is not selected
-                checkbox_state2 = 0
-            if(view.category_btn_3.isChecked)
-            // pass int 1 to communicator if 3rd category button (Leisure) is selected
-                checkbox_state3 = 1
-            else
-            // pass int 0 to communicator if 3rd category button (Leisure) is not selected
-                checkbox_state3 = 0
+                setFragmentResult(communicator.requestKey, Bundle().apply {
+                    putString(communicator.titleKey, view.et_goalTitle.text.toString())
+                    putBoolean(communicator.careerKey, view.category_btn_1.isChecked)
+                    putBoolean(communicator.familyKey, view.category_btn_2.isChecked)
+                    putBoolean(communicator.leisureKey, view.category_btn_3.isChecked)
 
-            // use communicator to pass String data from Edit Text_et_goalTitle & Int data from states of 3 checkboxes
-            communicator.firstFormSubmit(
-                view.et_goalTitle.text.toString(),
-                checkbox_state1,
-                checkbox_state2,
-                checkbox_state3
-            )
-
-            Log.d("checkbox_state1 sent", checkbox_state1.toString())
-            Log.d("checkbox_state2 sent", checkbox_state2.toString())
-            Log.d("checkbox_state3 sent", checkbox_state3.toString())
-
+                    communicator.replaceFragment(CreateGoalFragment_2())
+                })
+            }
+            else {
+                view.et_goalTitle.error = "Your goal is required"
+            }
         }
 
         return view
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
-
-
-    companion object {
-
     }
 }

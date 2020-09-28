@@ -2,41 +2,31 @@ package com.tellago.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.TopSpacingItemDecoration
-import com.tellago.activities.CreateGoalActivity
+import com.tellago.activities.GoalsActivity
 import com.tellago.adapters.ShowGoalsRecyclerAdapter
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_goals.*
-import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
 
 
 class ShowGoalsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-
     private lateinit var fragmentUtils: FragmentUtils
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var adapter: FirestoreRecyclerAdapter<Goal, ShowGoalsRecyclerAdapter.GoalViewHolder>
 
-    private val createGoalFragment: Fragment = CreateGoalFragment_1()
-
+//    private val createGoalFragment: Fragment = CreateGoalFragment_1()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +50,6 @@ class ShowGoalsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         firebaseFirestore = FirebaseFirestore.getInstance()
-
-
-        // Query
         val query: Query = firebaseFirestore.collection("goals")
 
 
@@ -91,34 +78,20 @@ class ShowGoalsFragment : Fragment() {
         Log.d("Adapter assigned", "FIRED")
 
         fab_add_goal.setOnClickListener {
-            var nextActivity: Intent = Intent(activity, CreateGoalActivity::class.java)
+            var nextActivity: Intent = Intent(activity, GoalsActivity::class.java)
             startActivity(nextActivity)
             activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
         }
 
     }
-//
+
 //    override fun onStart() {
 //        super.onStart()
 //        adapter.startListening()
 //    }
 
-
     override fun onStop() {
         super.onStop()
         adapter.stopListening()
-    }
-
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShowGoalsFragment.
-         */
-
     }
 }

@@ -37,7 +37,6 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
     class GoalViewHolder constructor(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
-
         val tv_gCreationDate: TextView = itemView.tv_gCreationDate
 
         //        val tv_gCurrentAmount: TextView = itemView.tv_gCurrentAmount
@@ -75,28 +74,26 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
         return super.getItemCount()
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(
         holder: ShowGoalsRecyclerAdapter.GoalViewHolder,
         position: Int,
         model: Goal
     ) {
-        val timestamp_firebase = model.createDate
-        val local_date = timestamp_firebase?.seconds?.let {
-            Instant.ofEpochSecond(it)
-                .atZone(ZoneId.of("Asia/Singapore"))
-                .toLocalDate()
-        }
+//        val timestamp_firebase = model.createDate
+//        val local_date = timestamp_firebase?.seconds?.let {
+//            Instant.ofEpochSecond(it)
+//                .atZone(ZoneId.of("Asia/Singapore"))
+//                .toLocalDate()
+//        }
 
-        holder.tv_gCreationDate.setText(local_date.toString())
+//        holder.tv_gCreationDate.setText(local_date.toString())
 
 //        holder.tv_gCurrentAmount.text = model.gCurrentAmount.toString()
 //        holder.tv_gDeadline.text = model.gDeadline.toString()
 
 
-        holder.tv_gFullAmount.setText(DecimalFormat("$#,###").format(model.targetAmt))
-        holder.iv_gIcon.setImageResource(R.drawable.ic_account_box_48_primary)
+//        holder.tv_gFullAmount.setText(DecimalFormat("$#,###").format(model.targetAmt))
+//        holder.iv_gIcon.setImageResource(R.drawable.ic_account_box_48_primary)
 //        holder.tv_gLastReminder.text = model.gLastReminder
 
 
@@ -104,11 +101,9 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
 
 //        holder.tv_gReminderFreq.text = model.gReminderFreq
 
-        holder.tv_gTitle.text = model.title
+//        holder.tv_gTitle.text = model.title
         
 //        holder.tv_goalid.text = model.goalid
 
     }
-
-
 }

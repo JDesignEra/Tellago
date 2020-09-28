@@ -12,13 +12,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.tellago.DataSource
 import com.tellago.R
-import com.tellago.TopSpacingItemDecoration
-import com.tellago.activities.CreateGoalActivity
-import com.tellago.activities.EditProfileActivity
-import com.tellago.adapters.ProfilePostRecyclerAdapter
+import com.tellago.activities.GoalsActivity
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -26,10 +21,6 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
     private val showGoalsFragment : Fragment = ShowGoalsFragment()
-//    private val createGoalFragment: Fragment = CreateGoalFragment()
-//    private val createGoalPassDataFragment: Fragment = CreateGoalFragmentOne()
-//    private val createGoalFragment1: Fragment = CreateGoalFragment_1()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,11 +48,8 @@ class HomeFragment : Fragment() {
         }
 
         btn_AddGoal.setOnClickListener {
-            // Actual implementation (direct to FIRST page of CreateGoal input form in new Activity)
-            var nextActivity: Intent = Intent(activity, CreateGoalActivity::class.java)
-            startActivity(nextActivity)
+            startActivity(Intent(activity, GoalsActivity::class.java))
             activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
-
         }
 
     }

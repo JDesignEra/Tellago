@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CreateGoalActivity"></activity>
+        <activity android:name=".activities.GoalsActivity"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
