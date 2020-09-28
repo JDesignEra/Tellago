@@ -13,11 +13,11 @@ import com.facebook.login.LoginResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
-import com.tellago.utils.CustomToast
 import kotlin.properties.Delegates
 
 class FacebookActivity : AppCompatActivity() {
     private var linkFlag by Delegates.notNull<Boolean>()
+    private val AuthInstance = Auth()
     private val fbCbManager = CallbackManager.Factory.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,31 +33,41 @@ class FacebookActivity : AppCompatActivity() {
                     val credential = FacebookAuthProvider.getCredential(token)
 
                     if (linkFlag) {
-                        if (Auth().checkProvider("facebook.com")
-                            && Auth().getProviderCount() > 1) {
-                            user?.unlink("facebook.com")
+                        if (AuthInstance.checkProvider("facebook.com")) {
+                            if (AuthInstance.getProviderCount() > 1) {
+                                user?.unlink("facebook.com")
 
-                            setResult(
-                                Activity.RESULT_OK,
-                                Intent().putExtra("linked", false)
-                            )
+                                setResult(
+                                    Activity.RESULT_OK,
+                                    Intent().putExtra("linked", false)
+                                )
+                            }
+                            else {
+                                setResult(
+                                    Activity.RESULT_CANCELED,
+                                    Intent().putExtra("msg", "Facebook can't be unlinked, as it's the only account")
+                                )
+                            }
+
                             this@FacebookActivity.finish()
                         }
                         else {
-                            user?.linkWithCredential(credential)
-                                ?.addOnCompleteListener {
-                                    if (it.isSuccessful) {
-                                        setResult(
-                                            Activity.RESULT_OK,
-                                            Intent().putExtra("linked", true)
-                                        )
-                                        this@FacebookActivity.finish()
-                                    }
-                                    else {
-                                        setResult(Activity.RESULT_CANCELED, Intent())
-                                        this@FacebookActivity.finish()
-                                    }
+                            user?.linkWithCredential(credential)?.addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    setResult(
+                                        Activity.RESULT_OK,
+                                        Intent().putExtra("linked", true)
+                                    )
                                 }
+                                else {
+                                    setResult(
+                                        Activity.RESULT_CANCELED,
+                                        Intent().putExtra("msg", "Facebook account is already registered or linked.")
+                                    )
+                                }
+                            }
+
+                            this@FacebookActivity.finish()
                         }
                     }
                 }

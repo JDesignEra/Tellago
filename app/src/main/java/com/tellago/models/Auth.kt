@@ -1,11 +1,12 @@
 package com.tellago.models
 
 import android.content.Context
-import android.util.Log
 import android.util.Patterns
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.*
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 
 class Auth {
     init {

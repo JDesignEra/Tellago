@@ -1,5 +1,6 @@
 package com.tellago.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,12 +11,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.tellago.R
+import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 import kotlin.properties.Delegates
 
 class GoogleActivity : AppCompatActivity() {
     private var linkFlag by Delegates.notNull<Boolean>()
+    private val AuthInstance = Auth()
     private val signInRc = 1820
 
     private lateinit var toast: CustomToast
@@ -52,21 +55,46 @@ class GoogleActivity : AppCompatActivity() {
                 val credential = GoogleAuthProvider.getCredential(account.idToken, null)
 
                 if (linkFlag) {
-                    user?.linkWithCredential(credential)
-                        ?.addOnCompleteListener {
+                    if (AuthInstance.checkProvider("google.com")) {
+                        if (AuthInstance.getProviderCount() > 1) {
+                            user?.unlink("google.com")
+
+                            setResult(
+                                Activity.RESULT_OK,
+                                Intent().putExtra("linked", false)
+                            )
+                        }
+                        else {
+                            setResult(
+                                Activity.RESULT_CANCELED,
+                                Intent().putExtra("msg", "Google can't be unlinked, as it's the only account")
+                            )
+                        }
+
+                        finish()
+                    }
+                    else {
+                        user?.linkWithCredential(credential)?.addOnCompleteListener {
                             if (it.isSuccessful) {
-                                toast.success("Google account linked successfully")
+                                setResult(
+                                    Activity.RESULT_OK,
+                                    Intent().putExtra("linked", true)
+                                )
                             }
                             else {
-                                toast.error("Google account is already registered or linked.")
+                                setResult(
+                                    Activity.RESULT_CANCELED,
+                                    Intent().putExtra("msg", "Google account is already registered or linked.")
+                                )
                             }
 
                             finish()
                         }
+                    }
                 }
             }
             catch (e: ApiException) {
-                Log.e("AccountFragment", "Google sign in failed", e)
+                Log.e("GoogleActivity", "Google sign in failed", e)
                 finish()
             }
         }

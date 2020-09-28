@@ -25,6 +25,7 @@ import java.util.*
 class AccountFragment : Fragment() {
     private lateinit var toast: CustomToast
     private val fbLinkRc = 1084
+    private val gLinkRc = 1085
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +56,7 @@ class AccountFragment : Fragment() {
         }
 
         if (Auth().checkProvider("google.com")) {
-            btnGoogle.text = "Unlink with Google"
+            googleBtnLinkState(true)
         }
 
         btnFacebook.setOnClickListener {
@@ -129,18 +130,33 @@ class AccountFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == fbLinkRc) {
+        if (requestCode == fbLinkRc || requestCode == gLinkRc) {
+            lateinit var providerName: String
+
+            when (requestCode) {
+                fbLinkRc -> providerName = "Facebook"
+                gLinkRc -> providerName = "Google"
+            }
+
             if (resultCode == Activity.RESULT_OK) {
                 val result = data?.getBooleanExtra("linked", false)!!
 
-                fbBtnLinkState(result)
+                when (requestCode) {
+                    fbLinkRc -> fbBtnLinkState(result)
+                    gLinkRc -> googleBtnLinkState(result)
+                }
 
                 if (result) {
-                    toast.success("Facebook linked sucessfully")
+                    toast.success("$providerName linked successfully")
                 }
                 else {
-                    toast.success("Facebook unlinked sucessfully")
+                    toast.success("$providerName unlinked successfully")
                 }
+            }
+            else {
+                val msg = data?.getStringExtra("msg")
+
+                if (!msg.isNullOrEmpty()) toast.error(msg)
             }
         }
     }
@@ -162,9 +178,10 @@ class AccountFragment : Fragment() {
     }
 
     private fun initGoogleLink() {
-        startActivity(
+        startActivityForResult(
             Intent(requireContext(), GoogleActivity::class.java)
-                .putExtra("linkFlag", true)
+                .putExtra("linkFlag", true),
+            gLinkRc
         )
     }
 
@@ -179,6 +196,21 @@ class AccountFragment : Fragment() {
             btnFacebook.text = "Link with Facebook"
             btnFacebook.backgroundTintList = ColorStateList.valueOf(
                 getColor(requireContext(), R.color.facebook_material_button)
+            )
+        }
+    }
+
+    private fun googleBtnLinkState(flag: Boolean) {
+        if (flag) {
+            btnGoogle.text = "Unlink Google"
+            btnGoogle.backgroundTintList = ColorStateList.valueOf(
+                Color.parseColor("#9e9e9e")
+            )
+        }
+        else {
+            btnGoogle.text = "Link with Google"
+            btnGoogle.backgroundTintList = ColorStateList.valueOf(
+                getColor(requireContext(), R.color.google_material_button)
             )
         }
     }
