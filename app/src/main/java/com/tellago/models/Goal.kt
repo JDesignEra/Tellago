@@ -62,6 +62,8 @@ data class Goal(
     }
 
     fun delete() {
-        collection.document(gid).delete()
+        if (gid != null) {
+            collection.document(gid).delete()
+        }
     }
 }
