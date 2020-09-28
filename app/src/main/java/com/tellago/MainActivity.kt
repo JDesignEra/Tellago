@@ -205,17 +205,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //
 //    }
 
-//    override fun passLongDataComOne(LongInput: Long) {
-//        val bundle = Bundle()
-//        bundle.putLong("Long 1", LongInput)
-//
-//        val transaction = this.supportFragmentManager.beginTransaction()
-//        val fragmentTwo = CreateGoalFragmentTwo()
-//        fragmentTwo.arguments = bundle
-//
-//        transaction.replace(R.id.fragment_container, fragmentTwo)
-//        transaction.commit()
-//    }
+    fun passStringDataComOne(editTextStringInput: String) {
+        val bundle = Bundle()
+        bundle.putString("string 1", editTextStringInput)
+        Log.d("bundlePutString", editTextStringInput.toString())
 
 
 //    override fun passTimestampDataComOne(TimeStampInput: Timestamp) {
@@ -267,6 +260,70 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        transaction.replace(R.id.fragment_container, fragmentThree)
 //        transaction.commit()
 //    }
+
+
+    fun passLongDataComOne(LongInput: Long) {
+        val bundle = Bundle()
+        bundle.putLong("Long 1", LongInput)
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentTwo = CreateGoalFragmentTwo()
+        fragmentTwo.arguments = bundle
+
+        transaction.replace(R.id.fragment_container, fragmentTwo)
+        transaction.commit()
+    }
+
+
+    fun passTimestampDataComOne(TimeStampInput: Timestamp) {
+        val bundle = Bundle()
+        bundle.putString("Timestamp to String 1", TimeStampInput.toString())
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentTwo = CreateGoalFragmentTwo()
+        fragmentTwo.arguments = bundle
+
+        transaction.replace(R.id.fragment_container, fragmentTwo)
+        transaction.commit()
+    }
+
+
+    fun passStringDataComTwo(editTextStringInput: String) {
+        val bundle = Bundle()
+        bundle.putString("string 2", editTextStringInput)
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentThree = CreateGoalFragmentThree()
+        fragmentThree.arguments = bundle
+
+        transaction.replace(R.id.fragment_container, fragmentThree)
+        transaction.commit()
+
+    }
+
+    fun passLongDataComTwo(LongInput: Long) {
+        val bundle = Bundle()
+        bundle.putLong("Long 2", LongInput)
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentThree = CreateGoalFragmentThree()
+        fragmentThree.arguments = bundle
+
+        transaction.replace(R.id.fragment_container, fragmentThree)
+        transaction.commit()
+    }
+
+    fun passTimestampDataComTwo(TimeStampInput: Timestamp) {
+        val bundle = Bundle()
+        bundle.putString("Timestamp to String 2", TimeStampInput.toString())
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentThree = CreateGoalFragmentThree()
+        fragmentThree.arguments = bundle
+
+        transaction.replace(R.id.fragment_container, fragmentThree)
+        transaction.commit()
+    }
 
 
 

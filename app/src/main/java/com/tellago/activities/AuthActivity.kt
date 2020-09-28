@@ -16,7 +16,7 @@ import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 
 class AuthActivity : AppCompatActivity() {
-    private lateinit var toast: CustomToast
+    //private val toast = CustomToast(this)
 
     override fun onStart() {
         super.onStart()
@@ -83,7 +83,7 @@ class AuthActivity : AppCompatActivity() {
                         Log.w("AuthActivity", "User cancelled the sign-in flow.")
                     }
                     response.error?.errorCode == ErrorCodes.NO_NETWORK -> {
-                        toast.error("Requires an Internet Connection")
+                        //toast.error("Requires an Internet Connection")
                     }
                     response.error?.errorCode == ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT -> {
                         Auth().signOut(this) {
