@@ -17,12 +17,15 @@ import kotlin.properties.Delegates
 class GoogleActivity : AppCompatActivity() {
     private var linkFlag by Delegates.notNull<Boolean>()
     private val signInRc = 1820
+
+    private lateinit var toast: CustomToast
     private lateinit var gsc: GoogleSignInClient
     private lateinit var gso: GoogleSignInOptions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        toast = CustomToast(baseContext)
         linkFlag = intent.getBooleanExtra("linkFlag", false)
 
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -52,10 +55,10 @@ class GoogleActivity : AppCompatActivity() {
                     user?.linkWithCredential(credential)
                         ?.addOnCompleteListener {
                             if (it.isSuccessful) {
-                                CustomToast(baseContext, "Google account linked successfully").success()
+                                toast.success("Google account linked successfully")
                             }
                             else {
-                                CustomToast(baseContext, "Google account is already registered or linked.").primary()
+                                toast.error("Google account is already registered or linked.")
                             }
 
                             finish()

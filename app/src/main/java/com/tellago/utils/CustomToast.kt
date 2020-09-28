@@ -5,30 +5,31 @@ import android.graphics.Color
 import android.view.Gravity
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getColor
 import com.tellago.R
 
-class CustomToast(context: Context, msg: String) {
-    val c = context
-    val m = msg
+class CustomToast(private val context: Context) {
+    private val toast = Toast.makeText(
+        context,
+        null,
+        Toast.LENGTH_SHORT
+    )
 
-    fun primary() {
-        toast(Color.WHITE, c.resources.getColor(R.color.toastPrimary))
+    fun error(msg: String) {
+        showToast(Color.WHITE, getColor(context, R.color.toastError), msg)
     }
 
-    fun success() {
-        toast(Color.WHITE, c.resources.getColor(R.color.toastSuccess))
+    fun success(msg: String) {
+        showToast(Color.WHITE, getColor(context, R.color.toastSuccess), msg)
     }
 
-    private fun toast(txtColor: Int, bgColor: Int) {
-        val toast = Toast.makeText(
-            c,
-            m,
-            Toast.LENGTH_SHORT
-        )
+    private fun showToast(txtColor: Int, bgColor: Int, msg: String) {
         val toastView = toast.view
         val toastTxt = toastView.findViewById<TextView>(android.R.id.message)
 
-        toast.setGravity(Gravity.TOP or Gravity.RIGHT, 0, 300)
+        toast.setText(msg)
+        toast.setGravity(Gravity.TOP or Gravity.END, 0, 300)
+
         toastView.setBackgroundColor(bgColor)
         toastTxt.setTextColor(txtColor)
 

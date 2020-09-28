@@ -22,13 +22,16 @@ import com.tellago.fragments.*
 import com.tellago.interfaces.CreateGoalCommunicator
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
+import com.tellago.models.Auth.Companion.user
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_header.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, CreateGoalCommunicator {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private lateinit var toast: CustomToast
+
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
 
@@ -39,11 +42,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val profileFragment = ProfileFragment()
     private val settingsFragment = SettingsFragment()
 
-    override fun onStart() {
-        super.onStart()
-        startService(Intent(this, ExitService::class.java))
-    }
-
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) hideSystemUI()
@@ -51,8 +49,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+
+        startService(Intent(this, ExitService::class.java))
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+
+        toast = CustomToast(this)
 
         window.decorView.setOnSystemUiVisibilityChangeListener {
             (bottomAppBarCoordinatorLayout.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = 0
@@ -72,15 +75,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         configureNavigationDrawer()
         StartTimer()
 
-        if (Auth.user != null) {
+        if (user != null) {
             // starting fragment is homeFragment
             fragmentUtils.replace(homeFragment)
 
-            if (!Auth.user?.displayName.isNullOrEmpty()) {
-                CustomToast(
-                    this,
-                    "Welcome to tellsquare, %s".format(Auth.user?.displayName)
-                ).success()
+            if (!user?.displayName.isNullOrEmpty()) {
+                toast.success("Welcome to tellsquare, %s".format(user?.displayName))
             }
         }
 

@@ -1,5 +1,6 @@
 package com.tellago.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -32,23 +33,29 @@ class FacebookActivity : AppCompatActivity() {
                     val credential = FacebookAuthProvider.getCredential(token)
 
                     if (linkFlag) {
-                        if (Auth().checkProvider("facebook.com") && Auth().getProviderCount() > 1) {
+                        if (Auth().checkProvider("facebook.com")
+                            && Auth().getProviderCount() > 1) {
                             user?.unlink("facebook.com")
+
+                            setResult(
+                                Activity.RESULT_OK,
+                                Intent().putExtra("linked", false)
+                            )
+                            this@FacebookActivity.finish()
                         }
                         else {
                             user?.linkWithCredential(credential)
                                 ?.addOnCompleteListener {
                                     if (it.isSuccessful) {
-                                        CustomToast(
-                                            baseContext,
-                                            "Facebook account linked successfully"
-                                        ).success()
+                                        setResult(
+                                            Activity.RESULT_OK,
+                                            Intent().putExtra("linked", true)
+                                        )
+                                        this@FacebookActivity.finish()
                                     }
                                     else {
-                                        CustomToast(
-                                            baseContext,
-                                            "Facebook account is already registered or linked."
-                                        ).primary()
+                                        setResult(Activity.RESULT_CANCELED, Intent())
+                                        this@FacebookActivity.finish()
                                     }
                                 }
                         }
@@ -57,10 +64,16 @@ class FacebookActivity : AppCompatActivity() {
 
                 override fun onCancel() {
                     Log.e("FacebookActivity", "User canceled the action")
+
+                    setResult(Activity.RESULT_CANCELED, Intent())
+                    this@FacebookActivity.finish()
                 }
 
                 override fun onError(e: FacebookException) {
                     Log.e("FacebookActivity", e.message.toString())
+
+                    setResult(Activity.RESULT_CANCELED, Intent())
+                    this@FacebookActivity.finish()
                 }
             }
         )
@@ -78,13 +91,16 @@ class FacebookActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
 
-        finish()
+        if (linkFlag) {
+            setResult(Activity.RESULT_CANCELED, Intent())
+        }
+
+        this@FacebookActivity.finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         fbCbManager.onActivityResult(requestCode, resultCode, data)
-        finish()
     }
 }

@@ -2,7 +2,6 @@ package com.tellago.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthMethodPickerLayout
@@ -17,6 +16,8 @@ import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 
 class AuthActivity : AppCompatActivity() {
+    private val toast = CustomToast(this)
+
     override fun onResume() {
         super.onResume()
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -76,7 +77,7 @@ class AuthActivity : AppCompatActivity() {
                         Log.w("AuthActivity", "User cancelled the sign-in flow.")
                     }
                     response.error?.errorCode == ErrorCodes.NO_NETWORK -> {
-                        CustomToast(this, "Requires an Internet Connection").primary()
+                        toast.error("Requires an Internet Connection")
                     }
                     response.error?.errorCode == ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT -> {
                         Auth().signOut(this) {

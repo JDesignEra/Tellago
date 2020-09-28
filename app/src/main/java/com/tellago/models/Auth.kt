@@ -129,7 +129,6 @@ class Auth {
 
         if (!providerData.isNullOrEmpty()) {
             providerData.forEach {
-                Log.e("Auth", it.providerId)
                 if (it.providerId != "firebase") count++
             }
         }

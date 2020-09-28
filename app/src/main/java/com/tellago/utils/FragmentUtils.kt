@@ -18,23 +18,18 @@ class FragmentUtils(
     }
 
     fun replace(fragment: Fragment) {
-        if (fragment != null) {
-            val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
 
-            transaction.setCustomAnimations(
-                R.anim.fragment_slide_left_enter,
-                R.anim.fragment_slide_left_exit,
-                R.anim.fragment_slide_right_enter,
-                R.anim.fragment_slide_right_exit
-            )
+        transaction.setCustomAnimations(
+            R.anim.fragment_slide_left_enter,
+            R.anim.fragment_slide_left_exit,
+            R.anim.fragment_slide_right_enter,
+            R.anim.fragment_slide_right_exit
+        )
 
-            transaction.replace(fragmentContainer, fragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
-        }
-        else {
-            add(fragment)
-        }
+        transaction.replace(fragmentContainer, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     fun addFragmentToFragment(fragment: Fragment) {

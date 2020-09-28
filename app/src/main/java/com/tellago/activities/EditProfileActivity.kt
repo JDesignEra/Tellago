@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_edit_profile.profile_image
 
 class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.NoticeDialogListener {
+    private val toast = CustomToast(this)
 
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
@@ -153,7 +154,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
                         // Can display a progress bar for upload status
                         val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
                     }?.addOnSuccessListener {
-                        CustomToast(this, "Profile Picture uploaded successfully").success()
+                        toast.success("Profile Picture uploaded successfully")
                     }?.addOnFailureListener {
                         // Failed
                     }

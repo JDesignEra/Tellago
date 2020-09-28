@@ -1,11 +1,16 @@
 package com.tellago.fragments
 
+import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.activities.AuthActivity
@@ -15,8 +20,18 @@ import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.fragment_account.*
+import java.util.*
 
 class AccountFragment : Fragment() {
+    private lateinit var toast: CustomToast
+    private val fbLinkRc = 1084
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        toast = CustomToast(requireContext())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,13 +51,11 @@ class AccountFragment : Fragment() {
         }
 
         if (Auth().checkProvider("facebook.com")) {
-            btnFacebook.text = "Linked with Facebook"
-            btnFacebook.isEnabled = false
+            fbBtnLinkState(true)
         }
 
         if (Auth().checkProvider("google.com")) {
-            btnGoogle.text = "Linked with Google"
-            btnGoogle.isEnabled = false
+            btnGoogle.text = "Unlink with Google"
         }
 
         btnFacebook.setOnClickListener {
@@ -102,12 +115,31 @@ class AccountFragment : Fragment() {
                         editText_newPassword.text?.clear()
                         editText_cfmPassword.text?.clear()
 
-                        CustomToast(requireContext(), "Account settings updated successfully").success()
+                        toast.success("Account settings updated successfully")
 
                         Handler().postDelayed({
                             startActivity(Intent(requireContext(), AuthActivity::class.java))
                         }, 1500)
                     }
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == fbLinkRc) {
+            if (resultCode == Activity.RESULT_OK) {
+                val result = data?.getBooleanExtra("linked", false)!!
+
+                fbBtnLinkState(result)
+
+                if (result) {
+                    toast.success("Facebook linked sucessfully")
+                }
+                else {
+                    toast.success("Facebook unlinked sucessfully")
                 }
             }
         }
@@ -122,9 +154,10 @@ class AccountFragment : Fragment() {
     }
 
     private fun initFacebookLink() {
-        startActivity(
+        startActivityForResult(
             Intent(requireContext(), FacebookActivity::class.java)
-                .putExtra("linkFlag", true)
+                .putExtra("linkFlag", true),
+            fbLinkRc
         )
     }
 
@@ -133,5 +166,20 @@ class AccountFragment : Fragment() {
             Intent(requireContext(), GoogleActivity::class.java)
                 .putExtra("linkFlag", true)
         )
+    }
+
+    private fun fbBtnLinkState(flag: Boolean) {
+        if (flag) {
+            btnFacebook.text = "Unlink Facebook"
+            btnFacebook.backgroundTintList = ColorStateList.valueOf(
+                Color.parseColor("#9e9e9e")
+            )
+        }
+        else {
+            btnFacebook.text = "Link with Facebook"
+            btnFacebook.backgroundTintList = ColorStateList.valueOf(
+                getColor(requireContext(), R.color.facebook_material_button)
+            )
+        }
     }
 }
