@@ -30,8 +30,8 @@ data class Goal(
     }
 
     fun getUserGoals(onComplete: (goals: List<Goal>?) -> Unit?) {
-        collection.whereEqualTo("uid", uid).get().addOnSuccessListener { snapshot ->
-            onComplete(snapshot.toObjects(Goal::class.java))
+        collection.whereEqualTo("uid", uid).get().addOnSuccessListener {
+            onComplete(it.toObjects(Goal::class.java))
         }
     }
 
@@ -54,8 +54,10 @@ data class Goal(
         if (lastReminder != null) data["targetAmt"] = lastReminder
         if (reminderFreq != null) data["currentAmt"] = reminderFreq
 
-        collection.document(gid).update(data).addOnSuccessListener {
-            onComplete(this)
+        if (gid != null) {
+            collection.document(gid).update(data).addOnSuccessListener {
+                onComplete(this)
+            }
         }
     }
 
