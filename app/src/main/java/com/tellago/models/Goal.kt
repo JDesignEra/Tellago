@@ -1,15 +1,14 @@
 package com.tellago.models
 
-import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import java.util.*
-import kotlin.collections.HashMap
 
 data class Goal(
+    @DocumentId val gid: String?,
     val uid: String? = null,
-    @DocumentId val gid: String,
     val jid: String? = null,
     val title: String? = null,
     val category: List<String>? = null,
@@ -23,6 +22,18 @@ data class Goal(
 ) {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val collection = db.collection("goals")
+
+    fun getGoal(onComplete: (goal: Goal) -> Unit?) {
+        collection.whereEqualTo("gid", gid).whereEqualTo("uid", uid).get().addOnSuccessListener {
+            onComplete(it.first().toObject<Goal>())
+        }
+    }
+
+    fun getUserGoals(onComplete: (goals: List<Goal>?) -> Unit?) {
+        collection.whereEqualTo("uid", uid).get().addOnSuccessListener { snapshot ->
+            onComplete(snapshot.toObjects(Goal::class.java))
+        }
+    }
 
     fun add(onComplete: ((goal: Goal) -> Unit?)) {
         collection.add(this).addOnSuccessListener {
