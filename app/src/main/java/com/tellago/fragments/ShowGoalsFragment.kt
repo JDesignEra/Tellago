@@ -1,5 +1,6 @@
 package com.tellago.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Layout
 import android.util.Log
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.TopSpacingItemDecoration
+import com.tellago.activities.CreateGoalActivity
 import com.tellago.adapters.ShowGoalsRecyclerAdapter
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
@@ -88,11 +90,11 @@ class ShowGoalsFragment : Fragment() {
 
         Log.d("Adapter assigned", "FIRED")
 
-
         fab_add_goal.setOnClickListener {
-            fragmentUtils.addFragmentToFragment(createGoalFragment)
+            var nextActivity: Intent = Intent(activity, CreateGoalActivity::class.java)
+            startActivity(nextActivity)
+            activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
         }
-
 
     }
 //

@@ -53,6 +53,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
 //        val tv_goalid: TextView = itemView.tv_gIcon
 
 
+
     }
 
     override fun onCreateViewHolder(
@@ -81,29 +82,32 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
         position: Int,
         model: Goal
     ) {
-//        val timestamp_firebase = model.gCreationDate
-//        val local_date = timestamp_firebase?.seconds?.let {
-//            Instant.ofEpochSecond(it)
-//                .atZone(ZoneId.of("Asia/Singapore"))
-//                .toLocalDate()
-//        }
+        val timestamp_firebase = model.createDate
+        val local_date = timestamp_firebase?.seconds?.let {
+            Instant.ofEpochSecond(it)
+                .atZone(ZoneId.of("Asia/Singapore"))
+                .toLocalDate()
+        }
 
-//        holder.tv_gCreationDate.setText(local_date.toString())
-
+        holder.tv_gCreationDate.setText(local_date.toString())
 
 //        holder.tv_gCurrentAmount.text = model.gCurrentAmount.toString()
 //        holder.tv_gDeadline.text = model.gDeadline.toString()
 
 
-//        holder.tv_gFullAmount.setText(DecimalFormat("$#,###").format(model.gFullAmount))
-
-//        holder.iv_gIcon.setImageResource(R.drawable.ic_account_box_48_primary)
+        holder.tv_gFullAmount.setText(DecimalFormat("$#,###").format(model.targetAmt))
+        holder.iv_gIcon.setImageResource(R.drawable.ic_account_box_48_primary)
 //        holder.tv_gLastReminder.text = model.gLastReminder
+
+
 //        holder.tv_gOwner.text = model.gOwner
-//        holder.tv_gProgressTracker.text = model.gProgressTracker
+
 //        holder.tv_gReminderFreq.text = model.gReminderFreq
-//        holder.tv_gTitle.text = model.gTitle
+
+        holder.tv_gTitle.text = model.title
+        
 //        holder.tv_goalid.text = model.goalid
+
     }
 
 

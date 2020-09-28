@@ -57,15 +57,10 @@ class HomeFragment : Fragment() {
         }
 
         btn_AddGoal.setOnClickListener {
-            // Test for inserting new document into Firestore (COMPLETE)
-//            fragmentUtils.addFragmentToFragment(createGoalFragment)
-            // Test for passing data between fragments
-            //fragmentUtils.addFragmentToFragment(createGoalPassDataFragment)
             // Actual implementation (direct to FIRST page of CreateGoal input form in new Activity)
             var nextActivity: Intent = Intent(activity, CreateGoalActivity::class.java)
             startActivity(nextActivity)
             activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
-            //fragmentUtils.addFragmentToFragment(createGoalFragment1)
 
         }
 
