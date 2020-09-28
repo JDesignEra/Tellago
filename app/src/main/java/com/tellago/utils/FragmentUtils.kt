@@ -40,5 +40,5 @@ class FragmentUtils(
         transaction.commit()
     }
 
-    
+
 }

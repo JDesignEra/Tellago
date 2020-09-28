@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val homeFragment = HomeFragment()
     private val feedFragment = FeedFragment()
     private val profileFragment = ProfileFragment()
-    private val settingsFragment = SettingsFragment()
+
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)

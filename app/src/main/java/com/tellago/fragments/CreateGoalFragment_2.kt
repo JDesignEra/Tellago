@@ -11,7 +11,6 @@ import com.tellago.interfaces.CreateGoalCommunicator
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_2.*
 import kotlinx.android.synthetic.main.fragment_create_goal_2.view.*
-import kotlinx.android.synthetic.main.fragment_create_goal_two.view.*
 
 class CreateGoalFragment_2 : Fragment() {
 

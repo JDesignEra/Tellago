@@ -33,7 +33,7 @@ class ShowGoalsFragment : Fragment() {
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var adapter: FirestoreRecyclerAdapter<Goal, ShowGoalsRecyclerAdapter.GoalViewHolder>
 
-    private val createGoalFragment: Fragment = CreateGoalFragment()
+    private val createGoalFragment: Fragment = CreateGoalFragment_1()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

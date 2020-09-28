@@ -52,9 +52,7 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         configureToolbar()
 
 
-
     }
-
 
 
     override fun passStringDataComOne(editTextStringInput: String) {
@@ -62,12 +60,9 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         bundle.putString("string 1", editTextStringInput)
         Log.d("bundlePutString", editTextStringInput)
 
-        val transaction = this.supportFragmentManager.beginTransaction()
         val fragmentTwo = CreateGoalFragment_2()
         fragmentTwo.arguments = bundle
-
-        transaction.replace(R.id.fragment_container_create_goal, fragmentTwo)
-        transaction.commit()
+        fragmentUtils.addFragmentToFragment(fragmentTwo)
     }
 
 
@@ -76,12 +71,9 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         val bundle = Bundle()
         bundle.putLong("Long 1", LongInput)
 
-        val transaction = this.supportFragmentManager.beginTransaction()
         val fragmentTwo = CreateGoalFragment_2()
         fragmentTwo.arguments = bundle
-
-        transaction.replace(R.id.fragment_container_create_goal, fragmentTwo)
-        transaction.commit()
+        fragmentUtils.addFragmentToFragment(fragmentTwo)
     }
 
 
@@ -89,51 +81,11 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         val bundle = Bundle()
         bundle.putString("Timestamp to String 1", TimeStampInput.toString())
 
-        val transaction = this.supportFragmentManager.beginTransaction()
         val fragmentTwo = CreateGoalFragment_2()
         fragmentTwo.arguments = bundle
-
-        transaction.replace(R.id.fragment_container_create_goal, fragmentTwo)
-        transaction.commit()
+        fragmentUtils.addFragmentToFragment(fragmentTwo)
     }
 
-
-    override fun passStringDataComTwo(editTextStringInput: String) {
-        val bundle = Bundle()
-        bundle.putString("string 2", editTextStringInput)
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentThree = CreateGoalFragmentThree()
-        fragmentThree.arguments = bundle
-
-        transaction.replace(R.id.fragment_container_create_goal, fragmentThree)
-        transaction.commit()
-
-    }
-
-    override fun passLongDataComTwo(LongInput: Long) {
-        val bundle = Bundle()
-        bundle.putLong("Long 2", LongInput)
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentThree = CreateGoalFragmentThree()
-        fragmentThree.arguments = bundle
-
-        transaction.replace(R.id.fragment_container_create_goal, fragmentThree)
-        transaction.commit()
-    }
-
-    override fun passTimestampDataComTwo(TimeStampInput: Timestamp) {
-        val bundle = Bundle()
-        bundle.putString("Timestamp to String 2", TimeStampInput.toString())
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentThree = CreateGoalFragmentThree()
-        fragmentThree.arguments = bundle
-
-        transaction.replace(R.id.fragment_container_create_goal, fragmentThree)
-        transaction.commit()
-    }
 
 
     override fun firstFormSubmit(
@@ -185,7 +137,7 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         handler = Handler()
         handlerTask = Runnable { // do something
             hideSystemUI()
-            handler!!.postDelayed(handlerTask, 5000)
+            handler!!.postDelayed(handlerTask, 3000)
         }
 
         handlerTask!!.run()

@@ -14,7 +14,7 @@ import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_1.*
 import kotlinx.android.synthetic.main.fragment_create_goal_1.view.*
-import kotlinx.android.synthetic.main.fragment_create_goal_one.view.*
+
 
 class CreateGoalFragment_1 : Fragment() {
 
