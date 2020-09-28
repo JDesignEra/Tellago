@@ -6,28 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import com.tellago.R
 import com.tellago.interfaces.CreateGoalCommunicator
+import com.tellago.utils.CustomToast
+import kotlinx.android.synthetic.main.fragment_create_goal_1.*
 import kotlinx.android.synthetic.main.fragment_create_goal_1.view.*
 import kotlinx.android.synthetic.main.fragment_create_goal_one.view.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CreateGoalFragment_1.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CreateGoalFragment_1 : Fragment() {
 
     private lateinit var communicator: CreateGoalCommunicator
 
+    private lateinit var toast: CustomToast
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        toast = CustomToast(requireContext())
     }
 
     override fun onCreateView(
@@ -40,33 +36,53 @@ class CreateGoalFragment_1 : Fragment() {
         communicator = activity as CreateGoalCommunicator
 
         view.btn_ToFragmentTwo.setOnClickListener {
-            // use communicator to pass String data from textview_FragmentOne
-            // communicator.passStringDataComOne(view.et_FragmentOne.text.toString())
-            // key is defined within this function
-            // bundle.putString("string 1", editTextStringInput) --> 'string 1' is the key
-            Log.d("Next Fragment BTN", "FIRED")
+            var checkbox_state1 : Int = 0
+            var checkbox_state2 : Int = 0
+            var checkbox_state3 : Int = 0
+
+
+            // If checkbox states have changed:
+            if(view.category_btn_1.isChecked)
+                // pass int 1 to communicator if 1st category button (Career) is selected
+                checkbox_state1 = 1
+            else
+                // pass int 0 to communicator if 1st category button (Career) is not selected
+                checkbox_state1 = 0
+            if(view.category_btn_2.isChecked)
+            // pass int 1 to communicator if 2nd category button (Family) is selected
+                checkbox_state2 = 1
+            else
+            // pass int 0 to communicator if 2nd category button (Family) is not selected
+                checkbox_state2 = 0
+            if(view.category_btn_3.isChecked)
+            // pass int 1 to communicator if 3rd category button (Leisure) is selected
+                checkbox_state3 = 1
+            else
+            // pass int 0 to communicator if 3rd category button (Leisure) is not selected
+                checkbox_state3 = 0
+
+            // use communicator to pass String data from Edit Text_et_goalTitle & Int data from states of 3 checkboxes
+            communicator.firstFormSubmit(
+                view.et_goalTitle.text.toString(),
+                checkbox_state1,
+                checkbox_state2,
+                checkbox_state3
+            )
+
         }
 
         return view
+
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
+
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CreateGoalFragment_1.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CreateGoalFragment_1().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+
     }
 }

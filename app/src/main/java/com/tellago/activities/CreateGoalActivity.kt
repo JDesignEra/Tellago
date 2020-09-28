@@ -13,9 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.google.firebase.Timestamp
 import com.tellago.R
-import com.tellago.fragments.CreateGoalFragmentThree
-import com.tellago.fragments.CreateGoalFragmentTwo
-import com.tellago.fragments.CreateGoalFragment_1
+import com.tellago.fragments.*
 import com.tellago.interfaces.CreateGoalCommunicator
 import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
@@ -58,19 +56,20 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
     }
 
 
+
     override fun passStringDataComOne(editTextStringInput: String) {
         val bundle = Bundle()
         bundle.putString("string 1", editTextStringInput)
-        Log.d("bundlePutString", editTextStringInput.toString())
+        Log.d("bundlePutString", editTextStringInput)
 
         val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentTwo = CreateGoalFragmentTwo()
+        val fragmentTwo = CreateGoalFragment_2()
         fragmentTwo.arguments = bundle
 
-        transaction.replace(R.id.fragment_container, fragmentTwo)
+        transaction.replace(R.id.fragment_container_create_goal, fragmentTwo)
         transaction.commit()
-
     }
+
 
 
     override fun passLongDataComOne(LongInput: Long) {
@@ -78,10 +77,10 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         bundle.putLong("Long 1", LongInput)
 
         val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentTwo = CreateGoalFragmentTwo()
+        val fragmentTwo = CreateGoalFragment_2()
         fragmentTwo.arguments = bundle
 
-        transaction.replace(R.id.fragment_container, fragmentTwo)
+        transaction.replace(R.id.fragment_container_create_goal, fragmentTwo)
         transaction.commit()
     }
 
@@ -91,10 +90,10 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         bundle.putString("Timestamp to String 1", TimeStampInput.toString())
 
         val transaction = this.supportFragmentManager.beginTransaction()
-        val fragmentTwo = CreateGoalFragmentTwo()
+        val fragmentTwo = CreateGoalFragment_2()
         fragmentTwo.arguments = bundle
 
-        transaction.replace(R.id.fragment_container, fragmentTwo)
+        transaction.replace(R.id.fragment_container_create_goal, fragmentTwo)
         transaction.commit()
     }
 
@@ -107,7 +106,7 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         val fragmentThree = CreateGoalFragmentThree()
         fragmentThree.arguments = bundle
 
-        transaction.replace(R.id.fragment_container, fragmentThree)
+        transaction.replace(R.id.fragment_container_create_goal, fragmentThree)
         transaction.commit()
 
     }
@@ -120,7 +119,7 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         val fragmentThree = CreateGoalFragmentThree()
         fragmentThree.arguments = bundle
 
-        transaction.replace(R.id.fragment_container, fragmentThree)
+        transaction.replace(R.id.fragment_container_create_goal, fragmentThree)
         transaction.commit()
     }
 
@@ -132,10 +131,58 @@ class CreateGoalActivity : AppCompatActivity(), CreateGoalCommunicator {
         val fragmentThree = CreateGoalFragmentThree()
         fragmentThree.arguments = bundle
 
-        transaction.replace(R.id.fragment_container, fragmentThree)
+        transaction.replace(R.id.fragment_container_create_goal, fragmentThree)
         transaction.commit()
     }
 
+
+    override fun firstFormSubmit(
+        editTextStringInput: String,
+        stateCareer: Int,
+        stateFamily: Int,
+        stateLeisure: Int
+    ) {
+        val bundle = Bundle()
+        bundle.putString("string 1", editTextStringInput)
+        bundle.putInt("careerSelected", stateCareer)
+        bundle.putInt("familySelected", stateFamily)
+        bundle.putInt("leisureSelected", stateLeisure)
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentTwo = CreateGoalFragment_2()
+        fragmentTwo.arguments = bundle
+
+        transaction.replace(R.id.fragment_container_create_goal, fragmentTwo)
+        transaction.commit()
+    }
+
+    override fun secondFormSubmit(
+        editTextStringInput: String,
+        stateCareer: Int,
+        stateFamily: Int,
+        stateLeisure: Int,
+        durationIntInput : Int,
+        durationStringInput : String,
+        reminderInput : Int
+
+    ) {
+        val bundle = Bundle()
+        bundle.putString("string 2", editTextStringInput)
+        bundle.putInt("careerSelected", stateCareer)
+        bundle.putInt("familySelected", stateFamily)
+        bundle.putInt("leisureSelected", stateLeisure)
+        bundle.putInt("duration Int", durationIntInput)
+        bundle.putString("duration String", durationStringInput)
+        bundle.putInt("reminder Int", reminderInput)
+
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentThree = CreateGoalFragment_3()
+        fragmentThree.arguments = bundle
+
+        transaction.replace(R.id.fragment_container_create_goal, fragmentThree)
+        transaction.commit()
+    }
 
 
 
