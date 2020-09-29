@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -114,7 +115,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Log.d("fab_main", "FIRED!!")
         }
 
-
         // Close navDrawer when user clicks on Left Chevron icon
         val closeButton: ImageView = closeFromNavView
         closeButton.setOnClickListener {
@@ -141,6 +141,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun configureNavigationDrawer() {
+        val drawerToggle = object : ActionBarDrawerToggle(this, drawer_layout, null, R.string.drawer_open, R.string.drawer_close) {
+            override fun onDrawerOpened(drawerView: View) {
+                super.onDrawerOpened(drawerView)
+
+                profile_displayName.text = profile?.displayName ?: "Guest"
+                profile_displayEmail.text = profile?.email ?: "guest@gmail.com"
+                profile?.displayProfilePicture(drawerView.context, profile_image)
+            }
+        }
+
+        drawer_layout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+
         val navigationView: NavigationView = navigation
 
         navigationView.bringToFront()
@@ -148,24 +161,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             onNavigationItemSelected(it)
             true
         }
-    }
-
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        val viewRect = Rect()
-
-        profile_displayName.text = profile?.displayName ?: "Guest"
-        profile_displayEmail.text = profile?.email ?: "guest@gmail.com"
-        navigation.getGlobalVisibleRect(viewRect)
-        profile?.displayProfilePicture(this, profile_image)
-
-        // uncomment the following then make changes so that drawer can be SWIPED open from LEFT
-//        if (!viewRect.contains(ev!!.rawX.toInt(), ev.rawY.toInt())) {
-//            if (drawerLayout.isDrawerVisible((GravityCompat.START)))
-//                drawerLayout.closeDrawer(GravityCompat.START)
-//            else drawerLayout.openDrawer(GravityCompat.START)
-//        }
-
-        return super.dispatchTouchEvent(ev)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

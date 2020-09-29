@@ -1,11 +1,10 @@
 package com.tellago.fragments
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.tellago.R
 import com.tellago.interfaces.GoalsCommunicator
@@ -27,10 +26,7 @@ class CreateGoalFragment_3 : Fragment() {
         toast = CustomToast(requireContext())
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_create_goal_3, container, false)
 
         view.btn_BackToFragmentTwo.setOnClickListener {
@@ -39,11 +35,11 @@ class CreateGoalFragment_3 : Fragment() {
 
         view.btn_CreateGoal.setOnClickListener {
             setFragmentResultListener(communicator.requestKey) { _, bundle ->
-                Log.e("Title", bundle.getString(communicator.titleKey).toString())
                 val locale = Locale("en", "SG")
                 val timezone = TimeZone.getTimeZone("Asia/Singapore")
                 val category = mutableListOf<String>()
                 val deadline = Calendar.getInstance(timezone, locale)
+                val reminderFreq = bundle.getInt(communicator.reminderKey)
                 deadline.add(Calendar.MONTH, bundle.getInt(communicator.durationKey))
 
                 if (bundle.getBoolean(communicator.careerKey)) category.add(communicator.careerKey)
@@ -56,7 +52,7 @@ class CreateGoalFragment_3 : Fragment() {
                     category = category,
                     targetAmt = 5000,
                     deadline = deadline.time,
-                    reminderMonthsFreq = bundle.getInt(communicator.reminderKey),
+                    reminderMonthsFreq = if (reminderFreq == 0) null else reminderFreq,
                     createDate = Calendar.getInstance(timezone, locale).time
                 ).add {
                     if (it != null) {

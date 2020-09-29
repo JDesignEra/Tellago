@@ -34,7 +34,7 @@ class CreateGoalFragment_2 : Fragment() {
 
         view.btn_ToFragmentThree.setOnClickListener {
             var durationMonth = view.number_picker_target_duration.value
-            var reminderMonth: Int? = null
+            var reminderMonth: Int = 0
 
             when (view.radioGroup_duration.checkedRadioButtonId) {
                 R.id.radioBtn_duration_years -> durationMonth *= 12   // Convert to Months
@@ -51,7 +51,7 @@ class CreateGoalFragment_2 : Fragment() {
                 setFragmentResult(communicator.requestKey, bundle.apply {
                     putAll(bundle)
                     putInt(communicator.durationKey, durationMonth)
-                    if (reminderMonth != null) putInt(communicator.requestKey, reminderMonth)
+                    putInt(communicator.requestKey, reminderMonth)
 
                     communicator.replaceFragment(CreateGoalFragment_3())
                 })
