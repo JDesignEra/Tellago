@@ -1,6 +1,7 @@
 package com.tellago.adapters
 
 import android.os.Build
+import android.text.format.DateFormat.format
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,17 +16,17 @@ import com.bumptech.glide.request.RequestOptions
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.Timestamp
+import com.google.type.DateTime
 import com.tellago.MainActivity
 import com.tellago.R
 import com.tellago.fragments.ShowGoalsFragment
 import com.tellago.models.Goal
 import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
+import java.lang.String.format
+import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -74,26 +75,31 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
         return super.getItemCount()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(
         holder: ShowGoalsRecyclerAdapter.GoalViewHolder,
         position: Int,
         model: Goal
     ) {
-//        val timestamp_firebase = model.createDate
-//        val local_date = timestamp_firebase?.seconds?.let {
-//            Instant.ofEpochSecond(it)
-//                .atZone(ZoneId.of("Asia/Singapore"))
-//                .toLocalDate()
-//        }
 
-//        holder.tv_gCreationDate.setText(local_date.toString())
+        // Display as Mon Sep 28 17:08:48 GMT 2020
+        val timestamp_firebase = model.createDate
+
+        // Displays as 28-8-120 without offset consideration
+        val local_date : String = timestamp_firebase.date.toString() +
+                "-" + Month.of(timestamp_firebase.month + 1) +
+                "-" + (timestamp_firebase.year + 1900).toString()
+
+
+        holder.tv_gCreationDate.setText(local_date)
+        
 
 //        holder.tv_gCurrentAmount.text = model.gCurrentAmount.toString()
 //        holder.tv_gDeadline.text = model.gDeadline.toString()
 
 
-//        holder.tv_gFullAmount.setText(DecimalFormat("$#,###").format(model.targetAmt))
-//        holder.iv_gIcon.setImageResource(R.drawable.ic_account_box_48_primary)
+        holder.tv_gFullAmount.setText(DecimalFormat("$#,###").format(model.targetAmt))
+        holder.iv_gIcon.setImageResource(R.drawable.ic_account_box_48_primary)
 //        holder.tv_gLastReminder.text = model.gLastReminder
 
 
@@ -101,7 +107,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
 
 //        holder.tv_gReminderFreq.text = model.gReminderFreq
 
-//        holder.tv_gTitle.text = model.title
+        holder.tv_gTitle.text = model.title
         
 //        holder.tv_goalid.text = model.goalid
 
