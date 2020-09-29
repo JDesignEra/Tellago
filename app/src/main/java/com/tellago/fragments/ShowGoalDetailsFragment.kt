@@ -1,33 +1,30 @@
 package com.tellago.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.tellago.R
+import com.tellago.models.Goal
+import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_show_goal_details.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ShowGoalDetailsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ShowGoalDetailsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -36,25 +33,49 @@ class ShowGoalDetailsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_show_goal_details, container, false)
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShowGoalDetailsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShowGoalDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        configureToolbar()
+
+        val bundle = this.arguments
+        if (bundle != null) {
+
+            Goal(gid = bundle.getString("goal_id")).getGoal {
+                if (it != null) {
+                    // Assign to relevant edit text elements below
+                    tv_gid.text = it.gid
+                    tv_uid.text = it.uid
+                    tv_jid.text = it.jid
+                    et_title.setText(it.title)
+                    et_categories.setText("Null")
+                    et_targetAmt.setText(it.targetAmt.toString())
+                    et_currentAmt.setText(it.currentAmt.toString())
+                    et_bucketList.setText("Null")
+                    et_deadline.setText(it.deadline.toString())
+                    tv_lastReminder.text = it.lastReminder.toString()
+                    et_reminderMonthsFreq.setText(it.reminderMonthsFreq.toString())
+                    tv_createDate.text = it.createDate.toString()
+
                 }
             }
+        }
+
+        btn_EditGoalDetails.setOnClickListener {
+            Log.d("btn EditGoal", "FIRED")
+        }
+
     }
+
+    private fun configureToolbar() {
+        toolbar_goal_details.setNavigationIcon(R.drawable.ic_arrow_back_36)
+        toolbar_goal_details.setNavigationOnClickListener {
+            // Allow user to return to previous fragment in the Stack
+            activity?.supportFragmentManager?.popBackStack()
+        }
+    }
+
 }

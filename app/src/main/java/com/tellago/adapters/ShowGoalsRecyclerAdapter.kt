@@ -1,9 +1,10 @@
 package com.tellago.adapters
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -17,6 +18,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : FirestoreRecyclerAdapter<Goal, ShowGoalsRecyclerAdapter.GoalViewHolder>(options) {
+    lateinit var goal_id : String
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoalViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_goal_list_item, parent, false)
         return GoalViewHolder(view)
@@ -28,6 +31,9 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         holder.tvTitle.text = model.title
         holder.tvCreationDate.text = dateFormatter.format(model.createDate)
         holder.tvFullAmt.text = DecimalFormat("$#,###").format(model.targetAmt)
+        // val goal ID to pass to next activity/fragment
+        holder.tv_GoalID.text = model.gid.toString()
+
     }
 
     class GoalViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -35,15 +41,21 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         val tvCreationDate = itemView.tv_gCreationDate
         val tvFullAmt = itemView.tv_gFullAmount
         val tvIcon = itemView.iv_gIcon
+        val tv_GoalID = itemView.tv_g_ID
+
+        val showGoalDetailsFragment = ShowGoalDetailsFragment()
+
+
 
         init {
+            val activity : AppCompatActivity = itemView.context as AppCompatActivity
+            val fragmentUtils = FragmentUtils(activity.supportFragmentManager, R.id.fragment_container)
+
             itemView.btn_ShowGoalDetails.setOnClickListener { v: View? ->
-                val position: Int = adapterPosition
-//                Toast.makeText(
-//                    itemView.context,
-//                    "You clicked on Goal item # ${position + 1}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
+//              Use bundle to pass goal_id Data to showGoalDetailsFragment
+                val bundle = Bundle()
+                bundle.putString("goal_id", tv_GoalID.text as String?)
+                showGoalDetailsFragment.arguments = bundle
                 fragmentUtils.addFragmentToFragment(showGoalDetailsFragment)
 
             }
