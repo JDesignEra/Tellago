@@ -54,7 +54,8 @@ class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
         if (intent_extra == "show_goals")
             fragmentUtils.add(showGoalsFragment)
         else if (intent_extra == "add_goal")
-            fragmentUtils.add(createGoalFragment1)
+            fragmentUtils.add(showGoalsFragment)
+            fragmentUtils.addFragmentToFragment(createGoalFragment1)
 
 
         configureToolbar()
@@ -83,11 +84,11 @@ class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
         // To 'hide' Title display in actionbar
         actionbar?.setTitle("")
         actionbar?.setDisplayHomeAsUpEnabled(true)
-        actionbar?.setHomeAsUpIndicator(R.drawable.ic_cancel_black_48)
+        actionbar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_36)
 
         // Navigate back to MainActivity (by closing the current Edit Profile Activity)
         (toolbar_createGoal as Toolbar?)?.setNavigationOnClickListener {
-            this.finish()
+            supportFragmentManager.popBackStack()
         }
     }
 
