@@ -142,12 +142,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun configureNavigationDrawer() {
         val drawerToggle = object : ActionBarDrawerToggle(this, drawer_layout, null, R.string.drawer_open, R.string.drawer_close) {
-            override fun onDrawerOpened(drawerView: View) {
-                super.onDrawerOpened(drawerView)
+            override fun onDrawerStateChanged(newState: Int) {
+                super.onDrawerStateChanged(newState)
 
-                profile_displayName.text = profile?.displayName ?: "Guest"
-                profile_displayEmail.text = profile?.email ?: "guest@gmail.com"
-                profile?.displayProfilePicture(drawerView.context, profile_image)
+                if (newState == DrawerLayout.STATE_DRAGGING || newState == DrawerLayout.STATE_SETTLING) {
+                    profile_displayName.text = profile?.displayName ?: "tellsquare"
+                    profile_displayEmail.text = profile?.email ?: "Welcome, Guest"
+                    profile?.displayProfilePicture(drawer_layout.context, profile_image)
+                }
             }
         }
 
