@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
+import com.tellago.fragments.ShowGoalDetailsFragment
 import com.tellago.models.Goal
+import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -35,14 +37,15 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         val tvIcon = itemView.iv_gIcon
 
         init {
-            itemView.btn_ShowGoalDetails.setOnClickListener {
-                val pos = adapterPosition
+            itemView.btn_ShowGoalDetails.setOnClickListener { v: View? ->
+                val position: Int = adapterPosition
+//                Toast.makeText(
+//                    itemView.context,
+//                    "You clicked on Goal item # ${position + 1}",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+                fragmentUtils.addFragmentToFragment(showGoalDetailsFragment)
 
-                Toast.makeText(
-                    itemView.context,
-                    "You clicked on Goal item # ${pos + 1}",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
     }
