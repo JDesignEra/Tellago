@@ -1,43 +1,32 @@
 package com.tellago.adapters
 
 import android.os.Build
-import android.text.format.DateFormat.format
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.Timestamp
-import com.google.type.DateTime
-import com.tellago.MainActivity
 import com.tellago.R
-import com.tellago.fragments.ShowGoalsFragment
 import com.tellago.models.Goal
 import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
-import java.lang.String.format
-import java.text.DateFormat
 import java.text.DecimalFormat
-import java.text.SimpleDateFormat
-import java.time.*
-import java.time.format.DateTimeFormatter
-import java.util.*
+import java.time.Month
+
 
 class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
     FirestoreRecyclerAdapter<Goal, ShowGoalsRecyclerAdapter.GoalViewHolder>(options) {
 
-
-    // Constructor for GoalViewHolder
+    // Constructor for GoalViewHolder (inner class)
     class GoalViewHolder constructor(
         itemView: View
-    ) : RecyclerView.ViewHolder(itemView) {
+    ) : RecyclerView.ViewHolder(itemView){
         val tv_gCreationDate: TextView = itemView.tv_gCreationDate
 
         //        val tv_gCurrentAmount: TextView = itemView.tv_gCurrentAmount
@@ -53,6 +42,18 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
 //        val tv_goalid: TextView = itemView.tv_gIcon
 
 
+//        val btnShowGoalDetails : Button = itemView.btn_ShowGoalDetails
+
+        init {
+            itemView.btn_ShowGoalDetails.setOnClickListener { v: View? ->
+                val position: Int = adapterPosition
+                Toast.makeText(
+                    itemView.context,
+                    "You clicked on Goal item # ${position + 1}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
     }
 
@@ -75,6 +76,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
         return super.getItemCount()
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(
         holder: ShowGoalsRecyclerAdapter.GoalViewHolder,
@@ -82,17 +84,18 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
         model: Goal
     ) {
 
+
         // Display as Mon Sep 28 17:08:48 GMT 2020
         val timestamp_firebase = model.createDate
 
         // Displays as 28-8-120 without offset consideration
-        val local_date : String = timestamp_firebase.date.toString() +
+        val local_date: String = timestamp_firebase.date.toString() +
                 "-" + Month.of(timestamp_firebase.month + 1) +
                 "-" + (timestamp_firebase.year + 1900).toString()
 
 
         holder.tv_gCreationDate.setText(local_date)
-        
+
 
 //        holder.tv_gCurrentAmount.text = model.gCurrentAmount.toString()
 //        holder.tv_gDeadline.text = model.gDeadline.toString()
@@ -108,8 +111,10 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
 //        holder.tv_gReminderFreq.text = model.gReminderFreq
 
         holder.tv_gTitle.text = model.title
-        
+
 //        holder.tv_goalid.text = model.goalid
 
+
     }
+
 }
