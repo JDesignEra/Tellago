@@ -1,5 +1,6 @@
 package com.tellago.models
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -34,6 +35,12 @@ data class Goal(
         collection.whereEqualTo("uid", uid).get().addOnSuccessListener {
             onComplete?.invoke(it.toObjects(Goal::class.java))
         }
+    }
+
+    fun getRecyclerOptionsByUid(): FirestoreRecyclerOptions<Goal> {
+        return FirestoreRecyclerOptions.Builder<Goal>()
+            .setQuery(collection.whereEqualTo("uid", uid), Goal::class.java)
+            .build()
     }
 
     fun add(onComplete: ((goal: Goal?) -> Unit)? = null) {
