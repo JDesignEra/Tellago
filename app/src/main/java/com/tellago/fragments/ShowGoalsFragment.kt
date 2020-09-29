@@ -1,10 +1,15 @@
 package com.tellago.fragments
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tellago.R
@@ -13,6 +18,7 @@ import com.tellago.adapters.ShowGoalsRecyclerAdapter
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_show_goals.*
 
 class ShowGoalsFragment : Fragment() {
@@ -39,6 +45,8 @@ class ShowGoalsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        configureToolbar()
+
         recycler_view_show_goals_fragment.layoutManager = LinearLayoutManager(requireContext())
         recycler_view_show_goals_fragment.adapter = adapter
 
@@ -58,5 +66,45 @@ class ShowGoalsFragment : Fragment() {
         super.onStop()
 
         if (adapter != null) adapter!!.stopListening()
+    }
+
+    private fun configureToolbar() {
+        toolbar_show_goals.setNavigationOnClickListener {
+            val drawerLayout: DrawerLayout = activity?.drawer_layout ?: DrawerLayout(this.requireContext())
+            drawerLayout.openDrawer(GravityCompat.START)
+
+            val drawerToggle: ActionBarDrawerToggle = setupDrawerToggle()
+            drawerToggle.syncState()
+
+            drawerLayout.addDrawerListener(drawerToggle)
+        }
+    }
+
+    private fun setupDrawerToggle(): ActionBarDrawerToggle {
+        val drawerLayout: DrawerLayout = activity?.drawer_layout ?: DrawerLayout(this.requireContext())
+
+        return ActionBarDrawerToggle(
+            this.requireActivity(),
+            drawerLayout,
+            toolbar_show_goals,
+            R.string.drawer_open,
+            R.string.drawer_close
+        )
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val drawerToggle: ActionBarDrawerToggle = setupDrawerToggle()
+
+        drawerToggle.onConfigurationChanged(newConfig)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val drawerToggle: ActionBarDrawerToggle = setupDrawerToggle()
+
+        return if (drawerToggle.onOptionsItemSelected(item))
+            true
+        else
+            super.onOptionsItemSelected(item)
     }
 }

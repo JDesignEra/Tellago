@@ -188,7 +188,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-
     private fun hideSystemUI() {
         window.decorView.apply {
             systemUiVisibility =
