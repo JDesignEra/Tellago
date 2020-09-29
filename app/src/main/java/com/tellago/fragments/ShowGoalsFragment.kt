@@ -3,7 +3,6 @@ package com.tellago.fragments
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -19,9 +18,7 @@ import com.tellago.adapters.ShowGoalsRecyclerAdapter
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
-import kotlinx.android.synthetic.main.activity_create_goal.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_show_goals.*
 
 class ShowGoalsFragment : Fragment() {
@@ -89,7 +86,7 @@ class ShowGoalsFragment : Fragment() {
         return ActionBarDrawerToggle(
             this.requireActivity(),
             drawerLayout,
-            toolbar_Home,
+            toolbar_show_goals,
             R.string.drawer_open,
             R.string.drawer_close
         )
