@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
-    private val showGoalsFragment : Fragment = ShowGoalsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +43,16 @@ class HomeFragment : Fragment() {
         configureToolbar()
 
         btn_ShowAllGoals.setOnClickListener {
-            fragmentUtils.addFragmentToFragment(showGoalsFragment)
+            val intent = Intent(activity, GoalsActivity::class.java)
+            intent.putExtra("INTENT_EXTRA", "show_goals")
+            startActivity(intent)
+            activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
         }
 
         btn_AddGoal.setOnClickListener {
-            startActivity(Intent(activity, GoalsActivity::class.java))
+            val intent = Intent(activity, GoalsActivity::class.java)
+            intent.putExtra("INTENT_EXTRA", "add_goal")
+            startActivity(intent)
             activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
         }
 

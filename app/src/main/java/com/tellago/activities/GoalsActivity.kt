@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.fragments.CreateGoalFragment_1
+import com.tellago.fragments.ShowGoalsFragment
 import com.tellago.interfaces.GoalsCommunicator
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_create_goal.*
@@ -26,10 +27,12 @@ class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
     override val durationKey: String = "duration"
     override val reminderKey: String = "reminder"
 
-    private val fragmentUtils: FragmentUtils = FragmentUtils(supportFragmentManager, R.id.fragment_container_create_goal)
+    private val fragmentUtils: FragmentUtils = FragmentUtils(supportFragmentManager, R.id.fragment_container_goal_activity)
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
     private val createGoalFragment1: Fragment = CreateGoalFragment_1()
+    private val showGoalsFragment: Fragment = ShowGoalsFragment()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +49,13 @@ class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
 
         StartTimer()
 
-        fragmentUtils.add(createGoalFragment1)
+        val intent_extra = intent.getStringExtra("INTENT_EXTRA")
+
+        if (intent_extra == "show_goals")
+            fragmentUtils.add(showGoalsFragment)
+        else if (intent_extra == "add_goal")
+            fragmentUtils.add(createGoalFragment1)
+
 
         configureToolbar()
     }

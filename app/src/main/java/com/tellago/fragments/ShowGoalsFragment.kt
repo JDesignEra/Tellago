@@ -24,12 +24,13 @@ import kotlinx.android.synthetic.main.fragment_show_goals.*
 class ShowGoalsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
     private var adapter: ShowGoalsRecyclerAdapter? = null
+    private val createGoalFragment1: Fragment = CreateGoalFragment_1()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
-            R.id.fragment_container
+            R.id.fragment_container_goal_activity
         )
 
         adapter = ShowGoalsRecyclerAdapter(Goal(uid = user?.uid).getRecyclerOptionsByUid())
@@ -51,8 +52,9 @@ class ShowGoalsFragment : Fragment() {
         recycler_view_show_goals_fragment.adapter = adapter
 
         fab_add_goal.setOnClickListener {
-            startActivity(Intent(activity, GoalsActivity::class.java))
-            activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+//            startActivity(Intent(activity, GoalsActivity::class.java))
+//            activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+            fragmentUtils.replace(createGoalFragment1)
         }
     }
 

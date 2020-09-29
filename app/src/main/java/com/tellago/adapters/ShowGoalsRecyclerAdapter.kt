@@ -49,7 +49,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
 
         init {
             val activity : AppCompatActivity = itemView.context as AppCompatActivity
-            val fragmentUtils = FragmentUtils(activity.supportFragmentManager, R.id.fragment_container)
+            val fragmentUtils = FragmentUtils(activity.supportFragmentManager, R.id.fragment_container_goal_activity)
 
             itemView.btn_ShowGoalDetails.setOnClickListener { v: View? ->
 //              Use bundle to pass goal_id Data to showGoalDetailsFragment
