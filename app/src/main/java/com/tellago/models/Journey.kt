@@ -35,7 +35,7 @@ data class Journey(
         else Log.e("Journey", "JID is required for getByJid().")
     }
 
-    fun updateByJid(addOnList: List<String>, onComplete: ((journey: Journey?) -> Unit)?) {
+    fun updateByJid(addOnList: List<String>, onComplete: ((journey: Journey?) -> Unit)? = null) {
         if (jid != null) {
             collection.document(jid!!).get().addOnSuccessListener {
                 if (it != null) {
@@ -49,14 +49,19 @@ data class Journey(
                         pids = addOnList.toMutableList()
                     }
 
-                    collection.document(jid!!).update("pids", pids)
+                    collection.document(jid!!).update("pids", pids).addOnSuccessListener {
+                        onComplete?.invoke(this)
+                    }.addOnFailureListener {
+                        Log.e("Journey", "Failed to update Journey")
+                        onComplete?.invoke(null)
+                    }
                 }
             }
         }
         else Log.e("Journey", "JID is required for updateByJid().")
     }
 
-    fun delteByJid() {
+    fun deleteByJid() {
         if (jid != null) collection.document(jid!!).delete()
         else Log.e("Journey", "JID is required for deleteByJid().")
     }

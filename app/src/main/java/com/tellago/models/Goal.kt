@@ -29,8 +29,8 @@ data class Goal(
             collection.document(gid!!).get().addOnSuccessListener {
                 onComplete?.invoke(it.toObject<Goal>())
             }.addOnFailureListener {
-                onComplete?.invoke(null)
                 Log.e("Goal", "Failed to get Goal by GID.")
+                onComplete?.invoke(null)
             }
         }
         else Log.e("Goal", "GID is required for getByGid().")
@@ -43,8 +43,8 @@ data class Goal(
             gid = it.id
             onComplete?.invoke(this)
         }.addOnFailureListener {
-            onComplete?.invoke(null)
             Log.e("Goal", "Failed to add Goal.")
+            onComplete?.invoke(null)
         }
     }
 
@@ -74,8 +74,8 @@ data class Goal(
                     collection.document(gid!!).update(data).addOnSuccessListener {
                         onComplete?.invoke(this)
                     }.addOnFailureListener {
-                        onComplete?.invoke(null)
                         Log.e("Goal", "Failed to update Goal.")
+                        onComplete?.invoke(null)
                     }
                 }
             }
@@ -83,8 +83,8 @@ data class Goal(
                 collection.document(gid!!).update(data).addOnSuccessListener {
                     onComplete?.invoke(this)
                 }.addOnFailureListener {
-                    onComplete?.invoke(null)
                     Log.e("Goal", "Failed to update Goal.")
+                    onComplete?.invoke(null)
                 }
             }
         }

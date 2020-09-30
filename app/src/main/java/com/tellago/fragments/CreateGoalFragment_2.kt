@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
 import com.tellago.R
-import com.tellago.activities.GoalsActivity
 import com.tellago.interfaces.GoalsCommunicator
+import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_2.*
 import kotlinx.android.synthetic.main.fragment_create_goal_2.view.*
 
@@ -26,7 +24,14 @@ class CreateGoalFragment_2 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_create_goal_2, container, false)
+        return inflater.inflate(R.layout.fragment_create_goal_2, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        number_picker_target_duration.minValue = 1
+        number_picker_target_duration.maxValue = 30
 
         view.btn_ToFragmentOne.setOnClickListener {
             communicator.popBackFragment()
@@ -45,26 +50,18 @@ class CreateGoalFragment_2 : Fragment() {
                 R.id.radiobutton_reminder_6mth -> reminderMonth = 6
             }
 
-            setFragmentResultListener(communicator.requestKey) { _, bundle ->
-                communicator.requestKey = "goal3"
+            val createGoalFragment_3 = CreateGoalFragment_3()
 
-                setFragmentResult(communicator.requestKey, bundle.apply {
-                    putAll(bundle)
-                    putInt(communicator.durationKey, durationMonth)
-                    putInt(communicator.requestKey, reminderMonth)
-
-                    communicator.replaceFragment(CreateGoalFragment_3())
-                })
+            createGoalFragment_3.arguments = Bundle().apply {
+                putAll(requireArguments())
+                putInt("duration", durationMonth)
+                putInt("reminder", reminderMonth)
             }
+
+            FragmentUtils(
+                requireActivity().supportFragmentManager,
+                R.id.fragment_container_goal_activity
+            ).replace(createGoalFragment_3)
         }
-
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        number_picker_target_duration.minValue = 1
-        number_picker_target_duration.maxValue = 30
     }
 }
