@@ -92,13 +92,13 @@ class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
                 finish()
             }
             else {
-                supportFragmentManager.popBackStack()
+                fragmentUtils.popBackStack()
             }
         }
     }
 
     override fun replaceFragment(fragment: Fragment) {
-        fragmentUtils.addFragmentToFragment(fragment)
+        fragmentUtils.replace(fragment)
     }
 
     override fun popBackFragment() {

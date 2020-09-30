@@ -56,8 +56,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
                 val bundle = Bundle()
                 bundle.putString("goal_id", tv_GoalID.text as String?)
                 showGoalDetailsFragment.arguments = bundle
-                fragmentUtils.addFragmentToFragment(showGoalDetailsFragment)
-
+                fragmentUtils.replace(showGoalDetailsFragment, false)
             }
         }
     }

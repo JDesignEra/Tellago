@@ -53,22 +53,22 @@ class SettingsFragment : Fragment() {
         }
 
         accountClick.setOnClickListener {
-            fragmentUtils.addFragmentToFragment(accountFragment)
+            fragmentUtils.replace(accountFragment)
         }
 
         configureToolbar()
         //configureNavigationDrawer()
 
         setting_privacy_layout.setOnClickListener {
-            fragmentUtils.addFragmentToFragment(privacyPolicyFragment)
+            fragmentUtils.replace(privacyPolicyFragment)
         }
 
         setting_terms_conditions_layout.setOnClickListener {
-            fragmentUtils.addFragmentToFragment(termsAndConditionsFragment)
+            fragmentUtils.replace(termsAndConditionsFragment)
         }
 
         setting_about_layout.setOnClickListener {
-            fragmentUtils.addFragmentToFragment(aboutUsFragment)
+            fragmentUtils.replace(aboutUsFragment)
         }
 
     }
