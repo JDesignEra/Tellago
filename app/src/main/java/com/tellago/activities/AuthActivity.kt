@@ -16,7 +16,7 @@ import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 
 class AuthActivity : AppCompatActivity() {
-    private var toast = CustomToast(this)
+    private lateinit var toast: CustomToast
 
     override fun onStart() {
         super.onStart()

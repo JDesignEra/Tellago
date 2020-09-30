@@ -27,12 +27,13 @@ class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
     override val durationKey: String = "duration"
     override val reminderKey: String = "reminder"
 
-    private val fragmentUtils: FragmentUtils = FragmentUtils(supportFragmentManager, R.id.fragment_container_goal_activity)
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
     private val createGoalFragment1: Fragment = CreateGoalFragment_1()
     private val showGoalsFragment: Fragment = ShowGoalsFragment()
 
+    private lateinit var fragmentUtils: FragmentUtils
+    private var intentExtra: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,14 +50,15 @@ class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
 
         StartTimer()
 
-        val intent_extra = intent.getStringExtra("INTENT_EXTRA")
+        fragmentUtils = FragmentUtils(supportFragmentManager, R.id.fragment_container_goal_activity)
+        intentExtra = intent.getStringExtra("INTENT_EXTRA")
 
-        if (intent_extra == "show_goals")
+        if (intentExtra == "add_goal") {
+            fragmentUtils.add(createGoalFragment1)
+        }
+        else {
             fragmentUtils.add(showGoalsFragment)
-        else if (intent_extra == "add_goal")
-            fragmentUtils.add(showGoalsFragment)
-            fragmentUtils.addFragmentToFragment(createGoalFragment1)
-
+        }
 
         configureToolbar()
     }
@@ -77,7 +79,6 @@ class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
     }
 
     private fun configureToolbar() {
-        // Indicate that toolbar_editProfile will replace Actionbar
         setSupportActionBar(toolbar_createGoal as Toolbar?)
 
         val actionbar: ActionBar? = supportActionBar
@@ -86,9 +87,13 @@ class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
         actionbar?.setDisplayHomeAsUpEnabled(true)
         actionbar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_36)
 
-        // Navigate back to MainActivity (by closing the current Edit Profile Activity)
         (toolbar_createGoal as Toolbar?)?.setNavigationOnClickListener {
-            supportFragmentManager.popBackStack()
+            if (intentExtra == "add_goal") {
+                finish()
+            }
+            else {
+                supportFragmentManager.popBackStack()
+            }
         }
     }
 

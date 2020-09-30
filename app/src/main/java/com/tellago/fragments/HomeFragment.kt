@@ -44,7 +44,6 @@ class HomeFragment : Fragment() {
 
         btn_ShowAllGoals.setOnClickListener {
             val intent = Intent(activity, GoalsActivity::class.java)
-            intent.putExtra("INTENT_EXTRA", "show_goals")
             startActivity(intent)
             activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
         }

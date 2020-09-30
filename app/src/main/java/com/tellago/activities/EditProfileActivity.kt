@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_edit_profile.profile_image
 
 class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.NoticeDialogListener {
-    private val toast = CustomToast(this)
+    private lateinit var toast: CustomToast
 
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
@@ -43,7 +43,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
 
         setContentView(R.layout.activity_edit_profile)
 
-        val window: Window = getWindow()
+        toast = CustomToast(this)
 
         // In Activity's onCreate() for instance
         window.setFlags(
@@ -60,12 +60,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
 
         updateBtn.setOnClickListener {
             if (editText_changeDisplayName.text.isNullOrEmpty()) {
-                val toastMsg: StyleableToast = StyleableToast.makeText(
-                    this,
-                    "ERROR: Display Name cannot be blank!",
-                    R.style.ErrorToastStyle
-                )
-                toastMsg.show()
+                editText_changeDisplayName.error = "Display name cannot be empty"
             } else
                 confirmEditProfileAlert()
 

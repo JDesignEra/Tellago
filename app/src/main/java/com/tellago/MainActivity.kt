@@ -24,6 +24,7 @@ import com.tellago.fragments.ProfileFragment
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
 import com.tellago.models.Auth.Companion.user
+import com.tellago.models.Goal
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
@@ -41,7 +42,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val homeFragment = HomeFragment()
     private val feedFragment = FeedFragment()
     private val profileFragment = ProfileFragment()
-
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
