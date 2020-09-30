@@ -8,17 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tellago.R
 import com.tellago.adapters.PostForCreateGoalRecyclerAdapter
-import com.tellago.interfaces.GoalsCommunicator
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
 import com.tellago.utils.CustomToast
+import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_3.*
 import java.util.*
 
-
 class CreateGoalFragment_3 : Fragment() {
-    private lateinit var communicator: GoalsCommunicator
     private lateinit var toast: CustomToast
+    private lateinit var fragmentUtils: FragmentUtils
 
     private var titlesList = mutableListOf<String>()
     private var descriptionsList = mutableListOf<String>()
@@ -28,9 +27,11 @@ class CreateGoalFragment_3 : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        communicator = activity as GoalsCommunicator
         toast = CustomToast(requireContext())
-
+        fragmentUtils = FragmentUtils(
+            requireActivity().supportFragmentManager,
+            R.id.fragment_container_goal_activity
+        )
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,7 +46,7 @@ class CreateGoalFragment_3 : Fragment() {
         recycler_view_create_goal_show_posts.adapter = PostForCreateGoalRecyclerAdapter(titlesList, descriptionsList, ownersList, imagesList)
 
         btn_BackToFragmentTwo.setOnClickListener {
-            communicator.popBackFragment()
+            fragmentUtils.popBackStack()
         }
 
         btn_CreateGoal.setOnClickListener {
@@ -59,13 +60,13 @@ class CreateGoalFragment_3 : Fragment() {
 
             deadline.add(Calendar.MONTH, bundle.getInt("duration"))
 
-            if (bundle.getBoolean(communicator.careerKey)) category.add(communicator.careerKey)
-            if (bundle.getBoolean(communicator.familyKey)) category.add(communicator.familyKey)
-            if (bundle.getBoolean(communicator.leisureKey)) category.add(communicator.leisureKey)
+            if (bundle.getBoolean("career")) category.add("career")
+            if (bundle.getBoolean("family")) category.add("family")
+            if (bundle.getBoolean("leisure")) category.add("leisure")
 
             Goal(
                 uid = user?.uid,
-                title = bundle.getString(communicator.titleKey),
+                title = bundle.getString("title"),
                 category = category,
                 targetAmt = 5000,
                 deadline = deadline.time,

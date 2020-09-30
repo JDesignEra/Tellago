@@ -12,21 +12,10 @@ import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.fragments.CreateGoalFragment_1
 import com.tellago.fragments.ShowGoalsFragment
-import com.tellago.interfaces.GoalsCommunicator
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.activity_create_goal.*
 
-class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
-    override var requestKey: String = ""
-        get() {return field}
-        set(value) { field = value }
-    override val titleKey: String = "title"
-    override val careerKey: String = "career"
-    override val familyKey: String = "family"
-    override val leisureKey: String = "leisure"
-    override val durationKey: String = "duration"
-    override val reminderKey: String = "reminder"
-
+class GoalsActivity : AppCompatActivity() {
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
     private val createGoalFragment1: Fragment = CreateGoalFragment_1()
@@ -95,13 +84,5 @@ class GoalsActivity : AppCompatActivity(), GoalsCommunicator {
                 fragmentUtils.popBackStack()
             }
         }
-    }
-
-    override fun replaceFragment(fragment: Fragment) {
-        fragmentUtils.replace(fragment)
-    }
-
-    override fun popBackFragment() {
-        fragmentUtils.popBackStack()
     }
 }
