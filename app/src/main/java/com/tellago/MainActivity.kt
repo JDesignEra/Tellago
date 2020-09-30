@@ -5,7 +5,10 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.*
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -24,7 +27,6 @@ import com.tellago.fragments.ProfileFragment
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
 import com.tellago.models.Auth.Companion.user
-import com.tellago.models.Goal
 import com.tellago.services.ExitService
 import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
@@ -85,8 +87,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-        // the following code will replace the current fragment based on the selected navigation
-        // item from the bottom navigation bar
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.ic_home -> {
@@ -140,6 +140,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun configureNavigationDrawer() {
+        val navigationView: NavigationView = navigation
         val drawerToggle = object : ActionBarDrawerToggle(this, drawer_layout, null, R.string.drawer_open, R.string.drawer_close) {
             override fun onDrawerStateChanged(newState: Int) {
                 super.onDrawerStateChanged(newState)
@@ -155,8 +156,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
-        val navigationView: NavigationView = navigation
-
         navigationView.bringToFront()
         navigationView.setNavigationItemSelectedListener {
             onNavigationItemSelected(it)
@@ -165,20 +164,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val f: Fragment? = null
+        val navigationView: NavigationView = navigation
 
         when (item.itemId) {
-            R.id.view_profile -> fragmentUtils.replace(profileFragment)
+            R.id.view_profile -> {
+                fragmentUtils.replace(profileFragment)
+                if (bottomNavigationView != null) bottomNavigationView.selectedItemId = R.id.ic_profile
+            }
             R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)
             }
-        }
-
-        if (f != null) {
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_container, f)
-            transaction.commit()
         }
 
         val drawerLayout: DrawerLayout = drawer_layout
