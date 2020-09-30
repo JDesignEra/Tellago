@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/superlightgray">
+    tools:context=".fragments.AuthFragment"
+    android:background="@color/colorBackground">
 
     <ImageView
         android:id="@+id/imageViewLogo"
@@ -18,40 +19,86 @@
         app:srcCompat="@drawable/tellsquarelogo2"
         android:elevation="10dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/greeting"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WELCOME TO "
+            android:textColor="@color/colorTextDarkGray"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:letterSpacing="-0.02"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TELLSQUARE"
+            android:textColor="@color/colorPrimary"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:letterSpacing="-0.02" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Collective Learning towards Life Aspirations"
+        android:textSize="13sp"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/desc"
+        app:layout_constraintTop_toBottomOf="@id/greeting"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:letterSpacing="-0.02"
+        android:textAlignment="center" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnEmail"
-        android:layout_width="325dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
+        app:layout_constraintTop_toBottomOf="@id/desc"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="85dp"
         android:text="Continue with Email"
         android:padding="15dp"
         app:backgroundTint="@color/colorPrimary"
-        app:cornerRadius="25dp"
+        app:cornerRadius="5dp"
         android:textAllCaps="false"
-        android:textSize="16sp"
-        android:letterSpacing="-0.01"
+        android:textSize="14sp"
+        android:letterSpacing="-0.02"
         android:elevation="10dp"
         app:icon="@drawable/ic_email_round_48"
         app:iconGravity="textStart"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnFacebook"
-        android:layout_width="325dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/btnEmail"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="10dp"
         android:text="Continue with Facebook"
         android:padding="15dp"
         app:backgroundTint="@color/com_facebook_blue"
-        app:cornerRadius="25dp"
+        app:cornerRadius="5dp"
         android:textAllCaps="false"
-        android:textSize="16sp"
-        android:letterSpacing="-0.01"
+        android:textSize="14sp"
+        android:letterSpacing="-0.02"
         app:icon="@drawable/fb"
         app:iconSize="18dp"
         app:iconGravity="textStart"
@@ -59,20 +106,19 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGoogle"
-        android:layout_width="325dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/btnFacebook"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="10dp"
         android:text="Continue with Google"
         android:textColor="@color/colorTextDarkGray"
         android:padding="15dp"
         android:backgroundTint="@color/superlightgray"
-        app:cornerRadius="25dp"
+        app:cornerRadius="5dp"
         android:textAllCaps="false"
-        android:textSize="16sp"
-        android:letterSpacing="-0.01"
+        android:textSize="14sp"
+        android:letterSpacing="-0.02"
         app:icon="@drawable/google"
         app:iconSize="18dp"
         app:iconTint="@color/colorTextDarkGray"
@@ -81,55 +127,57 @@
 
     <LinearLayout
         android:id="@+id/divider"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/btnGoogle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         >
         <View
             android:layout_width="409dp"
             android:layout_height="1dp"
-            android:layout_weight="0.5"
-            android:layout_marginTop="9dp"
+            android:layout_weight="0.4"
+            android:layout_marginTop="11dp"
             android:background="@color/colorIconGrey"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OR"
+            android:text="or"
+            android:textSize="16dp"
             android:textColor="@color/colorIconGrey"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp" />
         <View
             android:layout_width="409dp"
             android:layout_height="1dp"
-            android:layout_weight="0.5"
-            android:layout_marginTop="9dp"
+            android:layout_weight="0.4"
+            android:layout_marginTop="11dp"
             android:background="@color/colorIconGrey"/>
-            <!--android:background="?android:attr/listDivider"-->
+        <!--android:background="?android:attr/listDivider"-->
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGuest"
-        android:layout_width="325dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/divider"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Continue as Guest"
         android:textColor="@color/colorBackground"
         android:padding="15dp"
         android:backgroundTint="@color/colorIconGrey"
-        app:cornerRadius="25dp"
+        app:cornerRadius="5dp"
         android:textAllCaps="false"
-        android:textSize="16sp"
-        android:letterSpacing="-0.01"
+        android:textSize="14sp"
+        android:letterSpacing="-0.02"
         app:icon="@drawable/ic_baseline_person_24"
         app:iconGravity="textStart"
         android:elevation="10dp" />
+
 
     <!--
         <ImageButton
