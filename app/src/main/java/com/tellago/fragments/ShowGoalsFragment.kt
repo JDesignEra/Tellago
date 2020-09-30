@@ -72,7 +72,6 @@ class ShowGoalsFragment : Fragment() {
         toolbar_show_goals.setNavigationOnClickListener {
             // Finish GoalsActivity to return to MainActivity
             activity?.finish()
-
         }
     }
 
