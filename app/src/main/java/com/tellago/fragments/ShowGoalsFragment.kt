@@ -7,10 +7,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
 import com.tellago.adapters.ShowGoalsRecyclerAdapter
 import com.tellago.models.Auth.Companion.user
@@ -31,7 +31,11 @@ class ShowGoalsFragment : Fragment() {
             R.id.fragment_container_goal_activity
         )
 
-        adapter = ShowGoalsRecyclerAdapter(Goal(uid = user?.uid).getRecyclerOptionsByUid())
+        adapter = ShowGoalsRecyclerAdapter(
+            FirestoreRecyclerOptions.Builder<Goal>()
+                .setQuery(Goal(uid = user?.uid).getQueryByUid(), Goal::class.java)
+                .build()
+        )
     }
 
     override fun onCreateView(
