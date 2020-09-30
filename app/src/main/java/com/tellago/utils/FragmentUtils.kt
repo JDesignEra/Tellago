@@ -13,7 +13,6 @@ class FragmentUtils(
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
 
         transaction.replace(fragmentContainer, fragment)
-        transaction.disallowAddToBackStack()
         transaction.commit()
     }
 
@@ -28,7 +27,6 @@ class FragmentUtils(
         )
 
         transaction.replace(fragmentContainer, fragment)
-        transaction.addToBackStack(null)
         transaction.commit()
     }
 
