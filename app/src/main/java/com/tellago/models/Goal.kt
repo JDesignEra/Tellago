@@ -1,8 +1,8 @@
 package com.tellago.models
 
+import android.util.Log
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import java.util.*
 
@@ -24,12 +24,16 @@ data class Goal(
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val collection = db.collection("goals")
 
-    fun getGoal(onComplete: ((goal: Goal?) -> Unit)? = null) {
+    fun getByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
         if (gid != null) {
             collection.document(gid!!).get().addOnSuccessListener {
                 onComplete?.invoke(it.toObject<Goal>())
+            }.addOnFailureListener {
+                onComplete?.invoke(null)
+                Log.e("Goal", "Failed to get Goal by GID.")
             }
         }
+        else Log.e("Goal", "GID is required for getByGid().")
     }
 
     fun add(onComplete: ((goal: Goal?) -> Unit)? = null) {
@@ -40,10 +44,11 @@ data class Goal(
             onComplete?.invoke(this)
         }.addOnFailureListener {
             onComplete?.invoke(null)
+            Log.e("Goal", "Failed to add Goal.")
         }
     }
 
-    fun update(onComplete: ((goal: Goal) -> Unit)? = null) {
+    fun updateByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
         if (gid != null) {
             val data = hashMapOf<String, Any?>()
             if (uid != null) data["uid"] = uid
@@ -68,18 +73,26 @@ data class Goal(
 
                     collection.document(gid!!).update(data).addOnSuccessListener {
                         onComplete?.invoke(this)
+                    }.addOnFailureListener {
+                        onComplete?.invoke(null)
+                        Log.e("Goal", "Failed to update Goal.")
                     }
                 }
             }
             else {
                 collection.document(gid!!).update(data).addOnSuccessListener {
                     onComplete?.invoke(this)
+                }.addOnFailureListener {
+                    onComplete?.invoke(null)
+                    Log.e("Goal", "Failed to update Goal.")
                 }
             }
         }
+        else Log.e("Goal", "GID is required for updateByGid().")
     }
 
-    fun delete() {
+    fun deleteByGid() {
         if (gid != null) collection.document(gid!!).delete()
+        else Log.e("Goal", "GID is required for deleteByGid().")
     }
 }

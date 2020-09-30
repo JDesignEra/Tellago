@@ -56,7 +56,7 @@ class EditGoalDetailsFragment : Fragment() {
             }
 
 
-            Goal(gid = goalID).getGoal {
+            Goal(gid = goalID).getByGid {
                 if (it != null) {
                     // Assign to relevant edit text elements below
                     tv_goalID_edit_gone.text = goalID
@@ -106,8 +106,8 @@ class EditGoalDetailsFragment : Fragment() {
                     category = categoriesList,
                     targetAmt = et_targetAmt.text.toString().toInt(),
                     currentAmt = et_currentAmt.text.toString().toInt()
-                ).update {
-                }
+
+                ).updateByGid()
             }
 
         }
@@ -127,8 +127,7 @@ class EditGoalDetailsFragment : Fragment() {
             FragmentUtils(
                 requireActivity().supportFragmentManager,
                 R.id.fragment_container_goal_activity
-            )
-                .popBackStack()
+            ).popBackStack()
         }
     }
 

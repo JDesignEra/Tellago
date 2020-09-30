@@ -40,7 +40,7 @@ class ShowGoalDetailsFragment : Fragment() {
         val bundle = this.arguments
         if (bundle != null) {
 
-            Goal(gid = bundle.getString("goal_id")).getGoal {
+            Goal(gid = bundle.getString("goal_id")).getByGid {
                 if (it != null) {
                     // Assign to relevant edit text elements below
                     tv_goalID_gone.text = it.gid
