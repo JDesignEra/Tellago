@@ -88,11 +88,11 @@ data class Goal(
                 }
             }
         }
-        else Log.e("Goal", "GID is required for update().")
+        else Log.e("Goal", "GID is required for updateByGid().")
     }
 
     fun deleteByGid() {
         if (gid != null) collection.document(gid!!).delete()
-        else Log.e("Goal", "GID is required for delete().")
+        else Log.e("Goal", "GID is required for deleteByGid().")
     }
 }
