@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.tellago.activities.AccountSettingsActivity
+import com.tellago.activities.GoalsActivity
 import com.tellago.activities.SplashActivity
 import com.tellago.fragments.CommunityFragment
 import com.tellago.fragments.FeedFragment
@@ -127,6 +128,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(this, AccountSettingsActivity::class.java)
             startActivity(intent)
         }
+
+
+
     }
 
     private fun StartTimer() {
@@ -167,10 +171,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView: NavigationView = navigation
 
         when (item.itemId) {
-            R.id.view_profile -> {
-                fragmentUtils.replace(profileFragment)
-                if (bottomNavigationView != null) bottomNavigationView.selectedItemId = R.id.ic_profile
+            R.id.view_Life_Aspiration -> {
+                val intent = Intent(this, GoalsActivity::class.java)
+                startActivity(intent)
+                this.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
             }
+
             R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)

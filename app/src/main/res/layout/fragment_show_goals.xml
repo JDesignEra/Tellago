@@ -31,7 +31,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:background="@color/colorBackground"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:navigationIcon="@drawable/ic_menu"
+                    app:navigationIcon="@drawable/ic_arrow_back_36"
                     app:title="Your Goals" />
 
             </com.google.android.material.appbar.AppBarLayout>

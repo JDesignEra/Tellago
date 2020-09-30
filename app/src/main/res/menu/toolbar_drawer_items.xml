@@ -30,23 +30,12 @@
                 android:title="FAQ" />
         </menu>
     </item>
+
     <item
-        android:id="@+id/Profile_Group"
+        android:id="@+id/logout_from_drawer"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
+        android:title="Log Out" />
 
-        android:checkableBehavior="none"
-        android:title="Account">
-        <menu>
-            <item
-                android:id="@+id/view_profile"
-                android:icon="@drawable/ic_baseline_person_outline_24"
-                android:title="View Your Profile" />
-
-            <item
-                android:id="@+id/logout_from_drawer"
-                android:icon="@drawable/ic_baseline_exit_to_app_24"
-                android:title="Log Out" />
-        </menu>
-    </item>
 
 
 </menu>

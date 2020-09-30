@@ -70,13 +70,9 @@ class ShowGoalsFragment : Fragment() {
 
     private fun configureToolbar() {
         toolbar_show_goals.setNavigationOnClickListener {
-            val drawerLayout: DrawerLayout = activity?.drawer_layout ?: DrawerLayout(this.requireContext())
-            drawerLayout.openDrawer(GravityCompat.START)
+            // Finish GoalsActivity to return to MainActivity
+            activity?.finish()
 
-            val drawerToggle: ActionBarDrawerToggle = setupDrawerToggle()
-            drawerToggle.syncState()
-
-            drawerLayout.addDrawerListener(drawerToggle)
         }
     }
 
