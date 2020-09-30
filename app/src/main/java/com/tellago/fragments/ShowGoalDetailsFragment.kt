@@ -9,7 +9,11 @@ import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
+import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
+import kotlinx.android.synthetic.main.fragment_show_goal_details.tv_jid
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ShowGoalDetailsFragment : Fragment() {
@@ -46,10 +50,14 @@ class ShowGoalDetailsFragment : Fragment() {
                     tv_targetAmt.text = it.targetAmt.toString()
                     tv_currentAmt.text = it.currentAmt.toString()
                     tv_bucketList.text = it.bucketList.toString()
-                    tv_deadline.text = it.deadline.toString()
+                    // Displaying deadline as DateTime rather than TimeStamp for user viewing
+                    val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+                    dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Singapore")
+                    tv_deadline.text = dateFormatter.format(it.deadline).toString()
                     tv_lastReminder.text = it.lastReminder.toString()
                     tv_reminderMonthsFreq.text = it.reminderMonthsFreq.toString()
-                    tv_createDate.text = it.createDate.toString()
+                    // Displaying createDate as DateTime rather than TimeStamp for user viewing
+                    tv_createDate.text = dateFormatter.format(it.createDate).toString()
 
                 }
             }

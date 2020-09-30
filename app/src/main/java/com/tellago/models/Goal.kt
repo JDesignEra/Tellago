@@ -10,8 +10,8 @@ data class Goal(
     @DocumentId var gid: String? = null,
     val uid: String? = null,
     val jid: String? = null,
-    val title: String? = null,
-    val category: List<String>? = null,
+    var title: String? = null,
+    var category: List<String>? = null,
     var targetAmt: Int? = 0,
     var currentAmt: Int? = 0,
     val bucketList: List<String>? = null,
@@ -61,6 +61,10 @@ data class Goal(
                     if (currentAmt == null) currentAmt = oldGoal?.currentAmt
                     if (targetAmt == null) targetAmt = oldGoal?.targetAmt
                     data["complete"] = currentAmt!! >= targetAmt!!
+
+                    // Assign values to 'currentAmt' and 'targetAmt' fields in Firestore document
+                    data["currentAmt"] = currentAmt!!
+                    data["targetAmt"] = targetAmt!!
 
                     collection.document(gid!!).update(data).addOnSuccessListener {
                         onComplete?.invoke(this)
