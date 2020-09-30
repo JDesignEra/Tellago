@@ -32,10 +32,6 @@ data class Goal(
         }
     }
 
-    fun getQueryByUid(): Query {
-        return collection.whereEqualTo("uid", uid)
-    }
-
     fun add(onComplete: ((goal: Goal?) -> Unit)? = null) {
         if (completed == null) completed = false
 

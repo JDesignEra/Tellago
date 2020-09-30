@@ -6,7 +6,6 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.utils.CustomToast
 import kotlinx.android.synthetic.main.fragment_account.*
-import java.util.*
 
 class AccountFragment : Fragment() {
     private lateinit var toast: CustomToast
