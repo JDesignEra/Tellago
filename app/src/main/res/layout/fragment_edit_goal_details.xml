@@ -51,6 +51,12 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_goalID_edit_gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Title: " />
@@ -76,13 +82,21 @@
                     android:layout_height="wrap_content"
                     android:text="Categories: " />
 
-                <EditText
-                    android:id="@+id/et_categories"
+                <TextView
+                    android:id="@+id/tv_categories_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingVertical="6dp"
                     android:textSize="12sp"
                     />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_categories_edit"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/ic_edit"
+                    android:layout_marginStart="10dp"
+                    app:backgroundTint="@color/colorPrimaryDark" />
 
             </LinearLayout>
 

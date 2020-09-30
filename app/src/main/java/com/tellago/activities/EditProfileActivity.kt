@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
@@ -17,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
-import com.muddzdev.styleabletoast.StyleableToast
 import com.tellago.R
 import com.tellago.fragments.ConfirmEditProfileFragment
 import com.tellago.models.Auth

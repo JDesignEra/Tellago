@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    tools:context=".fragments.CategoriesDialogFragment">
+
+    <LinearLayout
+        android:id="@+id/linear_layout_categories_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/category_btn_1_edit"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/checkbox_selection"
+            android:button="@drawable/logo_career" />
+
+        <CheckBox
+            android:id="@+id/category_btn_2_edit"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/checkbox_selection"
+            android:button="@drawable/logo_family" />
+
+        <CheckBox
+            android:id="@+id/category_btn_3_edit"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/checkbox_selection"
+            android:button="@drawable/logo_leisure" />
+
+        <TextView
+            android:id="@+id/tv_goalID_categories_gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_categories_edit_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        app:backgroundTint="@color/colorPrimaryLight"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear_layout_categories_edit" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +11,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.tellago.R
-import com.tellago.models.Auth
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,7 +73,7 @@ class ConfirmEditProfileFragment : DialogFragment() {
     }
 
     // Use this instance of the interface to deliver action events
-    internal lateinit var listener : NoticeDialogListener
+    private lateinit var listener : NoticeDialogListener
 
     /* The activity that creates an instance of this dialog fragment must
      * implement this interface in order to receive event callbacks.
