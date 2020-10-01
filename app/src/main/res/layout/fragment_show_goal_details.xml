@@ -41,11 +41,11 @@
             android:orientation="vertical">
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -63,7 +63,6 @@
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="6dp"
                     android:textSize="12sp"
                     />
 
@@ -73,6 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -84,7 +84,6 @@
                     android:id="@+id/tv_categories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="6dp"
                     android:textSize="12sp"
                     />
 
@@ -94,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -105,7 +105,6 @@
                     android:id="@+id/tv_targetAmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="6dp"
                     android:textSize="12sp"
                     />
 
@@ -115,6 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -126,7 +126,6 @@
                     android:id="@+id/tv_currentAmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="6dp"
                     android:textSize="12sp"
                     />
 
@@ -136,6 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -156,6 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -167,7 +168,6 @@
                     android:id="@+id/tv_bucketList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="6dp"
                     android:textSize="12sp"
                     />
 
@@ -178,6 +178,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -189,7 +190,6 @@
                     android:id="@+id/tv_deadline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="6dp"
                     android:textSize="12sp"
                     />
 
@@ -199,6 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -219,6 +220,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -230,7 +232,6 @@
                     android:id="@+id/tv_reminderMonthsFreq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="6dp"
                     android:textSize="12sp"
                     />
 
@@ -240,6 +241,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginBottom="6dp"
                 android:orientation="horizontal">
 
                 <TextView

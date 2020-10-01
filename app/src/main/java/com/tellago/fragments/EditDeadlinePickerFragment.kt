@@ -16,6 +16,7 @@ import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_categories_dialog.*
 import kotlinx.android.synthetic.main.fragment_edit_deadline_picker.*
 import kotlinx.android.synthetic.main.fragment_edit_deadline_picker.view.*
+import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -148,4 +149,15 @@ class EditDeadlinePickerFragment : DialogFragment() {
         }
 
     }
+
+//    private fun configureToolbar() {
+//        toolbar_edit_goal_details.setNavigationIcon(R.drawable.ic_arrow_back_36)
+//        toolbar_edit_goal_details.setNavigationOnClickListener {
+//            // Allow user to return to previous fragment in the Stack
+//            FragmentUtils(
+//                requireActivity().supportFragmentManager,
+//                R.id.fragment_container_goal_activity
+//            ).popBackStack()
+//        }
+//    }
 }

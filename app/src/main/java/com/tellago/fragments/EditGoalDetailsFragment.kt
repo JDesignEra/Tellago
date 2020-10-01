@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.models.Goal
+import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import java.sql.Timestamp
@@ -20,6 +21,7 @@ class EditGoalDetailsFragment : Fragment() {
     val locale = Locale("en", "SG")
     val timezone = TimeZone.getTimeZone("Asia/Singapore")
     val dateFormatter = SimpleDateFormat("dd/MM/yyyy", locale)
+    private lateinit var toast: CustomToast
 
     override fun onStart() {
         super.onStart()
@@ -119,6 +121,8 @@ class EditGoalDetailsFragment : Fragment() {
 //                        requireActivity().supportFragmentManager,
 //                        R.id.fragment_container_goal_activity
 //                    ).replace(ShowGoalDetailsFragment())
+                    toast = CustomToast(requireContext())
+                    toast.success("Goal Updated!")
 
                 }
             }
@@ -126,7 +130,7 @@ class EditGoalDetailsFragment : Fragment() {
 
         // Open Dialog to Edit Deadline
         btn_deadline_edit.setOnClickListener {
-            // Buliding Normal Dialog Fragment
+            // Building Normal Dialog Fragment
             val dialogFragment = EditDeadlinePickerFragment()
 
             // Add in bundle to pass current deadline to Dialog Fragment (calculation occurs in next Fragment)
