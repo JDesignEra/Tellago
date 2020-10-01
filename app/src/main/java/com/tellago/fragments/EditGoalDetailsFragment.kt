@@ -144,7 +144,7 @@ class EditGoalDetailsFragment : Fragment() {
             FragmentUtils(
                 requireActivity().supportFragmentManager,
                 R.id.fragment_container_goal_activity
-            ).replace(dialogFragment)
+            ).replace(dialogFragment, backStackName = "secondaryStack")
         }
 
 

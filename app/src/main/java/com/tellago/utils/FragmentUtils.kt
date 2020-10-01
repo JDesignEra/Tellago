@@ -2,6 +2,7 @@ package com.tellago.utils
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.fragment.app.FragmentTransaction
 import com.tellago.R
 
@@ -63,9 +64,9 @@ class FragmentUtils(
 
 
     /**
-     * Used to popBackStack
+     * Used to popBackStack (backStackName refers to the stacks within which all entries to be consumed)
      */
-    fun popBackStack() {
-        fragmentManager.popBackStack()
+    fun popBackStack(backStackName: String = "secondaryStack") {
+        fragmentManager.popBackStack(backStackName, POP_BACK_STACK_INCLUSIVE)
     }
 }

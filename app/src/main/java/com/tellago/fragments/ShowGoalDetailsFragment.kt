@@ -73,7 +73,9 @@ class ShowGoalDetailsFragment : Fragment() {
                 requireActivity().supportFragmentManager,
                 R.id.fragment_container_goal_activity
             )
-                .replace(editGoalDetailsFragment)
+                .replace(editGoalDetailsFragment, backStackName = "secondaryStack")
+            // both EditGoalDetailsFragment & EditDeadlinePickerFragment will reside in "secondaryStack"
+            // this will cause 'Back' within EditGoalDetailsFragment to always redirect to ShowGoalDetailsFragment
         }
 
         btn_CompleteGoal.setOnClickListener {
