@@ -37,7 +37,14 @@ class FragmentUtils(
      * @param popEnter popEnter animation, defaults to **R.anim.fragment_slide_right_enter**.
      * @param popExit popExit animation, defaults to **R.anim.fragment_slide_right_exit**.
      */
-    fun replace(fragment: Fragment,  animate: Boolean = true, enter: Int? = null, exit: Int? = null, popEnter: Int? = null, popExit: Int? = null) {
+    fun replace(fragment: Fragment,
+                animate: Boolean = true,
+                enter: Int? = null,
+                exit: Int? = null,
+                popEnter: Int? = null,
+                popExit: Int? = null,
+                backStackName: String = "mainStack"
+    ) {
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
 
         if (animate) {
@@ -50,7 +57,7 @@ class FragmentUtils(
         }
 
         transaction.replace(fragmentContainer, fragment)
-        transaction.addToBackStack("mainStack")
+        transaction.addToBackStack(backStackName)
         transaction.commit()
     }
 
