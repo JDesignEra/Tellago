@@ -4,11 +4,11 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorError">@color/colorError</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
-        <item name="colorError">#ff002e</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme">
@@ -49,5 +49,4 @@
     <style name="GoogleMaterialButton" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/google_material_button</item>
     </style>
-
 </resources>

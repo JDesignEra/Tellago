@@ -1,15 +1,19 @@
 package com.tellago.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
+import com.google.android.material.chip.Chip
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
+import kotlinx.android.synthetic.main.fragment_create_goal_2.*
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -50,9 +54,11 @@ class EditGoalDetailsFragment : Fragment() {
             if (it != null) {
                 // Assign to relevant edit text elements below
                 textInput_title.setText(it.title.toString())
-
                 textInput_targetAmt.setText(it.targetAmt.toString())
                 textInput_currentAmt.setText(it.currentAmt.toString())
+
+                if (it.reminderMonthsFreq == 3) radioBtn_3MonthsReminder.isChecked = true
+                else if (it.reminderMonthsFreq == 6) radioBtn_6MonthsReminder.isChecked = true
 
                 val deadline = if (it.deadline != null) {
                     // Assign based on Firestore field value if bundle key 'final_date' has "default" value
@@ -65,35 +71,86 @@ class EditGoalDetailsFragment : Fragment() {
                     }
                 } else  ""
 
-                textView_deadline.text = deadline
-                textInput_reminderFreq.setText((it.reminderMonthsFreq ?: 0).toString())
+                textInput_deadline.setText(deadline)
+//                textInput_reminderFreq.setText((it.reminderMonthsFreq ?: 0).toString())
 
                 val categoriesList = it.category ?: ArrayList()
 
-                if (categoriesList.contains("career")) btnToggleGrp_category.check(R.id.btn_careerCategory)
-                if (categoriesList.contains("family")) btnToggleGrp_category.check(R.id.btn_familyCategory)
-                if (categoriesList.contains("leisure")) btnToggleGrp_category.check(R.id.btn_leisureCategory)
+                if (categoriesList.contains("career")) {
+                    chip_career.isChecked = true
+                }
+                else {
+                    chip_career.checkedIconTint = AppCompatResources
+                        .getColorStateList(requireContext(), R.color.iconDefaultColor)
+                }
 
-                btnToggleGrp_category.addOnButtonCheckedListener { _, checkedId, isChecked ->
-                    val idStrings = mapOf(
-                        R.id.btn_careerCategory to "career",
-                        R.id.btn_familyCategory to "family",
-                        R.id.btn_leisureCategory to "leisure"
-                    )
+                if (categoriesList.contains("family")) {
+                    chip_family.isChecked = true
+                }
+                else {
+                    chip_family.checkedIconTint = AppCompatResources
+                        .getColorStateList(requireContext(), R.color.iconDefaultColor)
+                }
 
+                if (categoriesList.contains("leisure")) {
+                    chip_leisure.isChecked = true
+                }
+                else {
+                    chip_leisure.checkedIconTint = AppCompatResources
+                        .getColorStateList(requireContext(), R.color.iconDefaultColor)
+                }
+
+                chip_career.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
-                        if (!categoriesList.contains(idStrings[checkedId])) {
-                            idStrings[checkedId]?.let { categoriesList.add(it) }
+                        if (!categoriesList.contains("career")) {
+                            categoriesList.add("career")
+
+                            chip_career.checkedIconTint = AppCompatResources
+                                .getColorStateList(requireContext(), R.color.colorPrimary)
                         }
                     }
-                    else categoriesList.remove(idStrings[checkedId])
+                    else {
+                        categoriesList.remove("career")
+                        chip_career.checkedIconTint = AppCompatResources
+                            .getColorStateList(requireContext(), R.color.iconDefaultColor)
+                    }
+                }
+
+                chip_family.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        if (!categoriesList.contains("family")) {
+                            categoriesList.add("family")
+                            chip_family.checkedIconTint = AppCompatResources
+                                .getColorStateList(requireContext(), R.color.colorPrimary)
+                        }
+                    }
+                    else {
+                        categoriesList.remove("family")
+                        chip_family.checkedIconTint = AppCompatResources
+                            .getColorStateList(requireContext(), R.color.iconDefaultColor)
+                    }
+                }
+
+                chip_leisure.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        if (!categoriesList.contains("leisure")) {
+                            categoriesList.add("leisure")
+                            chip_leisure.checkedIconTint = AppCompatResources
+                                .getColorStateList(requireContext(), R.color.colorPrimary)
+                        }
+                    }
+                    else {
+                        categoriesList.remove("leisure")
+                        chip_leisure.checkedIconTint = AppCompatResources
+                            .getColorStateList(requireContext(), R.color.iconDefaultColor)
+                    }
                 }
 
                 btn_ConfirmEditGoalDetails.setOnClickListener {
                     // Converting deadline from dd-MM-yyyy to JDBC timestamp format
-                    val strs_deadline = textView_deadline.text.toString().split("/").toTypedArray()
+                    val strs_deadline = textInput_deadline.text.toString().split("/").toTypedArray()
                     // There will be 3 elements in the strs_deadline ArrayList (internal conversion)
-                    var deadline_JDBC_string = textView_deadline.text.toString()
+                    var deadline_JDBC_string = textInput_deadline.text.toString()
                     if (strs_deadline.size != 0)
                     {
                         val deadline_day = strs_deadline[0]
@@ -129,8 +186,24 @@ class EditGoalDetailsFragment : Fragment() {
         }
 
         // Open Dialog to Edit Deadline
-        btn_deadline_edit.setOnClickListener {
-            // Building Normal Dialog Fragment
+        textInputLayout_deadline.setEndIconOnClickListener {
+            val dialogFragment = EditDeadlinePickerFragment()
+
+            // Add in bundle to pass current deadline to Dialog Fragment (calculation occurs in next Fragment)
+            bundle.putString("goal_id", tv_goalID_edit_gone.text.toString())
+            Log.d("gid to PickerFragment: ", tv_goalID_edit_gone.text.toString())
+            bundle.putString("final_date", "default")
+
+            dialogFragment.arguments = bundle
+
+            // FragmentUtils does not support normal dialog
+            FragmentUtils(
+                requireActivity().supportFragmentManager,
+                R.id.fragment_container_goal_activity
+            ).replace(dialogFragment)
+        }
+
+        textInputLayout_deadline.setEndIconOnClickListener {
             val dialogFragment = EditDeadlinePickerFragment()
 
             // Add in bundle to pass current deadline to Dialog Fragment (calculation occurs in next Fragment)
@@ -170,5 +243,4 @@ class EditGoalDetailsFragment : Fragment() {
             ).popBackStack()
         }
     }
-
 }

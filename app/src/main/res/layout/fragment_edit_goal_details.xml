@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60dp">
+        android:layout_marginBottom="35dp">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout_edit_goal_details"
@@ -30,7 +30,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
+            android:layout_marginHorizontal="35dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/relativeLayout_editgoaldetails"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,16 +42,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                app:endIconMode="clear_text"
                 android:hint="Title">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInput_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:maxLines="1"
                     android:paddingStart="0dp"
-                    android:paddingEnd="0dp" />
+                    android:paddingEnd="0dp"
+                    android:background="@android:color/transparent"
+                    android:maxLines="1" />
 
                 <TextView
                     android:id="@+id/tv_goalID_edit_gone"
@@ -67,16 +68,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="Target Amount"
+                app:endIconMode="clear_text"
                 app:prefixText="$">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInput_targetAmt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:inputType="number"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
+                    android:background="@android:color/transparent"
+                    android:inputType="number"
                     android:text="0" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -87,140 +89,148 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="Current Amount"
+                app:endIconMode="clear_text"
                 app:prefixText="$">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInput_currentAmt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:inputType="number"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
+                    android:background="@android:color/transparent"
+                    android:inputType="number"
                     android:text="0" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/textView_deadline_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:inputType="date"
-                android:paddingStart="0dp"
-                android:paddingEnd="0dp"
-                android:text="Deadline"
-                android:textSize="13sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/textView_deadline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:inputType="date"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="0dp"
-                    android:text="30/12/2020"
-                    android:textSize="18sp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_deadline_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/ic_edit"
-                    app:backgroundTint="@color/colorPrimaryDark" />
-
-
-            </LinearLayout>
-
-
-            <!--            <com.google.android.material.textfield.TextInputLayout-->
-            <!--                android:id="@+id/textInputLayout_deadline"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginBottom="10dp"-->
-            <!--                android:hint="Deadline">-->
-            <!--                -->
-            <!--                <com.google.android.material.textfield.TextInputEditText-->
-            <!--                    android:id="@+id/textInput_deadline"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:background="@android:color/transparent"-->
-            <!--                    android:inputType="date"-->
-            <!--                    android:paddingStart="0dp"-->
-            <!--                    android:paddingEnd="0dp"-->
-            <!--                    android:text="30/12/2020" />-->
-
-            <!--            </com.google.android.material.textfield.TextInputLayout>-->
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_reminderFreq"
+                android:id="@+id/textInputLayout_deadline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Reminder Frequency"
-                app:suffixText="months">
+                app:endIconDrawable="@drawable/ic_edit"
+                app:endIconTint="@color/colorPrimary"
+                app:endIconMode="custom"
+                app:endIconContentDescription="Edit deadline"
+                android:hint="Deadline">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInput_reminderFreq"
+                    android:id="@+id/textInput_deadline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:inputType="number"
                     android:paddingStart="0dp"
-                    android:paddingEnd="0dp" />
+                    android:paddingEnd="0dp"
+                    android:background="@android:color/transparent"
+                    android:inputType="date"
+                    android:enabled="false"
+                    android:text="30/12/2020" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Categories"
+                android:layout_marginTop="30dp"
+                android:text="Reminder Frequency"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/btnToggleGrp_category"
+            <RadioGroup
+                android:orientation="horizontal"
+                android:id="@+id/radioGrp_deadline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
 
-                <Button
-                    android:id="@+id/btn_careerCategory"
-                    style="?attr/materialButtonOutlinedStyle"
+                <RadioButton
+                    android:id="@+id/radioBtn_NoneReminder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="-6dp"
+                    android:layout_marginEnd="5dp"
+                    android:checked="true"
+                    android:text="None" />
+
+                <RadioButton
+                    android:id="@+id/radioBtn_3MonthsReminder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Career" />
+                    android:layout_marginHorizontal="5dp"
+                    android:text="3 Months"/>
 
-                <Button
-                    android:id="@+id/btn_familyCategory"
-                    style="?attr/materialButtonOutlinedStyle"
+                <RadioButton
+                    android:id="@+id/radioBtn_6MonthsReminder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Family" />
+                    android:layout_marginStart="5dp"
+                    android:text="6 Months"/>
 
-                <Button
-                    android:id="@+id/btn_leisureCategory"
-                    style="?attr/materialButtonOutlinedStyle"
+            </RadioGroup>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Categories"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGrp_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_career"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Leisure" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
+                    android:text="Career"
+                    app:chipIcon="@drawable/ic_baseline_work_24"
+                    app:chipIconVisible="true"
+                    app:checkedIcon="@drawable/ic_baseline_work_24"
+                    app:checkedIconTint="@color/colorPrimary"
+                    app:checkedIconVisible="true"
+                    app:iconStartPadding="5dp"
+                    app:iconEndPadding="-2dp"/>
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_family"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Family"
+                    app:chipIcon="@drawable/ic_family_restroom_24"
+                    app:chipIconVisible="true"
+                    app:checkedIcon="@drawable/ic_family_restroom_24"
+                    app:checkedIconTint="@color/colorPrimary"
+                    app:checkedIconVisible="true"
+                    app:iconStartPadding="5dp"
+                    app:iconEndPadding="-2dp"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_leisure"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Leisure"
+                    app:chipIcon="@drawable/ic_baseline_local_airport_24"
+                    app:chipIconVisible="true"
+                    app:checkedIcon="@drawable/ic_baseline_local_airport_24"
+                    app:checkedIconTint="@color/colorPrimary"
+                    app:checkedIconVisible="true"
+                    app:iconStartPadding="5dp"
+                    app:iconEndPadding="-2dp"/>
+
+            </com.google.android.material.chip.ChipGroup>
+        
         </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/relativeLayout_editgoaldetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
+            android:layout_marginHorizontal="35dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -246,194 +256,5 @@
                 android:textColor="@color/colorTextBlack"
                 android:textSize="12sp" />
         </RelativeLayout>
-
-
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/linear_vertical_show_goal_details"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--            app:layout_constraintRight_toRightOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/appBarLayout_edit_goal_details"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            android:orientation="vertical">-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="0dp"-->
-        <!--                android:layout_weight="2"-->
-        <!--                android:orientation="horizontal">-->
-
-        <!--                <TextView-->
-        <!--                    android:id="@+id/tv_goalID_edit_gone"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:visibility="gone" />-->
-
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="Title: " />-->
-
-        <!--                <EditText-->
-        <!--                    android:id="@+id/et_title"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:paddingVertical="6dp"-->
-        <!--                    android:textSize="12sp"-->
-        <!--                    />-->
-        <!--            </LinearLayout>-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="0dp"-->
-        <!--                android:layout_weight="2"-->
-        <!--                android:orientation="horizontal">-->
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="Categories: " />-->
-
-        <!--                <TextView-->
-        <!--                    android:id="@+id/tv_categories_edit"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:paddingVertical="6dp"-->
-        <!--                    android:textSize="12sp"-->
-        <!--                    />-->
-        <!--                <com.google.android.material.button.MaterialButton-->
-        <!--                    android:id="@+id/btn_categories_edit"-->
-        <!--                    android:layout_width="20dp"-->
-        <!--                    android:layout_height="20dp"-->
-        <!--                    android:background="@drawable/ic_edit"-->
-        <!--                    android:layout_marginStart="10dp"-->
-        <!--                    app:backgroundTint="@color/colorPrimaryDark" />-->
-        <!--            </LinearLayout>-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="0dp"-->
-        <!--                android:layout_weight="2"-->
-        <!--                android:orientation="horizontal">-->
-
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="Target Amount: " />-->
-
-        <!--                <EditText-->
-        <!--                    android:id="@+id/et_targetAmt"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:paddingVertical="6dp"-->
-        <!--                    android:textSize="12sp"-->
-        <!--                    />-->
-        <!--            </LinearLayout>-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="0dp"-->
-        <!--                android:layout_weight="2"-->
-        <!--                android:orientation="horizontal">-->
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="Current Amount: " />-->
-
-        <!--                <EditText-->
-        <!--                    android:id="@+id/et_currentAmt"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:paddingVertical="6dp"-->
-        <!--                    android:textSize="12sp"-->
-        <!--                    />-->
-
-        <!--            </LinearLayout>-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="0dp"-->
-        <!--                android:layout_weight="2"-->
-        <!--                android:orientation="horizontal">-->
-
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="Journey ID: " />-->
-
-        <!--                <TextView-->
-        <!--                    android:id="@+id/tv_jid"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="Null"-->
-        <!--                    />-->
-
-        <!--            </LinearLayout>-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="0dp"-->
-        <!--                android:layout_weight="2"-->
-        <!--                android:orientation="horizontal">-->
-
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="Bucket List: " />-->
-
-        <!--                <EditText-->
-        <!--                    android:id="@+id/et_bucketList"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:paddingVertical="6dp"-->
-        <!--                    android:textSize="12sp"-->
-        <!--                    />-->
-
-        <!--            </LinearLayout>-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="0dp"-->
-        <!--                android:layout_weight="2"-->
-        <!--                android:orientation="horizontal">-->
-
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="Deadline: " />-->
-
-        <!--                <EditText-->
-        <!--                    android:id="@+id/et_deadline"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:paddingVertical="6dp"-->
-        <!--                    android:textSize="12sp"-->
-        <!--                    />-->
-
-        <!--            </LinearLayout>-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="0dp"-->
-        <!--                android:layout_weight="2"-->
-        <!--                android:orientation="horizontal">-->
-
-        <!--                <TextView-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:text="Reminder Frequency: " />-->
-
-        <!--                <EditText-->
-        <!--                    android:id="@+id/et_reminderMonthsFreq"-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:paddingVertical="6dp"-->
-        <!--                    android:textSize="12sp"-->
-        <!--                    />-->
-
-        <!--            </LinearLayout>-->
-        <!--            -->
-        <!--        </LinearLayout>-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

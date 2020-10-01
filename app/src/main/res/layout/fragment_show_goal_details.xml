@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="35dp"
         >
 
         <com.google.android.material.appbar.AppBarLayout
@@ -260,29 +260,31 @@
 
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_CompleteGoal"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:text="Complete Goal"
-            android:textColor="@color/colorTextBlack"
-            android:backgroundTint="@color/colorAccent"
-            android:layout_marginStart="20dp"
-            />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_EditGoalDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="35dp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:text="Edit Details"
-            android:textColor="@color/colorTextBlack"
-            android:backgroundTint="@color/colorUnderlyingBackground"
-            android:layout_marginEnd="20dp"
-            />
+            app:layout_constraintLeft_toLeftOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_CompleteGoal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="Complete Goal"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_EditGoalDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Edit Details"
+                android:textColor="@color/colorTextBlack"
+                android:backgroundTint="@color/colorUnderlyingBackground"/>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
