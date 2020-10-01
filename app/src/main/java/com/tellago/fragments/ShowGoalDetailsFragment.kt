@@ -67,6 +67,7 @@ class ShowGoalDetailsFragment : Fragment() {
             //    Use bundle to pass goal_id Data to editGoalDetailsFragment
             val bundle = Bundle()
             bundle.putString("goal_id", tv_goalID_gone.text as String?)
+            bundle.putString("final_date", "default")
             editGoalDetailsFragment.arguments = bundle
             FragmentUtils(
                 requireActivity().supportFragmentManager,

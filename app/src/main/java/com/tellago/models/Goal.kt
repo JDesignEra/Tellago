@@ -55,7 +55,7 @@ data class Goal(
             if (uid != null) data["uid"] = uid
             if (jid != null) data["jid"] = jid
             if (title != null) data["title"] = title
-            if (category != null) data["category"] = category
+            if (category != null) data["category"] = category!!.distinct()
             if (bucketList != null) data["bucketList"] = bucketList
             if (deadline != null) data["deadline"] = deadline
             if (reminderMonthsFreq != null) data["reminderMonthsFreq"] = reminderMonthsFreq

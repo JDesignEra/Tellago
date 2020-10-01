@@ -54,7 +54,6 @@ class EditDeadlinePickerFragment : DialogFragment() {
         //numPicker_month.value =
         //numPicker_day.value =
 
-
     }
 
     override fun onCreateView(
@@ -133,9 +132,7 @@ class EditDeadlinePickerFragment : DialogFragment() {
                 bundle.putString("goal_id", tv_datechangedisplay_gone.text.toString())
                 bundle.putString("update Categories", "no change")
                 bundle.putString("final_date", final_date)
-//                bundle.putInt("new_day", new_year)
-//                bundle.putInt("new_month", new_month)
-//                bundle.putInt("new_year", new_day)
+
                 val editGoalDetailsFragment = EditGoalDetailsFragment()
 
                 editGoalDetailsFragment.arguments = bundle
@@ -146,9 +143,7 @@ class EditDeadlinePickerFragment : DialogFragment() {
                 )
                     .replace(editGoalDetailsFragment)
 
-
             }
-
 
         }
 
