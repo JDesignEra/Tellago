@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.EditGoalDetailsFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
-        >
+        android:layout_marginBottom="60dp">
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout_edit_goal_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_edit_goal_details"
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="50dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayout_editgoaldetails"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout_edit_goal_details">
@@ -48,9 +49,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:maxLines="1"
                     android:paddingStart="0dp"
-                    android:paddingEnd="0dp"
-                    android:maxLines="1"/>
+                    android:paddingEnd="0dp" />
+
+                <TextView
+                    android:id="@+id/tv_goalID_edit_gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,10 +74,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:inputType="number"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
-                    android:inputType="number"
-                    android:text="0"/>
+                    android:text="0" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,8 +85,8 @@
                 android:id="@+id/textInputLayout_currentAmt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Current Amount"
                 android:layout_marginBottom="10dp"
+                android:hint="Current Amount"
                 app:prefixText="$">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -87,38 +94,78 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:inputType="number"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
-                    android:inputType="number"
-                    android:text="0"/>
+                    android:text="0" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_deadline"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_deadline_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:hint="Deadline">
+                android:background="@android:color/transparent"
+                android:inputType="date"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:text="Deadline"
+                android:textSize="13sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInput_deadline"
-                    android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textView_deadline"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:inputType="date"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
-                    android:text="30/12/2020"/>
+                    android:text="30/12/2020"
+                    android:textSize="18sp" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_deadline_edit"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/ic_edit"
+                    app:backgroundTint="@color/colorPrimaryDark" />
+
+
+            </LinearLayout>
+
+
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:id="@+id/textInputLayout_deadline"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginBottom="10dp"-->
+            <!--                android:hint="Deadline">-->
+            <!--                -->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/textInput_deadline"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:background="@android:color/transparent"-->
+            <!--                    android:inputType="date"-->
+            <!--                    android:paddingStart="0dp"-->
+            <!--                    android:paddingEnd="0dp"-->
+            <!--                    android:text="30/12/2020" />-->
+
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_reminderFreq"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Reminder Frequency"
                 android:layout_marginBottom="10dp"
+                android:hint="Reminder Frequency"
                 app:suffixText="months">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -126,9 +173,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:inputType="number"
                     android:paddingStart="0dp"
-                    android:paddingEnd="0dp"
-                    android:inputType="number" />
+                    android:paddingEnd="0dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,11 +217,11 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/relativeLayout_editgoaldetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginHorizontal="50dp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -199,192 +246,192 @@
         </RelativeLayout>
 
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/linear_vertical_show_goal_details"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/appBarLayout_edit_goal_details"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            android:orientation="vertical">-->
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/linear_vertical_show_goal_details"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/appBarLayout_edit_goal_details"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            android:orientation="vertical">-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_weight="2"-->
-<!--                android:orientation="horizontal">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="2"-->
+        <!--                android:orientation="horizontal">-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_goalID_edit_gone"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:visibility="gone" />-->
+        <!--                <TextView-->
+        <!--                    android:id="@+id/tv_goalID_edit_gone"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:visibility="gone" />-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Title: " />-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="Title: " />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/et_title"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:paddingVertical="6dp"-->
-<!--                    android:textSize="12sp"-->
-<!--                    />-->
-<!--            </LinearLayout>-->
+        <!--                <EditText-->
+        <!--                    android:id="@+id/et_title"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:paddingVertical="6dp"-->
+        <!--                    android:textSize="12sp"-->
+        <!--                    />-->
+        <!--            </LinearLayout>-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_weight="2"-->
-<!--                android:orientation="horizontal">-->
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Categories: " />-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="2"-->
+        <!--                android:orientation="horizontal">-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="Categories: " />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_categories_edit"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:paddingVertical="6dp"-->
-<!--                    android:textSize="12sp"-->
-<!--                    />-->
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    android:id="@+id/btn_categories_edit"-->
-<!--                    android:layout_width="20dp"-->
-<!--                    android:layout_height="20dp"-->
-<!--                    android:background="@drawable/ic_edit"-->
-<!--                    android:layout_marginStart="10dp"-->
-<!--                    app:backgroundTint="@color/colorPrimaryDark" />-->
-<!--            </LinearLayout>-->
+        <!--                <TextView-->
+        <!--                    android:id="@+id/tv_categories_edit"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:paddingVertical="6dp"-->
+        <!--                    android:textSize="12sp"-->
+        <!--                    />-->
+        <!--                <com.google.android.material.button.MaterialButton-->
+        <!--                    android:id="@+id/btn_categories_edit"-->
+        <!--                    android:layout_width="20dp"-->
+        <!--                    android:layout_height="20dp"-->
+        <!--                    android:background="@drawable/ic_edit"-->
+        <!--                    android:layout_marginStart="10dp"-->
+        <!--                    app:backgroundTint="@color/colorPrimaryDark" />-->
+        <!--            </LinearLayout>-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_weight="2"-->
-<!--                android:orientation="horizontal">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="2"-->
+        <!--                android:orientation="horizontal">-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Target Amount: " />-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="Target Amount: " />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/et_targetAmt"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:paddingVertical="6dp"-->
-<!--                    android:textSize="12sp"-->
-<!--                    />-->
-<!--            </LinearLayout>-->
+        <!--                <EditText-->
+        <!--                    android:id="@+id/et_targetAmt"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:paddingVertical="6dp"-->
+        <!--                    android:textSize="12sp"-->
+        <!--                    />-->
+        <!--            </LinearLayout>-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_weight="2"-->
-<!--                android:orientation="horizontal">-->
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Current Amount: " />-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="2"-->
+        <!--                android:orientation="horizontal">-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="Current Amount: " />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/et_currentAmt"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:paddingVertical="6dp"-->
-<!--                    android:textSize="12sp"-->
-<!--                    />-->
+        <!--                <EditText-->
+        <!--                    android:id="@+id/et_currentAmt"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:paddingVertical="6dp"-->
+        <!--                    android:textSize="12sp"-->
+        <!--                    />-->
 
-<!--            </LinearLayout>-->
+        <!--            </LinearLayout>-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_weight="2"-->
-<!--                android:orientation="horizontal">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="2"-->
+        <!--                android:orientation="horizontal">-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Journey ID: " />-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="Journey ID: " />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_jid"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Null"-->
-<!--                    />-->
+        <!--                <TextView-->
+        <!--                    android:id="@+id/tv_jid"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="Null"-->
+        <!--                    />-->
 
-<!--            </LinearLayout>-->
+        <!--            </LinearLayout>-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_weight="2"-->
-<!--                android:orientation="horizontal">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="2"-->
+        <!--                android:orientation="horizontal">-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Bucket List: " />-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="Bucket List: " />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/et_bucketList"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:paddingVertical="6dp"-->
-<!--                    android:textSize="12sp"-->
-<!--                    />-->
+        <!--                <EditText-->
+        <!--                    android:id="@+id/et_bucketList"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:paddingVertical="6dp"-->
+        <!--                    android:textSize="12sp"-->
+        <!--                    />-->
 
-<!--            </LinearLayout>-->
+        <!--            </LinearLayout>-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_weight="2"-->
-<!--                android:orientation="horizontal">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="2"-->
+        <!--                android:orientation="horizontal">-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Deadline: " />-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="Deadline: " />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/et_deadline"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:paddingVertical="6dp"-->
-<!--                    android:textSize="12sp"-->
-<!--                    />-->
+        <!--                <EditText-->
+        <!--                    android:id="@+id/et_deadline"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:paddingVertical="6dp"-->
+        <!--                    android:textSize="12sp"-->
+        <!--                    />-->
 
-<!--            </LinearLayout>-->
+        <!--            </LinearLayout>-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0dp"-->
-<!--                android:layout_weight="2"-->
-<!--                android:orientation="horizontal">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="2"-->
+        <!--                android:orientation="horizontal">-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Reminder Frequency: " />-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="Reminder Frequency: " />-->
 
-<!--                <EditText-->
-<!--                    android:id="@+id/et_reminderMonthsFreq"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:paddingVertical="6dp"-->
-<!--                    android:textSize="12sp"-->
-<!--                    />-->
+        <!--                <EditText-->
+        <!--                    android:id="@+id/et_reminderMonthsFreq"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:paddingVertical="6dp"-->
+        <!--                    android:textSize="12sp"-->
+        <!--                    />-->
 
-<!--            </LinearLayout>-->
-<!--            -->
-<!--        </LinearLayout>-->
+        <!--            </LinearLayout>-->
+        <!--            -->
+        <!--        </LinearLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

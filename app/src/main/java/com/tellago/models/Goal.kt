@@ -56,7 +56,7 @@ data class Goal(
             if (title != null) data["title"] = title
             if (category != null) data["category"] = category
             if (bucketList != null) data["bucketList"] = bucketList
-            if (deadline != null) data["category"] = deadline
+            if (deadline != null) data["deadline"] = deadline
             if (reminderMonthsFreq != null) data["reminderMonthsFreq"] = reminderMonthsFreq
 
             if (currentAmt != null || targetAmt != null || completed != null) {
