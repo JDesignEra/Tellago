@@ -113,6 +113,13 @@ class EditGoalDetailsFragment : Fragment() {
                             deadline = Timestamp.valueOf(deadline_JDBC_string)
                         ).updateByGid()
                     }
+
+                    // Allow user to return to ShowGoalDetailsFragment?
+//                    FragmentUtils(
+//                        requireActivity().supportFragmentManager,
+//                        R.id.fragment_container_goal_activity
+//                    ).replace(ShowGoalDetailsFragment())
+
                 }
             }
         }
@@ -136,8 +143,16 @@ class EditGoalDetailsFragment : Fragment() {
             ).replace(dialogFragment)
         }
 
+
         btn_DeleteGoal.setOnClickListener {
             Goal(gid = gid).deleteByGid()
+
+            // Redirect user to ShowGoalsFragment
+            FragmentUtils(
+                requireActivity().supportFragmentManager,
+                R.id.fragment_container_goal_activity
+            ).replace(ShowGoalsFragment())
+
         }
     }
 

@@ -33,20 +33,28 @@ class CreateGoalFragment_2 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        number_picker_target_duration.minValue = 1
-        number_picker_target_duration.maxValue = 30
+        number_picker_target_duration_year.minValue = 0
+        number_picker_target_duration_year.maxValue = 35
+
+        number_picker_target_duration_month.minValue = 0
+        number_picker_target_duration_month.maxValue = 11
+
 
         btn_ToFragmentOne.setOnClickListener {
             fragmentUtils.popBackStack()
         }
 
         btn_ToFragmentThree.setOnClickListener {
-            var durationMonth = view.number_picker_target_duration.value
+            var durationMonth = view.number_picker_target_duration_month.value
+            var durationYear = view.number_picker_target_duration_year.value
+            // Convert year value from number picker into months and then reassign to durationMonth
+            durationMonth += (durationYear * 12)
+
             var reminderMonth: Int = 0
 
-            when (view.radioGroup_duration.checkedRadioButtonId) {
-                R.id.radioBtn_duration_years -> durationMonth *= 12   // Convert to Months
-            }
+//            when (view.radioGroup_duration.checkedRadioButtonId) {
+//                R.id.radioBtn_duration_years -> durationMonth *= 12   // Convert to Months
+//            }
 
             when (radioGroup_reminder.checkedRadioButtonId) {
                 R.id.radiobutton_reminder_3mth -> reminderMonth = 3

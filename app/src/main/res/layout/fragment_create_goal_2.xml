@@ -66,39 +66,85 @@
             <LinearLayout
                 android:id="@+id/linear_layout_target_duration"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <NumberPicker
-                    android:id="@+id/number_picker_target_duration"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="200dp" />
-
-                <RadioGroup
-                    android:id="@+id/radioGroup_duration"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:paddingLeft="50dp"
-                    tools:layout_editor_absoluteX="311dp"
-                    tools:layout_editor_absoluteY="429dp">
+                    android:layout_marginHorizontal="8dp"
+                    android:orientation="vertical">
 
-                    <RadioButton
-                        android:id="@+id/radioBtn_duration_months"
+                    <NumberPicker
+                        android:id="@+id/number_picker_target_duration_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="150dp"
+                        android:layout_marginHorizontal="20sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/mtv_year_add_goal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="Month(s)" />
+                        android:layout_gravity="center"
+                        android:text="Year(s)"
+                        android:textColor="@color/colorTextBlack"
+                        android:textSize="20sp" />
 
-                    <RadioButton
-                        android:id="@+id/radioBtn_duration_years"
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:orientation="vertical">
+
+                    <NumberPicker
+                        android:id="@+id/number_picker_target_duration_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="150dp"
+                        android:layout_marginHorizontal="20sp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/mtv_month_add_goal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Year(s)" />
+                        android:layout_gravity="center"
+                        android:text="Month(s)"
+                        android:textColor="@color/colorTextBlack"
+                        android:textSize="20sp" />
 
-                </RadioGroup>
+                </LinearLayout>
+
+                <!--                <NumberPicker-->
+                <!--                    android:id="@+id/number_picker_target_duration"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_weight="3"-->
+                <!--                    android:layout_height="200dp" />-->
+
+                <!--                <RadioGroup-->
+                <!--                    android:id="@+id/radioGroup_duration"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="2"-->
+                <!--                    android:paddingLeft="50dp"-->
+                <!--                    tools:layout_editor_absoluteX="311dp"-->
+                <!--                    tools:layout_editor_absoluteY="429dp">-->
+
+                <!--                    <RadioButton-->
+                <!--                        android:id="@+id/radioBtn_duration_months"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:checked="true"-->
+                <!--                        android:text="Month(s)" />-->
+
+                <!--                    <RadioButton-->
+                <!--                        android:id="@+id/radioBtn_duration_years"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:text="Year(s)" />-->
+
+                <!--                </RadioGroup>-->
 
             </LinearLayout>
 
@@ -121,100 +167,96 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
                     android:checked="true"
-                    android:text="None"
-                    />
+                    android:text="None" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/radiobutton_reminder_3mth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
-                    android:text="3 Months"
-                    />
+                    android:text="3 Months" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/radiobutton_reminder_6mth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
-                    android:text="6 Months"
-                    />
+                    android:text="6 Months" />
 
 
             </RadioGroup>
 
 
+        </LinearLayout>
 
-    </LinearLayout>
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_Fragment2Receipt"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="200dp"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-    <!--        <TextView-->
-    <!--            android:id="@+id/tv_Fragment2Receipt"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="200dp"-->
-    <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--            app:layout_constraintRight_toRightOf="parent"-->
-    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_category_btn_1"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/tv_Fragment2Receipt" />-->
 
-    <!--        <TextView-->
-    <!--            android:id="@+id/tv_category_btn_1"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--            app:layout_constraintRight_toRightOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@id/tv_Fragment2Receipt" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_category_btn_2"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/tv_category_btn_1" />-->
 
-    <!--        <TextView-->
-    <!--            android:id="@+id/tv_category_btn_2"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--            app:layout_constraintRight_toRightOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@id/tv_category_btn_1" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/tv_category_btn_3"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/tv_category_btn_2" />-->
 
-    <!--        <TextView-->
-    <!--            android:id="@+id/tv_category_btn_3"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--            app:layout_constraintRight_toRightOf="parent"-->
-    <!--            app:layout_constraintTop_toBottomOf="@id/tv_category_btn_2" />-->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_ToFragmentOne"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:background="@color/colorUnderlyingBackground"
-            android:text="Previous"
+            android:orientation="horizontal"
+            android:weightSum="2"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_ToFragmentThree"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            android:background="@color/colorUnderlyingBackground"
-            android:text="Next"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-    </LinearLayout>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_ToFragmentOne"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorUnderlyingBackground"
+                android:text="Previous"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
 
-    </FrameLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_ToFragmentThree"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:background="@color/colorUnderlyingBackground"
+                android:text="Next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
