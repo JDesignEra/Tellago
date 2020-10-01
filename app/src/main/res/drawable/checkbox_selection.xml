@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/colorBackground" android:state_checked="false" />
-    <item android:drawable="@color/colorPrimaryLight" android:state_checked="true" />
+    <item android:drawable="@drawable/checkbox_selection_gray_outline" android:state_checked="false" />
+    <item android:drawable="@drawable/checkbox_selection_red_outline" android:state_checked="true" />
 
 </selector>

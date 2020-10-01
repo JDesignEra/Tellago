@@ -61,7 +61,7 @@ class CreateGoalFragment_2 : Fragment() {
                 R.id.radiobutton_reminder_6mth -> reminderMonth = 6
             }
 
-            val createGoalFragment3 = CreateGoalFragment_3()
+           val createGoalFragment3 = CreateGoalFragment_3()
 
             createGoalFragment3.arguments = Bundle().apply {
                 putAll(requireArguments())
