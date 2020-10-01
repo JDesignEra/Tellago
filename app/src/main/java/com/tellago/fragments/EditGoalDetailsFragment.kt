@@ -200,26 +200,8 @@ class EditGoalDetailsFragment : Fragment() {
             FragmentUtils(
                 requireActivity().supportFragmentManager,
                 R.id.fragment_container_goal_activity
-            ).replace(dialogFragment)
-        }
-
-        textInputLayout_deadline.setEndIconOnClickListener {
-            val dialogFragment = EditDeadlinePickerFragment()
-
-            // Add in bundle to pass current deadline to Dialog Fragment (calculation occurs in next Fragment)
-            bundle.putString("goal_id", tv_goalID_edit_gone.text.toString())
-            Log.d("gid to PickerFragment: ", tv_goalID_edit_gone.text.toString())
-            bundle.putString("final_date", "default")
-
-            dialogFragment.arguments = bundle
-
-            // FragmentUtils does not support normal dialog
-            FragmentUtils(
-                requireActivity().supportFragmentManager,
-                R.id.fragment_container_goal_activity
             ).replace(dialogFragment, backStackName = "secondaryStack")
         }
-
 
         btn_DeleteGoal.setOnClickListener {
             Goal(gid = gid).deleteByGid()
@@ -229,7 +211,6 @@ class EditGoalDetailsFragment : Fragment() {
                 requireActivity().supportFragmentManager,
                 R.id.fragment_container_goal_activity
             ).replace(ShowGoalsFragment())
-
         }
     }
 
