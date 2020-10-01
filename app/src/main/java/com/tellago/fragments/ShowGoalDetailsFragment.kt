@@ -39,7 +39,6 @@ class ShowGoalDetailsFragment : Fragment() {
 
         val bundle = this.arguments
         if (bundle != null) {
-
             Goal(gid = bundle.getString("goal_id")).getByGid {
                 if (it != null) {
                     // Assign to relevant edit text elements below
@@ -58,7 +57,6 @@ class ShowGoalDetailsFragment : Fragment() {
                     tv_reminderMonthsFreq.text = it.reminderMonthsFreq.toString()
                     // Displaying createDate as DateTime rather than TimeStamp for user viewing
                     tv_createDate.text = dateFormatter.format(it.createDate).toString()
-
                 }
             }
         }

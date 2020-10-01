@@ -11,9 +11,20 @@ import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class EditGoalDetailsFragment : Fragment() {
+    val locale = Locale("en", "SG")
+    val timezone = TimeZone.getTimeZone("Asia/Singapore")
+    val dateFormatter = SimpleDateFormat("dd/MM/yyyy", locale)
+
+    override fun onStart() {
+        super.onStart()
+
+        dateFormatter.timeZone = timezone
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,7 +39,7 @@ class EditGoalDetailsFragment : Fragment() {
 
         val bundle = requireArguments()
         val gid: String = bundle.getString("goal_id", null)
-        lateinit var categoriesList: MutableList<String>
+        lateinit var categoriesList: ArrayList<String>
 
         Goal(gid = gid).getByGid {
             if (it != null) {
@@ -38,9 +49,6 @@ class EditGoalDetailsFragment : Fragment() {
                 textInput_targetAmt.setText(it.targetAmt.toString())
                 textInput_currentAmt.setText(it.currentAmt.toString())
 
-                val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
-                dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Singapore")
-
                 val deadline = if (it.deadline != null) {
                     dateFormatter.format(it.deadline)
                 } else  ""
@@ -48,7 +56,7 @@ class EditGoalDetailsFragment : Fragment() {
                 textInput_deadline.setText(deadline)
                 textInput_reminderFreq.setText((it.reminderMonthsFreq ?: 0).toString())
 
-                categoriesList = it.category?.toMutableList() ?: mutableListOf()
+                categoriesList = it.category ?: ArrayList()
 
                 if (categoriesList.contains("career")) btnToggleGrp_category.check(R.id.btn_careerCategory)
                 if (categoriesList.contains("family")) btnToggleGrp_category.check(R.id.btn_familyCategory)
@@ -77,13 +85,21 @@ class EditGoalDetailsFragment : Fragment() {
 //        showEditCategoriesListDialog()
 
         btn_ConfirmEditGoalDetails.setOnClickListener {
+            var deadline: Calendar? = null
+
             if (!gid.isBlank()) {
+                if (!textInput_deadline.text.isNullOrBlank()) {
+                    deadline = Calendar.getInstance(timezone, locale)
+                    deadline.time = dateFormatter.parse(textInput_deadline.text.toString())!!
+                }
+
                 Goal(
                     gid = gid,
                     title = textInput_title.text.toString(),
-                    category = categoriesList?.toList(),
+                    category = categoriesList,
                     targetAmt = textInput_targetAmt.text.toString().toInt(),
-                    currentAmt = textInput_currentAmt.text.toString().toInt()
+                    currentAmt = textInput_currentAmt.text.toString().toInt(),
+                    deadline = deadline?.time
                 ).updateByGid()
             }
         }

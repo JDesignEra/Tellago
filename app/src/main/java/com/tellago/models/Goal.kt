@@ -5,16 +5,17 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import java.util.*
+import kotlin.collections.ArrayList
 
 data class Goal(
     @DocumentId var gid: String? = null,
     val uid: String? = null,
     val jid: String? = null,
     var title: String? = null,
-    var category: List<String>? = null,
+    var category: ArrayList<String>? = null,
     var targetAmt: Int? = 0,
     var currentAmt: Int? = 0,
-    val bucketList: List<String>? = null,
+    val bucketList: ArrayList<String>? = null,
     val deadline: Date? = null,
     val lastReminder: Calendar? = null,
     val reminderMonthsFreq: Int? = null,
@@ -56,7 +57,7 @@ data class Goal(
             if (title != null) data["title"] = title
             if (category != null) data["category"] = category
             if (bucketList != null) data["bucketList"] = bucketList
-            if (deadline != null) data["category"] = deadline
+            if (deadline != null) data["deadline"] = deadline
             if (reminderMonthsFreq != null) data["reminderMonthsFreq"] = reminderMonthsFreq
 
             if (currentAmt != null || targetAmt != null || completed != null) {

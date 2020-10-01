@@ -33,7 +33,6 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         holder.tvFullAmt.text = DecimalFormat("$#,###").format(model.targetAmt)
         // val goal ID to pass to next activity/fragment
         holder.tv_GoalID.text = model.gid.toString()
-
     }
 
     class GoalViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -44,8 +43,6 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         val tv_GoalID = itemView.tv_g_ID
 
         val showGoalDetailsFragment = ShowGoalDetailsFragment()
-
-
 
         init {
             val activity : AppCompatActivity = itemView.context as AppCompatActivity

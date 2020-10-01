@@ -14,6 +14,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.adapters.ShowGoalsRecyclerAdapter
+import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
@@ -32,14 +33,11 @@ class ShowGoalsFragment : Fragment() {
             R.id.fragment_container_goal_activity
         )
 
+        val query = FirebaseFirestore.getInstance().collection("goals").whereEqualTo("uid", user?.uid)
+
         adapter = ShowGoalsRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Goal>()
-                .setQuery(
-                    FirebaseFirestore.getInstance()
-                        .collection("goals")
-                        .whereEqualTo("uid", user?.uid),
-                    Goal::class.java
-                )
+                .setQuery(query, Goal::class.java)
                 .build()
         )
     }

@@ -14,6 +14,7 @@ import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_3.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CreateGoalFragment_3 : Fragment() {
     private lateinit var toast: CustomToast
@@ -54,7 +55,7 @@ class CreateGoalFragment_3 : Fragment() {
 
             val locale = Locale("en", "SG")
             val timezone = TimeZone.getTimeZone("Asia/Singapore")
-            val category = mutableListOf<String>()
+            val category = ArrayList<String>()
             val deadline = Calendar.getInstance(timezone, locale)
             val reminderFreq = bundle.getInt("reminder")
 
