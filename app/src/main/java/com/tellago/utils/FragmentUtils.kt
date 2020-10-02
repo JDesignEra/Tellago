@@ -66,7 +66,7 @@ class FragmentUtils(
     /**
      * Used to popBackStack (backStackName refers to the stacks within which all entries to be consumed)
      */
-    fun popBackStack(backStackName: String = "secondaryStack") {
+    fun popBackStack(backStackName: String = "mainStack") {
         fragmentManager.popBackStack(backStackName, POP_BACK_STACK_INCLUSIVE)
     }
 }

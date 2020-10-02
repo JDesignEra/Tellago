@@ -1,39 +1,30 @@
 package com.tellago.fragments
 
+
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.NumberPicker
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
-import com.google.type.DateTime
 import com.tellago.R
 import com.tellago.utils.FragmentUtils
-import kotlinx.android.synthetic.main.fragment_categories_dialog.*
 import kotlinx.android.synthetic.main.fragment_edit_deadline_picker.*
 import kotlinx.android.synthetic.main.fragment_edit_deadline_picker.view.*
-import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
-import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class EditDeadlinePickerFragment : DialogFragment() {
-
     lateinit var numPicker_year : NumberPicker
     lateinit var numPicker_month : NumberPicker
     lateinit var numPicker_day : NumberPicker
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     private fun wireWidgets() {
@@ -49,12 +40,10 @@ class EditDeadlinePickerFragment : DialogFragment() {
         numPicker_day.minValue = 0
         numPicker_day.maxValue = 28 // max value is 28 to protect DateTimeFormat conversion logic
 
-
         // Perform calculations from bundle arguments & then display values to relevant Pickers
         //numPicker_year.value =
         //numPicker_month.value =
         //numPicker_day.value =
-
     }
 
     override fun onCreateView(
@@ -77,8 +66,6 @@ class EditDeadlinePickerFragment : DialogFragment() {
             tv_datechangedisplay_gone.text = bundle.getString("goal_id").toString()
 
             // Perform calculations based on input values from Pickers
-
-
             btn_confirm_deadline_edit.setOnClickListener {
                 val year_increase : Int = view.numPick_year.value
                 val month_increase : Int = view.numPick_month.value
@@ -141,23 +128,8 @@ class EditDeadlinePickerFragment : DialogFragment() {
                 FragmentUtils(
                     requireActivity().supportFragmentManager,
                     R.id.fragment_container_goal_activity
-                )
-                    .replace(editGoalDetailsFragment)
-
+                ).replace(editGoalDetailsFragment)
             }
-
         }
-
     }
-
-//    private fun configureToolbar() {
-//        toolbar_edit_goal_details.setNavigationIcon(R.drawable.ic_arrow_back_36)
-//        toolbar_edit_goal_details.setNavigationOnClickListener {
-//            // Allow user to return to previous fragment in the Stack
-//            FragmentUtils(
-//                requireActivity().supportFragmentManager,
-//                R.id.fragment_container_goal_activity
-//            ).popBackStack()
-//        }
-//    }
 }

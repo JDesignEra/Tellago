@@ -14,7 +14,7 @@
     <color name="colorIconGrey">#AFAFAF</color>
     <color name="toastPrimary">#bfe53935</color>
     <color name="toastError">#bfff002e</color>
-    <color name="toastSuccess">#e53935</color>
+    <color name="toastSuccess">#bf00968b</color>
     <color name="colorLinkBlue">#0095f6</color>
     <color name="colorTextDarkGray">#565656</color>
     <color name="superlightgray">#f9f9f9</color>

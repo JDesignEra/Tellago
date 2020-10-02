@@ -25,11 +25,17 @@ class EditGoalDetailsFragment : Fragment() {
     val locale = Locale("en", "SG")
     val timezone = TimeZone.getTimeZone("Asia/Singapore")
     val dateFormatter = SimpleDateFormat("dd/MM/yyyy", locale)
+
+    private lateinit var fragmentUtils: FragmentUtils
     private lateinit var toast: CustomToast
 
     override fun onStart() {
         super.onStart()
 
+        fragmentUtils = FragmentUtils(
+            requireActivity().supportFragmentManager,
+            R.id.fragment_container_goal_activity
+        )
         dateFormatter.timeZone = timezone
     }
 
@@ -197,20 +203,14 @@ class EditGoalDetailsFragment : Fragment() {
             dialogFragment.arguments = bundle
 
             // FragmentUtils does not support normal dialog
-            FragmentUtils(
-                requireActivity().supportFragmentManager,
-                R.id.fragment_container_goal_activity
-            ).replace(dialogFragment, backStackName = "secondaryStack")
+            fragmentUtils.replace(dialogFragment)
         }
 
         btn_DeleteGoal.setOnClickListener {
             Goal(gid = gid).deleteByGid()
 
             // Redirect user to ShowGoalsFragment
-            FragmentUtils(
-                requireActivity().supportFragmentManager,
-                R.id.fragment_container_goal_activity
-            ).replace(ShowGoalsFragment())
+            fragmentUtils.replace(ShowGoalsFragment())
         }
     }
 
@@ -218,10 +218,7 @@ class EditGoalDetailsFragment : Fragment() {
         toolbar_edit_goal_details.setNavigationIcon(R.drawable.ic_arrow_back_36)
         toolbar_edit_goal_details.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
-            FragmentUtils(
-                requireActivity().supportFragmentManager,
-                R.id.fragment_container_goal_activity
-            ).popBackStack()
+            fragmentUtils.popBackStack()
         }
     }
 }

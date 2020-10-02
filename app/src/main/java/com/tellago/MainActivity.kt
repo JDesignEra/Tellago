@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (user != null) {
             // starting fragment is homeFragment
-            fragmentUtils.replace(homeFragment)
+            fragmentUtils.add(homeFragment)
 
             if (!user?.displayName.isNullOrEmpty()) {
                 toast.success("Welcome to tellsquare, %s".format(user?.displayName))
@@ -89,19 +89,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.ic_home -> {
-                    fragmentUtils.replace(homeFragment)
+                    fragmentUtils.add(homeFragment)
                     true
                 }
                 R.id.ic_people -> {
-                    fragmentUtils.replace(communityFragment)
+                    fragmentUtils.add(communityFragment)
                     true
                 }
                 R.id.ic_feed -> {
-                    fragmentUtils.replace(feedFragment)
+                    fragmentUtils.add(feedFragment)
                     true
                 }
                 R.id.ic_profile -> {
-                    fragmentUtils.replace(profileFragment)
+                    fragmentUtils.add(profileFragment)
                     true
                 }
                 else -> false
