@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -58,8 +58,8 @@ class EditGoalDetailsFragment : Fragment() {
 
         initElementStates(goal, requireArguments())
 
-        setFragmentResultListener("deadlinePicker") { _, bundle ->
-            bundle.getParcelable<Goal>("Goal")?.let {
+        setFragmentResultListener(EditDeadlinePickerFragment::class.java.name) { _, bundle ->
+            bundle.getParcelable<Goal>(goal::class.java.name)?.let {
                 initElementStates(it, bundle)
             }
         }
@@ -72,26 +72,17 @@ class EditGoalDetailsFragment : Fragment() {
         }
     }
 
-    private fun initElementStates(goal: Goal, bundle: Bundle) {
+    private fun initElementStates(goalParam: Goal, bundleParam: Bundle) {
         // Assign to relevant edit text elements below
-        textInput_title.setText(goal.title)
-        textInput_targetAmt.setText(String.format("%.2f", goal.targetAmt))
-        textInput_currentAmt.setText(String.format("%.2f", goal.currentAmt))
+        textInput_title.setText(goalParam.title)
+        textInput_targetAmt.setText(String.format("%.2f", goalParam.targetAmt))
+        textInput_currentAmt.setText(String.format("%.2f", goalParam.currentAmt))
+        textInput_deadline.setText(dateFormatter.format(goalParam.deadline))
 
-        if (goal.reminderMonthsFreq == 3) radioBtn_3MonthsReminder.isChecked = true
-        else if (goal.reminderMonthsFreq == 6) radioBtn_6MonthsReminder.isChecked = true
+        if (goalParam.reminderMonthsFreq == 3) radioBtn_3MonthsReminder.isChecked = true
+        else if (goalParam.reminderMonthsFreq == 6) radioBtn_6MonthsReminder.isChecked = true
 
-        val deadline = if (bundle.getString("final_date") == "default") {
-            dateFormatter.format(goal.deadline)
-        }
-        else {
-            // Reassign value to textInput_deadline if bundle key 'final_date' is not "default"
-            bundle.getString("final_date")
-        }
-
-        textInput_deadline.setText(deadline)
-
-        val categoriesList = goal.categories
+        val categoriesList = goalParam.categories
 
         if (categoriesList.contains("career")) {
             chip_career.isChecked = true
@@ -164,17 +155,22 @@ class EditGoalDetailsFragment : Fragment() {
         }
 
         btn_ConfirmEditGoalDetails.setOnClickListener {
-            if (!goal.gid?.isBlank()!!) {
-                Goal(
-                    gid = goal.gid,
-                    title = textInput_title.text.toString(),
-                    categories = categoriesList,
-                    targetAmt = textInput_targetAmt.text.toString().toDouble(),
-                    currentAmt = textInput_currentAmt.text.toString().toDouble(),
-                    deadline = Timestamp.valueOf(convertToJdbc(textInput_deadline.text.toString()))
-                ).setByGid {
+            if (!goalParam.gid?.isBlank()!!) {
+                goal.title = textInput_title.text.toString()
+                goal.categories = categoriesList
+                goal.targetAmt = textInput_targetAmt.text.toString().toDouble()
+                goal.currentAmt = textInput_currentAmt.text.toString().toDouble()
+                goal.deadline = Calendar.getInstance(timezone, locale).apply {
+                    time = dateFormatter.parse(textInput_deadline.text.toString())!!
+                }.time
+
+                goalParam.setByGid {
                     if (it != null) {
-                        fragmentUtils.replace(ShowGoalDetailsFragment())
+                        setFragmentResult(this::class.java.name, Bundle().apply {
+                            putParcelable(goal::class.java.name, goal)
+                        })
+
+                        fragmentUtils.popBackStack()
                         toast.success("Goal updated")
                     }
                     else toast.error("Please try again, there was an issue when updating your goal")
@@ -182,68 +178,91 @@ class EditGoalDetailsFragment : Fragment() {
             }
         }
 
-        // Open Dialog to Edit Deadline
         textInputLayout_deadline.setEndIconOnClickListener {
             val dialogFragment = EditDeadlinePickerFragment()
-            val strs_deadline_toEdit = textInput_deadline.text.toString()
-                .split("/").toTypedArray()
 
-            // There will be 3 elements in the strs_deadline ArrayList (internal conversion)
-            if (strs_deadline_toEdit.size != 0) {
-                val deadline_day_toEdit = strs_deadline_toEdit[0]
-                val deadline_month_toEdit = strs_deadline_toEdit[1]
-                val deadline_year_toEdit = strs_deadline_toEdit[2]
-
-                bundle.putParcelable("Goal",
-                    Goal(
-                        gid = goal.gid,
-                        title = textInput_title.text.toString(),
-                        categories = categoriesList,
-                        targetAmt = textInput_targetAmt.text.toString().toDouble(),
-                        currentAmt = textInput_currentAmt.text.toString().toDouble(),
-                        deadline = Timestamp.valueOf(convertToJdbc(textInput_deadline.text.toString()))
-                    )
-                )
-
-                // Add in bundle to pass current deadline to Dialog Fragment (calculation occurs in next Fragment)
-                bundle.putString("final_date", "default")
-                bundle.putString("day_toEdit", deadline_day_toEdit)
-                bundle.putString("month_toEdit", deadline_month_toEdit)
-                bundle.putString("year_toEdit", deadline_year_toEdit)
-
-                dialogFragment.arguments = bundle
-
-                // FragmentUtils does not support normal dialog
-                fragmentUtils.replace(dialogFragment)
-
+            goal.title = textInput_title.text.toString()
+            goal.categories = categoriesList
+            goal.targetAmt = textInput_targetAmt.text.toString().toDouble()
+            goal.currentAmt = textInput_currentAmt.text.toString().toDouble()
+            goal.deadline = Calendar.getInstance(timezone, locale).apply {
+                time = dateFormatter.parse(textInput_deadline.text.toString())!!
+            }.time
+            goal.reminderMonthsFreq = when {
+                radioBtn_3MonthsReminder.isChecked -> 3
+                radioBtn_6MonthsReminder.isChecked -> 6
+                else -> 0
             }
-            else toast.error("Unable to edit Deadline")
+
+            dialogFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
+            }
+
+            fragmentUtils.replace(dialogFragment)
         }
 
+        // Open Dialog to Edit Deadline
+//        textInputLayout_deadline.setEndIconOnClickListener {
+//            val dialogFragment = EditDeadlinePickerFragment()
+//            val strs_deadline_toEdit = textInput_deadline.text.toString()
+//                .split("/").toTypedArray()
+//
+//            // There will be 3 elements in the strs_deadline ArrayList (internal conversion)
+//            if (strs_deadline_toEdit.size != 0) {
+//                val deadline_day_toEdit = strs_deadline_toEdit[0]
+//                val deadline_month_toEdit = strs_deadline_toEdit[1]
+//                val deadline_year_toEdit = strs_deadline_toEdit[2]
+//
+//                bundleParam.putParcelable("Goal",
+//                    Goal(
+//                        gid = goalParam.gid,
+//                        title = textInput_title.text.toString(),
+//                        categories = categoriesList,
+//                        targetAmt = textInput_targetAmt.text.toString().toDouble(),
+//                        currentAmt = textInput_currentAmt.text.toString().toDouble(),
+//                        deadline = Timestamp.valueOf(convertToJdbc(textInput_deadline.text.toString()))
+//                    )
+//                )
+//
+//                // Add in bundle to pass current deadline to Dialog Fragment (calculation occurs in next Fragment)
+//                bundleParam.putString("final_date", "default")
+//                bundleParam.putString("day_toEdit", deadline_day_toEdit)
+//                bundleParam.putString("month_toEdit", deadline_month_toEdit)
+//                bundleParam.putString("year_toEdit", deadline_year_toEdit)
+//
+//                dialogFragment.arguments = bundleParam
+//
+//                // FragmentUtils does not support normal dialog
+//                fragmentUtils.replace(dialogFragment)
+//
+//            }
+//            else toast.error("Unable to edit Deadline")
+//        }
+
         btn_DeleteGoal.setOnClickListener {
-            Goal(gid = goal.gid).deleteByGid()
+            Goal(gid = goalParam.gid).deleteByGid()
             fragmentUtils.replace(ShowGoalsFragment())
         }
     }
 
-    private fun convertToJdbc(string_deadline: String): String {
-        // Converting deadline from dd-MM-yyyy to JDBC timestamp format
-        val strs_deadline = string_deadline.split("/").toTypedArray()
-        // There will be 3 elements in the strs_deadline ArrayList (internal conversion)
-        var deadline_JDBC_string = string_deadline
-
-        if (strs_deadline.size != 0)
-        {
-            val deadline_day = strs_deadline[0]
-            val deadline_month = strs_deadline[1]
-            val deadline_year = strs_deadline[2]
-
-            deadline_JDBC_string = deadline_year +
-                    "-" + deadline_month +
-                    "-" + deadline_day +
-                    " 00:01:02.345678901"
-        }
-
-        return deadline_JDBC_string
-    }
+//    private fun convertToJdbc(string_deadline: String): String {
+//        // Converting deadline from dd-MM-yyyy to JDBC timestamp format
+//        val strs_deadline = string_deadline.split("/").toTypedArray()
+//        // There will be 3 elements in the strs_deadline ArrayList (internal conversion)
+//        var deadline_JDBC_string = string_deadline
+//
+//        if (strs_deadline.size != 0)
+//        {
+//            val deadline_day = strs_deadline[0]
+//            val deadline_month = strs_deadline[1]
+//            val deadline_year = strs_deadline[2]
+//
+//            deadline_JDBC_string = deadline_year +
+//                    "-" + deadline_month +
+//                    "-" + deadline_day +
+//                    " 00:01:02.345678901"
+//        }
+//
+//        return deadline_JDBC_string
+//    }
 }

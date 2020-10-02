@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
@@ -44,22 +45,34 @@ class ShowGoalDetailsFragment : Fragment() {
 
         configureToolbar()
 
-        tv_title.text = goal.title
-        tv_categories.text = goal.categories.toString()
-        tv_targetAmt.text = goal.targetAmt.toString()
-        tv_currentAmt.text = goal.currentAmt.toString()
-        tv_bucketList.text = goal.bucketList.toString()
+        initElementStates(goal)
+        
+        setFragmentResultListener(this::class.java.name) { _, bundle ->
+            bundle.getParcelable<Goal>(goal::class.java.name)?.let { initElementStates(it) }
+        }
+
+        btn_CompleteGoal.setOnClickListener {
+            Log.d("Complete Goal", "FIRED")
+        }
+    }
+
+    private fun initElementStates(goalParam: Goal) {
+        tv_title.text = goalParam.title
+        tv_categories.text = goalParam.categories.toString()
+        tv_targetAmt.text = goalParam.targetAmt.toString()
+        tv_currentAmt.text = goalParam.currentAmt.toString()
+        tv_bucketList.text = goalParam.bucketList.toString()
 
         // Displaying deadline as DateTime rather than TimeStamp for user viewing
         val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale("en", "SG"))
         dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Singapore")
 
-        tv_deadline.text = dateFormatter.format(goal.deadline).toString()
-        tv_lastReminder.text = goal.lastReminder.toString()
-        tv_reminderMonthsFreq.text = goal.reminderMonthsFreq.toString()
+        tv_deadline.text = dateFormatter.format(goalParam.deadline).toString()
+        tv_lastReminder.text = goalParam.lastReminder.toString()
+        tv_reminderMonthsFreq.text = goalParam.reminderMonthsFreq.toString()
 
         // Displaying createDate as DateTime rather than TimeStamp for user viewing
-        tv_createDate.text = dateFormatter.format(goal.createDate).toString()
+        tv_createDate.text = dateFormatter.format(goalParam.createDate).toString()
 
         btn_Bucket_List_View.setOnClickListener {
             Log.d("bucket list test", "FIRED")
@@ -69,15 +82,11 @@ class ShowGoalDetailsFragment : Fragment() {
             val editGoalDetailsFragment = EditGoalDetailsFragment()
 
             editGoalDetailsFragment.arguments = Bundle().apply {
-                putString("final_date", "default")
+//                putString("final_date", "default")
                 putParcelable(goal::class.java.name, goal)
             }
 
             fragmentUtils.replace(editGoalDetailsFragment)
-        }
-
-        btn_CompleteGoal.setOnClickListener {
-            Log.d("Complete Goal", "FIRED")
         }
     }
 

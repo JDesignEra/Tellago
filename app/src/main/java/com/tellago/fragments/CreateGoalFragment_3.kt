@@ -61,8 +61,8 @@ class CreateGoalFragment_3 : Fragment() {
 
             goal.add {
                 if (it != null) {
+                    fragmentUtils.replace(ShowGoalsFragment())
                     toast.success("Goal created")
-                    fragmentUtils.replace(ShowGoalDetailsFragment())
                 }
                 else toast.error("Please try again, there was an error creating your goal")
             }

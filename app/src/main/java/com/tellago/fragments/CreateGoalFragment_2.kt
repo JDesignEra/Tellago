@@ -56,14 +56,12 @@ class CreateGoalFragment_2 : Fragment() {
         number_picker_target_duration_month.minValue = 0
         number_picker_target_duration_month.maxValue = 11
 
-        if (goal.deadline != null) {
-            val calDiff = Calendar.getInstance(timezone, locale).apply {
-                timeInMillis = goal!!.deadline!!.time - Calendar.getInstance(timezone, locale).time.time
-            }
-
-            number_picker_target_duration_month.value = calDiff.get(Calendar.MONTH)
-            number_picker_target_duration_year.value = calDiff.get(Calendar.YEAR) - 1970
+        val calDiff = Calendar.getInstance(timezone, locale).apply {
+            timeInMillis = goal.deadline.time - Calendar.getInstance(timezone, locale).time.time
         }
+
+        number_picker_target_duration_month.value = calDiff.get(Calendar.MONTH)
+        number_picker_target_duration_year.value = calDiff.get(Calendar.YEAR) - 1970
 
         if (goal.reminderMonthsFreq != 0) {
             radioGroup_reminder.check(

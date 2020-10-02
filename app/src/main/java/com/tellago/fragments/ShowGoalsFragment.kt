@@ -32,7 +32,7 @@ class ShowGoalsFragment : Fragment() {
             R.id.fragment_container_goal_activity
         )
 
-        val query = FirebaseFirestore.getInstance().collection("testgoals").whereEqualTo("uid", user?.uid)
+        val query = FirebaseFirestore.getInstance().collection("goals").whereEqualTo("uid", user?.uid)
 
         adapter = ShowGoalsRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Goal>()
