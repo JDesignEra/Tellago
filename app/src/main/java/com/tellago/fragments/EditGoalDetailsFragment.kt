@@ -203,7 +203,7 @@ class EditGoalDetailsFragment : Fragment() {
             dialogFragment.arguments = bundle
 
             // FragmentUtils does not support normal dialog
-            fragmentUtils.replace(dialogFragment)
+            fragmentUtils.replace(dialogFragment, backStackName = "secondaryStack")
         }
 
         btn_DeleteGoal.setOnClickListener {
@@ -217,8 +217,8 @@ class EditGoalDetailsFragment : Fragment() {
     private fun configureToolbar() {
         toolbar_edit_goal_details.setNavigationIcon(R.drawable.ic_arrow_back_36)
         toolbar_edit_goal_details.setNavigationOnClickListener {
-            // Allow user to return to previous fragment in the Stack
-            fragmentUtils.popBackStack()
+            // Allow user to return to previous fragment in the Stack (which is not 'secondaryStack')
+            fragmentUtils.popBackStack(backStackName = "secondaryStack")
         }
     }
 }

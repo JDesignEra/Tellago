@@ -14,17 +14,23 @@ import com.tellago.R
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_edit_deadline_picker.*
 import kotlinx.android.synthetic.main.fragment_edit_deadline_picker.view.*
+import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 class EditDeadlinePickerFragment : DialogFragment() {
+    private lateinit var fragmentUtils: FragmentUtils
     lateinit var numPicker_year : NumberPicker
     lateinit var numPicker_month : NumberPicker
     lateinit var numPicker_day : NumberPicker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fragmentUtils = FragmentUtils(
+            requireActivity().supportFragmentManager,
+            R.id.fragment_container_goal_activity
+        )
     }
 
     private fun wireWidgets() {
@@ -58,6 +64,7 @@ class EditDeadlinePickerFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+//        configureToolbar()
         wireWidgets()
 
         val bundle = this.arguments
@@ -132,4 +139,14 @@ class EditDeadlinePickerFragment : DialogFragment() {
             }
         }
     }
+
+//    private fun configureToolbar() {
+//        toolbar_edit_deadline_picker.setNavigationIcon(R.drawable.ic_cancel_grey_48)
+//        toolbar_edit_deadline_picker.setNavigationOnClickListener {
+//            // Allow user to return to previous fragment in the Stack (which is not 'secondaryStack')
+//            fragmentUtils.popBackStack()
+//            //FragmentUtils().popBackStack(backStackName = "secondaryStack")
+//        }
+//    }
+
 }

@@ -136,7 +136,7 @@ class CreateGoalFragment_1 : Fragment() {
 
 
         }
-        
+
 
     }
 
