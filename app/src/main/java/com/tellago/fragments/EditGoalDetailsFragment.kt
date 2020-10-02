@@ -195,15 +195,36 @@ class EditGoalDetailsFragment : Fragment() {
         textInputLayout_deadline.setEndIconOnClickListener {
             val dialogFragment = EditDeadlinePickerFragment()
 
-            // Add in bundle to pass current deadline to Dialog Fragment (calculation occurs in next Fragment)
-            bundle.putString("goal_id", tv_goalID_edit_gone.text.toString())
-            Log.d("gid to PickerFragment: ", tv_goalID_edit_gone.text.toString())
-            bundle.putString("final_date", "default")
+            val strs_deadline_toEdit = textInput_deadline.text.toString().split("/").toTypedArray()
+            // There will be 3 elements in the strs_deadline ArrayList (internal conversion)
 
-            dialogFragment.arguments = bundle
+            if (strs_deadline_toEdit.size != 0) {
+                val deadline_day_toEdit = strs_deadline_toEdit[0]
+                val deadline_month_toEdit = strs_deadline_toEdit[1]
+                val deadline_year_toEdit = strs_deadline_toEdit[2]
 
-            // FragmentUtils does not support normal dialog
-            fragmentUtils.replace(dialogFragment, backStackName = "secondaryStack")
+
+                // Add in bundle to pass current deadline to Dialog Fragment (calculation occurs in next Fragment)
+                bundle.putString("goal_id", tv_goalID_edit_gone.text.toString())
+                Log.d("gid to PickerFragment: ", tv_goalID_edit_gone.text.toString())
+                bundle.putString("final_date", "default")
+                bundle.putString("day_toEdit", deadline_day_toEdit)
+                bundle.putString("month_toEdit", deadline_month_toEdit)
+                bundle.putString("year_toEdit", deadline_year_toEdit)
+
+
+                dialogFragment.arguments = bundle
+
+                // FragmentUtils does not support normal dialog
+                fragmentUtils.replace(dialogFragment, backStackName = "secondaryStack")
+
+            }
+
+            else
+            {
+                toast.error("Unable to edit Deadline")
+            }
+
         }
 
         btn_DeleteGoal.setOnClickListener {
