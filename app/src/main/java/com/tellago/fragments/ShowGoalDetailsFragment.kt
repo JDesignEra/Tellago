@@ -64,6 +64,11 @@ class ShowGoalDetailsFragment : Fragment() {
             }
         }
 
+
+        btn_Bucket_List_View.setOnClickListener {
+            Log.d("bucket list test", "FIRED")
+        }
+
         btn_EditGoalDetails.setOnClickListener {
             val editGoalDetailsFragment = EditGoalDetailsFragment()
 

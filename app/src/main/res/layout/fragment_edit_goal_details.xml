@@ -52,7 +52,7 @@
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
                     android:background="@android:color/transparent"
-                    android:maxLines="1" />
+                    android:maxLines="2" />
 
                 <TextView
                     android:id="@+id/tv_goalID_edit_gone"
