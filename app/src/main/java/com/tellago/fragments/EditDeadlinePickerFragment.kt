@@ -75,9 +75,9 @@ class EditDeadlinePickerFragment : DialogFragment() {
 
             val today_date = LocalDateTime.now()
             Log.d("today_date is: ", today_date.toString())
-            val dateFormatter_year = DateTimeFormatter.ofPattern("yyyy")
-            val dateFormatter_month = DateTimeFormatter.ofPattern("MM")
-            val dateFormatter_day = DateTimeFormatter.ofPattern("dd")
+//            val dateFormatter_year = DateTimeFormatter.ofPattern("yyyy")
+//            val dateFormatter_month = DateTimeFormatter.ofPattern("MM")
+//            val dateFormatter_day = DateTimeFormatter.ofPattern("dd")
 
             // Perform calculations from bundle arguments & then display values to relevant Pickers
             var currentDL_day = bundle.getString("day_toEdit")
@@ -101,9 +101,8 @@ class EditDeadlinePickerFragment : DialogFragment() {
 
             // Compare future date to today_date
             val diffInEpochSeconds =
-                futureDate_LocalDateTime.toEpochSecond(ZoneOffset.UTC) - today_date.toEpochSecond(
-                    ZoneOffset.UTC
-                )
+                futureDate_LocalDateTime.toEpochSecond(ZoneOffset.UTC) -
+                        today_date.toEpochSecond(ZoneOffset.UTC)
             Log.d("diffInEpochSeconds: ", diffInEpochSeconds.toString())
 
             // Divide by 31556926 seconds for 1 year = 365.24 days
@@ -147,38 +146,53 @@ class EditDeadlinePickerFragment : DialogFragment() {
                 // Pass string using bundle to EditGoalDetailsFragment.kt
 
 
-                var new_day = today_date.format(dateFormatter_day).toInt() + day_increase
+                // Convert days to epoch seconds
+                var epochSecondTotal = day_increase * secondsPerDay
 
-                val day_offset: Int
+                // Convert months to epoch seconds & add to running total
+                epochSecondTotal += month_increase * secondsPerMonth
 
-                if (new_day > 31) {
-                    new_day = new_day - 31
-                    day_offset = 1
-                    // there is spillover of day into the next month
-                } else {
-                    day_offset = 0
-                }
+                // Convert years to epoch seconds & add to running total
+                epochSecondTotal += year_increase * secondsPerYear
 
-                val month_offset: Int
+//                val updatedDeadlineInEpochSeconds =
+//                    LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + epochSecondTotal
 
-                var new_month =
-                    today_date.format(dateFormatter_month).toInt() + month_increase + day_offset
-                if (new_month > 12) {
-                    new_month = new_month - 12
-                    month_offset = 1
-                    // there is spillover of month into the next year
-                } else {
-                    month_offset = 0
-                }
+                val updatedDeadlineInEpochSeconds =
+                    LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + epochSecondTotal.toLong()
 
-                val new_year =
-                    today_date.format(dateFormatter_year).toInt() + year_increase + month_offset
+
+                // Obtain date in dd-MM-yyyy based on EpochSeconds
+
+                // Divide by 31556926 seconds for 1 year = 365.24 days
+                // updatedDeadlineInEpochSeconds should be LONG
+                // new_remainder should be LONG
+                // new_year_quotient & all following quotients should be INT
+                var new_year_quotient = (updatedDeadlineInEpochSeconds / secondsPerYear).toInt()
+                var new_remainder = updatedDeadlineInEpochSeconds % secondsPerYear
+
+                // Divide by 2629743 seconds for 1 month = 30.44 days
+                var new_month_quotient = (new_remainder / secondsPerMonth).toInt()
+                new_remainder %= secondsPerMonth
+
+                // Divide by 86400 seconds for 1 day
+                var new_day_quotient = (new_remainder / secondsPerDay).toInt()
+
+
+                // Use new quotients' value as day_increase OR month_increase OR year_increase
+                // The new_quotient values are in EPOCH seconds (time since 1 January 1970)
+                // add offset for year, month & day to obtain final Date
+                new_year_quotient += 1970
+                new_month_quotient += 1
+                new_day_quotient += 1
+
 
                 // Leap year check (based on value of new_year)
                 val leap = when {
-                    new_year % 4 == 0 -> {
+
+                    new_year_quotient % 4 == 0 -> {
                         when {
-                            new_year % 100 == 0 -> new_year % 400 == 0
+                            new_year_quotient % 100 == 0 -> new_year_quotient % 400 == 0
                             else -> true
                         }
                     }
@@ -186,45 +200,45 @@ class EditDeadlinePickerFragment : DialogFragment() {
                 }
 
                 if (leap) {
-                    if (new_month == 2) {
+                    if (new_month_quotient == 2) {
                         // check if output is 30, 31. If so, convert to equivalent date in March
-                        val pair = FebToMarchDateLeap(new_month, new_day)
-                        new_day = pair.first
-                        new_month = pair.second
+                        val pair = FebToMarchDateLeap(new_month_quotient, new_day_quotient)
+                        new_day_quotient = pair.first
+                        new_month_quotient = pair.second
                         Log.d("adjust for LEAP FEB", "FIRED")
                     } else {
-                        val pair = MonthCheck30Days(new_month, new_day)
-                        new_day = pair.first
-                        new_month = pair.second
+                        val pair = MonthCheck30Days(new_month_quotient, new_day_quotient)
+                        new_day_quotient = pair.first
+                        new_month_quotient = pair.second
                         Log.d("adjust for 30Day months", "FIRED")
                     }
                 } else {
-                    if (new_month == 2) {
+                    if (new_month_quotient == 2) {
                         // check if output is 29, 30, 31. If so, convert to equivalent date in March
-                        val pair = FebToMarchDateNonLeap(new_month, new_day)
-                        new_day = pair.first
-                        new_month = pair.second
+                        val pair = FebToMarchDateNonLeap(new_month_quotient, new_day_quotient)
+                        new_day_quotient = pair.first
+                        new_month_quotient = pair.second
                         Log.d("adjust for non-LEAP Feb", "FIRED")
                     } else {
-                        val pair = MonthCheck30Days(new_month, new_day)
-                        new_day = pair.first
-                        new_month = pair.second
+                        val pair = MonthCheck30Days(new_month_quotient, new_day_quotient)
+                        new_day_quotient = pair.first
+                        new_month_quotient = pair.second
                         Log.d("adjust for 30Day months", "FIRED")
                     }
                 }
 
 
-                Log.d("New Year", (new_year).toString())
-                Log.d("New Month", (new_month).toString())
-                Log.d("New Day", (new_day).toString())
+//                Log.d("New Year", (new_year_quotient).toString())
+//                Log.d("New Month", (new_month_quotient).toString())
+//                Log.d("New Day", (new_day_quotient).toString())
 
-                val final_date =
-                    (new_day).toString() + "/" + (new_month).toString() + "/" + (new_year).toString()
+                val finalDate =
+                    (new_day_quotient).toString() + "/" + (new_month_quotient).toString() + "/" + (new_year_quotient).toString()
 
 
                 bundle.putString("goal_id", tv_datechangedisplay_gone.text.toString())
                 bundle.putString("update Categories", "no change")
-                bundle.putString("final_date", final_date)
+                bundle.putString("final_date", finalDate)
 
                 val editGoalDetailsFragment = EditGoalDetailsFragment()
 
@@ -244,7 +258,8 @@ class EditDeadlinePickerFragment : DialogFragment() {
     ): Pair<Int, Int> {
         var new_month1 = new_month
         var new_day1 = new_day
-        if (new_month1 == 4 || new_month1 == 6 || new_month1 == 9 || new_month1 == 11) {
+
+        if (new_month1 == 4 || new_month1 == 6|| new_month1 == 9 || new_month1 == 11) {
             if (new_day1 == 31) {
                 new_month1 += 1
                 new_day1 = 1
@@ -255,7 +270,7 @@ class EditDeadlinePickerFragment : DialogFragment() {
 
         }
 
-        return Pair(new_day1, new_month1)
+        return Pair(new_day1.toInt(), new_month1.toInt())
     }
 
 
@@ -265,6 +280,7 @@ class EditDeadlinePickerFragment : DialogFragment() {
     ): Pair<Int, Int> {
         var new_month1 = new_month
         var new_day1 = new_day
+
         if (new_month1 == 2) {
             if (new_day1 == 29) {
                 new_month1 = 3
@@ -287,6 +303,7 @@ class EditDeadlinePickerFragment : DialogFragment() {
     ): Pair<Int, Int> {
         var new_month1 = new_month
         var new_day1 = new_day
+
         if (new_month1 == 2) {
             if (new_day1 == 30) {
                 new_month1 = 3
@@ -296,7 +313,7 @@ class EditDeadlinePickerFragment : DialogFragment() {
                 new_day1 = 2
             }
         }
-        return Pair(new_day1, new_month1)
+        return Pair(new_day1.toInt(), new_month1.toInt())
     }
 
     private fun singleDigitStringCheck(currentDL_dayOrMonth: String?): String? {
