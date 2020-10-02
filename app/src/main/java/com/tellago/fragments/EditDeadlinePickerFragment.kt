@@ -10,17 +10,13 @@ import android.view.ViewGroup
 import android.widget.NumberPicker
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
-import com.google.type.DateTime
+import androidx.fragment.app.setFragmentResult
 import com.tellago.R
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_edit_deadline_picker.*
 import kotlinx.android.synthetic.main.fragment_edit_deadline_picker.view.*
-import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class EditDeadlinePickerFragment : DialogFragment() {
@@ -70,9 +66,6 @@ class EditDeadlinePickerFragment : DialogFragment() {
 
         val bundle = this.arguments
         if (bundle != null) {
-
-            tv_datechangedisplay_gone.text = bundle.getString("goal_id").toString()
-
             val today_date = LocalDateTime.now()
             Log.d("today_date is: ", today_date.toString())
 //            val dateFormatter_year = DateTimeFormatter.ofPattern("yyyy")
@@ -232,22 +225,15 @@ class EditDeadlinePickerFragment : DialogFragment() {
 //                Log.d("New Month", (new_month_quotient).toString())
 //                Log.d("New Day", (new_day_quotient).toString())
 
-                val finalDate =
-                    (new_day_quotient).toString() + "/" + (new_month_quotient).toString() + "/" + (new_year_quotient).toString()
+                val finalDate = (new_day_quotient).toString() + "/" + (new_month_quotient).toString() + "/" + (new_year_quotient).toString()
 
+                setFragmentResult("deadlinePicker", Bundle().apply {
+                    putAll(requireArguments())
+                    putString("update Categories", "no change")
+                    putString("final_date", finalDate)
+                })
 
-                bundle.putString("goal_id", tv_datechangedisplay_gone.text.toString())
-                bundle.putString("update Categories", "no change")
-                bundle.putString("final_date", finalDate)
-
-                val editGoalDetailsFragment = EditGoalDetailsFragment()
-
-                editGoalDetailsFragment.arguments = bundle
-
-                FragmentUtils(
-                    requireActivity().supportFragmentManager,
-                    R.id.fragment_container_goal_activity
-                ).replace(editGoalDetailsFragment)
+                fragmentUtils.popBackStack()
             }
         }
     }

@@ -6,21 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
-import kotlinx.android.synthetic.main.fragment_show_goal_details.tv_jid
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class ShowGoalDetailsFragment : Fragment() {
+    private lateinit var fragmentUtils: FragmentUtils
+    private lateinit var bundle: Bundle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        fragmentUtils = FragmentUtils(
+            requireActivity().supportFragmentManager,
+            R.id.fragment_container_goal_activity
+        )
+        bundle = requireArguments()
     }
 
     override fun onCreateView(
@@ -29,7 +36,6 @@ class ShowGoalDetailsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_show_goal_details, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,60 +43,52 @@ class ShowGoalDetailsFragment : Fragment() {
 
         configureToolbar()
 
-        val bundle = this.arguments
-        if (bundle != null) {
-            Goal(gid = bundle.getString("goal_id")).getByGid {
-                if (it != null) {
-                    // Assign to relevant edit text elements below
-                    tv_goalID_gone.text = it.gid
-                    tv_jid.text = it.jid
-                    tv_title.text = it.title
-                    tv_categories.text = it.category.toString()
-                    tv_targetAmt.text = it.targetAmt.toString()
-                    tv_currentAmt.text = it.currentAmt.toString()
-                    tv_bucketList.text = it.bucketList.toString()
-                    // Displaying deadline as DateTime rather than TimeStamp for user viewing
-                    val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
-                    dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Singapore")
-                    tv_deadline.text = dateFormatter.format(it.deadline).toString()
-                    tv_lastReminder.text = it.lastReminder.toString()
-                    tv_reminderMonthsFreq.text = it.reminderMonthsFreq.toString()
-                    // Displaying createDate as DateTime rather than TimeStamp for user viewing
-                    tv_createDate.text = dateFormatter.format(it.createDate).toString()
-                }
+        Goal(gid = bundle.getString("gid")).getByGid {
+            if (it != null) {
+                bundle.putParcelable("Goal", it)
+
+                // Assign to relevant edit text elements below
+                tv_title.text = it.title
+                tv_categories.text = it.category.toString()
+                tv_targetAmt.text = it.targetAmt.toString()
+                tv_currentAmt.text = it.currentAmt.toString()
+                tv_bucketList.text = it.bucketList.toString()
+                // Displaying deadline as DateTime rather than TimeStamp for user viewing
+                val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+                dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Singapore")
+                tv_deadline.text = dateFormatter.format(it.deadline).toString()
+                tv_lastReminder.text = it.lastReminder.toString()
+                tv_reminderMonthsFreq.text = it.reminderMonthsFreq.toString()
+                // Displaying createDate as DateTime rather than TimeStamp for user viewing
+                tv_createDate.text = dateFormatter.format(it.createDate).toString()
             }
         }
 
         btn_EditGoalDetails.setOnClickListener {
-
             val editGoalDetailsFragment = EditGoalDetailsFragment()
-            //    Use bundle to pass goal_id Data to editGoalDetailsFragment
-            val bundle = Bundle()
-            bundle.putString("goal_id", tv_goalID_gone.text as String?)
+
             bundle.putString("final_date", "default")
             editGoalDetailsFragment.arguments = bundle
-            FragmentUtils(
-                requireActivity().supportFragmentManager,
-                R.id.fragment_container_goal_activity
-            )
-                .replace(editGoalDetailsFragment, backStackName = "secondaryStack")
-            // both EditGoalDetailsFragment & EditDeadlinePickerFragment will reside in "secondaryStack"
-            // this will cause 'Back' within EditGoalDetailsFragment to always redirect to ShowGoalDetailsFragment
+
+            fragmentUtils.replace(editGoalDetailsFragment)
         }
 
         btn_CompleteGoal.setOnClickListener {
-            // Allow user to 'Complete' the current Goal --> award a badge for achievement
             Log.d("Complete Goal", "FIRED")
         }
 
+        setFragmentResultListener("deadlinePicker") { _, bundle ->
+            Log.e("Test", "Fired")
+            bundle.getString("update Categories")
+            textInput_deadline.setText(bundle.getString("final_date"))
+        }
     }
 
     private fun configureToolbar() {
         toolbar_view_goal_details.setNavigationIcon(R.drawable.ic_arrow_back_36)
         toolbar_view_goal_details.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
-            activity?.supportFragmentManager?.popBackStack()
+            fragmentUtils.popBackStack()
         }
     }
-
 }

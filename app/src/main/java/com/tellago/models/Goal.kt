@@ -1,12 +1,17 @@
 package com.tellago.models
 
+import android.os.Parcelable
 import android.util.Log
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
+import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 import kotlin.collections.ArrayList
 
+@Parcelize
 data class Goal(
     @DocumentId var gid: String? = null,
     val uid: String? = null,
@@ -21,8 +26,11 @@ data class Goal(
     val reminderMonthsFreq: Int? = null,
     var completed: Boolean? = null,
     val createDate: Date = Calendar.getInstance(TimeZone.getTimeZone("Asia/Singapore"), Locale("en", "SG")).time
-) {
+) : Parcelable {
+    @IgnoredOnParcel
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    @IgnoredOnParcel
     private val collection = db.collection("goals")
 
     fun getByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
@@ -47,6 +55,29 @@ data class Goal(
             Log.e("Goal", "Failed to add Goal.")
             onComplete?.invoke(null)
         }
+    }
+
+    fun setByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
+        if (!gid.isNullOrBlank()) {
+            val mergeFields = ArrayList<String>().apply {
+                if (!title.isNullOrBlank()) add(title!!::class.java.name)
+                if (!category.isNullOrEmpty()) add(category!!::class.java.name)
+                if (targetAmt != null) add(targetAmt!!::class.java.name)
+                if (currentAmt != null) add(currentAmt!!::class.java.name)
+                if (!bucketList.isNullOrEmpty()) add(bucketList::class.java.name)
+                if (deadline != null) add(deadline::class.java.name)
+                if (lastReminder != null) add(lastReminder::class.java.name)
+                if (completed != null) add(completed!!::class.java.name)
+            }
+
+            collection.document(gid!!).set(this, SetOptions.mergeFields(mergeFields)).addOnSuccessListener {
+                onComplete?.invoke(this)
+            }.addOnFailureListener {
+                Log.e("Goal", "Failed to set Goal.")
+                onComplete?.invoke(null)
+            }
+        }
+        else Log.e("Goal", "GID is required for updateByGid().")
     }
 
     fun updateByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {

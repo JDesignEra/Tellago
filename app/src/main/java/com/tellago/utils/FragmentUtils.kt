@@ -22,10 +22,9 @@ class FragmentUtils(
      * @param fragment add targeted fragment
      */
     fun add(fragment: Fragment) {
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-
-        transaction.replace(fragmentContainer, fragment)
-        transaction.commit()
+        fragmentManager.beginTransaction()
+            .replace(fragmentContainer, fragment, fragment::class.java.name)
+            .commit()
     }
 
     /**
@@ -44,7 +43,7 @@ class FragmentUtils(
                 exit: Int? = null,
                 popEnter: Int? = null,
                 popExit: Int? = null,
-                backStackName: String = "mainStack"
+                backStackName: String? = "mainStack"
     ) {
         val transaction: FragmentTransaction = fragmentManager.beginTransaction()
 
@@ -57,16 +56,16 @@ class FragmentUtils(
             )
         }
 
-        transaction.replace(fragmentContainer, fragment)
-        transaction.addToBackStack(backStackName)
-        transaction.commit()
+        transaction.replace(fragmentContainer, fragment, fragment::class.java.name)
+            .addToBackStack(backStackName)
+            .commit()
     }
-
 
     /**
      * Used to popBackStack (backStackName refers to the stacks within which all entries to be consumed)
      */
-    fun popBackStack(backStackName: String = "secondaryStack") {
-        fragmentManager.popBackStack(backStackName, POP_BACK_STACK_INCLUSIVE)
+    fun popBackStack(backStackName: String? = null) {
+        if (backStackName != null) fragmentManager.popBackStack(backStackName, POP_BACK_STACK_INCLUSIVE)
+        else fragmentManager.popBackStack()
     }
 }
