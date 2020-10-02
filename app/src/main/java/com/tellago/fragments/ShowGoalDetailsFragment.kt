@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
+//import androidx.fragment.app.setFragmentResultListener
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
@@ -73,16 +73,19 @@ class ShowGoalDetailsFragment : Fragment() {
             fragmentUtils.replace(editGoalDetailsFragment)
         }
 
+//        setFragmentResultListener("deadlinePicker") { _, bundle ->
+//            Log.e("Test", "Fired")
+//            bundle.getString("update Categories")
+//            textInput_deadline.setText(bundle.getString("final_date"))
+//        }
+
         btn_CompleteGoal.setOnClickListener {
             Log.d("Complete Goal", "FIRED")
         }
 
-        setFragmentResultListener("deadlinePicker") { _, bundle ->
-            Log.e("Test", "Fired")
-            bundle.getString("update Categories")
-            textInput_deadline.setText(bundle.getString("final_date"))
-        }
+
     }
+
 
     private fun configureToolbar() {
         toolbar_view_goal_details.setNavigationIcon(R.drawable.ic_arrow_back_36)
