@@ -44,12 +44,14 @@ class GoalsActivity : AppCompatActivity() {
 
         if (intentExtra == "add_goal") {
             fragmentUtils.add(createGoalFragment1)
+            configureToolbarCreateGoal()
         }
         else {
             fragmentUtils.add(showGoalsFragment)
+            configureToolbar()
         }
 
-        configureToolbar()
+//        configureToolbar()
     }
 
     private fun StartTimer() {
@@ -85,4 +87,25 @@ class GoalsActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    private fun configureToolbarCreateGoal() {
+        setSupportActionBar(toolbar_createGoal as Toolbar?)
+
+        val actionbar: ActionBar? = supportActionBar
+        // To 'hide' Title display in actionbar
+        actionbar?.setTitle("")
+        actionbar?.setDisplayHomeAsUpEnabled(true)
+        actionbar?.setHomeAsUpIndicator(R.drawable.ic_cancel_grey_48)
+
+        (toolbar_createGoal as Toolbar?)?.setNavigationOnClickListener {
+            if (intentExtra == "add_goal") {
+                finish()
+            }
+            else {
+                fragmentUtils.popBackStack()
+            }
+        }
+    }
+
 }

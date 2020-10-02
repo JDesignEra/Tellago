@@ -75,7 +75,7 @@ class CreateGoalFragment_3 : Fragment() {
                 uid = user?.uid,
                 title = bundle.getString("title"),
                 category = category,
-                targetAmt = 5000,
+                targetAmt = bundle.getString("price")?.toInt(),
                 deadline = deadline.time,
                 reminderMonthsFreq = if (reminderFreq == 0) null
                 else reminderFreq,
