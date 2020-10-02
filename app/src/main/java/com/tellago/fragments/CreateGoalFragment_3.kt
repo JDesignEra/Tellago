@@ -5,20 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.tellago.R
-import com.tellago.adapters.PostForCreateGoalRecyclerAdapter
+import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
 import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_3.*
-import java.util.*
 
 
 class CreateGoalFragment_3 : Fragment() {
+    private lateinit var bundle: Bundle
     private lateinit var toast: CustomToast
     private lateinit var fragmentUtils: FragmentUtils
+
+    private var goal = Goal()
 
     private var titlesList = mutableListOf<String>()
     private var descriptionsList = mutableListOf<String>()
@@ -28,6 +29,8 @@ class CreateGoalFragment_3 : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        bundle = requireArguments()
+        goal = bundle.getParcelable(goal::class.java.name)!!
         toast = CustomToast(requireContext())
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
@@ -46,52 +49,25 @@ class CreateGoalFragment_3 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Currently populating recycler view with static data
+
         postToList()
-        recycler_view_create_goal_show_posts.layoutManager =
-            LinearLayoutManager(activity?.application?.baseContext)
-        recycler_view_create_goal_show_posts.adapter =
-            PostForCreateGoalRecyclerAdapter(titlesList, descriptionsList, ownersList, imagesList)
 
         btn_BackToFragmentTwo.setOnClickListener {
             fragmentUtils.popBackStack()
         }
 
         btn_CreateGoal.setOnClickListener {
-            val bundle = requireArguments()
+            goal.uid = user?.uid
 
-            val locale = Locale("en", "SG")
-            val timezone = TimeZone.getTimeZone("Asia/Singapore")
-            val category = ArrayList<String>()
-            val deadline = Calendar.getInstance(timezone, locale)
-            val reminderFreq = bundle.getInt("reminder")
-            deadline.add(Calendar.MONTH, bundle.getInt("duration"))
-
-            if (bundle.getBoolean("career")) category.add("career")
-            if (bundle.getBoolean("family")) category.add("family")
-            if (bundle.getBoolean("leisure")) category.add("leisure")
-
-            Goal(
-                uid = user?.uid,
-                title = bundle.getString("title"),
-                category = category,
-                targetAmt = bundle.getString("price")?.toInt(),
-                deadline = deadline.time,
-                reminderMonthsFreq = if (reminderFreq == 0) null
-                else reminderFreq,
-                createDate = Calendar.getInstance(timezone, locale).time
-            ).add {
+            goal.add {
                 if (it != null) {
-                    toast.success("Goal create successfully")
-                    requireActivity().finish()
-                } else {
-                    toast.error("Failed to create goal. Please try again.")
+                    toast.success("Goal created")
+                    fragmentUtils.replace(ShowGoalDetailsFragment())
                 }
+                else toast.error("Please try again, there was an error creating your goal")
             }
-
         }
     }
-
 
     private fun addToList(title: String, description: String, owner: String, image: Int) {
         titlesList.add(title)
@@ -105,5 +81,4 @@ class CreateGoalFragment_3 : Fragment() {
             addToList("Title $i", "Description $i", "Owner $i", R.mipmap.ic_launcher_round)
         }
     }
-
 }

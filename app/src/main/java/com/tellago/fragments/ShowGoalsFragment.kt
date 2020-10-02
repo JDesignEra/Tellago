@@ -32,7 +32,7 @@ class ShowGoalsFragment : Fragment() {
             R.id.fragment_container_goal_activity
         )
 
-        val query = FirebaseFirestore.getInstance().collection("goals").whereEqualTo("uid", user?.uid)
+        val query = FirebaseFirestore.getInstance().collection("testgoals").whereEqualTo("uid", user?.uid)
 
         adapter = ShowGoalsRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Goal>()
@@ -57,8 +57,6 @@ class ShowGoalsFragment : Fragment() {
         recycler_view_show_goals_fragment.adapter = adapter
 
         fab_add_goal.setOnClickListener {
-//            startActivity(Intent(activity, GoalsActivity::class.java))
-//            activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
             fragmentUtils.replace(createGoalFragment1)
         }
     }
@@ -72,7 +70,7 @@ class ShowGoalsFragment : Fragment() {
     override fun onStop() {
         super.onStop()
 
-        if (adapter != null) adapter!!.stopListening()
+        adapter?.stopListening()
     }
 
     private fun configureToolbar() {

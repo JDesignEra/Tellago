@@ -6,19 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
-import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class ShowGoalDetailsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
-    private lateinit var bundle: Bundle
+
+    private var bundle: Bundle? = null
+    private var goal = Goal()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +26,9 @@ class ShowGoalDetailsFragment : Fragment() {
             requireActivity().supportFragmentManager,
             R.id.fragment_container_goal_activity
         )
-        bundle = requireArguments()
+
+        if (this.arguments != null) bundle = requireArguments()
+        if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
     }
 
     override fun onCreateView(
@@ -43,44 +44,40 @@ class ShowGoalDetailsFragment : Fragment() {
 
         configureToolbar()
 
-        Goal(gid = bundle.getString("gid")).getByGid {
-            if (it != null) {
-                bundle.putParcelable("Goal", it)
+        tv_title.text = goal.title
+        tv_categories.text = goal.categories.toString()
+        tv_targetAmt.text = goal.targetAmt.toString()
+        tv_currentAmt.text = goal.currentAmt.toString()
+        tv_bucketList.text = goal.bucketList.toString()
 
-                // Assign to relevant edit text elements below
-                tv_title.text = it.title
-                tv_categories.text = it.category.toString()
-                tv_targetAmt.text = it.targetAmt.toString()
-                tv_currentAmt.text = it.currentAmt.toString()
-                tv_bucketList.text = it.bucketList.toString()
-                // Displaying deadline as DateTime rather than TimeStamp for user viewing
-                val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
-                dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Singapore")
-                tv_deadline.text = dateFormatter.format(it.deadline).toString()
-                tv_lastReminder.text = it.lastReminder.toString()
-                tv_reminderMonthsFreq.text = it.reminderMonthsFreq.toString()
-                // Displaying createDate as DateTime rather than TimeStamp for user viewing
-                tv_createDate.text = dateFormatter.format(it.createDate).toString()
-            }
+        // Displaying deadline as DateTime rather than TimeStamp for user viewing
+        val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale("en", "SG"))
+        dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Singapore")
+
+        tv_deadline.text = dateFormatter.format(goal.deadline).toString()
+        tv_lastReminder.text = goal.lastReminder.toString()
+        tv_reminderMonthsFreq.text = goal.reminderMonthsFreq.toString()
+
+        // Displaying createDate as DateTime rather than TimeStamp for user viewing
+        tv_createDate.text = dateFormatter.format(goal.createDate).toString()
+
+        btn_Bucket_List_View.setOnClickListener {
+            Log.d("bucket list test", "FIRED")
         }
 
         btn_EditGoalDetails.setOnClickListener {
             val editGoalDetailsFragment = EditGoalDetailsFragment()
 
-            bundle.putString("final_date", "default")
-            editGoalDetailsFragment.arguments = bundle
+            editGoalDetailsFragment.arguments = Bundle().apply {
+                putString("final_date", "default")
+                putParcelable(goal::class.java.name, goal)
+            }
 
             fragmentUtils.replace(editGoalDetailsFragment)
         }
 
         btn_CompleteGoal.setOnClickListener {
             Log.d("Complete Goal", "FIRED")
-        }
-
-        setFragmentResultListener("deadlinePicker") { _, bundle ->
-            Log.e("Test", "Fired")
-            bundle.getString("update Categories")
-            textInput_deadline.setText(bundle.getString("final_date"))
         }
     }
 

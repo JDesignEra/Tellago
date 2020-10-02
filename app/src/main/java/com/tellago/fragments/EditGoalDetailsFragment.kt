@@ -1,7 +1,6 @@
 package com.tellago.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +15,17 @@ import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class EditGoalDetailsFragment : Fragment() {
-    val locale = Locale("en", "SG")
-    val timezone = TimeZone.getTimeZone("Asia/Singapore")
-    val dateFormatter = SimpleDateFormat("dd/MM/yyyy", locale)
+    private var bundle: Bundle? = null
+    private var goal = Goal()
+
+    private val locale = Locale("en", "SG")
+    private val timezone = TimeZone.getTimeZone("Asia/Singapore")
+    private val dateFormatter = SimpleDateFormat("dd/MM/yyyy", locale).apply {
+        timeZone = timezone
+    }
 
     private lateinit var fragmentUtils: FragmentUtils
     private lateinit var toast: CustomToast
@@ -30,12 +33,14 @@ class EditGoalDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (this.arguments != null) bundle = requireArguments()
+        if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
+
+        toast = CustomToast(requireContext())
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
             R.id.fragment_container_goal_activity
         )
-
-        dateFormatter.timeZone = timezone
     }
 
     override fun onCreateView(
@@ -51,9 +56,7 @@ class EditGoalDetailsFragment : Fragment() {
 
         configureToolbar()
 
-        requireArguments().getParcelable<Goal>("Goal")?.let {
-            initElementStates(it, requireArguments())
-        }
+        initElementStates(goal, requireArguments())
 
         setFragmentResultListener("deadlinePicker") { _, bundle ->
             bundle.getParcelable<Goal>("Goal")?.let {
@@ -71,27 +74,24 @@ class EditGoalDetailsFragment : Fragment() {
 
     private fun initElementStates(goal: Goal, bundle: Bundle) {
         // Assign to relevant edit text elements below
-        textInput_title.setText(goal.title.toString())
-        textInput_targetAmt.setText(goal.targetAmt.toString())
-        textInput_currentAmt.setText(goal.currentAmt.toString())
+        textInput_title.setText(goal.title)
+        textInput_targetAmt.setText(String.format("%.2f", goal.targetAmt))
+        textInput_currentAmt.setText(String.format("%.2f", goal.currentAmt))
 
         if (goal.reminderMonthsFreq == 3) radioBtn_3MonthsReminder.isChecked = true
         else if (goal.reminderMonthsFreq == 6) radioBtn_6MonthsReminder.isChecked = true
 
-        val deadline = if (goal.deadline != null) {
-            // Assign based on Firestore field value if bundle key 'final_date' has "default" value
-            if (bundle.getString("final_date") == "default") {
-                dateFormatter.format(goal.deadline)
-            }
-            else {
-                // Reassign value to textInput_deadline if bundle key 'final_date' is not "default"
-                bundle.getString("final_date")
-            }
-        } else  ""
+        val deadline = if (bundle.getString("final_date") == "default") {
+            dateFormatter.format(goal.deadline)
+        }
+        else {
+            // Reassign value to textInput_deadline if bundle key 'final_date' is not "default"
+            bundle.getString("final_date")
+        }
 
         textInput_deadline.setText(deadline)
 
-        val categoriesList = goal.category ?: ArrayList()
+        val categoriesList = goal.categories
 
         if (categoriesList.contains("career")) {
             chip_career.isChecked = true
@@ -164,50 +164,46 @@ class EditGoalDetailsFragment : Fragment() {
         }
 
         btn_ConfirmEditGoalDetails.setOnClickListener {
-
-
             if (!goal.gid?.isBlank()!!) {
                 Goal(
                     gid = goal.gid,
                     title = textInput_title.text.toString(),
-                    category = categoriesList,
-                    targetAmt = textInput_targetAmt.text.toString().toInt(),
-                    currentAmt = textInput_currentAmt.text.toString().toInt(),
+                    categories = categoriesList,
+                    targetAmt = textInput_targetAmt.text.toString().toDouble(),
+                    currentAmt = textInput_currentAmt.text.toString().toDouble(),
                     deadline = Timestamp.valueOf(convertToJdbc(textInput_deadline.text.toString()))
-                ).updateByGid()
+                ).setByGid {
+                    if (it != null) {
+                        fragmentUtils.replace(ShowGoalDetailsFragment())
+                        toast.success("Goal updated")
+                    }
+                    else toast.error("Please try again, there was an issue when updating your goal")
+                }
             }
-
-            // Allow user to return to ShowGoalDetailsFragment?
-//                    FragmentUtils(
-//                        requireActivity().supportFragmentManager,
-//                        R.id.fragment_container_goal_activity
-//                    ).replace(ShowGoalDetailsFragment())
-            toast = CustomToast(requireContext())
-            toast.success("Goal Updated!")
         }
 
         // Open Dialog to Edit Deadline
         textInputLayout_deadline.setEndIconOnClickListener {
             val dialogFragment = EditDeadlinePickerFragment()
+            val strs_deadline_toEdit = textInput_deadline.text.toString()
+                .split("/").toTypedArray()
 
-            val strs_deadline_toEdit = textInput_deadline.text.toString().split("/").toTypedArray()
             // There will be 3 elements in the strs_deadline ArrayList (internal conversion)
-
             if (strs_deadline_toEdit.size != 0) {
                 val deadline_day_toEdit = strs_deadline_toEdit[0]
                 val deadline_month_toEdit = strs_deadline_toEdit[1]
                 val deadline_year_toEdit = strs_deadline_toEdit[2]
 
-                val goal = Goal(
-                    gid = goal.gid,
-                    title = textInput_title.text.toString(),
-                    category = categoriesList,
-                    targetAmt = textInput_targetAmt.text.toString().toInt(),
-                    currentAmt = textInput_currentAmt.text.toString().toInt(),
-                    deadline = Timestamp.valueOf(convertToJdbc(textInput_deadline.text.toString()))
+                bundle.putParcelable("Goal",
+                    Goal(
+                        gid = goal.gid,
+                        title = textInput_title.text.toString(),
+                        categories = categoriesList,
+                        targetAmt = textInput_targetAmt.text.toString().toDouble(),
+                        currentAmt = textInput_currentAmt.text.toString().toDouble(),
+                        deadline = Timestamp.valueOf(convertToJdbc(textInput_deadline.text.toString()))
+                    )
                 )
-
-                bundle.putParcelable("Goal", goal)
 
                 // Add in bundle to pass current deadline to Dialog Fragment (calculation occurs in next Fragment)
                 bundle.putString("final_date", "default")

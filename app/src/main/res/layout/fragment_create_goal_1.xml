@@ -6,12 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".fragments.CreateGoalFragment_1">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
 
         <LinearLayout
             android:id="@+id/linear_layout_create_goal_1"
@@ -59,16 +56,14 @@
                     android:progress="33"
                     android:max="100"
                     android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    />
+                    android:layout_weight="1"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="(1/3)"
                     android:layout_marginLeft="15dp"
                     android:textSize="12sp"
-                    android:letterSpacing="-0.02"
-                    />
+                    android:letterSpacing="-0.02"/>
 
             </LinearLayout>
 
@@ -79,14 +74,15 @@
                 app:startIconDrawable="@drawable/ic_baseline_outlined_flag_24"
                 app:boxBackgroundColor="@color/lightgray"
                 android:background="@drawable/rounded_btn_gray"
-                android:layout_marginTop="30dp"
-                >
+                android:layout_marginTop="30dp">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_goalTitle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content"/>
+
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,15 +90,14 @@
                 app:boxBackgroundColor="@color/lightgray"
                 android:background="@drawable/rounded_btn_gray"
                 android:layout_marginTop="10dp"
-                app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
+                app:startIconDrawable="@drawable/ic_baseline_attach_money_24">
 
-                >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_goalPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
-                    />
+                    android:maxLength="10"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -118,8 +113,7 @@
                     android:layout_height="45dp"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
-                    >
+                    android:layout_marginBottom="5dp">
                     <CheckBox
                         android:id="@+id/category_btn_1"
                         android:layout_width="wrap_content"
