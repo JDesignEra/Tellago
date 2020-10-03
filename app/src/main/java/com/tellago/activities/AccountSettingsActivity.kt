@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.fragments.SettingsFragment
 import com.tellago.services.ExitService
@@ -50,7 +49,7 @@ class AccountSettingsActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_account_settings)
 
-        fragmentUtils.add(settingsFragment)
+        fragmentUtils.replace(settingsFragment, null)
 
         StartTimer()
 

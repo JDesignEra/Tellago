@@ -43,11 +43,11 @@ class GoalsActivity : AppCompatActivity() {
         intentExtra = intent.getStringExtra("INTENT_EXTRA")
 
         if (intentExtra == "add_goal") {
-            fragmentUtils.add(createGoalFragment1)
+            fragmentUtils.replace(createGoalFragment1, null)
             configureToolbarCreateGoal()
         }
         else {
-            fragmentUtils.add(showGoalsFragment)
+            fragmentUtils.replace(showGoalsFragment, null)
             configureToolbar()
         }
 

@@ -1,7 +1,6 @@
 package com.tellago.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,7 @@ import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_1.*
 
 class CreateGoalFragment_1 : Fragment() {
-    private var bundle: Bundle? = null
     private var goal: Goal = Goal()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if (this.arguments != null) bundle = requireArguments()
-        if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

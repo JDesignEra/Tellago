@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
@@ -71,10 +70,6 @@ class CreateGoalFragment_2 : Fragment() {
 
         btn_ToFragmentOne.setOnClickListener {
             updateGoalModel()
-            setFragmentResult(CreateGoalFragment_1::class.java.name, Bundle().apply {
-                putParcelable("Goal", goal)
-            })
-
             fragmentUtils.popBackStack()
         }
 

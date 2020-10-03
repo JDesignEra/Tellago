@@ -122,7 +122,6 @@
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
                     android:background="@android:color/transparent"
-                    android:inputType="date"
                     android:enabled="false"
                     android:text="30/12/2020" />
 

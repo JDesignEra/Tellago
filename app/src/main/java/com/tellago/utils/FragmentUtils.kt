@@ -3,7 +3,6 @@ package com.tellago.utils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
-import androidx.fragment.app.FragmentTransaction
 import com.tellago.R
 
 /**
@@ -17,48 +16,45 @@ class FragmentUtils(
     private val fragmentContainer: Int
 ) {
     /**
-     * Recommended to does not require fragment to be able to return to previous fragment,
-     * if requires fragment to be bale to return to previous fragment use **.replace()** instead.
-     * @param fragment add targeted fragment
-     */
-    fun add(fragment: Fragment) {
-        fragmentManager.beginTransaction()
-            .replace(fragmentContainer, fragment, fragment::class.java.name)
-            .commit()
-    }
-
-    /**
-     * Recommended if requires fragment to be able to return to previous fragment,
-     * uses **addToBackStack("mainStack:)**.
      * @param fragment replace with targeted Fragment.
+     * @param backStackName set to *null* to disable addToBackStack, defaults to **"mainStack"**.
      * @param animate Enable or disable animation with *true* or *false*, defaults to **true**.
      * @param enter enter animation, defaults to **R.anim.fragment_slide_left_enter**.
      * @param exit exit animation, defaults to **R.anim.fragment_slide_left_exit**.
      * @param popEnter popEnter animation, defaults to **R.anim.fragment_slide_right_enter**.
      * @param popExit popExit animation, defaults to **R.anim.fragment_slide_right_exit**.
+     * @param setTargetFragment set target fragment and **requestCode** param to enable setTargetFragment, defaults to **null**.
+     * @param requestCode **setTargetFragment** has to be set to enable setTargetFragment, defaults to **null**.
      */
     fun replace(fragment: Fragment,
+                backStackName: String? = "mainStack",
                 animate: Boolean = true,
                 enter: Int? = null,
                 exit: Int? = null,
                 popEnter: Int? = null,
                 popExit: Int? = null,
-                backStackName: String? = "mainStack"
+                setTargetFragment: Fragment? = null,
+                requestCode: Int? = null
     ) {
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentManager.beginTransaction().apply {
+            if (backStackName != null) addToBackStack(backStackName)
 
-        if (animate) {
-            transaction.setCustomAnimations(
-                enter ?: R.anim.fragment_slide_left_enter,
-                exit ?: R.anim.fragment_slide_left_exit,
-                popEnter ?: R.anim.fragment_slide_right_enter,
-                popExit ?: R.anim.fragment_slide_right_exit
-            )
+            if (animate) {
+                setCustomAnimations(
+                    enter ?: R.anim.fragment_slide_left_enter,
+                    exit ?: R.anim.fragment_slide_left_exit,
+                    popEnter ?: R.anim.fragment_slide_right_enter,
+                    popExit ?: R.anim.fragment_slide_right_exit
+                )
+            }
+
+            if (setTargetFragment != null && requestCode != null) {
+                fragment.setTargetFragment(setTargetFragment, requestCode)
+            }
+
+            replace(fragmentContainer, fragment, fragment::class.java.name)
+            commit()
         }
-
-        transaction.replace(fragmentContainer, fragment, fragment::class.java.name)
-            .addToBackStack(backStackName)
-            .commit()
     }
 
     /**
