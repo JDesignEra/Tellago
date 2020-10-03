@@ -1,19 +1,14 @@
 package com.tellago.fragments
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_2.*
-import java.time.temporal.ChronoUnit
 import java.util.*
 
 class CreateGoalFragment_2 : Fragment() {
@@ -48,7 +43,6 @@ class CreateGoalFragment_2 : Fragment() {
         return inflater.inflate(R.layout.fragment_create_goal_2, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -62,8 +56,6 @@ class CreateGoalFragment_2 : Fragment() {
         monthPicker.maxValue = 11
 
         yearPicker.setOnValueChangedListener { picker, oldVal, newVal ->
-            val monthPicker = number_picker_target_duration_month
-
             if (newVal == picker.minValue && oldVal == picker.maxValue && monthPicker.value < monthPicker.maxValue) {
                 monthPicker.value += 1
             }
