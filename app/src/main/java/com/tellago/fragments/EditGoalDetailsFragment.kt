@@ -16,7 +16,6 @@ import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class EditGoalDetailsFragment : Fragment() {
     private var bundle: Bundle? = null
     private lateinit var goal: Goal
@@ -70,7 +69,23 @@ class EditGoalDetailsFragment : Fragment() {
 
         btn_ConfirmEditGoalDetails.setOnClickListener {
             if (!goal.gid?.isBlank()!!) {
-                updateGoalModel()
+                goal.title = textInput_title.text.toString()
+                goal.targetAmt = textInput_targetAmt.text.toString().toDouble()
+                goal.currentAmt = textInput_currentAmt.text.toString().toDouble()
+                goal.deadline = Timestamp.valueOf(
+                    convertToJdbc(textInput_deadline.text.toString())
+                )
+                goal.reminderMonthsFreq = when {
+                    radioBtn_3MonthsReminder.isChecked -> 3
+                    radioBtn_6MonthsReminder.isChecked -> 6
+                    else -> 0
+                }
+                goal.categories.apply {
+                    removeAll(this)
+                    if (chip_career.isChecked) add("career")
+                    if (chip_family.isChecked) add("family")
+                    if (chip_leisure.isChecked) add("leisure")
+                }
 
                 goal.setByGid {
                     if (it != null) {
@@ -140,34 +155,13 @@ class EditGoalDetailsFragment : Fragment() {
         }
     }
 
-    private fun updateGoalModel() {
-        goal.title = textInput_title.text.toString()
-        goal.targetAmt = textInput_targetAmt.text.toString().toDouble()
-        goal.currentAmt = textInput_currentAmt.text.toString().toDouble()
-        goal.deadline = Calendar.getInstance(timezone, locale).apply {
-            time = dateFormatter.parse(textInput_deadline.text.toString())!!
-        }.time
-        goal.reminderMonthsFreq = when {
-            radioBtn_3MonthsReminder.isChecked -> 3
-            radioBtn_6MonthsReminder.isChecked -> 6
-            else -> 0
-        }
-        goal.categories.apply {
-            removeAll(this)
-            if (chip_career.isChecked) add("career")
-            if (chip_family.isChecked) add("family")
-            if (chip_leisure.isChecked) add("leisure")
-        }
-    }
-
     private fun convertToJdbc(string_deadline: String): String {
         // Converting deadline from dd-MM-yyyy to JDBC timestamp format
         val strs_deadline = string_deadline.split("/").toTypedArray()
         // There will be 3 elements in the strs_deadline ArrayList (internal conversion)
         var deadline_JDBC_string = string_deadline
 
-        if (strs_deadline.size != 0)
-        {
+        if (strs_deadline.isNotEmpty()) {
             val deadline_day = strs_deadline[0]
             val deadline_month = strs_deadline[1]
             val deadline_year = strs_deadline[2]
