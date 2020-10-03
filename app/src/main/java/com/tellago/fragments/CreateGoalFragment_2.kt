@@ -2,7 +2,9 @@ package com.tellago.fragments
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
@@ -11,6 +13,7 @@ import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_2.*
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 class CreateGoalFragment_2 : Fragment() {
@@ -49,11 +52,36 @@ class CreateGoalFragment_2 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        number_picker_target_duration_year.minValue = 0
-        number_picker_target_duration_year.maxValue = 35
+        val yearPicker = number_picker_target_duration_year
+        val monthPicker = number_picker_target_duration_month
 
-        number_picker_target_duration_month.minValue = 0
-        number_picker_target_duration_month.maxValue = 11
+        yearPicker.minValue = 0
+        yearPicker.maxValue = 35
+
+        monthPicker.minValue = 0
+        monthPicker.maxValue = 11
+
+        yearPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+            val monthPicker = number_picker_target_duration_month
+
+            if (newVal == picker.minValue && oldVal == picker.maxValue && monthPicker.value < monthPicker.maxValue) {
+                monthPicker.value += 1
+            }
+
+            if (newVal == picker.maxValue && oldVal == picker.minValue && monthPicker.value > monthPicker.minValue) {
+                monthPicker.value -= 1
+            }
+        }
+
+        monthPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+            if (newVal == picker.minValue && oldVal == picker.maxValue && yearPicker.value < yearPicker.maxValue) {
+                yearPicker.value += 1
+            }
+
+            if (newVal == picker.maxValue && oldVal == picker.minValue && yearPicker.value > yearPicker.minValue) {
+                yearPicker.value -= 1
+            }
+        }
 
         val calDiff = Calendar.getInstance(timezone, locale).apply {
             timeInMillis = goal.deadline.time - Calendar.getInstance(timezone, locale).time.time

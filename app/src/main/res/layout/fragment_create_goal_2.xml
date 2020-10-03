@@ -134,15 +134,14 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:letterSpacing="-0.02"/>
+
                     <NumberPicker
                         android:id="@+id/number_picker_target_duration_year"
                         android:layout_width="wrap_content"
                         android:layout_height="150dp"
                         android:elevation="10dp"
                         android:layout_gravity="center"
-                        />
-
-
+                        android:descendantFocusability="blocksDescendants"/>
 
                 </LinearLayout>
 
@@ -162,45 +161,15 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:letterSpacing="-0.02"/>
+
                     <NumberPicker
                         android:id="@+id/number_picker_target_duration_month"
                         android:layout_width="wrap_content"
                         android:layout_height="150dp"
-                        android:layout_marginHorizontal="20sp" />
-
-
+                        android:layout_marginHorizontal="20sp"
+                        android:descendantFocusability="blocksDescendants" />
 
                 </LinearLayout>
-
-                <!--                <NumberPicker-->
-                <!--                    android:id="@+id/number_picker_target_duration"-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_weight="3"-->
-                <!--                    android:layout_height="200dp" />-->
-
-                <!--                <RadioGroup-->
-                <!--                    android:id="@+id/radioGroup_duration"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_weight="2"-->
-                <!--                    android:paddingLeft="50dp"-->
-                <!--                    tools:layout_editor_absoluteX="311dp"-->
-                <!--                    tools:layout_editor_absoluteY="429dp">-->
-
-                <!--                    <RadioButton-->
-                <!--                        android:id="@+id/radioBtn_duration_months"-->
-                <!--                        android:layout_width="wrap_content"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:checked="true"-->
-                <!--                        android:text="Month(s)" />-->
-
-                <!--                    <RadioButton-->
-                <!--                        android:id="@+id/radioBtn_duration_years"-->
-                <!--                        android:layout_width="wrap_content"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:text="Year(s)" />-->
-
-                <!--                </RadioGroup>-->
 
             </LinearLayout>
 
