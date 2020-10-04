@@ -11,9 +11,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 import kotlin.collections.ArrayList
 
-private val today = Calendar.getInstance(
-    TimeZone.getTimeZone("Asia/Singapore"), Locale("en", "SG")
-).time
+private val todayCalendar = Calendar.getInstance()
 
 @Parcelize
 data class Goal(
@@ -25,11 +23,16 @@ data class Goal(
     var targetAmt: Double = 0.0,
     var currentAmt: Double = 0.0,
     val bucketList: ArrayList<String> = ArrayList(),
-    var deadline: Date = today,
+    var deadline: Date = Calendar.getInstance().apply {
+        set(Calendar.MILLISECOND, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.HOUR, 0)
+    }.time,
     val lastReminder: Date? = null,
     var reminderMonthsFreq: Int = 0,
     var completed: Boolean = false,
-    val createDate: Date = today
+    val createDate: Date = todayCalendar.time
 ) : Parcelable {
     @IgnoredOnParcel
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()

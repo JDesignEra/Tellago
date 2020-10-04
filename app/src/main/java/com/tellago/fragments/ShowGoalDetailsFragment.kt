@@ -51,8 +51,7 @@ class ShowGoalDetailsFragment : Fragment() {
         tv_bucketList.text = goal.bucketList.toString()
 
         // Displaying deadline as DateTime rather than TimeStamp for user viewing
-        val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale("en", "SG"))
-        dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Singapore")
+        val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
         tv_deadline.text = dateFormatter.format(goal.deadline).toString()
         tv_lastReminder.text = goal.lastReminder.toString()

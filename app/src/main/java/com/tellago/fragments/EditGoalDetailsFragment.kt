@@ -12,7 +12,6 @@ import com.tellago.models.Goal
 import com.tellago.utils.CustomToast
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,12 +19,7 @@ class EditGoalDetailsFragment : Fragment() {
     private var bundle: Bundle? = null
     private lateinit var goal: Goal
 
-    private val locale = Locale("en", "SG")
-    private val timezone = TimeZone.getTimeZone("Asia/Singapore")
-    private val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).apply {
-        timeZone = timezone
-    }
-    private var finalDate: String? = null
+    private val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     private lateinit var fragmentUtils: FragmentUtils
     private lateinit var toast: CustomToast
@@ -72,9 +66,10 @@ class EditGoalDetailsFragment : Fragment() {
                 goal.title = textInput_title.text.toString()
                 goal.targetAmt = textInput_targetAmt.text.toString().toDouble()
                 goal.currentAmt = textInput_currentAmt.text.toString().toDouble()
-                goal.deadline = Timestamp.valueOf(
-                    convertToJdbc(textInput_deadline.text.toString())
-                )
+                goal.deadline = dateFormatter.parse(textInput_deadline.text.toString())!!
+//                goal.deadline = Timestamp.valueOf(
+//                    convertToJdbc(textInput_deadline.text.toString())
+//                )
                 goal.reminderMonthsFreq = when {
                     radioBtn_3MonthsReminder.isChecked -> 3
                     radioBtn_6MonthsReminder.isChecked -> 6
@@ -131,20 +126,24 @@ class EditGoalDetailsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        textInput_deadline.setText(finalDate ?: dateFormatter.format(goal.deadline))
+        textInput_deadline.setText(dateFormatter.format(goal.deadline))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-            if (data?.getStringExtra("final_date") != null) {
-                finalDate = data.getStringExtra("final_date")
-
-                goal.deadline = Timestamp.valueOf(
-                    convertToJdbc(finalDate!!)
-                )
+            data?.getParcelableExtra<Goal>(Goal::class.java.name).let {
+                goal = it!!
             }
+
+//            if (data?.getStringExtra("final_date") != null) {
+//                finalDate = data.getStringExtra("final_date")
+//
+//                goal.deadline = Timestamp.valueOf(
+//                    convertToJdbc(finalDate!!)
+//                )
+//            }
         }
     }
 
@@ -155,23 +154,23 @@ class EditGoalDetailsFragment : Fragment() {
         }
     }
 
-    private fun convertToJdbc(string_deadline: String): String {
-        // Converting deadline from dd-MM-yyyy to JDBC timestamp format
-        val strs_deadline = string_deadline.split("/").toTypedArray()
-        // There will be 3 elements in the strs_deadline ArrayList (internal conversion)
-        var deadline_JDBC_string = string_deadline
-
-        if (strs_deadline.isNotEmpty()) {
-            val deadline_day = strs_deadline[0]
-            val deadline_month = strs_deadline[1]
-            val deadline_year = strs_deadline[2]
-
-            deadline_JDBC_string = deadline_year +
-                    "-" + deadline_month +
-                    "-" + deadline_day +
-                    " 00:01:02.345678901"
-        }
-
-        return deadline_JDBC_string
-    }
+//    private fun convertToJdbc(string_deadline: String): String {
+//        // Converting deadline from dd-MM-yyyy to JDBC timestamp format
+//        val strs_deadline = string_deadline.split("/").toTypedArray()
+//        // There will be 3 elements in the strs_deadline ArrayList (internal conversion)
+//        var deadline_JDBC_string = string_deadline
+//
+//        if (strs_deadline.isNotEmpty()) {
+//            val deadline_day = strs_deadline[0]
+//            val deadline_month = strs_deadline[1]
+//            val deadline_year = strs_deadline[2]
+//
+//            deadline_JDBC_string = deadline_year +
+//                    "-" + deadline_month +
+//                    "-" + deadline_day +
+//                    " 00:01:02.345678901"
+//        }
+//
+//        return deadline_JDBC_string
+//    }
 }

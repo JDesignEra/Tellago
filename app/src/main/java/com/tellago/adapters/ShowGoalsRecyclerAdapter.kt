@@ -24,8 +24,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
     }
 
     override fun onBindViewHolder(holder: GoalViewHolder, position: Int, model: Goal) {
-        val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale("en", "SG"))
-        dateFormatter.timeZone = TimeZone.getTimeZone("Asia/Singapore")
+        val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
         holder.model = model
         holder.tvTitle.text = model.title

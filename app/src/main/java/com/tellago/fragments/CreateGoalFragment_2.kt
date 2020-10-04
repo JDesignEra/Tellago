@@ -9,6 +9,10 @@ import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utils.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_2.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.Period
+import java.time.ZoneId
 import java.util.*
 
 class CreateGoalFragment_2 : Fragment() {
@@ -21,8 +25,6 @@ class CreateGoalFragment_2 : Fragment() {
         R.id.radiobutton_reminder_3mth to 3,
         R.id.radiobutton_reminder_6mth to 6
     )
-    private val locale = Locale("en", "SG")
-    private val timezone = TimeZone.getTimeZone("Asia/Singapore")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +48,8 @@ class CreateGoalFragment_2 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val todayCalendar = Calendar.getInstance()
+
         val yearPicker = number_picker_target_duration_year
         val monthPicker = number_picker_target_duration_month
 
@@ -53,34 +57,16 @@ class CreateGoalFragment_2 : Fragment() {
         yearPicker.maxValue = 35
 
         monthPicker.minValue = 0
-        monthPicker.maxValue = 11
+        monthPicker.maxValue = todayCalendar.getMaximum(Calendar.MONTH)
 
-        yearPicker.setOnValueChangedListener { picker, oldVal, newVal ->
-            if (newVal == picker.minValue && oldVal == picker.maxValue && monthPicker.value < monthPicker.maxValue) {
-                monthPicker.value += 1
-            }
+        val today = LocalDate.now()
+        val deadline = Instant.ofEpochMilli(goal.deadline.time).atZone(ZoneId.systemDefault()).toLocalDate()
+        val dateDiff = Period.between(today, deadline)
+        val yearsDiff = dateDiff.years
+        val monthsDiff = dateDiff.months
 
-            if (newVal == picker.maxValue && oldVal == picker.minValue && monthPicker.value > monthPicker.minValue) {
-                monthPicker.value -= 1
-            }
-        }
-
-        monthPicker.setOnValueChangedListener { picker, oldVal, newVal ->
-            if (newVal == picker.minValue && oldVal == picker.maxValue && yearPicker.value < yearPicker.maxValue) {
-                yearPicker.value += 1
-            }
-
-            if (newVal == picker.maxValue && oldVal == picker.minValue && yearPicker.value > yearPicker.minValue) {
-                yearPicker.value -= 1
-            }
-        }
-
-        val calDiff = Calendar.getInstance(timezone, locale).apply {
-            timeInMillis = goal.deadline.time - Calendar.getInstance(timezone, locale).time.time
-        }
-
-        number_picker_target_duration_month.value = calDiff.get(Calendar.MONTH)
-        number_picker_target_duration_year.value = calDiff.get(Calendar.YEAR) - 1970
+        yearPicker.value = yearsDiff
+        monthPicker.value = monthsDiff
 
         if (goal.reminderMonthsFreq != 0) {
             radioGroup_reminder.check(
@@ -103,13 +89,37 @@ class CreateGoalFragment_2 : Fragment() {
 
             fragmentUtils.replace(createGoalFragment3)
         }
+
+        yearPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+            if (newVal == picker.minValue && oldVal == picker.maxValue && monthPicker.value < monthPicker.maxValue) {
+                monthPicker.value += 1
+            }
+
+            if (newVal == picker.maxValue && oldVal == picker.minValue && monthPicker.value > monthPicker.minValue) {
+                monthPicker.value -= 1
+            }
+        }
+
+        monthPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+            if (newVal == picker.minValue && oldVal == picker.maxValue && yearPicker.value < yearPicker.maxValue) {
+                yearPicker.value += 1
+            }
+
+            if (newVal == picker.maxValue && oldVal == picker.minValue && yearPicker.value > yearPicker.minValue) {
+                yearPicker.value -= 1
+            }
+        }
     }
 
     private fun updateGoalModel() {
-        val deadline = Calendar.getInstance(timezone, locale)
-
-        deadline.add(Calendar.MONTH, number_picker_target_duration_month.value)
-        deadline.add(Calendar.YEAR, number_picker_target_duration_year.value)
+        val deadline = Calendar.getInstance().apply {
+            add(Calendar.MONTH, number_picker_target_duration_month.value)
+            add(Calendar.YEAR, number_picker_target_duration_year.value)
+            set(Calendar.MILLISECOND, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.HOUR, 0)
+        }
 
         goal.deadline = deadline.time
         goal.reminderMonthsFreq = reminderIdToVal.getValue(radioGroup_reminder.checkedRadioButtonId)
