@@ -40,7 +40,7 @@ data class Goal(
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     @IgnoredOnParcel
-    private val collection = db.collection("testgoals")
+    private val collection = db.collection("goals")
 
     fun getByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
         if (gid != null) {
