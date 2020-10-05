@@ -10,6 +10,7 @@ import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_bucket_list_item.*
+import kotlinx.android.synthetic.main.fragment_show_bucket_list_items.*
 
 
 class CreateBucketListItemFragment : Fragment() {
@@ -37,6 +38,8 @@ class CreateBucketListItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        configureToolbar()
+
         btn_AddBucketListItem.setOnClickListener {
             val bucketItem = mutableMapOf(
                 "name" to et_bucketListItemName.text.toString(),
@@ -45,12 +48,19 @@ class CreateBucketListItemFragment : Fragment() {
 
             goal.bucketList.add(bucketItem)
             goal.updateBucketListByGid {
-                if (it != null) {
-                    toast.success("Bucket item added successfully")
-                    fragmentUtils.popBackStack()
-                }
-                else toast.error("Please try again, failed to add bucket item")
+                toast.success("Bucket item added successfully")
+
             }
+            fragmentUtils.popBackStack()
         }
     }
+
+
+    private fun configureToolbar() {
+        toolbar_create_bucketListItem.setNavigationIcon(R.drawable.ic_arrow_back_36)
+        toolbar_create_bucketListItem.setNavigationOnClickListener {
+            fragmentUtils.popBackStack()
+        }
+    }
+
 }

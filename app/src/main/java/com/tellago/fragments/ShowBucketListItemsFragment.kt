@@ -49,18 +49,18 @@ class ShowBucketListItemsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureToolbar()
 
-        if(!goal.gid?.isBlank()!!)
-        {
-            // if user was previously on ShowGoalDetailsFragment
-            configureToolbar()
+        Log.d("goal gid", goal.gid.toString())
 
-        }
-        else
+        if(goal.gid.isNullOrBlank())
         {
             // if user was previously on CreateGoalFragment_2
             configureToolbarBackToCreateGoal()
+        }
+        else
+        {
+            // if user was previously on ShowGoalDetailsFragment
+            configureToolbar()
         }
 
 
@@ -143,7 +143,7 @@ class ShowBucketListItemsFragment : Fragment() {
     }
 
     private fun configureToolbarBackToCreateGoal() {
-        toolbar_show_bucketListItems.setNavigationIcon(R.drawable.ic_cancel_drawer)
+        toolbar_show_bucketListItems.setNavigationIcon(R.drawable.ic_cancel_grey_48)
         toolbar_show_bucketListItems.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
             fragmentUtils.popBackStack()
