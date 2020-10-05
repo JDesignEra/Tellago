@@ -1,7 +1,6 @@
 package com.tellago.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,7 @@ import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import com.tellago.utilities.NumPickerUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_2.*
-import java.time.Instant
-import java.time.LocalDate
-import java.time.Period
-import java.time.ZoneId
+import java.time.*
 import java.util.*
 
 class CreateGoalFragment_2 : Fragment() {
@@ -51,7 +47,7 @@ class CreateGoalFragment_2 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val todayCalendar = Calendar.getInstance()
+        val today = LocalDate.now()
 
         val yearPicker = number_picker_target_duration_year
         val monthPicker = number_picker_target_duration_month
@@ -60,9 +56,8 @@ class CreateGoalFragment_2 : Fragment() {
         yearPicker.maxValue = 35
 
         monthPicker.minValue = 0
-        monthPicker.maxValue = todayCalendar.getMaximum(Calendar.MONTH)
+        monthPicker.maxValue = YearMonth.of(today.year, today.month).lengthOfMonth() - 1
 
-        val today = LocalDate.now()
         val deadline = Instant.ofEpochMilli(goal.deadline.time).atZone(ZoneId.systemDefault()).toLocalDate()
         val dateDiff = Period.between(today, deadline)
         val yearsDiff = dateDiff.years
@@ -128,8 +123,8 @@ class CreateGoalFragment_2 : Fragment() {
 
     private fun updateGoalModel() {
         var deadline = LocalDate.now()
-        deadline = deadline.plusMonths(number_picker_target_duration_month.value.toLong())
         deadline = deadline.plusYears(number_picker_target_duration_year.value.toLong())
+        deadline = deadline.plusMonths(number_picker_target_duration_month.value.toLong())
 
         goal.deadline = Calendar.getInstance().apply {
             time = Date.from(deadline.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())
