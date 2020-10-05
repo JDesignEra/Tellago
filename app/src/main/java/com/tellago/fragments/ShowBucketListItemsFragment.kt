@@ -88,7 +88,7 @@ class ShowBucketListItemsFragment : Fragment() {
                     val deletedItemName = adapter!!.retrieve(viewHolder.adapterPosition).toString()
                     Snackbar.make(
                         viewHolder.itemView,
-                        "Deleted bucket list item #{${viewHolder.adapterPosition})}",
+                        "Deleted bucket list item #${viewHolder.adapterPosition}",
                         Snackbar.LENGTH_SHORT
                     )
                         .setAction("Undo") {
@@ -106,7 +106,7 @@ class ShowBucketListItemsFragment : Fragment() {
                     // if swiped RIGHT (from left of screen to right of screen) --> display snackbar
                     Snackbar.make(
                         viewHolder.itemView,
-                        "Archived bucket list item #{${viewHolder.adapterPosition + 1})}",
+                        "Archived bucket list item #${viewHolder.adapterPosition + 1}",
                         Snackbar.LENGTH_SHORT
                     // missing functionality to archive. I.e. change status attribute of BucketListItem object
 

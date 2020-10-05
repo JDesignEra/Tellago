@@ -116,10 +116,6 @@ class ShowBucketListItemsRecyclerAdapter(private var itemNames: List<String>) :
             }
 
 
-            itemView.btn_CompleteBucketItem.setOnClickListener {
-                Log.d("Completed Bucket Item", "FIRED")
-            }
-
         }
 
 
