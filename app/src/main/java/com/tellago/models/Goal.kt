@@ -22,7 +22,7 @@ data class Goal(
     var categories: ArrayList<String> = ArrayList(),
     var targetAmt: Double = 0.0,
     var currentAmt: Double = 0.0,
-    val bucketList: ArrayList<String> = ArrayList(),
+    var bucketList: ArrayList<String> = ArrayList(),
     var deadline: Date = Calendar.getInstance().apply {
         set(Calendar.MILLISECOND, 0)
         set(Calendar.SECOND, 0)

@@ -115,6 +115,14 @@ class CreateGoalFragment_2 : Fragment() {
 
         btn_Bucket_List.setOnClickListener {
             Log.d("bucket list create", "FIRED")
+
+            val createBucketListItemFragment = CreateBucketListItemFragment()
+            
+            createBucketListItemFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
+            }
+
+            fragmentUtils.replace(createBucketListItemFragment)
         }
 
     }

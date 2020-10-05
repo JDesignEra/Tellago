@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.CreateBucketListItemFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_create_bucket_list_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TAKING THE FIRST "
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textSize="17sp"
+                    android:letterSpacing="-0.02"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="STEP"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17sp"
+                    android:letterSpacing="-0.02"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Bucket List Item"
+                app:startIconDrawable="@drawable/ic_baseline_outlined_flag_24"
+                app:boxBackgroundColor="@color/lightgray"
+                android:background="@drawable/rounded_btn_gray"
+                android:layout_marginTop="30dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_bucketListItemName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                android:text="Select Sub-Category"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textColor="@color/colorTextDarkGray"/>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="45dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginBottom="5dp">-->
+<!--                <CheckBox-->
+<!--                    android:id="@+id/subcategory_btn_1"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:background="@drawable/checkbox_selection"-->
+<!--                    android:button="@color/colorTransparent"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:text="Sub Category 1"-->
+<!--                    android:textColor="@drawable/checkbox_text_selection"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:layout_weight="0.3"-->
+<!--                    android:letterSpacing="-0.02"-->
+<!--                    />-->
+
+<!--                <CheckBox-->
+<!--                    android:id="@+id/subcategory_btn_2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:background="@drawable/checkbox_selection"-->
+<!--                    android:button="@color/colorTransparent"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:text="Sub Category 2"-->
+<!--                    android:textColor="@drawable/checkbox_text_selection"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:layout_weight="0.3"-->
+<!--                    android:layout_marginLeft="5dp"-->
+<!--                    android:letterSpacing="-0.02"/>-->
+
+<!--                <CheckBox-->
+<!--                    android:id="@+id/subcategory_btn_3"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:background="@drawable/checkbox_selection"-->
+<!--                    android:button="@color/colorTransparent"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:text="Sub Category 3"-->
+<!--                    android:textColor="@drawable/checkbox_text_selection"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:layout_weight="0.3"-->
+<!--                    android:layout_marginLeft="5dp"-->
+<!--                    android:letterSpacing="-0.02"/>-->
+<!--            </LinearLayout>-->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_AddBucketListItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Confirm"
+                android:padding="10dp"
+                app:backgroundTint="@color/colorPrimary"
+                app:cornerRadius="5dp"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:letterSpacing="-0.02"
+                android:elevation="10dp"
+                app:iconGravity="textEnd"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
