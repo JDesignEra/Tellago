@@ -120,16 +120,17 @@ class CreateGoalFragment_2 : Fragment() {
     }
 
     private fun updateGoalModel() {
-        val deadline = Calendar.getInstance().apply {
-            add(Calendar.MONTH, number_picker_target_duration_month.value)
-            add(Calendar.YEAR, number_picker_target_duration_year.value)
+        var deadline = LocalDate.now()
+        deadline = deadline.plusMonths(number_picker_target_duration_month.value.toLong())
+        deadline = deadline.plusYears(number_picker_target_duration_year.value.toLong())
+
+        goal.deadline = Calendar.getInstance().apply {
+            time = Date.from(deadline.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())
             set(Calendar.MILLISECOND, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.HOUR, 0)
-        }
-
-        goal.deadline = deadline.time
+        }.time
         goal.reminderMonthsFreq = reminderIdToVal.getValue(radioGroup_reminder.checkedRadioButtonId)
     }
 }

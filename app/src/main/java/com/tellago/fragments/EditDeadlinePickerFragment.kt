@@ -25,6 +25,7 @@ class EditDeadlinePickerFragment : DialogFragment() {
     private lateinit var numPickerUtils: NumPickerUtils
 
     private var bundle: Bundle? = null
+    val today = LocalDate.now()
 
 //    private lateinit var numPicker_year: NumberPicker
 //    private lateinit var numPicker_month: NumberPicker
@@ -79,22 +80,21 @@ class EditDeadlinePickerFragment : DialogFragment() {
         numPick_day.minValue = 0
         numPick_day.maxValue = Calendar.getInstance().getMaximum(Calendar.DAY_OF_MONTH) - 1
 
-        val today = LocalDate.now()
         val deadline = Instant.ofEpochMilli(goal.deadline.time).atZone(ZoneId.systemDefault()).toLocalDate()
         val dateDiff = Period.between(today, deadline)
-        val yearsDiff = dateDiff.years
-        val monthsDiff = dateDiff.months
-        val daysDiff = dateDiff.days
 
-        numPick_year.value = yearsDiff
-        numPick_month.value = monthsDiff
-        numPick_day.value = daysDiff
+        numPick_year.value = dateDiff.years
+        numPick_month.value = dateDiff.months
+        numPick_day.value = dateDiff.days
 
         btn_confirm_deadline_edit.setOnClickListener {
+            var deadline = LocalDate.now()
+            deadline = deadline.plusDays(numPick_day.value.toLong())
+            deadline = deadline.plusMonths(numPick_month.value.toLong())
+            deadline = deadline.plusYears(numPick_year.value.toLong())
+
             goal.deadline = Calendar.getInstance().apply {
-                add(Calendar.DAY_OF_MONTH, numPick_day.value)
-                add(Calendar.MONTH, numPick_month.value)
-                add(Calendar.YEAR, numPick_year.value)
+                time = Date.from(deadline.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())
                 set(Calendar.MILLISECOND, 0)
                 set(Calendar.SECOND, 0)
                 set(Calendar.MINUTE, 0)
@@ -132,8 +132,8 @@ class EditDeadlinePickerFragment : DialogFragment() {
         }
 
         numPick_month.setOnValueChangedListener { picker, oldVal, newVal ->
-            if (newVal == picker.minValue && oldVal == picker.maxValue && numPick_day.value > numPick_day.minValue) {
-                numPickerUtils.animateValueByOne(numPick_day, false)
+            if (newVal == picker.minValue && oldVal == picker.maxValue && numPick_year.value > numPick_year.minValue) {
+                numPickerUtils.animateValueByOne(numPick_year)
             }
 
             if (newVal == picker.maxValue && oldVal == picker.minValue && numPick_year.value < numPick_year.maxValue) {
