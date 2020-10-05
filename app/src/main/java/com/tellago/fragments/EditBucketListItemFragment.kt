@@ -43,12 +43,18 @@ class EditBucketListItemFragment : Fragment() {
         btn_EditBucketListItem.setOnClickListener {
             et_bucketListItemName.text?.let { t -> goal.bucketList[bid]?.put("name", t.toString()) }
 
-            goal.updateBucketListByGid {
-                if (it != null) {
-                    fragmentUtils.popBackStack()
-                    toast.success("Bucket item updated successfully")
+            if (bundle.getBoolean(CreateGoalFragment_2::class.java.name)) {
+                goal.updateBucketListByGid {
+                    if (it != null) {
+                        fragmentUtils.popBackStack()
+                        toast.success("Bucket item updated successfully")
+                    }
+                    else toast.error("Please try again, failed to update bucket item")
                 }
-                else toast.error("Please try again, failed to update bucket item")
+            }
+            else {
+                fragmentUtils.popBackStack()
+                toast.success("Bucket item updated successfully")
             }
         }
     }

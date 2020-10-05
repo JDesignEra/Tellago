@@ -50,13 +50,18 @@ class CreateBucketListItemFragment : Fragment() {
 
             if (bundle.getBoolean(CreateGoalFragment_2::class.java.name)) {
                 goal.updateBucketListByGid {
-                    if (it != null) toast.success("Bucket item added successfully")
+                    if (it != null) {
+                        fragmentUtils.popBackStack()
+                        toast.success("Bucket item added successfully")
+                    }
                     else toast.error("Please try again, failed to add bucket item")
                 }
             }
-            else toast.success("Bucket item added successfully")
+            else {
+                fragmentUtils.popBackStack()
+                toast.success("Bucket item added successfully")
+            }
 
-            fragmentUtils.popBackStack()
             et_bucketListItemName.setText("")
         }
     }
