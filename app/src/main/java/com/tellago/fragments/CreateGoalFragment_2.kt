@@ -1,6 +1,7 @@
 package com.tellago.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -111,6 +112,11 @@ class CreateGoalFragment_2 : Fragment() {
                 numPickerUtils.animateValueByOne(yearPicker, false)
             }
         }
+
+        btn_Bucket_List.setOnClickListener {
+            Log.d("bucket list create", "FIRED")
+        }
+
     }
 
     private fun updateGoalModel() {

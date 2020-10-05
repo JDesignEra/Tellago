@@ -61,7 +61,8 @@ class ShowGoalDetailsFragment : Fragment() {
         tv_createDate.text = dateFormatter.format(goal.createDate).toString()
 
         btn_Bucket_List_View.setOnClickListener {
-            Log.d("bucket list test", "FIRED")
+            val showBucketListItemsFragment = ShowBucketListItemsFragment()
+            fragmentUtils.replace(showBucketListItemsFragment)
         }
 
         btn_EditGoalDetails.setOnClickListener {
