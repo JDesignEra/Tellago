@@ -66,8 +66,7 @@ class ShowGoalDetailsFragment : Fragment() {
             showBucketListItemsFragment.arguments = Bundle().apply {
                 putParcelable(goal::class.java.name, goal)
             }
-
-            fragmentUtils.replace(showBucketListItemsFragment)
+            fragmentUtils.replace(showBucketListItemsFragment, "secondaryStack")
         }
 
         btn_EditGoalDetails.setOnClickListener {

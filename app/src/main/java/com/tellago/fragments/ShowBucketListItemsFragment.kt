@@ -49,10 +49,24 @@ class ShowBucketListItemsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         configureToolbar()
 
-        recycler_view_show_bucketListItems_fragment.layoutManager = LinearLayoutManager(requireContext())
+        if(!goal.gid?.isBlank()!!)
+        {
+            // if user was previously on ShowGoalDetailsFragment
+            configureToolbar()
+
+        }
+        else
+        {
+            // if user was previously on CreateGoalFragment_2
+            configureToolbarBackToCreateGoal()
+        }
+
+
+        recycler_view_show_bucketListItems_fragment.layoutManager = LinearLayoutManager(
+            requireContext()
+        )
         recycler_view_show_bucketListItems_fragment.adapter = adapter
 
         val item = object : SwipeToDelete(
@@ -127,4 +141,13 @@ class ShowBucketListItemsFragment : Fragment() {
             fragmentUtils.popBackStack()
         }
     }
+
+    private fun configureToolbarBackToCreateGoal() {
+        toolbar_show_bucketListItems.setNavigationIcon(R.drawable.ic_cancel_drawer)
+        toolbar_show_bucketListItems.setNavigationOnClickListener {
+            // Allow user to return to previous fragment in the Stack
+            fragmentUtils.popBackStack()
+        }
+    }
+
 }
