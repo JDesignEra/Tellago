@@ -3,6 +3,7 @@ package com.tellago.activities
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.ActionBar
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.fragments.CreateGoalFragment_1
+import com.tellago.fragments.HomeFragment
 import com.tellago.fragments.ShowGoalsFragment
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_create_goal.*
@@ -18,11 +20,9 @@ import kotlinx.android.synthetic.main.activity_create_goal.*
 class GoalsActivity : AppCompatActivity() {
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
-    private val createGoalFragment1: Fragment = CreateGoalFragment_1()
-    private val showGoalsFragment: Fragment = ShowGoalsFragment()
 
     private lateinit var fragmentUtils: FragmentUtils
-    private var intentExtra: String? = null
+    private var intentFrom: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,6 @@ class GoalsActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_create_goal)
 
-        // In Activity's onCreate() for instance
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
@@ -40,18 +39,26 @@ class GoalsActivity : AppCompatActivity() {
         StartTimer()
 
         fragmentUtils = FragmentUtils(supportFragmentManager, R.id.fragment_container_goal_activity)
-        intentExtra = intent.getStringExtra("INTENT_EXTRA")
+        intentFrom = intent.getStringExtra(HomeFragment::class.java.name)
 
-        if (intentExtra == "add_goal") {
+        if (intentFrom == "add") {
+            val createGoalFragment1: Fragment = CreateGoalFragment_1()
+            createGoalFragment1.arguments = Bundle().apply {
+                putString(HomeFragment::class.java.name, "add")
+            }
+
             fragmentUtils.replace(createGoalFragment1, null)
-            configureToolbarCreateGoal()
         }
         else {
+            val showGoalsFragment: Fragment = ShowGoalsFragment()
+            showGoalsFragment.arguments = Bundle().apply {
+                putString(HomeFragment::class.java.name, "show")
+            }
+
             fragmentUtils.replace(showGoalsFragment, null)
-            configureToolbar()
         }
 
-//        configureToolbar()
+        configureToolbar()
     }
 
     private fun StartTimer() {
@@ -72,14 +79,18 @@ class GoalsActivity : AppCompatActivity() {
     private fun configureToolbar() {
         setSupportActionBar(toolbar_createGoal as Toolbar?)
 
+        val icon = if (intentFrom == " add") {
+            R.drawable.ic_arrow_back_36
+        }
+        else R.drawable.ic_cancel_grey_48
+
         val actionbar: ActionBar? = supportActionBar
-        // To 'hide' Title display in actionbar
         actionbar?.setTitle("")
         actionbar?.setDisplayHomeAsUpEnabled(true)
-        actionbar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_36)
+        actionbar?.setHomeAsUpIndicator(icon)
 
         (toolbar_createGoal as Toolbar?)?.setNavigationOnClickListener {
-            if (intentExtra == "add_goal") {
+            if (intentFrom == "add") {
                 finish()
             }
             else {
@@ -87,25 +98,4 @@ class GoalsActivity : AppCompatActivity() {
             }
         }
     }
-
-
-    private fun configureToolbarCreateGoal() {
-        setSupportActionBar(toolbar_createGoal as Toolbar?)
-
-        val actionbar: ActionBar? = supportActionBar
-        // To 'hide' Title display in actionbar
-        actionbar?.setTitle("")
-        actionbar?.setDisplayHomeAsUpEnabled(true)
-        actionbar?.setHomeAsUpIndicator(R.drawable.ic_cancel_grey_48)
-
-        (toolbar_createGoal as Toolbar?)?.setNavigationOnClickListener {
-            if (intentExtra == "add_goal") {
-                finish()
-            }
-            else {
-                fragmentUtils.popBackStack()
-            }
-        }
-    }
-
 }

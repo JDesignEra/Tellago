@@ -1,11 +1,13 @@
 package com.tellago.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
+import com.tellago.activities.GoalsActivity
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
@@ -60,7 +62,14 @@ class CreateGoalFragment_3 : Fragment() {
 
             goal.add {
                 if (it != null) {
-                    fragmentUtils.replace(ShowGoalsFragment())
+                    if (requireActivity().intent.getStringExtra(HomeFragment::class.java.name) == "show") {
+                        val intent = Intent(requireContext(), GoalsActivity::class.java)
+                        intent.putExtra(HomeFragment::class.java.name, "show")
+
+                        startActivity(intent)
+                    }
+
+                    requireActivity().finish()
                     toast.success("Goal created")
                 }
                 else toast.error("Please try again, there was an error creating your goal")

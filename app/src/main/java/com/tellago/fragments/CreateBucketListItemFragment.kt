@@ -11,7 +11,6 @@ import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_bucket_list_item.*
 
-
 class CreateBucketListItemFragment : Fragment() {
     private lateinit var bundle: Bundle
     private lateinit var fragmentUtils: FragmentUtils
@@ -49,7 +48,7 @@ class CreateBucketListItemFragment : Fragment() {
 
             goal.bucketList.add(bucketItem)
 
-            if (!bundle.getBoolean(CreateGoalFragment_2::class.java.name)) {
+            if (bundle.getBoolean(CreateGoalFragment_2::class.java.name)) {
                 goal.updateBucketListByGid {
                     if (it != null) toast.success("Bucket item added successfully")
                     else toast.error("Please try again, failed to add bucket item")

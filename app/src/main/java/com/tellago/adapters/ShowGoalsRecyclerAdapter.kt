@@ -51,7 +51,13 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
                 FragmentUtils(
                     activity.supportFragmentManager,
                     R.id.fragment_container_goal_activity
-                ).replace(showGoalDetailsFragment)
+                ).replace(
+                    showGoalDetailsFragment,
+                    enter = R.anim.fragment_open_enter,
+                    exit = R.anim.fragment_open_exit,
+                    popEnter = R.anim.fragment_slide_right_enter,
+                    popExit = R.anim.fragment_slide_right_exit
+                )
             }
         }
     }

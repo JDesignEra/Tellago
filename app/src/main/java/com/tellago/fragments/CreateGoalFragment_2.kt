@@ -116,7 +116,13 @@ class CreateGoalFragment_2 : Fragment() {
                 putBoolean(this::class.java.name, true)
             }
 
-            fragmentUtils.replace(showBucketListItemsFragment)
+            fragmentUtils.replace(
+                showBucketListItemsFragment,
+                enter = R.anim.fragment_open_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_close_enter,
+                popExit = R.anim.fragment_close_exit
+            )
         }
 
     }

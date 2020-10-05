@@ -46,20 +46,13 @@ class ShowBucketListItemsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_show_bucket_list_items, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("goal gid", goal.gid.toString())
-
-        if(goal.gid.isNullOrBlank())
-        {
-            // if user was previously on CreateGoalFragment_2
+        if(goal.gid.isNullOrBlank()) {
             configureToolbarBackToCreateGoal()
         }
-        else
-        {
-            // if user was previously on ShowGoalDetailsFragment
+        else {
             configureToolbar()
         }
 
