@@ -75,10 +75,10 @@ class EditDeadlinePickerFragment : DialogFragment() {
         numPick_year.maxValue = 35
 
         numPick_month.minValue = 0
-        numPick_month.maxValue = Calendar.getInstance().getMaximum(Calendar.MONTH)
+        numPick_month.maxValue = LocalDate.MAX.monthValue - 1
 
         numPick_day.minValue = 0
-        numPick_day.maxValue = Calendar.getInstance().getMaximum(Calendar.DAY_OF_MONTH) - 1
+        numPick_day.maxValue = LocalDate.MAX.dayOfMonth - 1
 
         val deadline = Instant.ofEpochMilli(goal.deadline.time).atZone(ZoneId.systemDefault()).toLocalDate()
         val dateDiff = Period.between(today, deadline)
@@ -92,6 +92,16 @@ class EditDeadlinePickerFragment : DialogFragment() {
             deadline = deadline.plusDays(numPick_day.value.toLong())
             deadline = deadline.plusMonths(numPick_month.value.toLong())
             deadline = deadline.plusYears(numPick_year.value.toLong())
+
+            Log.e("leapYear", deadline.isLeapYear.toString())
+
+            Log.e("Cal", Calendar.getInstance().apply {
+                time = Date.from(deadline.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())
+                set(Calendar.MILLISECOND, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.HOUR, 0)
+            }.time.toString())
 
             goal.deadline = Calendar.getInstance().apply {
                 time = Date.from(deadline.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())

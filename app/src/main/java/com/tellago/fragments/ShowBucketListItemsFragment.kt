@@ -20,17 +20,17 @@ import kotlinx.android.synthetic.main.fragment_show_bucket_list_items.*
 
 class ShowBucketListItemsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
-    private var bundle: Bundle? = null
     private lateinit var goal: Goal
 
+    private var bundle: Bundle? = null
     private var adapter: ShowBucketListItemsRecyclerAdapter? = null
     private val createBucketListItemFragment: Fragment = CreateBucketListItemFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         goal = Goal()
+
         if (this.arguments != null) bundle = requireArguments()
         if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
 
@@ -39,31 +39,21 @@ class ShowBucketListItemsFragment : Fragment() {
             R.id.fragment_container_goal_activity
         )
 
-        // Send correct ArrayList to ShowBucketListItemsRecyclerAdapter
-        adapter = ShowBucketListItemsRecyclerAdapter(goal.bucketList)
-
-
+        adapter = ShowBucketListItemsRecyclerAdapter(goal)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_show_bucket_list_items, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         configureToolbar()
 
-        recycler_view_show_bucketListItems_fragment.layoutManager = LinearLayoutManager(
-            requireContext()
-        )
+        recycler_view_show_bucketListItems_fragment.layoutManager = LinearLayoutManager(requireContext())
         recycler_view_show_bucketListItems_fragment.adapter = adapter
-
-
 
         val item = object : SwipeToDelete(
             activity?.application?.baseContext,
@@ -86,19 +76,19 @@ class ShowBucketListItemsFragment : Fragment() {
                 if (direction == ItemTouchHelper.LEFT) {
                     // if swiped LEFT (from right of screen to left of screen) --> display snackbar
                     val deletedItemName = adapter!!.retrieve(viewHolder.adapterPosition).toString()
+
                     Snackbar.make(
                         viewHolder.itemView,
                         "Deleted bucket list item #${viewHolder.adapterPosition}",
                         Snackbar.LENGTH_SHORT
-                    )
-                        .setAction("Undo") {
+                    ).setAction("Undo") {
                             it.setOnClickListener {
                                 adapter!!.add(viewHolder.adapterPosition, deletedItemName)
                                 adapter!!.notifyItemInserted(viewHolder.adapterPosition)
                                 Log.d("Undo Delete", "FIRED")
                             }
-                        }
-                        .show()
+                        }.show()
+
                     adapter!!.delete(viewHolder.adapterPosition + 1)
 
                 }
@@ -110,10 +100,8 @@ class ShowBucketListItemsFragment : Fragment() {
                         Snackbar.LENGTH_SHORT
                     // missing functionality to archive. I.e. change status attribute of BucketListItem object
 
-                    )
-                        .show()
+                    ).show()
                 }
-
             }
         }
 
@@ -121,11 +109,7 @@ class ShowBucketListItemsFragment : Fragment() {
         // Attach ItemTouchHelper to recycler_view_show_bucketListItems_fragment
         itemTouchHelper.attachToRecyclerView(recycler_view_show_bucketListItems_fragment)
 
-
         fab_add_bucketListItem.setOnClickListener {
-            Log.d("FAB Add BL item", "FIRED")
-            //fragmentUtils.replace(createBucketListItemFragment)
-
             createBucketListItemFragment.arguments = Bundle().apply {
                 putParcelable(goal::class.java.name, goal)
             }
@@ -134,17 +118,12 @@ class ShowBucketListItemsFragment : Fragment() {
                 requireActivity().supportFragmentManager,
                 R.id.fragment_container_goal_activity
             ).replace(createBucketListItemFragment)
-
         }
-
-
     }
-
 
     private fun configureToolbar() {
         toolbar_show_bucketListItems.setNavigationIcon(R.drawable.ic_arrow_back_36)
         toolbar_show_bucketListItems.setNavigationOnClickListener {
-            // Allow user to return to previous fragment in the Stack
             fragmentUtils.popBackStack()
         }
     }

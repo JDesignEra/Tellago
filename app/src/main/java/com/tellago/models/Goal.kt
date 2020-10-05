@@ -8,8 +8,10 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 private val todayCalendar = Calendar.getInstance()
 
@@ -22,7 +24,7 @@ data class Goal(
     var categories: ArrayList<String> = ArrayList(),
     var targetAmt: Double = 0.0,
     var currentAmt: Double = 0.0,
-    var bucketList: ArrayList<String> = ArrayList(),
+    var bucketList: ArrayList<MutableMap<String, @RawValue Any>?> = ArrayList(),
     var deadline: Date = Calendar.getInstance().apply {
         set(Calendar.MILLISECOND, 0)
         set(Calendar.SECOND, 0)
@@ -38,7 +40,7 @@ data class Goal(
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     @IgnoredOnParcel
-    private val collection = db.collection("goals")
+    private val collection = db.collection("testgoals")
 
     fun getByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
         if (gid != null) {
@@ -66,8 +68,7 @@ data class Goal(
         if (!gid.isNullOrBlank()) {
             val mergeFields = arrayListOf<String>(
                 "title", "categories", "targetAmt",
-                "currentAmt", "bucketList", "deadline",
-                "lastReminder", "reminderMonthsFreq", "completed"
+                "currentAmt", "deadline", "lastReminder", "reminderMonthsFreq", "completed"
             )
 
             collection.document(gid!!).set(this, SetOptions.mergeFields(mergeFields)).addOnSuccessListener {
@@ -77,7 +78,19 @@ data class Goal(
                 onComplete?.invoke(null)
             }
         }
-        else Log.e(this::class.java.name, "GID is required for updateByGid().")
+        else Log.e(this::class.java.name, "GID is required for setByGid().")
+    }
+
+    fun updateBucketListByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
+        if (!gid.isNullOrBlank()) {
+            collection.document(gid!!).update("bucketList", bucketList).addOnSuccessListener {
+                onComplete?.invoke(this)
+            }.addOnFailureListener {
+                Log.e(this::class.java.name, "Failed to update Goal's bucketList.")
+                onComplete?.invoke(null)
+            }
+        }
+        else Log.e(this::class.java.name, "GID is required for updateBucketListByGid().")
     }
 
 //    fun updateByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
