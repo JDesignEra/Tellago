@@ -1,4 +1,4 @@
-package com.tellago.utils
+package com.tellago.utilities
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

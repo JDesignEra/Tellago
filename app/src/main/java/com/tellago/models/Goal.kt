@@ -45,11 +45,11 @@ data class Goal(
             collection.document(gid!!).get().addOnSuccessListener {
                 onComplete?.invoke(it.toObject<Goal>())
             }.addOnFailureListener {
-                Log.e("Goal", "Failed to get Goal by GID.")
+                Log.e(this::class.java.name, "Failed to get Goal by GID.")
                 onComplete?.invoke(null)
             }
         }
-        else Log.e("Goal", "GID is required for getByGid().")
+        else Log.e(this::class.java.name, "GID is required for getByGid().")
     }
 
     fun add(onComplete: ((goal: Goal?) -> Unit)? = null) {
@@ -57,7 +57,7 @@ data class Goal(
             gid = it.id
             onComplete?.invoke(this)
         }.addOnFailureListener {
-            Log.e("Goal", "Failed to add Goal.")
+            Log.e(this::class.java.name, "Failed to add Goal.")
             onComplete?.invoke(null)
         }
     }
@@ -73,11 +73,11 @@ data class Goal(
             collection.document(gid!!).set(this, SetOptions.mergeFields(mergeFields)).addOnSuccessListener {
                 onComplete?.invoke(this)
             }.addOnFailureListener {
-                Log.e("Goal", "Failed to set Goal.")
+                Log.e(this::class.java.name, "Failed to set Goal.")
                 onComplete?.invoke(null)
             }
         }
-        else Log.e("Goal", "GID is required for updateByGid().")
+        else Log.e(this::class.java.name, "GID is required for updateByGid().")
     }
 
 //    fun updateByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
@@ -125,6 +125,6 @@ data class Goal(
 
     fun deleteByGid() {
         if (gid != null) collection.document(gid!!).delete()
-        else Log.e("Goal", "GID is required for deleteByGid().")
+        else Log.e(this::class.java.name, "GID is required for deleteByGid().")
     }
 }

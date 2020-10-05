@@ -13,7 +13,7 @@ import com.tellago.MainActivity
 import com.tellago.R
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
-import com.tellago.utils.CustomToast
+import com.tellago.utilities.CustomToast
 
 class AuthActivity : AppCompatActivity() {
     private lateinit var toast: CustomToast

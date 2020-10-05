@@ -20,7 +20,7 @@ import com.tellago.R
 import com.tellago.fragments.ConfirmEditProfileFragment
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
-import com.tellago.utils.CustomToast
+import com.tellago.utilities.CustomToast
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_edit_profile.*

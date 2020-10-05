@@ -13,7 +13,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.tellago.R
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
-import com.tellago.utils.CustomToast
+import com.tellago.utilities.CustomToast
 import kotlin.properties.Delegates
 
 class GoogleActivity : AppCompatActivity() {
@@ -94,7 +94,7 @@ class GoogleActivity : AppCompatActivity() {
                 }
             }
             catch (e: ApiException) {
-                Log.e("GoogleActivity", "Google sign in failed", e)
+                Log.e(this::class.java.name, "Google sign in failed", e)
                 finish()
             }
         }

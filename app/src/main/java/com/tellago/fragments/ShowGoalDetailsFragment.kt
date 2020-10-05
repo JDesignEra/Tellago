@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.models.Goal
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -46,8 +46,8 @@ class ShowGoalDetailsFragment : Fragment() {
 
         tv_title.text = goal.title
         tv_categories.text = goal.categories.toString()
-        tv_targetAmt.text = goal.targetAmt.toString()
-        tv_currentAmt.text = goal.currentAmt.toString()
+        tv_targetAmt.text = String.format("$%.2f", goal.targetAmt)
+        tv_currentAmt.text = String.format("$%.2f", goal.currentAmt)
         tv_bucketList.text = goal.bucketList.toString()
 
         // Displaying deadline as DateTime rather than TimeStamp for user viewing

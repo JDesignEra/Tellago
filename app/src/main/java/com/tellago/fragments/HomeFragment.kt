@@ -14,7 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.activities.GoalsActivity
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 

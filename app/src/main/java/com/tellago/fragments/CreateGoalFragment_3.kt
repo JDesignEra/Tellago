@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
-import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
-import com.tellago.utils.CustomToast
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.CustomToast
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_3.*
 
 

@@ -11,9 +11,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
 import com.tellago.fragments.ShowGoalDetailsFragment
 import com.tellago.models.Goal
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,7 +28,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         holder.model = model
         holder.tvTitle.text = model.title
         holder.tvCreationDate.text = dateFormatter.format(model.createDate)
-        holder.tvFullAmt.text = DecimalFormat("$#,###.##").format(model.targetAmt)
+        holder.tvFullAmt.text = String.format("$%.2f", model.targetAmt)
     }
 
     class GoalViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {

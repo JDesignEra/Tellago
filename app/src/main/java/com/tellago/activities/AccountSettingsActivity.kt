@@ -12,7 +12,7 @@ import android.view.WindowManager
 import com.tellago.R
 import com.tellago.fragments.SettingsFragment
 import com.tellago.services.ExitService
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class AccountSettingsActivity : AppCompatActivity() {

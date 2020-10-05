@@ -16,7 +16,7 @@ import com.tellago.R
 import com.tellago.adapters.ShowGoalsRecyclerAdapter
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_show_goals.*
 

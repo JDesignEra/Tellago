@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.models.Goal
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_1.*
 
 class CreateGoalFragment_1 : Fragment() {

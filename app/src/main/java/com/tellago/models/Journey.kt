@@ -4,12 +4,15 @@ import android.util.Log
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import kotlinx.android.parcel.IgnoredOnParcel
 
 data class Journey(
     @DocumentId var jid: String? = null,
     var pids: List<String>? = null
 ) {
+    @IgnoredOnParcel
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    @IgnoredOnParcel
     private val collection = db.collection("journeys")
 
     fun add(onComplete: ((journey: Journey?) -> Unit)? = null) {
@@ -29,10 +32,10 @@ data class Journey(
                 onComplete?.invoke(it.toObject<Journey>())
             }.addOnFailureListener {
                 onComplete?.invoke(null)
-                Log.e("Journey", "Failed to get Journey by JID.")
+                Log.e(this::class.java.name, "Failed to get Journey by JID.")
             }
         }
-        else Log.e("Journey", "JID is required for getByJid().")
+        else Log.e(this::class.java.name, "JID is required for getByJid().")
     }
 
     fun updateByJid(addOnList: List<String>, onComplete: ((journey: Journey?) -> Unit)? = null) {
@@ -52,17 +55,17 @@ data class Journey(
                     collection.document(jid!!).update("pids", pids).addOnSuccessListener {
                         onComplete?.invoke(this)
                     }.addOnFailureListener {
-                        Log.e("Journey", "Failed to update Journey")
+                        Log.e(this::class.java.name, "Failed to update Journey")
                         onComplete?.invoke(null)
                     }
                 }
             }
         }
-        else Log.e("Journey", "JID is required for updateByJid().")
+        else Log.e(this::class.java.name, "JID is required for updateByJid().")
     }
 
     fun deleteByJid() {
         if (jid != null) collection.document(jid!!).delete()
-        else Log.e("Journey", "JID is required for deleteByJid().")
+        else Log.e(this::class.java.name, "JID is required for deleteByJid().")
     }
 }

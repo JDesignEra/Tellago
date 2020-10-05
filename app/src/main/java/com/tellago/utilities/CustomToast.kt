@@ -1,4 +1,4 @@
-package com.tellago.utils
+package com.tellago.utilities
 
 import android.content.Context
 import android.graphics.Color

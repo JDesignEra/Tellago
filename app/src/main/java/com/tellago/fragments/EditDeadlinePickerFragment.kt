@@ -10,7 +10,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.tellago.R
 import com.tellago.models.Goal
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.FragmentUtils
+import com.tellago.utilities.NumPickerUtils
 import kotlinx.android.synthetic.main.fragment_edit_deadline_picker.*
 import java.time.Instant
 import java.time.LocalDate
@@ -21,6 +22,7 @@ import java.util.*
 class EditDeadlinePickerFragment : DialogFragment() {
     private lateinit var goal: Goal
     private lateinit var fragmentUtils: FragmentUtils
+    private lateinit var numPickerUtils: NumPickerUtils
 
     private var bundle: Bundle? = null
 
@@ -40,6 +42,7 @@ class EditDeadlinePickerFragment : DialogFragment() {
             requireActivity().supportFragmentManager,
             R.id.fragment_container_goal_activity
         )
+        numPickerUtils = NumPickerUtils(requireContext())
     }
 
 //    private fun wireWidgets() {
@@ -109,52 +112,52 @@ class EditDeadlinePickerFragment : DialogFragment() {
         numPick_year.setOnValueChangedListener { picker, oldVal, newVal ->
             if (newVal == picker.minValue && oldVal == picker.maxValue) {
                 if (numPick_month.value < numPick_month.maxValue) {
-                    numPick_month.value += 1
+                    numPickerUtils.animateValueByOne(numPick_month)
                     numPick_day.value = numPick_month.minValue
                 }
                 else if (numPick_day.value < numPick_day.maxValue) {
-                    numPick_day.value += 1
+                    numPickerUtils.animateValueByOne(numPick_day)
                 }
             }
 
             if (newVal == picker.maxValue && oldVal == picker.minValue) {
                 if (numPick_month.value > numPick_month.minValue) {
-                    numPick_month.value -= 1
+                    numPickerUtils.animateValueByOne(numPick_month, false)
                     numPick_day.value = numPick_month.minValue
                 }
                 else if (numPick_day.value > numPick_day.minValue) {
-                    numPick_day.value -= 1
+                    numPickerUtils.animateValueByOne(numPick_day, false)
                 }
             }
         }
 
         numPick_month.setOnValueChangedListener { picker, oldVal, newVal ->
             if (newVal == picker.minValue && oldVal == picker.maxValue && numPick_day.value > numPick_day.minValue) {
-                numPick_day.value -= 1
+                numPickerUtils.animateValueByOne(numPick_day, false)
             }
 
             if (newVal == picker.maxValue && oldVal == picker.minValue && numPick_year.value < numPick_year.maxValue) {
-                numPick_year.value += 1
+                numPickerUtils.animateValueByOne(numPick_year)
             }
         }
 
         numPick_day.setOnValueChangedListener { picker, oldVal, newVal ->
             if (newVal == picker.minValue && oldVal == picker.maxValue) {
                 if (numPick_month.value < numPick_month.maxValue) {
-                    numPick_month.value += 1
+                    numPickerUtils.animateValueByOne(numPick_month)
                 }
                 else if (numPick_year.value < numPick_year.maxValue) {
-                    numPick_year.value += 1
+                    numPickerUtils.animateValueByOne(numPick_year)
                     numPick_month.value = numPick_month.minValue
                 }
             }
 
             if (newVal == picker.maxValue && oldVal == picker.minValue) {
                 if (numPick_month.value > numPick_month.minValue) {
-                    numPick_month.value -= 1
+                    numPickerUtils.animateValueByOne(numPick_month, false)
                 }
                 else if (numPick_year.value > numPick_year.minValue) {
-                    numPick_year.value -= 1
+                    numPickerUtils.animateValueByOne(numPick_year, false)
                     numPick_month.value = numPick_month.maxValue
                 }
             }

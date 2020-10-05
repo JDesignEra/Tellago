@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.models.Goal
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.FragmentUtils
+import com.tellago.utilities.NumPickerUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_2.*
 import java.time.Instant
 import java.time.LocalDate
@@ -18,6 +19,7 @@ import java.util.*
 class CreateGoalFragment_2 : Fragment() {
     private lateinit var bundle: Bundle
     private lateinit var fragmentUtils: FragmentUtils
+    lateinit var numPickerUtils: NumPickerUtils
 
     private var goal: Goal = Goal()
     private val reminderIdToVal = mapOf(
@@ -31,11 +33,11 @@ class CreateGoalFragment_2 : Fragment() {
 
         bundle = requireArguments()
         goal = bundle.getParcelable(goal::class.java.name)!!
-
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
             R.id.fragment_container_goal_activity
         )
+        numPickerUtils = NumPickerUtils(requireContext())
     }
 
     override fun onCreateView(
@@ -92,21 +94,21 @@ class CreateGoalFragment_2 : Fragment() {
 
         yearPicker.setOnValueChangedListener { picker, oldVal, newVal ->
             if (newVal == picker.minValue && oldVal == picker.maxValue && monthPicker.value < monthPicker.maxValue) {
-                monthPicker.value += 1
+                numPickerUtils.animateValueByOne(monthPicker)
             }
 
             if (newVal == picker.maxValue && oldVal == picker.minValue && monthPicker.value > monthPicker.minValue) {
-                monthPicker.value -= 1
+                numPickerUtils.animateValueByOne(monthPicker, false)
             }
         }
 
         monthPicker.setOnValueChangedListener { picker, oldVal, newVal ->
             if (newVal == picker.minValue && oldVal == picker.maxValue && yearPicker.value < yearPicker.maxValue) {
-                yearPicker.value += 1
+                numPickerUtils.animateValueByOne(yearPicker)
             }
 
             if (newVal == picker.maxValue && oldVal == picker.minValue && yearPicker.value > yearPicker.minValue) {
-                yearPicker.value -= 1
+                numPickerUtils.animateValueByOne(yearPicker, false)
             }
         }
     }

@@ -27,8 +27,8 @@ import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
 import com.tellago.models.Auth.Companion.user
 import com.tellago.services.ExitService
-import com.tellago.utils.CustomToast
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.CustomToast
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_header.*
 

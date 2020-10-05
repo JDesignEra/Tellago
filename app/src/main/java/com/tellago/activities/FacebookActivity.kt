@@ -73,14 +73,14 @@ class FacebookActivity : AppCompatActivity() {
                 }
 
                 override fun onCancel() {
-                    Log.e("FacebookActivity", "User canceled the action")
+                    Log.e(this::class.java.name, "User canceled the action")
 
                     setResult(Activity.RESULT_CANCELED, Intent())
                     this@FacebookActivity.finish()
                 }
 
                 override fun onError(e: FacebookException) {
-                    Log.e("FacebookActivity", e.message.toString())
+                    Log.e(this::class.java.name, e.message.toString())
 
                     setResult(Activity.RESULT_CANCELED, Intent())
                     this@FacebookActivity.finish()

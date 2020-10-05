@@ -17,7 +17,7 @@ import com.tellago.activities.FacebookActivity
 import com.tellago.activities.GoogleActivity
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
-import com.tellago.utils.CustomToast
+import com.tellago.utilities.CustomToast
 import kotlinx.android.synthetic.main.fragment_account.*
 
 class AccountFragment : Fragment() {

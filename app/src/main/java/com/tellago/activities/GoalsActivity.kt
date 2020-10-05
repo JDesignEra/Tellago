@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.fragments.CreateGoalFragment_1
 import com.tellago.fragments.ShowGoalsFragment
-import com.tellago.utils.FragmentUtils
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_create_goal.*
 
 class GoalsActivity : AppCompatActivity() {
