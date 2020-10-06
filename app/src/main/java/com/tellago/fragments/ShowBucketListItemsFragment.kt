@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.facebook.appevents.suggestedevents.ViewOnClickListener
 import com.google.android.material.snackbar.Snackbar
 import com.tellago.R
 import com.tellago.adapters.ShowBucketListItemsRecyclerAdapter
@@ -62,11 +63,11 @@ class ShowBucketListItemsFragment : Fragment() {
             configureToolbar()
         }
 
-
         recycler_view_show_bucketListItems_fragment.layoutManager = LinearLayoutManager(
             requireContext()
         )
         recycler_view_show_bucketListItems_fragment.adapter = adapter
+
 
         val item = object : SwipeToDelete(
             activity?.application?.baseContext,
@@ -76,46 +77,54 @@ class ShowBucketListItemsFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 Log.d("onSwiped", "FIRED")
 
-                if (!goal.gid?.isBlank()!!) {
-                    goal.setByGid {
-                        if (it != null) {
-                            Log.d("goal id saving", goal.gid.toString())
-                        }
-                    }
-                }
-
-                Log.d("savedRecords", "FIRED")
 
                 if (direction == ItemTouchHelper.LEFT) {
                     // if swiped LEFT (from right of screen to left of screen) --> display snackbar
-                    val deletedItemName = adapter!!.retrieve(viewHolder.adapterPosition).toString()
+                    val deletedItemName = adapter!!.retrieve(viewHolder.layoutPosition)
+                    val itemMapDeleted = mutableMapOf(
+                        "name" to deletedItemName,
+                        "completed" to false
+                    )
+
+                    adapter!!.delete(viewHolder.layoutPosition)
+                    Log.d("swipe to delete", "FIRED")
+
 
                     Snackbar.make(
                         viewHolder.itemView,
-                        "Deleted bucket list item #${viewHolder.adapterPosition}",
-                        Snackbar.LENGTH_SHORT
-                    ).setAction("Undo") {
-                        it.setOnClickListener {
-                            adapter!!.add(viewHolder.adapterPosition, deletedItemName)
-                            adapter!!.notifyItemInserted(viewHolder.adapterPosition)
-                            Log.d("Undo Delete", "FIRED")
-                        }
-                    }
+                        "Deleted bucket list item #${viewHolder.layoutPosition + 1}",
+                        Snackbar.LENGTH_LONG
+                    ).setAction(
+                        "Undo", undoDeleteOnClickListener(viewHolder.layoutPosition, itemMapDeleted)
+                    )
                         .show()
 
-                    adapter!!.delete(viewHolder.adapterPosition + 1)
-                    Log.d("swipe to delete", "FIRED")
 
                 } else if (direction == ItemTouchHelper.RIGHT) {
                     // if swiped RIGHT (from left of screen to right of screen) --> display snackbar
+                    val archivedItemName = adapter!!.retrieve(viewHolder.layoutPosition)
+                    val itemMapBefore = mutableMapOf(
+                        "name" to archivedItemName,
+                        "completed" to false
+                    )
+                    val itemMapArchived = mutableMapOf(
+                        "name" to archivedItemName,
+                        "completed" to true
+                    )
+
+                    adapter!!.delete(viewHolder.layoutPosition)
+                    adapter!!.add(viewHolder.layoutPosition, itemMapArchived)
+                    Log.d("swipe to archive", "FIRED")
+
+
                     Snackbar.make(
                         viewHolder.itemView,
-                        "Archived bucket list item #${viewHolder.adapterPosition + 1}",
-                        Snackbar.LENGTH_SHORT
-                        // missing functionality to archive. I.e. change status attribute of BucketListItem object
-
+                        "Archived bucket list item #${viewHolder.layoutPosition + 1}",
+                        Snackbar.LENGTH_LONG
+                    ).setAction(
+                        "Undo", undoArchiveOnClickListener(viewHolder.layoutPosition, itemMapBefore)
                     ).show()
-                    Log.d("swipe to archive", "FIRED")
+
                 }
             }
 
@@ -175,6 +184,26 @@ class ShowBucketListItemsFragment : Fragment() {
                     isCurrentlyActive
                 )
             }
+
+            fun undoArchiveOnClickListener(
+                position: Int,
+                itemMapBefore: MutableMap<String, Any>?
+            ): View.OnClickListener = View.OnClickListener { view ->
+                adapter!!.delete(position)
+                adapter!!.add(position, itemMapBefore)
+                adapter!!.notifyItemInserted(position)
+                Log.d("Undo Archive", "FIRED")
+            }
+
+            fun undoDeleteOnClickListener(
+                position: Int,
+                itemMapBefore: MutableMap<String, Any>?
+            ): View.OnClickListener = View.OnClickListener { view ->
+                adapter!!.add(position, itemMapBefore)
+                adapter!!.notifyItemInserted(position)
+                Log.d("Undo Delete", "FIRED")
+            }
+
         }
 
         val itemTouchHelper = ItemTouchHelper(item)
@@ -198,6 +227,15 @@ class ShowBucketListItemsFragment : Fragment() {
     private fun configureToolbar() {
         toolbar_show_bucketListItems.setNavigationIcon(R.drawable.ic_arrow_back_36)
         toolbar_show_bucketListItems.setNavigationOnClickListener {
+
+            goal.updateBucketListByGid {
+                if (it != null) {
+                    Log.d("goal id saving", goal.gid.toString())
+                }
+
+                Log.d("saved latest bucketList", "FIRED")
+            }
+            
             fragmentUtils.popBackStack()
         }
     }

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.tellago.R
 import com.tellago.fragments.EditBucketListItemFragment
+import com.tellago.models.BucketListItem
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.layout_bucket_list_item.view.*
@@ -34,15 +35,15 @@ class ShowBucketListItemsRecyclerAdapter(private val goal: Goal) : RecyclerView.
     }
 
     // function to add a bucket list item (given its position/index)
-    fun add(position : Int, string : String) {
-        goal.bucketList.removeAt(position)
+    fun add(position : Int, item : MutableMap<String, Any>?) {
+        goal.bucketList.add(position, item)
         notifyDataSetChanged()
     }
 
-    // function to add a bucket list item (given its position/index)
-    fun retrieve(position : Int) {
-        goal.bucketList.removeAt(position)
-        notifyDataSetChanged()
+    // function to retrieve & return bucket list item's name value as a String
+    fun retrieve(position : Int): String {
+
+        return goal.bucketList[position]?.get("name") as String
     }
 
     class BucketListItemViewHolder constructor(itemView: View, model: Goal) : RecyclerView.ViewHolder(itemView) {
