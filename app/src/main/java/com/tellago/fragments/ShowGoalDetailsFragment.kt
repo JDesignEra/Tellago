@@ -61,12 +61,12 @@ class ShowGoalDetailsFragment : Fragment() {
         tv_createDate.text = dateFormatter.format(goal.createDate).toString()
 
         btn_Bucket_List_View.setOnClickListener {
-            val showBucketListItemsFragment = ShowBucketListItemsFragment()
+            val showBucketListItemsTabFragment = ShowBucketListItemsTabsFragment()
 
-            showBucketListItemsFragment.arguments = Bundle().apply {
+            showBucketListItemsTabFragment.arguments = Bundle().apply {
                 putParcelable(goal::class.java.name, goal)
             }
-            fragmentUtils.replace(showBucketListItemsFragment)
+            fragmentUtils.replace(showBucketListItemsTabFragment)
         }
 
         btn_EditGoalDetails.setOnClickListener {

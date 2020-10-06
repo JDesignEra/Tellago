@@ -37,9 +37,9 @@ class ProfileTabFragment : Fragment() {
         viewPager.adapter = demoCollectionAdapter
 
         // Use TabLayoutMediator to link the TabLayout to the ViewPager2
-        TabLayoutMediator(tab_layout_inFragment, viewPager) { tab, position ->
-            tab.text = "OBJECT ${(position + 1)}"
-        }.attach()
+//        TabLayoutMediator(tab_layout_inFragment, viewPager) { tab, position ->
+//            tab.text = "OBJECT ${(position + 1)}"
+//        }.attach()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

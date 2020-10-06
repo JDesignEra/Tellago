@@ -113,7 +113,7 @@ class CreateGoalFragment_2 : Fragment() {
         }
 
         btn_Bucket_List.setOnClickListener {
-            val showBucketListItemsFragment = ShowBucketListItemsFragment()
+            val showBucketListItemsFragment = ShowBucketListItemsTabsFragment()
 
             showBucketListItemsFragment.arguments = Bundle().apply {
                 putParcelable(goal::class.java.name, goal)

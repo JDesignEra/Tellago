@@ -55,6 +55,7 @@ class GoalsActivity : AppCompatActivity() {
             }
 
             fragmentUtils.replace(showGoalsFragment, null, false)
+
         }
 
         configureToolbar()

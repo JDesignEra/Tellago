@@ -35,6 +35,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="CustomTabStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="NoAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/fragment_fade_enter</item>
         <item name="android:activityOpenExitAnimation">@anim/fragment_fade_exit</item>
