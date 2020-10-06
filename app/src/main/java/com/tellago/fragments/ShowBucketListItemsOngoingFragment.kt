@@ -18,7 +18,6 @@ import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import com.tellago.utilities.SwipeToDelete
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
-import kotlinx.android.synthetic.main.fragment_show_bucket_list_items_completed.*
 import kotlinx.android.synthetic.main.fragment_show_bucket_list_items_ongoing.*
 
 
@@ -42,6 +41,20 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
             requireActivity().supportFragmentManager,
             R.id.fragment_container_goal_activity
         )
+
+
+        // filter before passing to adapter
+//        goal.bucketList.filter {
+//            it!!.values.contains(false)
+//        }
+
+
+        val filterBucketList = goal.bucketList.filter {
+            it!!.values.contains(false)
+        }
+
+        goal.bucketList = filterBucketList as ArrayList<MutableMap<String, @kotlinx.android.parcel.RawValue Any>?>
+
 
         adapter = ShowBucketListItemsRecyclerAdapter(goal)
     }
@@ -122,6 +135,14 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
                     ).show()
 
                 }
+
+                // put to parceable at the end of Swipe action
+                var completedItemsFragment = ShowBucketListItemsCompletedFragment()
+
+                completedItemsFragment.arguments = Bundle().apply {
+                    putParcelable(goal::class.java.name, goal)
+                }
+
             }
 
             override fun onChildDraw(

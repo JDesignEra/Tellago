@@ -42,6 +42,19 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
             R.id.fragment_container_goal_activity
         )
 
+        // filter before passing to adapter
+
+//        goal.bucketList.filter {
+//            it!!.values.contains(true)
+//        }
+
+        val filterBucketList = goal.bucketList.filter {
+            it!!.values.contains(true)
+        }
+
+        goal.bucketList = filterBucketList as ArrayList<MutableMap<String, @kotlinx.android.parcel.RawValue Any>?>
+
+
         adapter = ShowBucketListItemsRecyclerAdapter(goal)
     }
 
@@ -92,6 +105,15 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                         "Undo", undoDeleteOnClickListener(viewHolder.layoutPosition, itemMapDeleted)
                     )
                         .show()
+
+
+                    // put to parceable at the end of swipe action
+                    var ongoingItemsFragment = ShowBucketListItemsOngoingFragment()
+
+                    ongoingItemsFragment.arguments = Bundle().apply {
+                        putParcelable(goal::class.java.name, goal)
+                    }
+
 
 
                 }
@@ -162,10 +184,10 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                     .addSwipeRightBackgroundColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            R.color.colorSuccess
+                            R.color.colorPrimary
                         )
                     )
-                    .addSwipeRightActionIcon(R.drawable.ic_baseline_check_circle_outline_48)
+                    .addSwipeRightActionIcon(R.drawable.ic_baseline_delete_outline_48)
                     .create()
                     .decorate()
 
