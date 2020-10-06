@@ -60,7 +60,7 @@ class CreateGoalFragment_2 : Fragment() {
         yearPicker.maxValue = 35
 
         monthPicker.minValue = 0
-        monthPicker.maxValue = YearMonth.of(today.year, today.month).lengthOfMonth() - 1
+        monthPicker.maxValue = 11
 
         val deadline = Instant.ofEpochMilli(goal.deadline.time).atZone(ZoneId.systemDefault()).toLocalDate()
         val dateDiff = Period.between(today, deadline)
