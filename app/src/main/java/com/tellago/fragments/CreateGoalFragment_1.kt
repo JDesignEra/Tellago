@@ -1,11 +1,13 @@
 package com.tellago.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
+import com.tellago.activities.GoalsActivity
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_1.*
@@ -13,15 +15,25 @@ import kotlinx.android.synthetic.main.fragment_create_goal_1.*
 class CreateGoalFragment_1 : Fragment() {
     private var goal: Goal = Goal()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    private lateinit var fragmentUtils: FragmentUtils
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        fragmentUtils = FragmentUtils(
+            requireActivity().supportFragmentManager,
+            R.id.fragment_container_goal_activity
+        )
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_create_goal_1, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        configureToolbar()
 
         btn_ToFragmentTwo.setOnClickListener {
             val errors = mutableMapOf<String, String>()
@@ -53,11 +65,21 @@ class CreateGoalFragment_1 : Fragment() {
                     putParcelable(goal::class.java.name, goal)
                 }
 
-                FragmentUtils(
-                    requireActivity().supportFragmentManager,
-                    R.id.fragment_container_goal_activity
-                ).replace(createGoalFragment2)
+                fragmentUtils.replace(createGoalFragment2)
             }
+        }
+    }
+
+    private fun configureToolbar() {
+        toolbar_createGoalFragment1.setNavigationOnClickListener {
+            if (requireActivity().intent.getStringExtra(HomeFragment::class.java.name) == "show") {
+                val intent = Intent(requireContext(), GoalsActivity::class.java)
+                intent.putExtra(HomeFragment::class.java.name, "show")
+
+                startActivity(intent)
+            }
+
+            requireActivity().finish()
         }
     }
 }

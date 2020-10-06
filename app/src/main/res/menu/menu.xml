@@ -6,38 +6,31 @@
         android:id="@+id/ic_home"
         android:icon="@drawable/ic_home_48_primary"
         android:title="Home"
-        app:showAsAction="always"
-        />
-
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/ic_people"
         android:icon="@drawable/ic_people_outline_48_primary"
         android:title="Community"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/ic_empty"
         android:icon="@color/colorTransparent"
         android:title=""
-        app:showAsAction="always"
-        />
+        android:enabled="false"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/ic_feed"
         android:icon="@drawable/ic_dynamic_feed_48_primary"
         android:title="Feed"
-        app:showAsAction="always"
-        />
-
-
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/ic_profile"
         android:icon="@drawable/ic_account_box_48_primary"
         android:title="Profile"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always"/>
 
 </menu>

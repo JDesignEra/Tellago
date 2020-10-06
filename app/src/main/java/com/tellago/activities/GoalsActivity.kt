@@ -3,7 +3,6 @@ package com.tellago.activities
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.ActionBar
@@ -47,7 +46,7 @@ class GoalsActivity : AppCompatActivity() {
                 putString(HomeFragment::class.java.name, "add")
             }
 
-            fragmentUtils.replace(createGoalFragment1, null)
+            fragmentUtils.replace(createGoalFragment1, null, false)
         }
         else {
             val showGoalsFragment: Fragment = ShowGoalsFragment()
@@ -55,7 +54,7 @@ class GoalsActivity : AppCompatActivity() {
                 putString(HomeFragment::class.java.name, "show")
             }
 
-            fragmentUtils.replace(showGoalsFragment, null)
+            fragmentUtils.replace(showGoalsFragment, null, false)
         }
 
         configureToolbar()
@@ -79,15 +78,10 @@ class GoalsActivity : AppCompatActivity() {
     private fun configureToolbar() {
         setSupportActionBar(toolbar_createGoal as Toolbar?)
 
-        val icon = if (intentFrom == " add") {
-            R.drawable.ic_arrow_back_36
-        }
-        else R.drawable.ic_cancel_grey_48
-
         val actionbar: ActionBar? = supportActionBar
         actionbar?.setTitle("")
         actionbar?.setDisplayHomeAsUpEnabled(true)
-        actionbar?.setHomeAsUpIndicator(icon)
+        actionbar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back_36)
 
         (toolbar_createGoal as Toolbar?)?.setNavigationOnClickListener {
             if (intentFrom == "add") {

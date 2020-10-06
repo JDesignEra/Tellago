@@ -104,7 +104,10 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
 
         // Navigate back to MainActivity (by closing the current Edit Profile Activity)
         (toolbar_editProfile as Toolbar?)?.setNavigationOnClickListener {
-            this.finish()
+            this.apply {
+                this.finish()
+                this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+            }
         }
     }
 

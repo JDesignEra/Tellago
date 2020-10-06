@@ -41,37 +41,39 @@ class CreateBucketListItemFragment : Fragment() {
         et_bucketListItemName.text?.clear()
 
         btn_AddBucketListItem.setOnClickListener {
-            val bucketItem = mutableMapOf(
-                "name" to et_bucketListItemName.text.toString(),
-                "completed" to false
-            )
-
-            goal.bucketList.add(bucketItem)
-
-            if (bundle.getBoolean(CreateGoalFragment_2::class.java.name)) {
-                goal.updateBucketListByGid {
-                    if (it != null) {
-                        fragmentUtils.popBackStack()
-                        toast.success("Bucket item added successfully")
-                    }
-                    else toast.error("Please try again, failed to add bucket item")
-                }
+            if (et_bucketListItemName.text.toString().isNullOrBlank()) {
+                et_bucketListItemName.error = "Field is required"
             }
             else {
-                fragmentUtils.popBackStack()
-                toast.success("Bucket item added successfully")
-            }
+                val bucketItem = mutableMapOf(
+                    "name" to et_bucketListItemName.text.toString(),
+                    "completed" to false
+                )
 
-            et_bucketListItemName.setText("")
+                goal.bucketList.add(bucketItem)
+
+                if (goal.gid.isNullOrBlank()) {
+                    fragmentUtils.popBackStack()
+                    toast.success("Bucket item added successfully")
+                }
+                else {
+                    goal.updateBucketListByGid {
+                        if (it != null) {
+                            fragmentUtils.popBackStack()
+                            toast.success("Bucket item added successfully")
+                        }
+                        else toast.error("Please try again, failed to add bucket item")
+                    }
+                }
+
+                et_bucketListItemName.setText("")
+            }
         }
     }
 
-
     private fun configureToolbar() {
-        toolbar_create_bucketListItem.setNavigationIcon(R.drawable.ic_arrow_back_36)
         toolbar_create_bucketListItem.setNavigationOnClickListener {
             fragmentUtils.popBackStack()
         }
     }
-
 }

@@ -11,20 +11,19 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout_show_bucketListItems"
+            android:id="@+id/appBarLayout_create_bucketListItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_create_bucketListItem"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="match_parent"
                 android:background="@color/colorBackground"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:navigationIcon="@drawable/ic_arrow_back_36"
+                app:navigationIcon="@drawable/ic_cancel_grey_48"
                 app:title="Your Bucket List For This Goal" />
 
         </com.google.android.material.appbar.AppBarLayout>

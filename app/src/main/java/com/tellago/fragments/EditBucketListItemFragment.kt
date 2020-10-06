@@ -38,12 +38,20 @@ class EditBucketListItemFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        configureToolbar()
+
         if (goal.bucketList.isNotEmpty()) et_bucketListItemName.setText(goal.bucketList[bid]?.get("name") as String)
 
         btn_EditBucketListItem.setOnClickListener {
             et_bucketListItemName.text?.let { t -> goal.bucketList[bid]?.put("name", t.toString()) }
 
-            if (bundle.getBoolean(CreateGoalFragment_2::class.java.name)) {
+            if (goal.gid.isNullOrBlank()) {
+                fragmentUtils.popBackStack()
+                toast.success("Bucket item updated successfully")
+            }
+            else {
                 goal.updateBucketListByGid {
                     if (it != null) {
                         fragmentUtils.popBackStack()
@@ -52,10 +60,12 @@ class EditBucketListItemFragment : Fragment() {
                     else toast.error("Please try again, failed to update bucket item")
                 }
             }
-            else {
-                fragmentUtils.popBackStack()
-                toast.success("Bucket item updated successfully")
-            }
+        }
+    }
+
+    private fun configureToolbar() {
+        toolbar_edit_bucket_list_item.setNavigationOnClickListener {
+            fragmentUtils.popBackStack()
         }
     }
 }

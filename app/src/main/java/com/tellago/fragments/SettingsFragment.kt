@@ -19,7 +19,6 @@ class SettingsFragment : Fragment() {
     private val aboutUsFragment = AboutUsScrollingFragment()
 //    private val securityFragment = SecurityFragment()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,11 +28,7 @@ class SettingsFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
@@ -71,8 +66,10 @@ class SettingsFragment : Fragment() {
     private fun configureToolbar() {
         toolbar_Setting.setNavigationIcon(R.drawable.ic_arrow_back_36)
         toolbar_Setting.setNavigationOnClickListener {
-            //finish AccountSettingsActivity
-            activity?.finish()
+            activity?.apply {
+                this.finish()
+                this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+            }
         }
     }
 }

@@ -26,8 +26,6 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
 
         val authProviders = listOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
@@ -102,13 +100,17 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        startActivity(Intent(this, MainActivity::class.java)).apply {
+            overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
+            finish()
+        }
     }
 
     private fun startGuestActivity() {
-        startActivity(Intent(this, GuestScrollingActivity::class.java))
-        finish()
+        startActivity(Intent(this, GuestScrollingActivity::class.java)).apply {
+            overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
+            finish()
+        }
     }
 
     companion object {

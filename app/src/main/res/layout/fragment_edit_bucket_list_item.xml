@@ -10,6 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout_edit_bucket_list_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:elevation="0dp">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_edit_bucket_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackground"
+                app:layout_constraintTop_toTopOf="parent"
+                android:elevation="0dp"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:navigationIcon="@drawable/ic_arrow_back_36" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <LinearLayout
             android:id="@+id/linear_layout_edit_bucket_list_item"
             android:layout_width="match_parent"
@@ -76,7 +95,6 @@
                 app:backgroundTint="@color/colorPrimary"
                 app:cornerRadius="5dp"
                 app:iconGravity="textEnd" />
-
 
         </LinearLayout>
 

@@ -1,11 +1,13 @@
 package com.tellago.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
+import com.tellago.activities.GoalsActivity
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import com.tellago.utilities.NumPickerUtils
@@ -46,6 +48,8 @@ class CreateGoalFragment_2 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        configureToolbar()
 
         val today = LocalDate.now()
 
@@ -119,9 +123,7 @@ class CreateGoalFragment_2 : Fragment() {
             fragmentUtils.replace(
                 showBucketListItemsFragment,
                 enter = R.anim.fragment_open_enter,
-                exit = R.anim.fragment_open_exit,
-                popEnter = R.anim.fragment_close_enter,
-                popExit = R.anim.fragment_close_exit
+                exit = R.anim.fragment_open_exit
             )
         }
 
@@ -140,5 +142,18 @@ class CreateGoalFragment_2 : Fragment() {
             set(Calendar.HOUR, 0)
         }.time
         goal.reminderMonthsFreq = reminderIdToVal.getValue(radioGroup_reminder.checkedRadioButtonId)
+    }
+
+    private fun configureToolbar() {
+        toolbar_createGoalFragment2.setNavigationOnClickListener {
+            if (requireActivity().intent.getStringExtra(HomeFragment::class.java.name) == "show") {
+                val intent = Intent(requireContext(), GoalsActivity::class.java)
+                intent.putExtra(HomeFragment::class.java.name, "show")
+
+                startActivity(intent)
+            }
+
+            requireActivity().finish()
+        }
     }
 }

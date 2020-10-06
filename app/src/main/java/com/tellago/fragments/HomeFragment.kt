@@ -46,14 +46,12 @@ class HomeFragment : Fragment() {
             val intent = Intent(activity, GoalsActivity::class.java)
             intent.putExtra(this::class.java.name, "show")
             startActivity(intent)
-            activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
         }
 
         btn_AddGoal.setOnClickListener {
             val intent = Intent(activity, GoalsActivity::class.java)
             intent.putExtra(this::class.java.name, "add")
             startActivity(intent)
-            activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
         }
     }
 

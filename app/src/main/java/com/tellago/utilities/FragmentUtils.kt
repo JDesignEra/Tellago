@@ -64,4 +64,8 @@ class FragmentUtils(
         if (backStackName != null) fragmentManager.popBackStack(backStackName, POP_BACK_STACK_INCLUSIVE)
         else fragmentManager.popBackStack()
     }
+
+    fun findFragmentByTag(tag: String): Fragment? {
+        return fragmentManager.findFragmentByTag(tag)
+    }
 }

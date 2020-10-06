@@ -57,17 +57,26 @@ class ShowBucketListItemsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (goal.gid.isNullOrBlank()) {
-            configureToolbarBackToCreateGoal()
-        } else {
-            configureToolbar()
-        }
+        configureToolbar()
 
         recycler_view_show_bucketListItems_fragment.layoutManager = LinearLayoutManager(
             requireContext()
         )
         recycler_view_show_bucketListItems_fragment.adapter = adapter
 
+        fab_add_bucketListItem.setOnClickListener {
+            createBucketListItemFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
+            }
+
+            fragmentUtils.replace(
+                createBucketListItemFragment,
+                enter = R.anim.fragment_open_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_close_enter,
+                popExit = R.anim.fragment_close_exit
+            )
+        }
 
         val item = object : SwipeToDelete(
             activity?.application?.baseContext,
@@ -76,7 +85,6 @@ class ShowBucketListItemsFragment : Fragment() {
         ) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 Log.d("onSwiped", "FIRED")
-
 
                 if (direction == ItemTouchHelper.LEFT) {
                     // if swiped LEFT (from right of screen to left of screen) --> display snackbar
@@ -128,7 +136,6 @@ class ShowBucketListItemsFragment : Fragment() {
                 }
             }
 
-
             override fun onChildDraw(
                 c: Canvas,
                 recyclerView: RecyclerView,
@@ -138,7 +145,6 @@ class ShowBucketListItemsFragment : Fragment() {
                 actionState: Int,
                 isCurrentlyActive: Boolean
             ) {
-
                 RecyclerViewSwipeDecorator.Builder(
                     c,
                     recyclerView,
@@ -220,32 +226,17 @@ class ShowBucketListItemsFragment : Fragment() {
                 R.id.fragment_container_goal_activity
             ).replace(createBucketListItemFragment)
         }
-
-
     }
 
     private fun configureToolbar() {
-        toolbar_show_bucketListItems.setNavigationIcon(R.drawable.ic_arrow_back_36)
         toolbar_show_bucketListItems.setNavigationOnClickListener {
-
             goal.updateBucketListByGid {
                 if (it != null) {
                     Log.d("goal id saving", goal.gid.toString())
                 }
-
-                Log.d("saved latest bucketList", "FIRED")
             }
 
             fragmentUtils.popBackStack()
         }
     }
-
-    private fun configureToolbarBackToCreateGoal() {
-        toolbar_show_bucketListItems.setNavigationIcon(R.drawable.ic_cancel_grey_48)
-        toolbar_show_bucketListItems.setNavigationOnClickListener {
-            // Allow user to return to previous fragment in the Stack
-            fragmentUtils.popBackStack()
-        }
-    }
-
 }

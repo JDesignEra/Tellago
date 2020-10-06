@@ -37,12 +37,8 @@ class ProfileFragment : Fragment() {
         addDataSet()
 
         button_edit_profile.setOnClickListener {
-            var nextActivity: Intent = Intent(activity, EditProfileActivity::class.java)
-            startActivity(nextActivity)
-            activity?.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+            startActivity(Intent(activity, EditProfileActivity::class.java))
         }
-
-
     }
 
     override fun onResume(){

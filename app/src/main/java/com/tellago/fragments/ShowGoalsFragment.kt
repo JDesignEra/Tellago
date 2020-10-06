@@ -58,7 +58,11 @@ class ShowGoalsFragment : Fragment() {
         recycler_view_show_goals_fragment.adapter = adapter
 
         fab_add_goal.setOnClickListener {
-            fragmentUtils.replace(createGoalFragment1)
+            fragmentUtils.replace(
+                createGoalFragment1,
+                enter = R.anim.fragment_open_enter,
+                exit = R.anim.fragment_open_exit
+            )
         }
     }
 
@@ -77,7 +81,10 @@ class ShowGoalsFragment : Fragment() {
     private fun configureToolbar() {
         toolbar_show_goals.setNavigationOnClickListener {
             // Finish GoalsActivity to return to MainActivity
-            activity?.finish()
+            activity.apply {
+                this?.finish()
+                this?.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+            }
         }
     }
 

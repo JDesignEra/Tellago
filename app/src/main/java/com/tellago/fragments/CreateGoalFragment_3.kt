@@ -51,6 +51,7 @@ class CreateGoalFragment_3 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        configureToolbar()
         postToList()
 
         btn_BackToFragmentTwo.setOnClickListener {
@@ -87,6 +88,19 @@ class CreateGoalFragment_3 : Fragment() {
     private fun postToList() {
         for (i in 1..17) {
             addToList("Title $i", "Description $i", "Owner $i", R.mipmap.ic_launcher_round)
+        }
+    }
+
+    private fun configureToolbar() {
+        toolbar_createGoalFragment3.setNavigationOnClickListener {
+            if (requireActivity().intent.getStringExtra(HomeFragment::class.java.name) == "show") {
+                val intent = Intent(requireContext(), GoalsActivity::class.java)
+                intent.putExtra(HomeFragment::class.java.name, "show")
+
+                startActivity(intent)
+            }
+
+            requireActivity().finish()
         }
     }
 }

@@ -30,6 +30,7 @@ import com.tellago.services.ExitService
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.menu_header.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (user != null) {
             // starting fragment is homeFragment
-            fragmentUtils.replace(homeFragment, null)
+            fragmentUtils.replace(homeFragment, null, false)
 
             if (!user?.displayName.isNullOrEmpty()) {
                 toast.success("Welcome to tellsquare, %s".format(user?.displayName))
@@ -89,15 +90,46 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.ic_home -> {
-                    fragmentUtils.replace(homeFragment, null)
+                    fragmentUtils.replace(
+                        homeFragment,
+                        null,
+                        enter = R.anim.fragment_slide_right_enter,
+                        exit = R.anim.fragment_slide_right_exit
+                    )
                     true
                 }
                 R.id.ic_people -> {
-                    fragmentUtils.replace(communityFragment, null)
+                    val findFragment = fragmentUtils.findFragmentByTag(HomeFragment::class.java.name)
+
+                    if (findFragment != null && findFragment.isVisible) {
+                        fragmentUtils.replace(communityFragment, null)
+                    }
+                    else {
+                        fragmentUtils.replace(
+                            communityFragment,
+                            null,
+                            enter = R.anim.fragment_slide_right_enter,
+                            exit = R.anim.fragment_slide_right_exit
+                        )
+                    }
+
                     true
                 }
                 R.id.ic_feed -> {
-                    fragmentUtils.replace(feedFragment, null)
+                    val findFragment = fragmentUtils.findFragmentByTag(ProfileFragment::class.java.name)
+
+                    if (findFragment != null && findFragment.isVisible) {
+                        fragmentUtils.replace(
+                            feedFragment,
+                            null,
+                            enter = R.anim.fragment_slide_right_enter,
+                            exit = R.anim.fragment_slide_right_exit
+                        )
+                    }
+                    else {
+                        fragmentUtils.replace(feedFragment, null)
+                    }
+
                     true
                 }
                 R.id.ic_profile -> {
@@ -123,8 +155,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val accountButton: LinearLayout = accountSettings
         accountButton.setOnClickListener {
             drawer_layout.closeDrawer(GravityCompat.START)
+
             val intent = Intent(this, AccountSettingsActivity::class.java)
-            startActivity(intent)
+            startActivity(intent).apply {
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            }
         }
     }
 
@@ -163,13 +198,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val navigationView: NavigationView = navigation
+        val drawerLayout: DrawerLayout = drawer_layout
+        drawerLayout.closeDrawers()
 
         when (item.itemId) {
             R.id.view_Life_Aspiration -> {
                 val intent = Intent(this, GoalsActivity::class.java)
-                startActivity(intent)
-                this.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+                startActivity(intent).apply {
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                }
             }
 
             R.id.logout_from_drawer -> Auth().signOut(this) {
@@ -177,9 +214,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(intent)
             }
         }
-
-        val drawerLayout: DrawerLayout = drawer_layout
-        drawerLayout.closeDrawers()
 
         return true
     }
@@ -200,5 +234,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
-
 }

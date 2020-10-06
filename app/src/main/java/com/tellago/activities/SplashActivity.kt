@@ -9,6 +9,11 @@ import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 
 class SplashActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_splash)
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -31,17 +36,16 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        startActivity(Intent(this, MainActivity::class.java)).apply {
+            overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
+            finish()
+        }
     }
 
     private fun startGuestActivity() {
-        startActivity(Intent(this, GuestScrollingActivity::class.java))
-        finish()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        startActivity(Intent(this, GuestScrollingActivity::class.java)).apply {
+            overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit)
+            finish()
+        }
     }
 }

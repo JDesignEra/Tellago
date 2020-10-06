@@ -52,7 +52,6 @@ class AccountSettingsActivity : AppCompatActivity() {
         fragmentUtils.replace(settingsFragment, null)
 
         StartTimer()
-
     }
 
     private fun StartTimer() {
@@ -67,11 +66,15 @@ class AccountSettingsActivity : AppCompatActivity() {
 
     private fun hideSystemUI() {
         window.decorView.apply {
-            systemUiVisibility =
-                View.SYSTEM_UI_FLAG_IMMERSIVE or
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            systemUiVisibility = View.SYSTEM_UI_FLAG_IMMERSIVE or
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
 }
