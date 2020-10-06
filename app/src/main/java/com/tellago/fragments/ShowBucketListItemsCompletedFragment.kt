@@ -56,6 +56,7 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        tv_completedFragment.text = "COMPLETED - Goal title is: ${goal.title}"
 
         recycler_view_show_bucketListItems_completed_fragment.layoutManager = LinearLayoutManager(
             requireContext()

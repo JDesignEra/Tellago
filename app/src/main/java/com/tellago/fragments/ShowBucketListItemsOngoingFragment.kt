@@ -57,6 +57,7 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        tv_ongoingFragment.text = "ONGOING - Goal title is: ${goal.title}"
 
         recycler_view_show_bucketListItems_ongoing_fragment.layoutManager = LinearLayoutManager(
             requireContext()

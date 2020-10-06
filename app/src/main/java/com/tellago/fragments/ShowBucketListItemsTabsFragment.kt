@@ -82,28 +82,41 @@ class ShowBucketListItemsTabsFragment : Fragment() {
 
         val viewPager2 = view_pager_ShowBucketListItemsTabsFragment
 
+
+        var ongoingItemsFragment = ShowBucketListItemsOngoingFragment()
+        var completedItemsFragment = ShowBucketListItemsCompletedFragment()
+
+        ongoingItemsFragment.arguments = Bundle().apply {
+            putParcelable(goal::class.java.name, goal)
+        }
+
+        completedItemsFragment.arguments = Bundle().apply {
+            putParcelable(goal::class.java.name, goal)
+        }
+
         val fragmentList = arrayListOf(
-            ShowBucketListItemsOngoingFragment(),
-            ShowBucketListItemsCompletedFragment()
+            ongoingItemsFragment,
+            completedItemsFragment
         )
 
         // set Orientation in ViewPager2
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        viewPager2.adapter = ViewPagerBucketListItemsFragmentStateAdapter(this.requireActivity(), fragmentList)
+        viewPager2.adapter =
+            ViewPagerBucketListItemsFragmentStateAdapter(this.requireActivity(), fragmentList)
 
 
         val tabLayout = tab_layout_ShowBucketListItemsTabsFragment
 
 
-        TabLayoutMediator(tabLayout, viewPager2
+        TabLayoutMediator(
+            tabLayout, viewPager2
         ) { tab, position -> // Styling each tab here
             when (position) {
                 0 -> tab.text = "Ongoing"
                 1 -> tab.text = "Completed"
             }
         }.attach()
-
 
 
     }
