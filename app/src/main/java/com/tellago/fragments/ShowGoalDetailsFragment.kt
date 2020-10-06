@@ -48,7 +48,7 @@ class ShowGoalDetailsFragment : Fragment() {
         tv_categories.text = goal.categories.toString()
         tv_targetAmt.text = String.format("$%.2f", goal.targetAmt)
         tv_currentAmt.text = String.format("$%.2f", goal.currentAmt)
-        tv_bucketList.text = goal.bucketList.toString()
+        //tv_bucketList.text = goal.bucketList.toString()
 
         // Displaying deadline as DateTime rather than TimeStamp for user viewing
         val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())

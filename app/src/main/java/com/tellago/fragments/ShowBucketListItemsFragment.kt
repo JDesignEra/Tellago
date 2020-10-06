@@ -1,10 +1,12 @@
 package com.tellago.fragments
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +17,7 @@ import com.tellago.adapters.ShowBucketListItemsRecyclerAdapter
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import com.tellago.utilities.SwipeToDelete
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import kotlinx.android.synthetic.main.fragment_show_bucket_list_items.*
 
 
@@ -42,17 +45,20 @@ class ShowBucketListItemsFragment : Fragment() {
         adapter = ShowBucketListItemsRecyclerAdapter(goal)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_show_bucket_list_items, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(goal.gid.isNullOrBlank()) {
+        if (goal.gid.isNullOrBlank()) {
             configureToolbarBackToCreateGoal()
-        }
-        else {
+        } else {
             configureToolbar()
         }
 
@@ -89,26 +95,85 @@ class ShowBucketListItemsFragment : Fragment() {
                         "Deleted bucket list item #${viewHolder.adapterPosition}",
                         Snackbar.LENGTH_SHORT
                     ).setAction("Undo") {
-                            it.setOnClickListener {
-                                adapter!!.add(viewHolder.adapterPosition, deletedItemName)
-                                adapter!!.notifyItemInserted(viewHolder.adapterPosition)
-                                Log.d("Undo Delete", "FIRED")
-                            }
-                        }.show()
+                        it.setOnClickListener {
+                            adapter!!.add(viewHolder.adapterPosition, deletedItemName)
+                            adapter!!.notifyItemInserted(viewHolder.adapterPosition)
+                            Log.d("Undo Delete", "FIRED")
+                        }
+                    }
+                        .show()
 
                     adapter!!.delete(viewHolder.adapterPosition + 1)
+                    Log.d("swipe to delete", "FIRED")
 
-                }
-                else if (direction == ItemTouchHelper.RIGHT) {
+                } else if (direction == ItemTouchHelper.RIGHT) {
                     // if swiped RIGHT (from left of screen to right of screen) --> display snackbar
                     Snackbar.make(
                         viewHolder.itemView,
                         "Archived bucket list item #${viewHolder.adapterPosition + 1}",
                         Snackbar.LENGTH_SHORT
-                    // missing functionality to archive. I.e. change status attribute of BucketListItem object
+                        // missing functionality to archive. I.e. change status attribute of BucketListItem object
 
                     ).show()
+                    Log.d("swipe to archive", "FIRED")
                 }
+            }
+
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+
+                RecyclerViewSwipeDecorator.Builder(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
+                RecyclerViewSwipeDecorator.Builder(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
+                    .addSwipeLeftBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorPrimary
+                        )
+                    )
+                    .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_outline_48)
+                    .addSwipeRightBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorSuccess
+                        )
+                    )
+                    .addSwipeRightActionIcon(R.drawable.ic_baseline_check_circle_outline_48)
+                    .create()
+                    .decorate()
+
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
             }
         }
 
@@ -126,6 +191,8 @@ class ShowBucketListItemsFragment : Fragment() {
                 R.id.fragment_container_goal_activity
             ).replace(createBucketListItemFragment)
         }
+
+
     }
 
     private fun configureToolbar() {

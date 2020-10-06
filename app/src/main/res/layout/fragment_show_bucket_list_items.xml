@@ -52,13 +52,12 @@
                 android:layout_gravity="bottom|end"
                 android:layout_marginBottom="36dp"
                 android:layout_marginEnd="24dp"
-                android:backgroundTint="@color/colorGradientStart"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_add_48"
                 app:borderWidth="0dp"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:maxImageSize="40dp" />
+                app:maxImageSize="50dp" />
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
