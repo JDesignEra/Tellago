@@ -102,27 +102,27 @@ class ShowBucketListItemsFragment : Fragment() {
 
                 } else if (direction == ItemTouchHelper.RIGHT) {
                     // if swiped RIGHT (from left of screen to right of screen) --> display snackbar
-                    val archivedItemName = adapter!!.retrieve(viewHolder.layoutPosition)
+                    val completedItemName = adapter!!.retrieve(viewHolder.layoutPosition)
                     val itemMapBefore = mutableMapOf(
-                        "name" to archivedItemName,
+                        "name" to completedItemName,
                         "completed" to false
                     )
-                    val itemMapArchived = mutableMapOf(
-                        "name" to archivedItemName,
+                    val itemMapCompleted = mutableMapOf(
+                        "name" to completedItemName,
                         "completed" to true
                     )
 
                     adapter!!.delete(viewHolder.layoutPosition)
-                    adapter!!.add(viewHolder.layoutPosition, itemMapArchived)
-                    Log.d("swipe to archive", "FIRED")
+                    adapter!!.add(viewHolder.layoutPosition, itemMapCompleted)
+                    Log.d("swipe to Complete", "FIRED")
 
 
                     Snackbar.make(
                         viewHolder.itemView,
-                        "Archived bucket list item #${viewHolder.layoutPosition + 1}",
+                        "Completed bucket list item #${viewHolder.layoutPosition + 1}",
                         Snackbar.LENGTH_LONG
                     ).setAction(
-                        "Undo", undoArchiveOnClickListener(viewHolder.layoutPosition, itemMapBefore)
+                        "Undo", undoCompletedOnClickListener(viewHolder.layoutPosition, itemMapBefore)
                     ).show()
 
                 }
@@ -185,14 +185,14 @@ class ShowBucketListItemsFragment : Fragment() {
                 )
             }
 
-            fun undoArchiveOnClickListener(
+            fun undoCompletedOnClickListener(
                 position: Int,
                 itemMapBefore: MutableMap<String, Any>?
             ): View.OnClickListener = View.OnClickListener { view ->
                 adapter!!.delete(position)
                 adapter!!.add(position, itemMapBefore)
                 adapter!!.notifyItemInserted(position)
-                Log.d("Undo Archive", "FIRED")
+                Log.d("Undo Completed Item", "FIRED")
             }
 
             fun undoDeleteOnClickListener(
@@ -235,7 +235,7 @@ class ShowBucketListItemsFragment : Fragment() {
 
                 Log.d("saved latest bucketList", "FIRED")
             }
-            
+
             fragmentUtils.popBackStack()
         }
     }
