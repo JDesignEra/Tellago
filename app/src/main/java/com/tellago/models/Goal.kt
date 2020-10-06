@@ -24,7 +24,7 @@ data class Goal(
     var categories: ArrayList<String> = ArrayList(),
     var targetAmt: Double = 0.0,
     var currentAmt: Double = 0.0,
-    var bucketList: ArrayList<MutableMap<String, @RawValue Any>?> = ArrayList(),
+    var bucketList: ArrayList<MutableMap<String, @RawValue Any>> = ArrayList(),
     var deadline: Date = Calendar.getInstance().apply {
         set(Calendar.MILLISECOND, 0)
         set(Calendar.SECOND, 0)
@@ -82,6 +82,10 @@ data class Goal(
     }
 
     fun updateBucketListByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
+        bucketList.forEach {
+            it.remove("idx")
+        }
+
         if (!gid.isNullOrBlank()) {
             collection.document(gid!!).update("bucketList", bucketList).addOnSuccessListener {
                 onComplete?.invoke(this)

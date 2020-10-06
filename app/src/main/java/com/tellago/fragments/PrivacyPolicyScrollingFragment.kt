@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import kotlinx.android.synthetic.main.fragment_privacy_policy_scrolling.*
-import kotlinx.android.synthetic.main.fragment_terms_conditions_scrolling.*
 
 class PrivacyPolicyScrollingFragment : Fragment() {
 

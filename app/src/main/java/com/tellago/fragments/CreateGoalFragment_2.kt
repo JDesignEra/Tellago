@@ -12,7 +12,10 @@ import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import com.tellago.utilities.NumPickerUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_2.*
-import java.time.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.Period
+import java.time.ZoneId
 import java.util.*
 
 class CreateGoalFragment_2 : Fragment() {

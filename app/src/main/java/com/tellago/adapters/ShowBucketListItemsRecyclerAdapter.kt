@@ -1,6 +1,7 @@
 package com.tellago.adapters
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,50 +12,100 @@ import com.tellago.R
 import com.tellago.fragments.EditBucketListItemFragment
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
+import kotlinx.android.parcel.RawValue
 import kotlinx.android.synthetic.main.layout_bucket_list_item.view.*
 
-class ShowBucketListItemsRecyclerAdapter(private val goal: Goal) : RecyclerView.Adapter<ShowBucketListItemsRecyclerAdapter.BucketListItemViewHolder>() {
+class ShowBucketListItemsRecyclerAdapter(
+    private var model: Goal,
+    private val completed: Boolean = false
+) : RecyclerView.Adapter<ShowBucketListItemsRecyclerAdapter.BucketListItemViewHolder>() {
+    private val filteredList: MutableList<MutableMap<String, @RawValue Any>> = model.bucketList
+        .toMutableList()
+        .filterIndexed() { idx, bucketItem ->
+            if (completed == bucketItem["completed"]) bucketItem["idx"] = idx
+            completed == bucketItem["completed"]
+        }.toMutableList()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BucketListItemViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_bucket_list_item, parent, false)
-        return BucketListItemViewHolder(view, goal)
+        return BucketListItemViewHolder(view, model, completed)
     }
 
     override fun onBindViewHolder(holder: BucketListItemViewHolder, position: Int) {
-        holder.tvTitle.text = goal.bucketList[position]?.get("name") as String
+        holder.tvTitle.text = filteredList[position]["name"] as String
     }
 
     override fun getItemCount(): Int {
-        return goal.bucketList.size
+        return filteredList.size
     }
 
-    // function to remove/delete a bucket list item (given its position/index)
-    fun delete(position : Int) {
-        goal.bucketList.removeAt(position)
+    fun insert(position: Int, item: Map<String, Any>, goal: Goal) {
+//        this.goal = goal
+        filteredList.add(item.toMutableMap())
+
         notifyDataSetChanged()
     }
 
-    // function to add a bucket list item (given its position/index)
-    fun add(position : Int, item : MutableMap<String, Any>?) {
-        goal.bucketList.add(position, item)
+    fun remove(position: Int, item: Map<String, Any>, goal: Goal) {
+//        this.goal = goal
+        filteredList.removeAt(position)
+
         notifyDataSetChanged()
     }
 
-    // function to retrieve & return bucket list item's name value as a String
-    fun retrieve(position : Int): String {
+    fun change(position: Int, item: MutableMap<String, Any>, goal: Goal) {
+        if (position < filteredList.size) {
+            Log.e("Check", item["idx"].toString())
+            Log.e("pos", position.toString())
+            filteredList[position] = item
+        }
+//        this.goal = goal
 
-        return goal.bucketList[position]?.get("name") as String
+        notifyItemChanged(position)
     }
 
-    class BucketListItemViewHolder constructor(itemView: View, model: Goal) : RecyclerView.ViewHolder(itemView) {
+//    // function to remove/delete a bucket list item (given its position/index)
+//    fun delete(position : Int) {
+//        goal.bucketList.removeAt(position)
+//        notifyDataSetChanged()
+//    }
+//
+//    // function to add a bucket list item (given its position/index)
+//    fun add(position : Int, item : MutableMap<String, Any>?) {
+//        goal.bucketList.add(position, item)
+//        notifyDataSetChanged()
+//    }
+//
+//    // function to retrieve & return bucket list item's name value as a String
+//    fun retrieve(position : Int): String {
+//        return goal.bucketList[position]?.get("name") as String
+//    }
+
+    class BucketListItemViewHolder constructor(
+        itemView: View,
+        model: Goal,
+        completed: Boolean
+    ) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.tv_bucketList_Title
-        private val activity: AppCompatActivity = itemView.context as AppCompatActivity
 
         init {
-            itemView.btn_ShowBucketItemDetails.setOnClickListener { v: View? ->
+            itemView.btn_ShowBucketItemDetails.setOnClickListener {
+                val filteredList: MutableList<MutableMap<String, @RawValue Any>> = model.bucketList
+                    .toMutableList()
+                    .filterIndexed() { idx, bucketItem ->
+                        if (completed == bucketItem["completed"]) bucketItem["idx"] = idx
+                        completed == bucketItem["completed"]
+                    }.toMutableList()
+
+                val activity: AppCompatActivity = itemView.context as AppCompatActivity
+
                 val editBucketListItemFragment = EditBucketListItemFragment()
+                Log.e("Holder", filteredList[adapterPosition]["idx"].toString())
+
                 editBucketListItemFragment.arguments = Bundle().apply {
                     putParcelable(model::class.java.name, model)
-                    putInt("bid", adapterPosition)
+                    putInt("originalBid", filteredList[adapterPosition]["idx"] as Int)
+                    putInt("filteredBid", adapterPosition)
                 }
 
                 FragmentUtils(

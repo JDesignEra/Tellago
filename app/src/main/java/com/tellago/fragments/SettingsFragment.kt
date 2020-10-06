@@ -1,11 +1,11 @@
 package com.tellago.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.models.Auth
 import com.tellago.utilities.FragmentUtils

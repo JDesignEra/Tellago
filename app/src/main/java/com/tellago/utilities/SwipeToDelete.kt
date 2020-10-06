@@ -1,15 +1,9 @@
 package com.tellago.utilities
 
-import android.R
-import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.graphics.Canvas
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
-import kotlin.coroutines.coroutineContext
 
 
 abstract class SwipeToDelete(context: Context?, dragDir: Int, swipeDir: Int) : ItemTouchHelper.SimpleCallback(

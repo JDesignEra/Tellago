@@ -11,7 +11,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.tellago.R
 import com.tellago.models.UserPost
 import kotlinx.android.synthetic.main.layout_user_post_list_item.view.*
-import org.w3c.dom.Text
 
 class ProfilePostRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

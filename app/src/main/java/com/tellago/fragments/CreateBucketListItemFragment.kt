@@ -41,7 +41,7 @@ class CreateBucketListItemFragment : Fragment() {
         et_bucketListItemName.text?.clear()
 
         btn_AddBucketListItem.setOnClickListener {
-            if (et_bucketListItemName.text.toString().isNullOrBlank()) {
+            if (et_bucketListItemName.text.toString().isBlank()) {
                 et_bucketListItemName.error = "Field is required"
             }
             else {
@@ -53,20 +53,36 @@ class CreateBucketListItemFragment : Fragment() {
                 goal.bucketList.add(bucketItem)
 
                 if (goal.gid.isNullOrBlank()) {
+                    ShowBucketListItemsOngoingFragment.adapter?.insert(
+                        goal.bucketList.toMutableList().filter {m ->
+                            !(m["completed"] as Boolean)
+                        }.size - 1,
+                        bucketItem,
+                        goal
+                    )
+
                     fragmentUtils.popBackStack()
                     toast.success("Bucket item added successfully")
+                    et_bucketListItemName.setText("")
                 }
                 else {
-                    goal.updateBucketListByGid {
+                    goal.updateBucketListByGid { it ->
                         if (it != null) {
+                            ShowBucketListItemsOngoingFragment.adapter?.insert(
+                                goal.bucketList.toMutableList().filter {m ->
+                                    !(m["completed"] as Boolean)
+                                }.size - 1,
+                                bucketItem,
+                                goal
+                            )
+
                             fragmentUtils.popBackStack()
                             toast.success("Bucket item added successfully")
+                            et_bucketListItemName.setText("")
                         }
                         else toast.error("Please try again, failed to add bucket item")
                     }
                 }
-
-                et_bucketListItemName.setText("")
             }
         }
     }

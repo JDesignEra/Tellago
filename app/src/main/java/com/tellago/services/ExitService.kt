@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.google.firebase.auth.FirebaseAuth
-import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 
 class ExitService : Service() {
