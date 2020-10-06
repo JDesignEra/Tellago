@@ -33,7 +33,7 @@
                     android:background="@color/colorBackground"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:navigationIcon="@drawable/ic_arrow_back_36"
-                    app:title="Your Bucket List For This Goal" />
+                    app:title="Bucket List" />
 
             </com.google.android.material.appbar.AppBarLayout>
 

@@ -22,10 +22,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorBackground"
-                app:layout_constraintTop_toTopOf="parent"
                 android:elevation="0dp"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:navigationIcon="@drawable/ic_arrow_back_36" />
+                app:navigationIcon="@drawable/ic_cancel_grey_48" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:letterSpacing="-0.02"
-                    android:text="TAKE THE FIRST "
+                    android:text="UPDATE YOUR "
                     android:textColor="@color/colorTextDarkGray"
                     android:textSize="17sp"
                     android:textStyle="bold" />
@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:letterSpacing="-0.02"
-                    android:text="STEP"
+                    android:text="BUCKET ITEM"
                     android:textColor="@color/colorPrimary"
                     android:textSize="17sp"
                     android:textStyle="bold" />
@@ -81,6 +81,50 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Select Completed Status"
+                android:textSize="14sp"
+                android:textColor="@color/colorTextDarkGray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp">
+
+                <CheckBox
+                    android:id="@+id/completed_true_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/checkbox_selection"
+                    android:button="@color/colorTransparent"
+                    android:textAlignment="center"
+                    android:text="Completed"
+                    android:textColor="@drawable/checkbox_text_selection"
+                    android:textSize="16sp"
+                    android:layout_weight="0.3"
+                    android:letterSpacing="-0.02"/>
+
+                <CheckBox
+                    android:id="@+id/completed_false_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/checkbox_selection"
+                    android:button="@color/colorTransparent"
+                    android:textAlignment="center"
+                    android:text="In Progress"
+                    android:textColor="@drawable/checkbox_text_selection"
+                    android:textSize="16sp"
+                    android:layout_weight="0.3"
+                    android:layout_marginLeft="5dp"
+                    android:letterSpacing="-0.02"/>
+
+            </LinearLayout>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_EditBucketListItem"
                 android:layout_width="match_parent"
@@ -89,7 +133,7 @@
                 android:elevation="10dp"
                 android:letterSpacing="-0.02"
                 android:padding="10dp"
-                android:text="Confirm Change(s)"
+                android:text="Confirm Changes"
                 android:textAllCaps="false"
                 android:textSize="14sp"
                 app:backgroundTint="@color/colorPrimary"

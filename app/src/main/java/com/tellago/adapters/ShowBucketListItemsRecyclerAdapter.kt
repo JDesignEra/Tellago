@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.tellago.R
 import com.tellago.fragments.EditBucketListItemFragment
-import com.tellago.models.BucketListItem
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.layout_bucket_list_item.view.*
@@ -61,7 +60,13 @@ class ShowBucketListItemsRecyclerAdapter(private val goal: Goal) : RecyclerView.
                 FragmentUtils(
                     activity.supportFragmentManager,
                     R.id.fragment_container_goal_activity
-                ).replace(editBucketListItemFragment)
+                ).replace(
+                    editBucketListItemFragment,
+                    enter = R.anim.fragment_open_enter,
+                    exit = R.anim.fragment_open_exit,
+                    popEnter = R.anim.fragment_close_enter,
+                    popExit = R.anim.fragment_close_exit
+                )
             }
         }
     }

@@ -17,20 +17,22 @@ class EditBucketListItemFragment : Fragment() {
     private lateinit var toast: CustomToast
 
     private var goal: Goal = Goal()
-    private var bid = 0
+    private var bid: Int = 0
+    private var bucketItem: MutableMap<String, Any>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         toast = CustomToast(requireContext())
-
-        bundle = requireArguments()
-        goal = bundle.getParcelable(goal::class.java.name)!!
-        bid = bundle.getInt("bid")
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
             R.id.fragment_container_goal_activity
         )
+
+        bundle = requireArguments()
+        goal = bundle.getParcelable(goal::class.java.name)!!
+        bid = bundle.getInt("bid")
+        bucketItem = goal.bucketList[bid]
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,10 +44,26 @@ class EditBucketListItemFragment : Fragment() {
 
         configureToolbar()
 
-        if (goal.bucketList.isNotEmpty()) et_bucketListItemName.setText(goal.bucketList[bid]?.get("name") as String)
+        if (goal.bucketList.isNotEmpty()) {
+            et_bucketListItemName.setText(bucketItem?.get("name") as String)
+
+            if (bucketItem?.get("completed") as Boolean) {
+                completed_true_checkbox.isChecked = true
+            }
+            else completed_false_checkbox.isChecked = true
+        }
+
+        completed_true_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) completed_false_checkbox.isChecked = false
+        }
+
+        completed_false_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) completed_true_checkbox.isChecked = false
+        }
 
         btn_EditBucketListItem.setOnClickListener {
-            et_bucketListItemName.text?.let { t -> goal.bucketList[bid]?.put("name", t.toString()) }
+            et_bucketListItemName.text?.let { t -> bucketItem?.put("name", t.toString()) }
+            bucketItem?.put("completed", completed_true_checkbox.isChecked)
 
             if (goal.gid.isNullOrBlank()) {
                 fragmentUtils.popBackStack()

@@ -221,21 +221,21 @@ class ShowBucketListItemsFragment : Fragment() {
                 putParcelable(goal::class.java.name, goal)
             }
 
-            FragmentUtils(
-                requireActivity().supportFragmentManager,
-                R.id.fragment_container_goal_activity
-            ).replace(createBucketListItemFragment)
+            fragmentUtils.replace(
+                createBucketListItemFragment,
+                enter = R.anim.fragment_open_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_close_enter,
+                popExit = R.anim.fragment_close_exit
+            )
         }
     }
 
     private fun configureToolbar() {
-        toolbar_show_bucketListItems.setNavigationOnClickListener {
-            goal.updateBucketListByGid {
-                if (it != null) {
-                    Log.d("goal id saving", goal.gid.toString())
-                }
-            }
+        if (goal.gid.isNullOrBlank()) toolbar_show_bucketListItems.title = ""
 
+        toolbar_show_bucketListItems.setNavigationOnClickListener {
+            goal.updateBucketListByGid()
             fragmentUtils.popBackStack()
         }
     }
