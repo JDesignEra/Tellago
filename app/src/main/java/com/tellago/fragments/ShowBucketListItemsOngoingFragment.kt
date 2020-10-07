@@ -73,7 +73,7 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
 
                 when (direction) {
                     LEFT -> {
-                        adapter?.removeAt(viewHolder.layoutPosition)
+                        adapter?.remove(viewHolder.layoutPosition)
 
                         Snackbar.make(
                             viewHolder.itemView,
@@ -103,7 +103,35 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
                             }).show()
                     }
                     RIGHT -> {
-                        // TODO
+                        adapter?.remove(viewHolder.layoutPosition)
+                        holdItem?.let { ShowBucketListItemsCompletedFragment.adapter?.insert(it) }
+
+                        Snackbar.make(
+                            viewHolder.itemView,
+                            "Completing Item #${viewHolder.layoutPosition + 1} - ${holdItem?.get("name")}",
+                            Snackbar.LENGTH_LONG
+                        ).setAction("Undo", holdItem?.let { undoComplete(it, viewHolder.layoutPosition) })
+                            .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                                override fun onShown(transientBottomBar: Snackbar?) {
+                                    super.onShown(transientBottomBar)
+                                    undoFlag = false
+                                }
+
+                                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                    super.onDismissed(transientBottomBar, event)
+
+                                    if (!undoFlag) {
+                                        goal.bucketList.removeAt(holdItem?.get("idx") as Int)
+                                        goal.updateBucketListByGid { it ->
+                                            if (it != null) toast.success("Item moved to completed list successfully")
+                                            else {
+                                                holdItem.let { it1 -> undoComplete(it1, viewHolder.layoutPosition) }
+                                                toast.error("Please try again, failed to moved item to completed list")
+                                            }
+                                        }
+                                    }
+                                }
+                            }).show()
                     }
                 }
             }
@@ -127,6 +155,12 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
             private fun undoRemove(item: Map<String, Any>, position: Int?): View.OnClickListener = View.OnClickListener {
                 undoFlag = true
                 adapter?.insert(item, position)
+            }
+
+            private fun undoComplete(item: Map<String, Any>, position: Int?): View.OnClickListener = View.OnClickListener {
+                undoFlag = true
+                adapter?.insert(item, position)
+                ShowBucketListItemsCompletedFragment.adapter?.remove()
             }
         }
 

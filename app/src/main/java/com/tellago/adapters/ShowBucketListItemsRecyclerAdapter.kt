@@ -44,14 +44,14 @@ class ShowBucketListItemsRecyclerAdapter(
         return filteredList[position]
     }
 
-    fun insert(item: Map<String, Any>, position: Int?) {
+    fun insert(item: Map<String, Any>, position: Int? = null) {
         filteredList.add(position ?: filteredList.size, item.toMutableMap())
         notifyItemInserted(position ?: filteredList.size)
     }
 
-    fun removeAt(position: Int) {
-        filteredList.removeAt(position)
-        notifyItemRemoved(position)
+    fun remove(position: Int? = null) {
+        filteredList.removeAt(position ?: filteredList.size - 1)
+        notifyItemRemoved(position ?: filteredList.size - 1)
     }
 
     fun updateFilteredList() {
