@@ -60,6 +60,15 @@ class ShowGoalDetailsFragment : Fragment() {
         // Displaying createDate as DateTime rather than TimeStamp for user viewing
         tv_createDate.text = dateFormatter.format(goal.createDate).toString()
 
+        btn_Journey_View.setOnClickListener {
+            val showJourneysFragment = ShowJourneysFragment()
+
+            showJourneysFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
+            }
+            fragmentUtils.replace(showJourneysFragment)
+        }
+
         btn_Bucket_List_View.setOnClickListener {
             val showBucketListItemsTabFragment = ShowBucketListItemsTabsFragment()
 

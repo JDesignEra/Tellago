@@ -19,7 +19,7 @@ private val todayCalendar = Calendar.getInstance()
 data class Goal(
     @DocumentId var gid: String? = null,
     var uid: String? = null,
-    val jid: String? = null,
+    var jid: ArrayList<String> = ArrayList(),
     var title: String = "Your Goal",
     var categories: ArrayList<String> = ArrayList(),
     var targetAmt: Double = 0.0,

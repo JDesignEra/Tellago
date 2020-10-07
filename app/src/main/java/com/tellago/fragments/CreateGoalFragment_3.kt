@@ -61,6 +61,16 @@ class CreateGoalFragment_3 : Fragment() {
         btn_CreateGoal.setOnClickListener {
             goal.uid = user?.uid
 
+            // jid will be stored as an ArrayList<String>
+            // for first Journey, jid should be auto-generated before being added to the ArrayList
+            // the ArrayList will be assigned to goal.jid
+
+            // since Posts have not been created, first jid will take value of uid (risk of duplicates present)
+            // to change after further development yields more clarity on how to structure this part of the data
+            val jidArrayList = ArrayList<String>()
+            jidArrayList.add(user?.uid.toString())
+            goal.jid = jidArrayList
+
             goal.add {
                 if (it != null) {
                     if (requireActivity().intent.getStringExtra(HomeFragment::class.java.name) == "show") {
