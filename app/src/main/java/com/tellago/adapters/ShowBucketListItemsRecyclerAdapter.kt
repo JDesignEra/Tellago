@@ -40,6 +40,20 @@ class ShowBucketListItemsRecyclerAdapter(
         return filteredList.size
     }
 
+    fun getAt(position: Int): MutableMap<String, @RawValue Any> {
+        return filteredList[position]
+    }
+
+    fun insert(item: Map<String, Any>, position: Int?) {
+        filteredList.add(position ?: filteredList.size, item.toMutableMap())
+        notifyItemInserted(position ?: filteredList.size)
+    }
+
+    fun removeAt(position: Int) {
+        filteredList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     fun updateFilteredList() {
         filteredList = model.bucketList
             .toMutableList()
