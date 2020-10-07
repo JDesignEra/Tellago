@@ -89,41 +89,66 @@
                 android:textSize="14sp"
                 android:textColor="@color/colorTextDarkGray"/>
 
-            <LinearLayout
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/completed_toggleGrp"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:orientation="horizontal"
+                android:layout_height="55dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="5dp"
+                app:singleSelection="true"
+                app:selectionRequired="true">
 
-                <CheckBox
-                    android:id="@+id/completed_true_checkbox"
+                <Button
+                    android:id="@+id/completed_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@drawable/checkbox_selection"
-                    android:button="@color/colorTransparent"
-                    android:textAlignment="center"
                     android:text="Completed"
-                    android:textColor="@drawable/checkbox_text_selection"
                     android:textSize="16sp"
-                    android:layout_weight="0.3"
-                    android:letterSpacing="-0.02"/>
+                    android:letterSpacing="0.08"
+                    android:textAllCaps="false"
+                    android:layout_weight="0.5"
+                    style="?attr/materialButtonOutlinedStyle"/>
 
-                <CheckBox
-                    android:id="@+id/completed_false_checkbox"
+                <Button
+                    android:id="@+id/in_progress_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@drawable/checkbox_selection"
-                    android:button="@color/colorTransparent"
-                    android:textAlignment="center"
                     android:text="In Progress"
-                    android:textColor="@drawable/checkbox_text_selection"
                     android:textSize="16sp"
-                    android:layout_weight="0.3"
-                    android:layout_marginLeft="5dp"
-                    android:letterSpacing="-0.02"/>
+                    android:letterSpacing="0.08"
+                    android:textAllCaps="false"
+                    android:layout_weight="0.5"
+                    style="?attr/materialButtonOutlinedStyle"/>
 
-            </LinearLayout>
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+<!--                <CheckBox-->
+<!--                    android:id="@+id/completed_true_checkbox"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:background="@drawable/checkbox_selection"-->
+<!--                    android:button="@color/colorTransparent"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:text="Completed"-->
+<!--                    android:textColor="@drawable/checkbox_text_selection"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:layout_weight="0.3"-->
+<!--                    android:letterSpacing="-0.02"/>-->
+
+<!--                <CheckBox-->
+<!--                    android:id="@+id/completed_false_checkbox"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:background="@drawable/checkbox_selection"-->
+<!--                    android:button="@color/colorTransparent"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:text="In Progress"-->
+<!--                    android:textColor="@drawable/checkbox_text_selection"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:layout_weight="0.3"-->
+<!--                    android:layout_marginLeft="5dp"-->
+<!--                    android:letterSpacing="-0.02"/>-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_EditBucketListItem"

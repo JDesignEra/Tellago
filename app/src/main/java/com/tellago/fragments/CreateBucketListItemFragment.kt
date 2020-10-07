@@ -53,28 +53,18 @@ class CreateBucketListItemFragment : Fragment() {
                 goal.bucketList.add(bucketItem)
 
                 if (goal.gid.isNullOrBlank()) {
-                    ShowBucketListItemsOngoingFragment.adapter?.insert(
-                        goal.bucketList.toMutableList().filter {m ->
-                            !(m["completed"] as Boolean)
-                        }.size - 1,
-                        bucketItem,
-                        goal
-                    )
+                    ShowBucketListItemsOngoingFragment.adapter?.updateFilteredList()
+                    ShowBucketListItemsCompletedFragment.adapter?.updateFilteredList()
 
                     fragmentUtils.popBackStack()
                     toast.success("Bucket item added successfully")
                     et_bucketListItemName.setText("")
                 }
                 else {
-                    goal.updateBucketListByGid { it ->
+                    goal.updateBucketListByGid {
                         if (it != null) {
-                            ShowBucketListItemsOngoingFragment.adapter?.insert(
-                                goal.bucketList.toMutableList().filter {m ->
-                                    !(m["completed"] as Boolean)
-                                }.size - 1,
-                                bucketItem,
-                                goal
-                            )
+                            ShowBucketListItemsOngoingFragment.adapter?.updateFilteredList()
+                            ShowBucketListItemsCompletedFragment.adapter?.updateFilteredList()
 
                             fragmentUtils.popBackStack()
                             toast.success("Bucket item added successfully")

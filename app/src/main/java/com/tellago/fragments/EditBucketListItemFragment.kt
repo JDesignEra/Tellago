@@ -50,18 +50,8 @@ class EditBucketListItemFragment : Fragment() {
         if (goal.bucketList.isNotEmpty()) {
             et_bucketListItemName.setText(bucketItem["name"] as String)
 
-            if (bucketItem["completed"] as Boolean) {
-                completed_true_checkbox.isChecked = true
-            }
-            else completed_false_checkbox.isChecked = true
-        }
-
-        completed_true_checkbox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) completed_false_checkbox.isChecked = false
-        }
-
-        completed_false_checkbox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) completed_true_checkbox.isChecked = false
+            if (bucketItem["completed"] as Boolean) completed_toggleGrp.check(R.id.completed_btn)
+            else completed_toggleGrp.check(R.id.in_progress_btn)
         }
 
         btn_EditBucketListItem.setOnClickListener {
@@ -69,16 +59,19 @@ class EditBucketListItemFragment : Fragment() {
                 et_bucketListItemName.error = "Field is required"
             }
             else {
-                var originalBucketList = goal.bucketList.toMutableList()
-                originalBucketList = originalBucketList.map {
+                val originalBucketList = goal.bucketList.toMutableList().map {
                     it.toMutableMap()
-                }.toMutableList()
+                }
 
                 bucketItem["name"] = et_bucketListItemName.text.toString()
-                bucketItem["completed"] = completed_true_checkbox.isChecked
+                bucketItem["completed"] = when (completed_toggleGrp.checkedButtonId) {
+                    R.id.completed_btn -> true
+                    else -> false
+                }
 
                 if (goal.gid.isNullOrBlank()) {
-                    updateAdapter(originalBucketList, bucketItem)
+                    ShowBucketListItemsOngoingFragment.adapter?.updateFilteredList()
+                    ShowBucketListItemsCompletedFragment.adapter?.updateFilteredList()
 
                     fragmentUtils.popBackStack()
                     toast.success("Bucket item updated successfully")
@@ -86,7 +79,8 @@ class EditBucketListItemFragment : Fragment() {
                 else {
                     goal.updateBucketListByGid {
                         if (it != null) {
-                            updateAdapter(originalBucketList, bucketItem)
+                            ShowBucketListItemsOngoingFragment.adapter?.updateFilteredList()
+                            ShowBucketListItemsCompletedFragment.adapter?.updateFilteredList()
 
                             fragmentUtils.popBackStack()
                             toast.success("Bucket item updated successfully")
@@ -96,8 +90,6 @@ class EditBucketListItemFragment : Fragment() {
                         }
                     }
                 }
-
-                bucketItem.remove("idx")
             }
         }
     }
@@ -105,145 +97,6 @@ class EditBucketListItemFragment : Fragment() {
     private fun configureToolbar() {
         toolbar_edit_bucket_list_item.setNavigationOnClickListener {
             fragmentUtils.popBackStack()
-        }
-    }
-
-    private fun updateAdapter(originalBucketList: List<Map<String, Any>>, updatedBucketItem: MutableMap<String, Any>) {
-        updatedBucketItem.put("idx", originalBid)
-
-        Log.e("original", originalBucketList[originalBid]["completed"].toString())
-        Log.e("updated", updatedBucketItem["completed"].toString())
-
-        if (originalBucketList[originalBid]["completed"] as Boolean != updatedBucketItem["completed"] as Boolean) {
-            if (originalBucketList[originalBid]["completed"] as Boolean) {
-                Log.e("Condition 1", "Fired")
-
-                ShowBucketListItemsOngoingFragment.adapter?.insert(
-                    originalBucketList.toMutableList().filter {
-                        !(it["completed"] as Boolean)
-                    }.size - 1,
-                    updatedBucketItem,
-                    goal
-                )
-
-                ShowBucketListItemsCompletedFragment.adapter?.remove(
-                    originalBucketList.toMutableList().filter {
-                        it["completed"] as Boolean
-                    }.size - 1,
-                    updatedBucketItem,
-                    goal
-                )
-            }
-            else {
-                Log.e("Condition 2", "Fired")
-
-                ShowBucketListItemsOngoingFragment.adapter?.remove(
-                    originalBucketList.toMutableList().filter {
-                        !(it["completed"] as Boolean)
-                    }.size - 1,
-                    updatedBucketItem,
-                    goal
-                )
-
-                ShowBucketListItemsCompletedFragment.adapter?.insert(
-                    originalBucketList.toMutableList().filter {
-                        it["completed"] as Boolean
-                    }.size - 1,
-                    updatedBucketItem,
-                    goal
-                )
-            }
-        }
-        else {
-            if (originalBucketList[originalBid]["completed"] as Boolean) {
-                Log.e("Condition 3", "Fired")
-
-                ShowBucketListItemsCompletedFragment.adapter?.change(filteredBid, updatedBucketItem, goal)
-            }
-            else {
-                Log.e("Condition 4", "Fired")
-
-                for (v in updatedBucketItem.values) {
-                    Log.e("v", v.toString())
-                }
-
-                ShowBucketListItemsOngoingFragment.adapter?.change(filteredBid, updatedBucketItem, goal)
-            }
-        }
-    }
-
-    private fun updateRecyclerAdapter(
-        originalBucketList: List<MutableMap<String, Any>>,
-        updatedBucketItem: MutableMap<String, Any>,
-        orignalBid: Int
-    ) {
-        Log.e("original", originalBucketList[orignalBid]["completed"].toString())
-        Log.e("updated", updatedBucketItem["completed"].toString())
-        Log.e("condition",
-            (originalBucketList[orignalBid]["completed"] != updatedBucketItem["completed"]).toString()
-        )
-
-        if (originalBucketList[orignalBid]["completed"] != updatedBucketItem["completed"]) {
-            if (updatedBucketItem["completed"] as Boolean) {
-                Log.e("Condition 1", "Fired")
-
-                ShowBucketListItemsCompletedFragment.adapter?.insert(
-                    originalBucketList.toMutableList().filter {
-                        it["completed"] as Boolean
-                    }.size - 1,
-                    updatedBucketItem,
-                    goal
-                )
-
-                ShowBucketListItemsOngoingFragment.adapter?.remove(
-                    originalBucketList.toMutableList().filter {
-                        !(it["completed"] as Boolean)
-                    }.size - 1,
-                    updatedBucketItem,
-                    goal
-                )
-            }
-            else {
-                Log.e("Condition 2", "Fired")
-
-                ShowBucketListItemsOngoingFragment.adapter?.insert(
-                    originalBucketList.toMutableList().filter {
-                        !(it["completed"] as Boolean)
-                    }.size - 1,
-                    updatedBucketItem,
-                    goal
-                )
-
-                ShowBucketListItemsCompletedFragment.adapter?.remove(
-                    originalBucketList.toMutableList().filter {
-                        it["completed"] as Boolean
-                    }.size - 1,
-                    updatedBucketItem,
-                    goal
-                )
-            }
-        }
-        else {
-            if (updatedBucketItem["completed"] as Boolean) {
-                Log.e("Condition 3", "Fired")
-                ShowBucketListItemsCompletedFragment.adapter?.change(
-                    originalBucketList.toMutableList().filter {
-                        it["completed"] as Boolean
-                    }.size - 1,
-                    updatedBucketItem,
-                    goal
-                )
-            }
-            else {
-                Log.e("Condition 4", "Fired")
-                ShowBucketListItemsOngoingFragment.adapter?.change(
-                    originalBucketList.toMutableList().filter {
-                        !(it["completed"] as Boolean)
-                    }.size - 2,
-                    updatedBucketItem,
-                    goal
-                )
-            }
         }
     }
 }

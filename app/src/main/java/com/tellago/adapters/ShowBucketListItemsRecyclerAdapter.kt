@@ -1,7 +1,6 @@
 package com.tellago.adapters
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +18,12 @@ class ShowBucketListItemsRecyclerAdapter(
     private var model: Goal,
     private val completed: Boolean = false
 ) : RecyclerView.Adapter<ShowBucketListItemsRecyclerAdapter.BucketListItemViewHolder>() {
-    private val filteredList: MutableList<MutableMap<String, @RawValue Any>> = model.bucketList
+    private var filteredList: MutableList<MutableMap<String, @RawValue Any>> = model.bucketList
         .toMutableList()
         .filterIndexed() { idx, bucketItem ->
-            if (completed == bucketItem["completed"]) bucketItem["idx"] = idx
+            bucketItem.toMutableMap()
+            bucketItem["idx"] = idx
+
             completed == bucketItem["completed"]
         }.toMutableList()
 
@@ -39,29 +40,17 @@ class ShowBucketListItemsRecyclerAdapter(
         return filteredList.size
     }
 
-    fun insert(position: Int, item: Map<String, Any>, goal: Goal) {
-//        this.goal = goal
-        filteredList.add(item.toMutableMap())
+    fun updateFilteredList() {
+        filteredList = model.bucketList
+            .toMutableList()
+            .filterIndexed() { idx, bucketItem ->
+                bucketItem.toMutableMap()
+                bucketItem["idx"] = idx
+
+                completed == bucketItem["completed"]
+            }.toMutableList()
 
         notifyDataSetChanged()
-    }
-
-    fun remove(position: Int, item: Map<String, Any>, goal: Goal) {
-//        this.goal = goal
-        filteredList.removeAt(position)
-
-        notifyDataSetChanged()
-    }
-
-    fun change(position: Int, item: MutableMap<String, Any>, goal: Goal) {
-        if (position < filteredList.size) {
-            Log.e("Check", item["idx"].toString())
-            Log.e("pos", position.toString())
-            filteredList[position] = item
-        }
-//        this.goal = goal
-
-        notifyItemChanged(position)
     }
 
 //    // function to remove/delete a bucket list item (given its position/index)
@@ -93,14 +82,14 @@ class ShowBucketListItemsRecyclerAdapter(
                 val filteredList: MutableList<MutableMap<String, @RawValue Any>> = model.bucketList
                     .toMutableList()
                     .filterIndexed() { idx, bucketItem ->
-                        if (completed == bucketItem["completed"]) bucketItem["idx"] = idx
+                        bucketItem.toMutableMap()
+                        bucketItem["idx"] = idx
+
                         completed == bucketItem["completed"]
                     }.toMutableList()
 
                 val activity: AppCompatActivity = itemView.context as AppCompatActivity
-
                 val editBucketListItemFragment = EditBucketListItemFragment()
-                Log.e("Holder", filteredList[adapterPosition]["idx"].toString())
 
                 editBucketListItemFragment.arguments = Bundle().apply {
                     putParcelable(model::class.java.name, model)
