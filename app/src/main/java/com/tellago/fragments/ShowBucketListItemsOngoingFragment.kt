@@ -2,6 +2,7 @@ package com.tellago.fragments
 
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,6 +63,7 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
         recycler_view_show_bucketListItems_ongoing_fragment.adapter = adapter
 
         val recyclerViewSwipeDecorator = object : SimpleCallback(0, RIGHT or LEFT) {
+            private var snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG)
             private var undoFlag = false
 
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -71,68 +73,68 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val holdItem = adapter?.getAt(viewHolder.layoutPosition)?.toMap()
 
-                when (direction) {
-                    LEFT -> {
-                        adapter?.remove(viewHolder.layoutPosition)
+                if (holdItem != null && holdItem["idx"] != null && holdItem["completed"] != null) {
+                    when (direction) {
+                        LEFT -> {
+                            adapter?.remove(viewHolder.layoutPosition)
 
-                        Snackbar.make(
-                            viewHolder.itemView,
-                            "Deleting item #${viewHolder.layoutPosition + 1} - ${holdItem?.get("name")}",
-                            Snackbar.LENGTH_LONG
-                        ).setAction("Undo", holdItem?.let { undoRemove(it, viewHolder.layoutPosition) })
-                            .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                                override fun onShown(transientBottomBar: Snackbar?) {
-                                    super.onShown(transientBottomBar)
-                                    undoFlag = false
-                                }
+                            snackbar.setText("Deleting item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]}")
+                                .setAction("Undo", undoRemove(holdItem, viewHolder.layoutPosition))
+                                .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                                    override fun onShown(transientBottomBar: Snackbar?) {
+                                        super.onShown(transientBottomBar)
+                                        undoFlag = false
+                                    }
 
-                                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                                    super.onDismissed(transientBottomBar, event)
+                                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                        super.onDismissed(transientBottomBar, event)
 
-                                    if (!undoFlag) {
-                                        goal.bucketList.removeAt(holdItem?.get("idx") as Int)
-                                        goal.updateBucketListByGid {
-                                            if (it != null) toast.success("Item deleted successfully")
-                                            else {
-                                                holdItem?.let { it1 -> undoRemove(it1, viewHolder.layoutPosition) }
-                                                toast.error("Please try again, failed to delete item")
+                                        if (!undoFlag) {
+                                            goal.bucketList.removeAt(holdItem["idx"] as Int)
+                                            goal.updateBucketListByGid {
+                                                if (it != null) toast.success("Item deleted successfully")
+                                                else {
+                                                    undoRemove(holdItem, viewHolder.layoutPosition)
+                                                    toast.error("Please try again, failed to delete item")
+                                                }
                                             }
                                         }
                                     }
-                                }
-                            }).show()
-                    }
-                    RIGHT -> {
-                        adapter?.remove(viewHolder.layoutPosition)
-                        holdItem?.let { ShowBucketListItemsCompletedFragment.adapter?.insert(it) }
+                                }).show()
+                        }
+                        RIGHT -> {
+                            adapter?.remove(viewHolder.layoutPosition)
+                            ShowBucketListItemsCompletedFragment.adapter?.insert(holdItem)
 
-                        Snackbar.make(
-                            viewHolder.itemView,
-                            "Completing Item #${viewHolder.layoutPosition + 1} - ${holdItem?.get("name")}",
-                            Snackbar.LENGTH_LONG
-                        ).setAction("Undo", holdItem?.let { undoComplete(it, viewHolder.layoutPosition) })
-                            .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                                override fun onShown(transientBottomBar: Snackbar?) {
-                                    super.onShown(transientBottomBar)
-                                    undoFlag = false
-                                }
+                            snackbar.setText("Completing Item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]}")
+                                .setAction("Undo", undoComplete(holdItem, viewHolder.layoutPosition))
+                                .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                                    override fun onShown(transientBottomBar: Snackbar?) {
+                                        super.onShown(transientBottomBar)
+                                        undoFlag = false
+                                    }
 
-                                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                                    super.onDismissed(transientBottomBar, event)
+                                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                        super.onDismissed(transientBottomBar, event)
 
-                                    if (!undoFlag) {
-                                        goal.bucketList[holdItem?.get("idx") as Int]["completed"] = true
-                                        goal.updateBucketListByGid { it ->
-                                            if (it != null) toast.success("Item moved to completed list successfully")
-                                            else {
-                                                holdItem.let { it1 -> undoComplete(it1, viewHolder.layoutPosition) }
-                                                toast.error("Please try again, failed to moved item to completed list")
+                                        if (!undoFlag) {
+                                            goal.bucketList[holdItem["idx"] as Int]["completed"] = true
+                                            goal.updateBucketListByGid {
+                                                if (it != null) toast.success("Item moved to completed list successfully")
+                                                else {
+                                                    undoComplete(holdItem, viewHolder.layoutPosition)
+                                                    toast.error("Please try again, failed to moved item to completed list")
+                                                }
                                             }
                                         }
                                     }
-                                }
-                            }).show()
+                                }).show()
+                        }
                     }
+                }
+                else {
+                    adapter?.updateFilteredList()
+                    toast.error("Please try again, you are swiping too many items at lightning speed")
                 }
             }
 
@@ -146,8 +148,14 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
 
                 builder.addSwipeLeftBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
                     .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_outline_48)
+                    .addSwipeLeftLabel("Delete")
+                    .setSwipeLeftLabelTextSize(TypedValue.COMPLEX_UNIT_DIP, 20F)
+                    .setSwipeLeftLabelColor(ContextCompat.getColor(requireContext(), R.color.colorBackground))
                     .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorSuccess))
                     .addSwipeRightActionIcon(R.drawable.ic_baseline_check_circle_outline_48)
+                    .addSwipeRightLabel("Completed")
+                    .setSwipeRightLabelTextSize(TypedValue.COMPLEX_UNIT_DIP, 20F)
+                    .setSwipeRightLabelColor(ContextCompat.getColor(requireContext(), R.color.colorBackground))
                     .create()
                     .decorate()
             }

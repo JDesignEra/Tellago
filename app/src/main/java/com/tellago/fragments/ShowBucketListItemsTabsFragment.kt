@@ -78,7 +78,7 @@ class ShowBucketListItemsTabsFragment : Fragment() {
         // set Orientation in ViewPager2
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         viewPager2.adapter = ViewPagerBucketListItemsFragmentStateAdapter(this.requireActivity(), fragmentList)
-
+        viewPager2.isUserInputEnabled = false
 
         val tabLayout = tab_layout_ShowBucketListItemsTabsFragment
 

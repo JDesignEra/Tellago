@@ -1,23 +1,16 @@
 package com.tellago.fragments
 
-import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.BaseTransientBottomBar
-import com.google.android.material.snackbar.Snackbar
 import com.tellago.R
 import com.tellago.adapters.ShowBucketListItemsRecyclerAdapter
 import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import kotlinx.android.synthetic.main.fragment_show_bucket_list_items_completed.*
 
 class ShowBucketListItemsCompletedFragment : Fragment() {
