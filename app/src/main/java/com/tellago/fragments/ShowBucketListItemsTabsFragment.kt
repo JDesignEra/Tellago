@@ -92,7 +92,7 @@ class ShowBucketListItemsTabsFragment : Fragment() {
     }
 
     private fun configureToolbar() {
-        toolbar_tabLayout_bucketListItems.title = "Goal ${goal.title}"
+        toolbar_tabLayout_bucketListItems.title = "Goal: ${goal.title}"
         toolbar_tabLayout_bucketListItems.setNavigationOnClickListener {
             fragmentUtils.popBackStack()
         }

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ShowJourneysFragment">
+    tools:context=".fragments.ShowJourneyPostsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coord_layout_show_journeys"
+            android:id="@+id/coord_layout_show_journey_posts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -19,46 +19,62 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
             <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBarLayout_show_journeys"
+                android:id="@+id/appBarLayout_view_journey_posts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:elevation="0dp">
 
                 <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar_show_journeys"
+                    android:id="@+id/toolbar_view_journey_posts"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="wrap_content"
                     android:background="@color/colorBackground"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:navigationIcon="@drawable/ic_arrow_back_36"
-                    app:title="Journey Toward Your Goal" />
+                    app:title="Journey and Posts" >
+
+
+                </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.AppBarLayout>
 
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_show_journeys_fragment"
+                android:id="@+id/recycler_view_show_journey_posts_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="60dp"
+                android:layout_marginBottom="60dp"
                 android:paddingLeft="5dp"
-                android:paddingRight="5dp" />
+                android:paddingRight="5dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+            <TextView
+                android:id="@+id/tv_show_journey_posts_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="60dp"
+                android:text="There are no posts in this journey. Paint your journey now!"
+                android:textSize="20sp"
+                android:textColor="@color/colorTextBlack"
+                android:visibility="invisible" />
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_add_journey"
+                android:id="@+id/fab_edit_journey_posts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_marginBottom="36dp"
                 android:layout_marginEnd="24dp"
+                android:layout_marginBottom="36dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ic_add_48"
+                android:src="@drawable/ic_edit_18"
                 app:borderWidth="0dp"
-                app:layout_scrollFlags="scroll|enterAlways"
+                app:layout_scrollFlags="scroll"
                 app:maxImageSize="50dp" />
-
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

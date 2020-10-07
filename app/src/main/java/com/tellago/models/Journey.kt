@@ -1,15 +1,21 @@
 package com.tellago.models
 
+import android.os.Parcelable
 import android.util.Log
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 
+
+@Parcelize
 data class Journey(
     @DocumentId var jid: String? = null,
-    var pids: List<String>? = null
-) {
+    var title: String = "My Journey",
+    var pids: ArrayList<String>? = ArrayList()
+
+) : Parcelable {
     @IgnoredOnParcel
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     @IgnoredOnParcel

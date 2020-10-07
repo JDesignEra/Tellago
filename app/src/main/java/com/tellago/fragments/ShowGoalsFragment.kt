@@ -2,6 +2,7 @@ package com.tellago.fragments
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -67,12 +68,14 @@ class ShowGoalsFragment : Fragment() {
     }
 
     override fun onStart() {
+        // Adapter which is populated using Firestore data (through query) will require this function
         super.onStart()
 
         adapter?.startListening()
     }
 
     override fun onStop() {
+        // Adapter which is populated using Firestore data (through query) will require this function
         super.onStop()
 
         adapter?.stopListening()

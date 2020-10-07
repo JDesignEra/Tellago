@@ -15,6 +15,7 @@ import com.tellago.DataSource
 import com.tellago.R
 import com.tellago.TopSpacingItemDecoration
 import com.tellago.adapters.UserPostRecyclerAdapter
+import com.tellago.models.UserPost
 import com.tellago.services.ExitService
 import kotlinx.android.synthetic.main.bottom_guest_to_sign_in_up.*
 
@@ -50,7 +51,7 @@ class GuestScrollingActivity : AppCompatActivity() {
         setContentView(R.layout.bottom_guest_to_sign_in_up)
 
         initRecyclerView()
-        addDataSet()
+        //addDataSet()
 
         StartTimer()
 
@@ -105,9 +106,27 @@ class GuestScrollingActivity : AppCompatActivity() {
             addItemDecoration(topSpacingDecoration)
 
             // Step 3: Initialise the lateinit variable userPostAdapter
-            userPostAdapter = UserPostRecyclerAdapter()
-            adapter = userPostAdapter
+
+            // static data since no connection to Firestore
+            val userPostArrayList = ArrayList<UserPost>()
+
+            for (index in 1..5) {
+                val newUserPostObj = UserPost(
+                    title = "Post Title #:$index",
+                    image = R.drawable.ic_email_round_96.toString(),
+                    displayName = "Test Poster",
+                    profilePic = R.drawable.ic_android_photo.toString(),
+                    duration = "3 days ago",
+                    likes = "1288",
+                    comments = "417"
+                )
+                userPostArrayList.add(newUserPostObj)
+            }
+
+            adapter = UserPostRecyclerAdapter(userPostArrayList)
         }
+
+
     }
 
     private fun StartTimer() {
