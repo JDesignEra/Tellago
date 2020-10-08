@@ -89,10 +89,8 @@ data class Post(
 
     fun uploadPostMedia(uri: Uri): UploadTask {
         val file = Uri.fromFile((File(URI.create(uri.toString()))))
-        val uniqueMediaName = uid + createDate.toString()
 
-        // return storageRef.child("uploads/postMedia/$pid").putFile(file)
-        return storageRef.child("uploads/postMedia/$uniqueMediaName").putFile(file)
+        return storageRef.child("uploads/postMedia/$pid").putFile(file)
     }
 
 

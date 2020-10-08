@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.tellago.R
 import com.tellago.models.Auth
@@ -187,11 +188,28 @@ class CreatePostFragment : Fragment() {
 //                // Replace the following static data with user Input
 //                // post.multimediaURI = "someURI"
 //
-//                Log.d("post.multimediaURI", post.multimediaURI.toString())
+
 
 
                 post.add {
                     if (it != null) {
+                        Log.d("added multimediaURI", post.multimediaURI.toString())
+                        val multimediaURI = post.multimediaURI?.toUri()
+
+                        if (multimediaURI != null) {
+                            post.uploadPostMedia(multimediaURI).addOnSuccessListener {
+                                toast.success("Attach successful")
+
+                                // reassign post.multimediaURI to match storageRef of postID ???
+                                post.multimediaURI = post.pid
+
+
+                            }.addOnFailureListener {
+                                // Failed to upload
+                                toast.error("Error occurred during attach")
+                            }
+                        }
+
                         // Post created successfully, so redirect to Feed fragment?
                         fragmentUtils.replace(FeedFragment(), null)
 
@@ -261,18 +279,22 @@ class CreatePostFragment : Fragment() {
                     // display selected image as attach_post_image (only shown locally; not yet updated to Storage)
                     uri ->  setImage(uri)
 
-                    post.uploadPostMedia(uri).addOnSuccessListener {
-                        toast.success("Attach successful")
+                    textView_attachMedia.text = "Change Image / Video"
 
-                        // assign uri to post.multimediaURI
-                        post.multimediaURI = uri.toString()
-                        Log.d("multimediaURI is now: ", post.multimediaURI.toString())
+                    post.multimediaURI = uri.toString()
 
-                        textView_attachMedia.text = "Change Image / Video"
-                    }.addOnFailureListener {
-                        // Failed to upload
-                        toast.error("Error occurred during attach")
-                    }
+//                    post.uploadPostMedia(uri).addOnSuccessListener {
+//                        toast.success("Attach successful")
+//
+//                        // assign uri to post.multimediaURI
+//                        post.multimediaURI = uri.toString()
+//                        Log.d("multimediaURI is now: ", post.multimediaURI.toString())
+//
+//                        textView_attachMedia.text = "Change Image / Video"
+//                    }.addOnFailureListener {
+//                        // Failed to upload
+//                        toast.error("Error occurred during attach")
+//                    }
 
 
                 }
