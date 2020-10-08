@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.CreatePostFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout_create_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_create_post"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorBackground"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:navigationIcon="@drawable/ic_arrow_back_36"
+                app:title="Create New Post" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout_create_goal_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_media_image"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Image(s)"
+                    app:checkedIcon="@drawable/ic_baseline_image_24"
+                    app:checkedIconTint="@color/colorPrimary"
+                    app:checkedIconVisible="true"
+                    app:chipIconVisible="true"
+                    app:iconEndPadding="-2dp"
+                    app:iconStartPadding="5dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_media_video"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Video(s)"
+                    app:checkedIcon="@drawable/ic_baseline_video_library_24"
+                    app:checkedIconTint="@color/colorPrimary"
+                    app:checkedIconVisible="true"
+                    app:chipIconVisible="true"
+                    app:iconEndPadding="-2dp"
+                    app:iconStartPadding="5dp" />
+
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_btn_gray"
+                android:hint="Write a message ..."
+                android:textAlignment="center"
+                app:boxBackgroundColor="@color/lightgray">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_PostMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:maxLines="8" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_add_poll"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Poll"
+                app:checkedIconTint="@color/colorPrimary"
+                app:checkedIconVisible="true"
+                app:chipIcon="@drawable/ic_baseline_poll_24"
+                app:chipIconVisible="true"
+                app:iconEndPadding="-2dp"
+                app:iconStartPadding="5dp" />
+
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_add_journey"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add to Journey"
+                app:checkedIconTint="@color/colorPrimary"
+                app:checkedIconVisible="true"
+                app:chipIcon="@drawable/ic_baseline_directions_walk_24"
+                app:chipIconVisible="true"
+                app:iconEndPadding="-2dp"
+                app:iconStartPadding="5dp" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_CreatePost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:elevation="10dp"
+                android:letterSpacing="-0.02"
+                android:padding="10dp"
+                android:text="POST"
+                android:textAllCaps="true"
+                android:textSize="14sp"
+                app:backgroundTint="@color/colorPrimary"
+                app:cornerRadius="5dp" />
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

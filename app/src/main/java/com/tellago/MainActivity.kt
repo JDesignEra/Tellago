@@ -17,10 +17,7 @@ import com.google.android.material.navigation.NavigationView
 import com.tellago.activities.AccountSettingsActivity
 import com.tellago.activities.GoalsActivity
 import com.tellago.activities.SplashActivity
-import com.tellago.fragments.CommunityFragment
-import com.tellago.fragments.FeedFragment
-import com.tellago.fragments.HomeFragment
-import com.tellago.fragments.ProfileFragment
+import com.tellago.fragments.*
 import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.profile
 import com.tellago.models.Auth.Companion.user
@@ -41,6 +38,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val homeFragment = HomeFragment()
     private val feedFragment = FeedFragment()
     private val profileFragment = ProfileFragment()
+    private val createPostFragment = CreatePostFragment()
+
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
@@ -58,13 +57,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toast = CustomToast(this)
 
         window.decorView.setOnSystemUiVisibilityChangeListener {
-            (bottomAppBarCoordinatorLayout.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin = 0
+            (bottomAppBarCoordinatorLayout.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin =
+                0
 
             if (it == View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
                 Log.d("HIDE_NAV", "FIRED")
-            }
-            else {
+            } else {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
                 Log.d("UNHIDE_NAV", "FIRED")
             }
@@ -90,7 +89,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.ic_home -> {
                     fragmentUtils.replace(
                         homeFragment,
@@ -101,12 +100,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     true
                 }
                 R.id.ic_people -> {
-                    val findFragment = fragmentUtils.findFragmentByTag(HomeFragment::class.java.name)
+                    val findFragment =
+                        fragmentUtils.findFragmentByTag(HomeFragment::class.java.name)
 
                     if (findFragment != null && findFragment.isVisible) {
                         fragmentUtils.replace(communityFragment, null)
-                    }
-                    else {
+                    } else {
                         fragmentUtils.replace(
                             communityFragment,
                             null,
@@ -118,7 +117,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     true
                 }
                 R.id.ic_feed -> {
-                    val findFragment = fragmentUtils.findFragmentByTag(ProfileFragment::class.java.name)
+                    val findFragment =
+                        fragmentUtils.findFragmentByTag(ProfileFragment::class.java.name)
 
                     if (findFragment != null && findFragment.isVisible) {
                         fragmentUtils.replace(
@@ -127,8 +127,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             enter = R.anim.fragment_slide_right_enter,
                             exit = R.anim.fragment_slide_right_exit
                         )
-                    }
-                    else {
+                    } else {
                         fragmentUtils.replace(feedFragment, null)
                     }
 
@@ -143,8 +142,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         fab_main.setOnClickListener {
-            // TODO: FAB logic
-            Log.d("fab_main", "FIRED!!")
+
+            fragmentUtils.replace(
+                createPostFragment,
+                null,
+                false
+            )
+
         }
 
         // Close navDrawer when user clicks on Left Chevron icon
@@ -177,7 +181,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun configureNavigationDrawer() {
         val navigationView: NavigationView = navigation
-        val drawerToggle = object : ActionBarDrawerToggle(this, drawer_layout, null, R.string.drawer_open, R.string.drawer_close) {
+        val drawerToggle = object : ActionBarDrawerToggle(
+            this,
+            drawer_layout,
+            null,
+            R.string.drawer_open,
+            R.string.drawer_close
+        ) {
             override fun onDrawerStateChanged(newState: Int) {
                 super.onDrawerStateChanged(newState)
 
@@ -224,8 +234,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         window.decorView.apply {
             systemUiVisibility =
                 View.SYSTEM_UI_FLAG_IMMERSIVE or
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         }
     }
 
