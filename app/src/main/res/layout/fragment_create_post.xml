@@ -33,16 +33,22 @@
 
 
         <LinearLayout
-            android:id="@+id/linear_layout_create_goal_1"
+            android:id="@+id/linear_layout_create_post"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="60dp"
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Type of Post"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,52 +56,115 @@
                 android:orientation="horizontal">
 
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_media_image"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGrp_post_type"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Image(s)"
-                    app:checkedIcon="@drawable/ic_baseline_image_24"
-                    app:checkedIconTint="@color/colorPrimary"
-                    app:checkedIconVisible="true"
-                    app:chipIconVisible="true"
-                    app:iconEndPadding="-2dp"
-                    app:iconStartPadding="5dp" />
+                    android:layout_marginTop="10dp"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_media_video"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Video(s)"
-                    app:checkedIcon="@drawable/ic_baseline_video_library_24"
-                    app:checkedIconTint="@color/colorPrimary"
-                    app:checkedIconVisible="true"
-                    app:chipIconVisible="true"
-                    app:iconEndPadding="-2dp"
-                    app:iconStartPadding="5dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_message_radioToggle"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Message"
+                        app:checkedIcon="@drawable/ic_baseline_textsms_24"
+                        app:checkedIconTint="@color/colorPrimary"
+                        app:checkedIconVisible="true"
+                        app:chipBackgroundColor="@color/chip_background_color"
+                        app:chipIcon="@drawable/ic_baseline_textsms_24"
+                        app:chipIconVisible="true"
+                        app:iconEndPadding="-1dp"
+                        app:iconStartPadding="1dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_multimedia_radioToggle"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Image / Video"
+                        app:checkedIcon="@drawable/ic_baseline_image_24"
+                        app:checkedIconTint="@color/colorPrimary"
+                        app:checkedIconVisible="true"
+                        app:chipBackgroundColor="@color/chip_background_color"
+                        app:chipIcon="@drawable/ic_baseline_image_24"
+                        app:chipIconVisible="true"
+                        app:iconEndPadding="-1dp"
+                        app:iconStartPadding="1dp" />
+
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_poll_radioToggle"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Poll"
+                        app:checkedIcon="@drawable/ic_baseline_poll_24"
+                        app:checkedIconTint="@color/colorPrimary"
+                        app:checkedIconVisible="true"
+                        app:chipBackgroundColor="@color/chip_background_color"
+                        app:chipIcon="@drawable/ic_baseline_poll_24"
+                        app:chipIconVisible="true"
+                        app:iconEndPadding="-1dp"
+                        app:iconStartPadding="1dp" />
+
+
+                </com.google.android.material.chip.ChipGroup>
 
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textinputlayout_messageBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_btn_gray"
                 android:hint="Write a message ..."
                 android:textAlignment="center"
+                android:visibility="visible"
                 app:boxBackgroundColor="@color/lightgray">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_PostMessage"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:maxLines="8" />
+                    android:layout_height="180dp"
+                    android:maxLines="7" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/textView_attachMedia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Image / Video"
+                android:textColor="@color/colorLinkBlue"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textinputlayout_pollQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_btn_gray"
+                android:hint="Create a poll ..."
+                android:textAlignment="center"
+                android:visibility="gone"
+                app:boxBackgroundColor="@color/lightgray">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_PollQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:maxLines="8" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_add_poll"
@@ -103,6 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Poll"
+                android:visibility="invisible"
                 app:checkedIconTint="@color/colorPrimary"
                 app:checkedIconVisible="true"
                 app:chipIcon="@drawable/ic_baseline_poll_24"
@@ -117,6 +187,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add to Journey"
+                android:visibility="visible"
                 app:checkedIconTint="@color/colorPrimary"
                 app:checkedIconVisible="true"
                 app:chipIcon="@drawable/ic_baseline_directions_walk_24"
@@ -129,7 +200,7 @@
                 android:id="@+id/btn_CreatePost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginBottom="60dp"
                 android:elevation="10dp"
                 android:letterSpacing="-0.02"
                 android:padding="10dp"

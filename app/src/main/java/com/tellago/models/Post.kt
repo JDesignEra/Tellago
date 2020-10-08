@@ -21,9 +21,13 @@ data class Post(
     var uid: String? = null,
     var messageBody: String? = null,
     val createDate: Date = todayCalendar.time,
-    var multimediaArray: ArrayList<String> = ArrayList(),
+    var postType: String? = null,
+    var multimediaURI: String? = null,
     var journeyArray: ArrayList<String> = ArrayList(),
-    var poll: ArrayList<MutableMap<String, Int>> = ArrayList()
+    var poll: ArrayList<MutableMap<String, Int>> = ArrayList(),
+    var pollQuestion: String? = null,
+    var comment: ArrayList<String> = ArrayList(),
+    var likes: ArrayList<String> = ArrayList()
 
 
 ) : Parcelable {
