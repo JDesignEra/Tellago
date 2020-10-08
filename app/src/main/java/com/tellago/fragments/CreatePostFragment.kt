@@ -6,16 +6,19 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.core.view.get
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.tellago.R
-import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Post
 import com.tellago.utilities.CustomToast
@@ -84,6 +87,9 @@ class CreatePostFragment : Fragment() {
                 // toggle layout accordingly
                 textinputlayout_messageBody.visibility = View.VISIBLE
                 textinputlayout_pollQuestion.visibility = View.GONE
+                btn_add_poll_option.visibility = View.GONE
+                linear_layout_poll_options.visibility = View.GONE
+                linear_layout_poll_remove_buttons.visibility = View.GONE
                 textView_attachMedia.visibility = View.GONE
             }
             else if (chip_poll_radioToggle.isChecked) {
@@ -94,6 +100,9 @@ class CreatePostFragment : Fragment() {
 
                 // toggle layout accordingly
                 textinputlayout_pollQuestion.visibility = View.VISIBLE
+                btn_add_poll_option.visibility = View.VISIBLE
+                linear_layout_poll_options.visibility = View.VISIBLE
+                linear_layout_poll_remove_buttons.visibility = View.VISIBLE
                 textinputlayout_messageBody.visibility = View.GONE
                 textView_attachMedia.visibility = View.GONE
             }
@@ -112,27 +121,28 @@ class CreatePostFragment : Fragment() {
                     pickImageIntent()
                 }
 
-                // Replace the following static data with user Input
-                // post.multimediaURI = "someURI"
-
-//                post.multimediaURI = imageView_post_image.get
-
-                Log.d("post.multimediaURI", post.multimediaURI.toString())
 
                 // toggle layout accordingly
                 textView_attachMedia.visibility = View.VISIBLE
                 textinputlayout_messageBody.visibility = View.GONE
                 textinputlayout_pollQuestion.visibility = View.GONE
+                btn_add_poll_option.visibility = View.GONE
+                linear_layout_poll_options.visibility = View.GONE
+                linear_layout_poll_remove_buttons.visibility = View.GONE
             }
 
         }
 
 
 
+        btn_add_poll_option.setOnClickListener {
+            Log.d("button for adding poll", "FIRED")
 
-        chip_add_poll.setOnClickListener {
-            Log.d("chip for adding poll", "FIRED")
+            linear_layout_poll_options.addView(createNewPollOptionEditText())
+            linear_layout_poll_remove_buttons.addView(createNewPollOptionDeleteButton())
         }
+
+
 
         chip_add_journey.setOnClickListener {
             Log.d("chip for journey", "FIRED")
@@ -168,7 +178,30 @@ class CreatePostFragment : Fragment() {
             {
                 post.pollQuestion = et_PollQuestion.text.toString()
                 // Assign options to the poll below (start off with Int = 0 for each poll option)
+                val pollOptions = mutableListOf<String>()
 
+                for (optionNo in 1 .. linear_layout_poll_options.childCount)
+                {
+                    val editText : EditText = linear_layout_poll_options[optionNo - 1] as EditText
+                    Log.d("edit text: ", editText.text.toString())
+
+                    pollOptions.add(editText.text.toString())
+
+                }
+
+                val map = mutableMapOf<String, Int>()
+                val pollArrayList = ArrayList<MutableMap<String, Int>>()
+
+                for (optionNo in 1 .. pollOptions.size)
+                {
+                    // pollOptions[optionNo] is the option String
+                    // assign map[String] = 0 because each option starts off with 0 votes/likes
+                    map[pollOptions[optionNo - 1]] = 0
+                }
+
+                pollArrayList.add(map)
+
+                post.poll = pollArrayList
 
                 post.add {
                     if (it != null) {
@@ -185,12 +218,6 @@ class CreatePostFragment : Fragment() {
             {
 
 
-//                // Replace the following static data with user Input
-//                // post.multimediaURI = "someURI"
-//
-
-
-
                 post.add {
                     if (it != null) {
                         Log.d("added multimediaURI", post.multimediaURI.toString())
@@ -202,7 +229,6 @@ class CreatePostFragment : Fragment() {
 
                                 // reassign post.multimediaURI to match storageRef of postID ???
                                 post.multimediaURI = post.pid
-
 
                             }.addOnFailureListener {
                                 // Failed to upload
@@ -231,6 +257,55 @@ class CreatePostFragment : Fragment() {
         }
     }
 
+
+    private fun createNewPollOptionEditText() : EditText {
+
+        val lparams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        val editTextPollOption = EditText(requireContext())
+        editTextPollOption.setHint("Add option to your poll...")
+
+
+        editTextPollOption.layoutParams = lparams
+
+        return editTextPollOption
+    }
+
+    private fun createNewPollOptionDeleteButton() : Button {
+
+        val lparams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        // button to remove corresponding edit text
+        val btnRemoveET = Button(requireContext())
+        btnRemoveET.setBackgroundResource(R.drawable.ic_baseline_delete_outline_12)
+
+        btnRemoveET.setOnClickListener {
+            Log.d("Clicked on", btnRemoveET.toString())
+
+            // linearParent will refer to Linear Layout with Horizontal Orientation & Weight of 5
+            val linearParent = it.parent.parent as LinearLayout
+
+            // linearSibling will refer to Linear Layout with Vertical Orientation & contains editText
+            val linearSibling = linearParent[0] as LinearLayout
+
+            val linearChild = it.parent as LinearLayout
+
+            val indexOfCurrentButton = linearChild.indexOfChild(it)
+            Log.d("current Child index: ", indexOfCurrentButton.toString())
+
+            linearSibling.removeView(linearSibling[indexOfCurrentButton])
+            linearChild.removeView(linearChild[indexOfCurrentButton])
+
+        }
+
+        btnRemoveET.layoutParams = lparams
+
+        return btnRemoveET
+    }
 
     private fun pickImageIntent() {
         val intent = Intent()
@@ -277,24 +352,11 @@ class CreatePostFragment : Fragment() {
                 resultUri.let {
 
                     // display selected image as attach_post_image (only shown locally; not yet updated to Storage)
-                    uri ->  setImage(uri)
+                        uri ->  setImage(uri)
 
                     textView_attachMedia.text = "Change Image / Video"
 
                     post.multimediaURI = uri.toString()
-
-//                    post.uploadPostMedia(uri).addOnSuccessListener {
-//                        toast.success("Attach successful")
-//
-//                        // assign uri to post.multimediaURI
-//                        post.multimediaURI = uri.toString()
-//                        Log.d("multimediaURI is now: ", post.multimediaURI.toString())
-//
-//                        textView_attachMedia.text = "Change Image / Video"
-//                    }.addOnFailureListener {
-//                        // Failed to upload
-//                        toast.error("Error occurred during attach")
-//                    }
 
 
                 }

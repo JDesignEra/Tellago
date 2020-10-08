@@ -175,19 +175,47 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_add_poll"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_poll_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Poll"
-                android:visibility="invisible"
-                app:checkedIconTint="@color/colorPrimary"
-                app:checkedIconVisible="true"
-                app:chipIcon="@drawable/ic_baseline_poll_24"
-                app:chipIconVisible="true"
-                app:iconEndPadding="-2dp"
-                app:iconStartPadding="5dp" />
+                android:text="Add Poll Option"
+                android:visibility="gone"
+                android:textColor="@color/colorTextBlack"
+                app:backgroundTint="@color/colorUnderlyingBackground" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="5"
+                >
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_poll_options"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_poll_remove_buttons"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
 
 
             <com.google.android.material.chip.Chip
@@ -196,7 +224,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add to Journey"
-                android:layout_marginBottom="20dp"
+                android:layout_marginVertical="20dp"
                 android:visibility="visible"
                 app:checkedIconTint="@color/colorPrimary"
                 app:checkedIconVisible="true"
