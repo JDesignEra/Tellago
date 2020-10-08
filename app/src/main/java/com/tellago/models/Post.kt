@@ -1,13 +1,22 @@
 package com.tellago.models
 
+import android.content.Context
+import android.net.Uri
 import android.os.Parcelable
 import android.util.Log
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import com.tellago.R
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
+import java.io.File
+import java.net.URI
 import java.util.*
 
 
@@ -33,10 +42,12 @@ data class Post(
 ) : Parcelable {
     @IgnoredOnParcel
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-
     @IgnoredOnParcel
     private val collection = db.collection("posts")
-
+    @IgnoredOnParcel
+    private val storage = FirebaseStorage.getInstance("gs://tellago.appspot.com")
+    @IgnoredOnParcel
+    private val storageRef = storage.reference
 
 
     fun getByPid(onComplete: ((post : Post?) -> Unit)? = null) {
@@ -65,6 +76,23 @@ data class Post(
     fun deleteByPid() {
         if (pid != null) collection.document(pid!!).delete()
         else Log.e(this::class.java.name, "PID is required for deleteByPid().")
+    }
+
+
+    fun displayPostMedia(context: Context, imageView: ImageView) {
+        Glide.with(context)
+            .load(storageRef.child("uploads/postMedia/$pid"))
+            .error(R.drawable.ic_android_photo)
+            .circleCrop()
+            .into(imageView)
+    }
+
+    fun uploadPostMedia(uri: Uri): UploadTask {
+        val file = Uri.fromFile((File(URI.create(uri.toString()))))
+        val uniqueMediaName = uid + createDate.toString()
+
+        // return storageRef.child("uploads/postMedia/$pid").putFile(file)
+        return storageRef.child("uploads/postMedia/$uniqueMediaName").putFile(file)
     }
 
 

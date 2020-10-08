@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             fragmentUtils.replace(
                 createPostFragment,
-                null,
+                "addPostStack",
                 false
             )
 

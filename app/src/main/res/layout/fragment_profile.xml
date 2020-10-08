@@ -42,7 +42,7 @@
                         android:layout_marginEnd="16dp">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="30dp"
                             android:orientation="horizontal">
@@ -80,8 +80,8 @@
                                     android:textColor="@color/colorTextDarkGray"
                                     android:textSize="18sp"
                                     android:textStyle="bold"
-                                    android:layout_marginLeft="3dp"
-                                    android:layout_marginRight="3dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="5dp"
                                     >
 
                                 </TextView>
@@ -106,10 +106,10 @@
                                     android:backgroundTint="@color/colorBackground"
                                     android:text="@string/edit_profile"
                                     android:textColor="@color/colorTextDarkGray"
-                                    android:textSize="13sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold"
-                                    android:layout_marginLeft="3dp"
-                                    android:layout_marginRight="3dp"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginRight="1dp"
 
                                     >
 

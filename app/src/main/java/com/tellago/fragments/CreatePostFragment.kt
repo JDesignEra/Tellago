@@ -21,9 +21,7 @@ import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_create_post.*
-import kotlinx.android.synthetic.main.fragment_show_journeys.*
 
 
 class CreatePostFragment : Fragment() {
@@ -106,10 +104,17 @@ class CreatePostFragment : Fragment() {
 
                 textView_attachMedia.setOnClickListener {
                     pickImageIntent()
+                    attach_post_image.visibility = View.VISIBLE
+                }
+
+                attach_post_image.setOnClickListener {
+                    pickImageIntent()
                 }
 
                 // Replace the following static data with user Input
                 // post.multimediaURI = "someURI"
+
+//                post.multimediaURI = imageView_post_image.get
 
                 Log.d("post.multimediaURI", post.multimediaURI.toString())
 
@@ -178,14 +183,12 @@ class CreatePostFragment : Fragment() {
             else if (post.postType == "multimedia")
             {
 
-//                textView_attachMedia.setOnClickListener {
-//                    pickImageIntent()
-//                }
-//
+
 //                // Replace the following static data with user Input
 //                // post.multimediaURI = "someURI"
 //
 //                Log.d("post.multimediaURI", post.multimediaURI.toString())
+
 
                 post.add {
                     if (it != null) {
@@ -206,7 +209,7 @@ class CreatePostFragment : Fragment() {
     private fun configureToolbar() {
 
         toolbar_create_post.setNavigationOnClickListener {
-            fragmentUtils.popBackStack()
+            fragmentUtils.popBackStack("addPostStack")
         }
     }
 
@@ -219,22 +222,29 @@ class CreatePostFragment : Fragment() {
 
         Log.d("pickImageIntent", "FIRED")
 
-        //startActivityForResult(Intent.createChooser(intent, "Select an image"), PICK_IMAGE_CODE)
-        CropImage.startPickImageActivity(requireActivity())
+
+        getContext()?.let {
+            CropImage.activity()
+                .start(it, this)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        Log.d("requestCode", requestCode.toString())
+
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             // pick single image
             val imageUri = CropImage.getPickImageResultUri(requireContext(), data)
+            Log.d("imageUri", imageUri.toString())
 
             if (CropImage.isReadExternalStoragePermissionsRequired(requireContext(), imageUri)) {
                 //uri = imageUri
                 requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 0)
             } else {
+                Log.d("begin cropping", "FIRED")
                 startCrop(imageUri)
             }
         }
@@ -247,17 +257,24 @@ class CreatePostFragment : Fragment() {
                 Log.d("resultUri", resultUri.toString())
 
                 resultUri.let {
-                    // assign uri to post.multimediaURI
-                        uri ->  post.multimediaURI = uri.toString()
 
-                    Auth.profile?.uploadDp(uri)?.addOnProgressListener {
-                        // Can display a progress bar for upload status
-                        val progress = (100.0 * it.bytesTransferred) / it.totalByteCount
-                    }?.addOnSuccessListener {
+                    // display selected image as attach_post_image (only shown locally; not yet updated to Storage)
+                    uri ->  setImage(uri)
+
+                    post.uploadPostMedia(uri).addOnSuccessListener {
                         toast.success("Attach successful")
-                    }?.addOnFailureListener {
-                        // Failed
+
+                        // assign uri to post.multimediaURI
+                        post.multimediaURI = uri.toString()
+                        Log.d("multimediaURI is now: ", post.multimediaURI.toString())
+
+                        textView_attachMedia.text = "Change Image / Video"
+                    }.addOnFailureListener {
+                        // Failed to upload
+                        toast.error("Error occurred during attach")
                     }
+
+
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
@@ -269,7 +286,7 @@ class CreatePostFragment : Fragment() {
     private fun startCrop(imageUri: Uri) {
         CropImage.activity(imageUri)
             .setGuidelines(CropImageView.Guidelines.ON)
-            .setCropShape(CropImageView.CropShape.OVAL)
+            .setCropShape(CropImageView.CropShape.RECTANGLE)
             .setFixAspectRatio(true)
             .setMultiTouchEnabled(true)
             .start(requireActivity())
@@ -278,8 +295,7 @@ class CreatePostFragment : Fragment() {
     private fun setImage(uri: Uri){
         Glide.with(this)
             .load(uri)
-            .circleCrop()
-            .into(profile_image)
+            .into(attach_post_image)
     }
 
 }
