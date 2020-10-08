@@ -5,14 +5,12 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -82,7 +80,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             fragmentUtils.replace(homeFragment, null, false)
 
             if (!user?.displayName.isNullOrEmpty()) {
-                toast.success("Welcome to tellsquare, %s".format(user?.displayName))
+                toast.success(
+                    "Welcome to tellsquare, %s".format(user?.displayName),
+                    R.drawable.ic_home_24_white,
+                    gravity = Gravity.TOP or Gravity.RIGHT,
+                    cornerRadius = 5
+                )
             }
         }
 

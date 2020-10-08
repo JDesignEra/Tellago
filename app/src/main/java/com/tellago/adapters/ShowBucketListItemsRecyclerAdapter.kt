@@ -19,11 +19,9 @@ class ShowBucketListItemsRecyclerAdapter(
     private val completed: Boolean = false
 ) : RecyclerView.Adapter<ShowBucketListItemsRecyclerAdapter.BucketListItemViewHolder>() {
     private var filteredList: MutableList<MutableMap<String, @RawValue Any>> = model.bucketList
-        .toMutableList()
-        .filterIndexed() { idx, bucketItem ->
-            bucketItem.toMutableMap()
+        .map { it.toMutableMap() }
+        .filterIndexed { idx, bucketItem ->
             bucketItem["idx"] = idx
-
             completed == bucketItem["completed"]
         }.toMutableList()
 
@@ -54,13 +52,27 @@ class ShowBucketListItemsRecyclerAdapter(
         notifyItemRemoved(position ?: filteredList.size - 1)
     }
 
+    fun move(fromPosition: Int, toPosition: Int) {
+        val holdItem = filteredList[fromPosition]
+
+        filteredList.removeAt(fromPosition)
+        filteredList.add(toPosition, holdItem)
+
+        filteredList = model.bucketList
+            .map { it.toMutableMap() }
+            .filterIndexed { idx, bucketItem ->
+                bucketItem["idx"] = idx
+                completed == bucketItem["completed"]
+            }.toMutableList()
+
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
     fun updateFilteredList() {
         filteredList = model.bucketList
-            .toMutableList()
-            .filterIndexed() { idx, bucketItem ->
-                bucketItem.toMutableMap()
+            .map { it.toMutableMap() }
+            .filterIndexed { idx, bucketItem ->
                 bucketItem["idx"] = idx
-
                 completed == bucketItem["completed"]
             }.toMutableList()
 
@@ -95,10 +107,9 @@ class ShowBucketListItemsRecyclerAdapter(
             itemView.btn_ShowBucketItemDetails.setOnClickListener {
                 val filteredList: MutableList<MutableMap<String, @RawValue Any>> = model.bucketList
                     .toMutableList()
-                    .filterIndexed() { idx, bucketItem ->
-                        bucketItem.toMutableMap()
+                    .map { it.toMutableMap() }
+                    .filterIndexed { idx, bucketItem ->
                         bucketItem["idx"] = idx
-
                         completed == bucketItem["completed"]
                     }.toMutableList()
 

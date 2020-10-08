@@ -82,10 +82,6 @@ data class Goal(
     }
 
     fun updateBucketListByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
-        bucketList.forEach {
-            it.remove("idx")
-        }
-
         if (!gid.isNullOrBlank()) {
             collection.document(gid!!).update("bucketList", bucketList).addOnSuccessListener {
                 onComplete?.invoke(this)

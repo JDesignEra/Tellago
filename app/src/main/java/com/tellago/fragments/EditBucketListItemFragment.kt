@@ -58,9 +58,7 @@ class EditBucketListItemFragment : Fragment() {
                 et_bucketListItemName.error = "Field is required"
             }
             else {
-                val originalBucketList = goal.bucketList.toMutableList().map {
-                    it.toMutableMap()
-                }
+                val originalItem = bucketItem.toMutableMap()
 
                 bucketItem["name"] = et_bucketListItemName.text.toString()
                 bucketItem["completed"] = when (completed_toggleGrp.checkedButtonId) {
@@ -85,6 +83,7 @@ class EditBucketListItemFragment : Fragment() {
                             toast.success("Bucket item updated successfully")
                         }
                         else {
+                            goal.bucketList[originalBid] = originalItem
                             toast.error("Please try again, failed to update bucket item")
                         }
                     }
