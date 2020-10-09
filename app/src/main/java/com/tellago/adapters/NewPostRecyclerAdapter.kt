@@ -15,6 +15,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
 import com.tellago.models.Post
+import com.tellago.models.UserPost
 import kotlinx.android.synthetic.main.layout_new_post_list_item.view.*
 import java.time.LocalDate
 import java.time.Period
@@ -42,10 +43,10 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 //        holder.bind(items[position])
 
         holder.post_title.text = "${model.postType} : ${model.messageBody}"
-        holder.post_author.text = model.uid?.let {
+        model.uid?.let {
             com.tellago.models.User(uid = it).getUserWithUid {
                 if (it != null) {
-                    it.displayName
+                    holder.post_author.text = it.displayName
                 }
             }.toString()
         }
@@ -57,35 +58,9 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         // need to display comments individually instead of as an entire ArrayList<String>
         holder.comments.text = model.comment.toString()
 
-        // use Glide to set image to post_image
-//        val requestOptions = RequestOptions()
-//            .placeholder(R.drawable.ic_launcher_background)
-//            .error(R.drawable.ic_launcher_background)
-//
-//
-//        val imageURI = model.multimediaURI?.toUri()
-//        // allow glide to LOAD (image URI from Firebase Storage) INTO post_image
-//        if (imageURI == null) {
-//            Log.d("No multimedia display", "FIRED")
-//            holder.post_image.maxHeight = 0;
-//            holder.post_image.maxWidth = 0;
-//            Glide.with()
-//                .applyDefaultRequestOptions(requestOptions)
-//                .load(R.drawable.ic_launcher_background)
-//                .into(post_image)
-//
-//        }
-//        // Display image of post
-//        Glide.with(itemView.context)
-//            .applyDefaultRequestOptions(requestOptions)
-//            .load(imageURI)
-//            .into(post_image)
-//
-//
-//        // Retrieve user's profile picture
-//        // Display user's profile picture
-//        newPost.uid?.let { com.tellago.models.User(uid = it).displayProfilePicture(itemView.context, post_profile_pic) }
-//
+        // use this function to display images using Glide (one for profile pic of poster & one for any multimedia belonging to Post)
+        holder.bind()
+
 
     }
 
@@ -146,9 +121,11 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         val likes: TextView = itemView.new_post_likes
         val comments: TextView = itemView.new_post_comments
 
-        init {
-            val activity: AppCompatActivity = itemView.context as AppCompatActivity
 
+        val activity: AppCompatActivity = itemView.context as AppCompatActivity
+
+
+        fun bind() {
             // use Glide to set image to post_image
             val requestOptions = RequestOptions()
                 .placeholder(R.drawable.ic_launcher_background)
@@ -180,71 +157,23 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
                 com.tellago.models.User(uid = it)
                     .displayProfilePicture(itemView.context, post_profile_pic)
             }
-//            Glide.with(itemView.context)
+//            Glide.with(activity.application.baseContext)
 //                .applyDefaultRequestOptions(requestOptions)
-//                .load(newPost.profilePic)
+//                .load(post.profilePic)
 //                .circleCrop()
 //                .into(post_profile_pic)
-
-            // insert onclicklisteners below
 
 
         }
 
+//        init {
+//
+//
+        // insert onclicklisteners below
+        //
+        //
+//        }
 
-        // bind method takes new post objects & bind to respective views in the layout
-//        fun bind(newPost: Post) {
-//            // replace post_title layout element??
-//            post_title.text = newPost.postType
-//            post_author.text = newPost.uid?.let {
-//                com.tellago.models.User(uid = it).getUserWithUid {
-//                    if (it != null) {
-//                        it.displayName
-//                    }
-//                }.toString()
-//            }
-//            post_duration.text = Period.between(
-//                newPost.createDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-//                LocalDate.now()
-//            ).toString() + " ago"
-//            likes.text = newPost.likes.size.toString()
-//            // need to display comments individually instead of as an entire ArrayList<String>
-//            comments.text = newPost.comment.toString()
-
-
-//            // use Glide to set image to post_image
-//            val requestOptions = RequestOptions()
-//                .placeholder(R.drawable.ic_launcher_background)
-//                .error(R.drawable.ic_launcher_background)
-//
-//
-//            val imageURI = newPost.multimediaURI?.toUri()
-//            // allow glide to LOAD (image URI from Firebase Storage) INTO post_image
-//            if (imageURI == null) {
-//                Log.d("No multimedia display", "FIRED")
-//                post_image.maxHeight = 0;
-//                post_image.maxWidth = 0;
-//                Glide.with(itemView.context)
-//                    .applyDefaultRequestOptions(requestOptions)
-//                    .load(R.drawable.ic_launcher_background)
-//                    .into(post_image)
-//
-//            }
-//            // Display image of post
-//            Glide.with(itemView.context)
-//                .applyDefaultRequestOptions(requestOptions)
-//                .load(imageURI)
-//                .into(post_image)
-//
-//
-//            // Retrieve user's profile picture
-//            // Display user's profile picture
-//            newPost.uid?.let { com.tellago.models.User(uid = it).displayProfilePicture(itemView.context, post_profile_pic) }
-////            Glide.with(itemView.context)
-////                .applyDefaultRequestOptions(requestOptions)
-////                .load(newPost.profilePic)
-////                .circleCrop()
-////                .into(post_profile_pic)
 
     }
 
