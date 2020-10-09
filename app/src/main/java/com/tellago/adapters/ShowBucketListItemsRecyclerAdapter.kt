@@ -58,13 +58,6 @@ class ShowBucketListItemsRecyclerAdapter(
         filteredList.removeAt(fromPosition)
         filteredList.add(toPosition, holdItem)
 
-        filteredList = model.bucketList
-            .map { it.toMutableMap() }
-            .filterIndexed { idx, bucketItem ->
-                bucketItem["idx"] = idx
-                completed == bucketItem["completed"]
-            }.toMutableList()
-
         notifyItemMoved(fromPosition, toPosition)
     }
 
@@ -78,23 +71,6 @@ class ShowBucketListItemsRecyclerAdapter(
 
         notifyDataSetChanged()
     }
-
-//    // function to remove/delete a bucket list item (given its position/index)
-//    fun delete(position : Int) {
-//        goal.bucketList.removeAt(position)
-//        notifyDataSetChanged()
-//    }
-//
-//    // function to add a bucket list item (given its position/index)
-//    fun add(position : Int, item : MutableMap<String, Any>?) {
-//        goal.bucketList.add(position, item)
-//        notifyDataSetChanged()
-//    }
-//
-//    // function to retrieve & return bucket list item's name value as a String
-//    fun retrieve(position : Int): String {
-//        return goal.bucketList[position]?.get("name") as String
-//    }
 
     class BucketListItemViewHolder constructor(
         itemView: View,
