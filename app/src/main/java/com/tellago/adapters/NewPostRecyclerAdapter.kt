@@ -59,7 +59,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         holder.comments.text = model.comment.toString()
 
         // use this function to display images using Glide (one for profile pic of poster & one for any multimedia belonging to Post)
-        holder.bind()
+        holder.bind(model)
 
 
     }
@@ -125,7 +125,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         val activity: AppCompatActivity = itemView.context as AppCompatActivity
 
 
-        fun bind() {
+        fun bind(post: Post) {
             // use Glide to set image to post_image
             val requestOptions = RequestOptions()
                 .placeholder(R.drawable.ic_launcher_background)
@@ -145,11 +145,12 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
             }
             // Display image of post
-            Glide.with(activity.application.baseContext)
-                .applyDefaultRequestOptions(requestOptions)
-                .load(imageURI)
-                .into(post_image)
+//            Glide.with(activity.application.baseContext)
+//                .applyDefaultRequestOptions(requestOptions)
+//                .load(imageURI)
+//                .into(post_image)
 
+            post.displayPostMedia(activity.application.baseContext, post_image)
 
             // Retrieve user's profile picture
             // Display user's profile picture

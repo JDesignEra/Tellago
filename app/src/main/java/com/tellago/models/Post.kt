@@ -83,7 +83,6 @@ data class Post(
         Glide.with(context)
             .load(storageRef.child("uploads/postMedia/$pid"))
             .error(R.drawable.ic_android_photo)
-            .circleCrop()
             .into(imageView)
     }
 
