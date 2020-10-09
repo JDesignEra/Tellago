@@ -2,7 +2,6 @@ package com.tellago.fragments
 
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -202,15 +201,20 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                                             super.onDismissed(transientBottomBar, event)
 
-//                                            Log.e("dragFrom IDX", dragFrom.toString())
-//                                            Log.e("dragTo IDX", dragTo.toString())
-
                                             if (!undoFlag && !updatingDrag) {
                                                 updatingDrag = true
+                                                var toOriginalIdx = targetHold["idx"] as Int
+
+                                                if (dragTo > dragFrom) {
+                                                    if (toOriginalIdx + 1 < goal.bucketList.size) toOriginalIdx += 1
+                                                }
+                                                else {
+                                                    if (toOriginalIdx > 0) toOriginalIdx -= 1
+                                                }
 
                                                 goal.bucketList.removeAt(holdItem["idx"] as Int).apply {
                                                     goal.bucketList.add(
-                                                        targetHold!!["idx"] as Int,
+                                                        toOriginalIdx,
                                                         this
                                                     )
                                                 }
