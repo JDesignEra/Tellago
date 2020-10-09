@@ -68,8 +68,6 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
 
         val recyclerViewSwipeDecorator = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.DOWN or ItemTouchHelper.UP, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
             private var snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG)
-//            private var dragHold: Map<String, Any>? = null
-//            private var dragTargetHold: Map<String, Any>? = null
             private var dragFrom = -1
             private var dragTo = -1
             private var prevState = -1
@@ -127,7 +125,7 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                         if (!undoFlag) {
                                             updatingDrag = true
 
-                                            goal.bucketList[holdItem["idx"] as Int]["completed"] = true
+                                            goal.bucketList[holdItem["idx"] as Int]["completed"] = false
                                             goal.updateBucketListByGid {
                                                 if (it != null) toast.success("Item moved to ongoing list successfully")
                                                 else {
@@ -190,7 +188,7 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                 dragFrom > -1 && dragTo > -1 && dragFrom != dragTo &&
                                 prevState == ItemTouchHelper.ACTION_STATE_DRAG
                             ) {
-                                snackbar.setText("Item #${dragFrom + 1} - ${holdItem!!["name"]} moving to #${dragTo + 1}")
+                                snackbar.setText("Item #${dragFrom + 1} - ${holdItem["name"]} moving to #${dragTo + 1}")
                                     .setAction("Undo", undoMove(dragFrom, dragTo))
                                     .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
                                         override fun onShown(transientBottomBar: Snackbar?) {
@@ -229,6 +227,7 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                                     }
 
                                                     adapter?.updateFilteredList()
+                                                    ShowBucketListItemsOngoingFragment.adapter?.updateFilteredList()
                                                     resetDragStates()
                                                 }
                                             }
@@ -256,9 +255,9 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                     .addSwipeLeftLabel("Delete")
                     .setSwipeLeftLabelTextSize(TypedValue.COMPLEX_UNIT_DIP, 20F)
                     .setSwipeLeftLabelColor(ContextCompat.getColor(requireContext(), R.color.colorBackground))
-                    .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorSuccess))
-                    .addSwipeRightActionIcon(R.drawable.ic_baseline_check_circle_outline_48)
-                    .addSwipeRightLabel("Completed")
+                    .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorWarning))
+                    .addSwipeRightActionIcon(R.drawable.ic_hourglass_top_white_24dp)
+                    .addSwipeRightLabel("In Progress")
                     .setSwipeRightLabelTextSize(TypedValue.COMPLEX_UNIT_DIP, 20F)
                     .setSwipeRightLabelColor(ContextCompat.getColor(requireContext(), R.color.colorBackground))
                     .create()
