@@ -13,7 +13,7 @@ import kotlinx.android.parcel.Parcelize
 data class Journey(
     @DocumentId var jid: String? = null,
     var title: String = "My Journey",
-    var pids: ArrayList<String>? = ArrayList()
+    var pids: ArrayList<String> = ArrayList()
 
 ) : Parcelable {
     @IgnoredOnParcel

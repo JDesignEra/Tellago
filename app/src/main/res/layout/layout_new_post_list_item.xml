@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="8dp"
+        >
+
+        <ImageView
+            android:id="@+id/new_post_profile_pic"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/profile_picture_shape"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_android_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+
+        <TextView
+            android:id="@+id/new_post_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="14dp"
+            android:text="Android McAndroid"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/new_post_profile_pic"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+        <TextView
+            android:id="@+id/new_post_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="16dp"
+            android:text="00wks ago"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@id/new_post_author"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+
+        <TextView
+            android:id="@+id/new_post_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="4dp"
+            android:text="I have successfully travelled half the world. Thats crazy!"
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_post_profile_pic"></TextView>
+
+        <ImageView
+            android:id="@+id/new_post_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_post_title">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/new_option_menu"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_baseline_more_vert_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/new_post_icon_container"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/new_post_image"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp">
+            <ImageView
+                android:id="@+id/new_post_like_btn"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_favorite_24"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_post_image" />
+
+
+            <ImageView
+                android:id="@+id/new_post_comment_btn"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_mode_comment_24"
+                app:layout_constraintLeft_toRightOf="@id/like_btn"
+                app:layout_constraintTop_toBottomOf="@id/new_post_image"></ImageView>
+
+            <ImageView
+                android:id="@+id/new_post_share_btn"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_share_24"
+                app:layout_constraintLeft_toRightOf="@id/new_post_comment_btn"
+                app:layout_constraintTop_toBottomOf="@id/new_post_image"></ImageView>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/new_post_icon_display_container"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/new_post_icon_container"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="10dp"
+            >
+            <TextView
+                android:id="@+id/new_post_likes"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="000"
+                android:textSize="11dp"
+                android:textAlignment="center"></TextView>
+            <TextView
+                android:id="@+id/new_post_comments"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="000"
+                android:textSize="11dp"
+                android:textAlignment="center"></TextView>
+        </LinearLayout>
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>
