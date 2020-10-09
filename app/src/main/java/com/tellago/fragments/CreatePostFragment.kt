@@ -352,7 +352,11 @@ class CreatePostFragment : Fragment() {
                 resultUri.let {
 
                     // display selected image as attach_post_image (only shown locally; not yet updated to Storage)
-                        uri ->  setImage(uri)
+                    uri ->  setImage(uri)
+
+                    // redo if it is tilting
+                    attach_post_image.minimumHeight = 196
+                    attach_post_image.minimumWidth = 196
 
                     textView_attachMedia.text = "Change Image / Video"
 

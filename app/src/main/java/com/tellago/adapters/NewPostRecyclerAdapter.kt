@@ -145,11 +145,6 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
             }
             // Display image of post
-//            Glide.with(activity.application.baseContext)
-//                .applyDefaultRequestOptions(requestOptions)
-//                .load(imageURI)
-//                .into(post_image)
-
             post.displayPostMedia(activity.application.baseContext, post_image)
 
             // Retrieve user's profile picture
@@ -158,12 +153,6 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
                 com.tellago.models.User(uid = it)
                     .displayProfilePicture(itemView.context, post_profile_pic)
             }
-//            Glide.with(activity.application.baseContext)
-//                .applyDefaultRequestOptions(requestOptions)
-//                .load(post.profilePic)
-//                .circleCrop()
-//                .into(post_profile_pic)
-
 
         }
 
