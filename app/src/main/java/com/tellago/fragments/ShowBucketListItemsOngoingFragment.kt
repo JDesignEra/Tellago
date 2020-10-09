@@ -124,10 +124,10 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
 
                                             goal.bucketList[holdItem["idx"] as Int]["completed"] = true
                                             goal.updateBucketListByGid {
-                                                if (it != null) toast.success("Item moved to completed list successfully")
+                                                if (it != null) toast.success("Item moved to 'Completed' tab successfully")
                                                 else {
                                                     undoComplete(holdItem, viewHolder.layoutPosition)
-                                                    toast.error("Please try again, failed to moved item to completed list")
+                                                    toast.error("Please try again, failed to moved item to 'Completed' tab")
                                                 }
                                             }
                                         }

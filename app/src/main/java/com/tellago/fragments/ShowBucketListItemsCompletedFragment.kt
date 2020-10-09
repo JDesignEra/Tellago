@@ -110,7 +110,7 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                             adapter?.remove(viewHolder.layoutPosition)
                             ShowBucketListItemsOngoingFragment.adapter?.insert(holdItem)
 
-                            snackbar.setText("Item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]} moving to Ongoing")
+                            snackbar.setText("Item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]} moving to 'In Progress'")
                                 .setAction("Undo", undoComplete(holdItem, viewHolder.layoutPosition))
                                 .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
                                     override fun onShown(transientBottomBar: Snackbar?) {
@@ -127,10 +127,10 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
 
                                             goal.bucketList[holdItem["idx"] as Int]["completed"] = false
                                             goal.updateBucketListByGid {
-                                                if (it != null) toast.success("Item moved to ongoing list successfully")
+                                                if (it != null) toast.success("Item moved to 'In Progress' tab successfully")
                                                 else {
                                                     undoComplete(holdItem, viewHolder.layoutPosition)
-                                                    toast.error("Please try again, failed to moved item to ongoing list")
+                                                    toast.error("Please try again, failed to moved item to 'In Progress' tab")
                                                 }
                                             }
                                         }
