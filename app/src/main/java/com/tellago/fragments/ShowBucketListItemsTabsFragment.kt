@@ -85,7 +85,7 @@ class ShowBucketListItemsTabsFragment : Fragment() {
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position -> // Styling each tab here
             when (position) {
-                0 -> tab.text = "Ongoing"
+                0 -> tab.text = "In Progress"
                 1 -> tab.text = "Completed"
             }
         }.attach()

@@ -41,7 +41,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
 //        holder.bind(items[position])
 
-        holder.post_title.text = model.postType
+        holder.post_title.text = "${model.postType} : ${model.messageBody}"
         holder.post_author.text = model.uid?.let {
             com.tellago.models.User(uid = it).getUserWithUid {
                 if (it != null) {

@@ -113,13 +113,13 @@ class ShowJourneyPostsFragment : Fragment() {
     override fun onStart() {
         // Adapter which is populated using Firestore data (through query) will require this function
         super.onStart()
-        adapter?.startListening()
+        adapter.startListening()
     }
 
     override fun onStop() {
         // Adapter which is populated using Firestore data (through query) will require this function
         super.onStop()
-        adapter?.stopListening()
+        adapter.stopListening()
     }
 
     private fun configureToolbar() {

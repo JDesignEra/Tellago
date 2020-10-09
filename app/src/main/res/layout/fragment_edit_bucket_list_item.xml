@@ -100,6 +100,17 @@
                 app:selectionRequired="true">
 
                 <Button
+                    android:id="@+id/in_progress_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="In Progress"
+                    android:textSize="16sp"
+                    android:letterSpacing="0.08"
+                    android:textAllCaps="false"
+                    android:layout_weight="0.5"
+                    style="?attr/materialButtonOutlinedStyle"/>
+
+                <Button
                     android:id="@+id/completed_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -110,16 +121,6 @@
                     android:layout_weight="0.5"
                     style="?attr/materialButtonOutlinedStyle"/>
 
-                <Button
-                    android:id="@+id/in_progress_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="In Progress"
-                    android:textSize="16sp"
-                    android:letterSpacing="0.08"
-                    android:textAllCaps="false"
-                    android:layout_weight="0.5"
-                    style="?attr/materialButtonOutlinedStyle"/>
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
