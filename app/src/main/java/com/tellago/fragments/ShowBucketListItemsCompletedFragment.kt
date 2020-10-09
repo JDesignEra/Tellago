@@ -182,52 +182,57 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
 
                 when (actionState) {
                     ItemTouchHelper.ACTION_STATE_IDLE -> {
-                        val holdItem = adapter?.getAt(dragTo)
-                        val targetHold = adapter?.getAt(dragFrom)
+                        if (dragFrom > -1 && dragTo > -1 && dragFrom != dragTo) {
+                            val holdItem = adapter?.getAt(dragTo)
+                            val targetHold = adapter?.getAt(dragFrom)
 
-                        if (holdItem != null && targetHold != null &&
-                            holdItem["idx"] != null && targetHold["idx"] != null &&
-                            dragFrom > -1 && dragTo > -1 && dragFrom != dragTo &&
-                            prevState == ItemTouchHelper.ACTION_STATE_DRAG
-                        ) {
-                            snackbar.setText("Item #${dragFrom + 1} - ${holdItem!!["name"]} moving to #${dragTo + 1}")
-                                .setAction("Undo", undoMove(dragFrom, dragTo))
-                                .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                                    override fun onShown(transientBottomBar: Snackbar?) {
-                                        super.onShown(transientBottomBar)
-                                        undoFlag = false
-                                    }
+                            if (holdItem != null && targetHold != null &&
+                                holdItem["idx"] != null && targetHold["idx"] != null &&
+                                dragFrom > -1 && dragTo > -1 && dragFrom != dragTo &&
+                                prevState == ItemTouchHelper.ACTION_STATE_DRAG
+                            ) {
+                                snackbar.setText("Item #${dragFrom + 1} - ${holdItem!!["name"]} moving to #${dragTo + 1}")
+                                    .setAction("Undo", undoMove(dragFrom, dragTo))
+                                    .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                                        override fun onShown(transientBottomBar: Snackbar?) {
+                                            super.onShown(transientBottomBar)
+                                            undoFlag = false
+                                        }
 
-                                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                                        super.onDismissed(transientBottomBar, event)
+                                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                            super.onDismissed(transientBottomBar, event)
 
-                                        if (!undoFlag && !updatingDrag) {
-                                            updatingDrag = true
+//                                            Log.e("dragFrom IDX", dragFrom.toString())
+//                                            Log.e("dragTo IDX", dragTo.toString())
 
-                                            goal.bucketList.removeAt(holdItem["idx"] as Int).apply {
-                                                goal.bucketList.add(
-                                                    targetHold!!["idx"] as Int,
-                                                    this
-                                                )
-                                            }
+                                            if (!undoFlag && !updatingDrag) {
+                                                updatingDrag = true
 
-                                            goal.updateBucketListByGid {
-                                                if (it != null) {
-                                                    toast.success("Item moved successfully")
-                                                }
-                                                else {
-                                                    undoMove(dragFrom, dragTo)
-                                                    toast.error("Please try again, failed to move item")
+                                                goal.bucketList.removeAt(holdItem["idx"] as Int).apply {
+                                                    goal.bucketList.add(
+                                                        targetHold!!["idx"] as Int,
+                                                        this
+                                                    )
                                                 }
 
-                                                adapter?.updateFilteredList()
-                                                resetDragStates()
+                                                goal.updateBucketListByGid {
+                                                    if (it != null) {
+                                                        toast.success("Item moved successfully")
+                                                    }
+                                                    else {
+                                                        undoMove(dragFrom, dragTo)
+                                                        toast.error("Please try again, failed to move item")
+                                                    }
+
+                                                    adapter?.updateFilteredList()
+                                                    resetDragStates()
+                                                }
                                             }
                                         }
-                                        else resetDragStates()
-                                    }
-                                }).show()
+                                    }).show()
+                            }
                         }
+                        else resetDragStates()
                     }
                 }
 
@@ -276,8 +281,6 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
             }
 
             private fun resetDragStates() {
-//                dragHold = null
-//                dragTargetHold = null
                 dragFrom = -1
                 dragTo = -1
                 updatingDrag = false
