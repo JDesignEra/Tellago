@@ -71,7 +71,7 @@
                 android:layout_marginTop="30dp"
                 android:background="@drawable/rounded_btn_gray"
                 android:hint="Enter Bucket List Item"
-                app:boxBackgroundColor="@color/lightgray"
+                app:boxBackgroundColor="@color/lightGray"
                 app:startIconDrawable="@drawable/ic_baseline_outlined_flag_24">
 
                 <com.google.android.material.textfield.TextInputEditText

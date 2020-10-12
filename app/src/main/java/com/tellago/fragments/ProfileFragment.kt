@@ -69,8 +69,8 @@ class ProfileFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity?.application?.baseContext)
 
             // Step 2: Adding padding decoration for spacing between viewholders (defined in TopSpacingItemDecoration.kt)
-            val topSpacingDecoration = TopSpacingItemDecoration(20)
-            addItemDecoration(topSpacingDecoration)
+//            val topSpacingDecoration = TopSpacingItemDecoration(20)
+//            addItemDecoration(topSpacingDecoration)
 
             // Step 3: Initialise the lateinit variable homePostAdapter
             profilePostAdapter = ProfilePostRecyclerAdapter()

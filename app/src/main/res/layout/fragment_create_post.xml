@@ -126,7 +126,7 @@
                 android:hint="Write a message ..."
                 android:textAlignment="center"
                 android:visibility="visible"
-                app:boxBackgroundColor="@color/lightgray">
+                app:boxBackgroundColor="@color/lightGray">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_PostMessage"
@@ -165,7 +165,7 @@
                 android:hint="Create a poll ..."
                 android:textAlignment="center"
                 android:visibility="gone"
-                app:boxBackgroundColor="@color/lightgray">
+                app:boxBackgroundColor="@color/lightGray">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_PollQuestion"

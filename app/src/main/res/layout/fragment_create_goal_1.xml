@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Enter Goal"
                 app:startIconDrawable="@drawable/ic_baseline_outlined_flag_24"
-                app:boxBackgroundColor="@color/lightgray"
+                app:boxBackgroundColor="@color/lightGray"
                 android:background="@drawable/rounded_btn_gray"
                 android:layout_marginTop="30dp">
 
@@ -106,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="How much do you need?"
-                app:boxBackgroundColor="@color/lightgray"
+                app:boxBackgroundColor="@color/lightGray"
                 android:background="@drawable/rounded_btn_gray"
                 android:layout_marginTop="10dp"
                 app:startIconDrawable="@drawable/ic_baseline_attach_money_24">

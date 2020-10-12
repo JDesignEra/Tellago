@@ -99,7 +99,7 @@
             android:layout_width="match_parent"
             android:id="@+id/recycler_view"
             android:layout_height="0dp"
-            android:background="@color/lightgray"
+            android:background="@color/lightGray"
             app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_3"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
