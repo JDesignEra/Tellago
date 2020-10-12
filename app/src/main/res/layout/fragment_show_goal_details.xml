@@ -29,7 +29,6 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
         <ProgressBar
             android:id="@+id/progress_bar_progressAmt"
             android:layout_width="180dp"
@@ -40,9 +39,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appBarLayout_view_goal_details"
-            tools:progress="50"
-
-            />
+            tools:progress="50" />
 
         <TextView
             android:id="@+id/tv_progress_bar_display"

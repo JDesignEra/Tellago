@@ -42,6 +42,8 @@ class ShowBucketListItemsTabsFragment : Fragment() {
         configureToolbar()
         setUpTabs()
 
+        tv_goal_title.text = goal.title
+
         if (goal.completed) fab_add_bucketListItem.visibility = View.GONE
 
         fab_add_bucketListItem.setOnClickListener {
@@ -81,7 +83,6 @@ class ShowBucketListItemsTabsFragment : Fragment() {
     }
 
     private fun configureToolbar() {
-        toolbar_tabLayout_bucketListItems.title = "Goal: ${goal.title}"
         toolbar_tabLayout_bucketListItems.setNavigationOnClickListener {
             fragmentUtils.popBackStack()
         }
