@@ -16,8 +16,6 @@ import kotlinx.android.synthetic.main.fragment_bucket_list_items_tab.*
 
 class ShowBucketListItemsTabsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
-    private lateinit var goal: Goal
-
     private var bundle: Bundle? = null
     private val createBucketListItemFragment: Fragment = CreateBucketListItemFragment()
 
@@ -96,5 +94,9 @@ class ShowBucketListItemsTabsFragment : Fragment() {
         toolbar_tabLayout_bucketListItems.setNavigationOnClickListener {
             fragmentUtils.popBackStack()
         }
+    }
+
+    companion object {
+        lateinit var goal: Goal
     }
 }

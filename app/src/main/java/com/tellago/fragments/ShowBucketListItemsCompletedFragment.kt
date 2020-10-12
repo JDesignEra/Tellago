@@ -67,11 +67,6 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
         recycler_view_show_bucketListItems_completed_fragment.adapter = adapter
 
         val recyclerViewSwipeDecorator = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.DOWN or ItemTouchHelper.UP, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
-            private var snackbar = Snackbar.make(view, "", Snackbar.LENGTH_LONG)
-            private var dragFrom = -1
-            private var dragTo = -1
-            private var prevState = -1
-            private var updatingDrag = false
             private var undoFlag = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -82,9 +77,12 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                         ItemTouchHelper.LEFT -> {
                             adapter?.remove(viewHolder.layoutPosition)
 
-                            snackbar.setText("Deleting item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]}")
+                            Snackbar.make(view, "Deleting item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]}", Snackbar.LENGTH_LONG)
                                 .setAction("Undo", undoRemove(holdItem, viewHolder.layoutPosition))
                                 .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                                    val item = holdItem
+                                    val itemPos = viewHolder.layoutPosition + 1
+
                                     override fun onShown(transientBottomBar: Snackbar?) {
                                         super.onShown(transientBottomBar)
                                         undoFlag = false
@@ -96,11 +94,8 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                         if (!undoFlag) {
                                             goal.bucketList.removeAt(holdItem["idx"] as Int)
                                             goal.updateBucketListByGid {
-                                                if (it != null) toast.success("Item deleted successfully")
-                                                else {
-                                                    undoRemove(holdItem, viewHolder.layoutPosition)
-                                                    toast.error("Please try again, failed to delete item")
-                                                }
+                                                if (it != null) toast.success("Item #${itemPos} - ${item?.get("name")} deleted")
+                                                else toast.error("Failed to delete Item #${itemPos} - ${item?.get("name")}")
                                             }
                                         }
                                     }
@@ -110,12 +105,14 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                             adapter?.remove(viewHolder.layoutPosition)
                             ShowBucketListItemsOngoingFragment.adapter?.insert(holdItem)
 
-                            snackbar.setText("Item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]} moving to 'In Progress'")
+                            Snackbar.make(view, "Item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]} moving to 'In Progress'", Snackbar.LENGTH_LONG)
                                 .setAction("Undo", undoComplete(holdItem, viewHolder.layoutPosition))
                                 .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                                    val item = holdItem
+                                    val itemPos = viewHolder.layoutPosition + 1
+
                                     override fun onShown(transientBottomBar: Snackbar?) {
                                         super.onShown(transientBottomBar)
-
                                         undoFlag = false
                                     }
 
@@ -123,15 +120,10 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                         super.onDismissed(transientBottomBar, event)
 
                                         if (!undoFlag) {
-                                            updatingDrag = true
-
                                             goal.bucketList[holdItem["idx"] as Int]["completed"] = false
                                             goal.updateBucketListByGid {
-                                                if (it != null) toast.success("Item moved to 'In Progress' tab successfully")
-                                                else {
-                                                    undoComplete(holdItem, viewHolder.layoutPosition)
-                                                    toast.error("Please try again, failed to moved item to 'In Progress' tab")
-                                                }
+                                                if (it != null) toast.success("Item #${itemPos} - ${item?.get("name")} moved to in progress")
+                                                else toast.error("Item #${itemPos} - ${item?.get("name")} failed to move to in progress")
                                             }
                                         }
                                     }
@@ -145,101 +137,8 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                 }
             }
 
-            override fun isLongPressDragEnabled(): Boolean {
-                super.isLongPressDragEnabled()
-
-                if (updatingDrag) return false
-
-                return true
-            }
-
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                return true
-            }
-
-            override fun onMoved(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                fromPos: Int,
-                target: RecyclerView.ViewHolder,
-                toPos: Int,
-                x: Int,
-                y: Int
-            ) {
-                super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
-
-                dragFrom = fromPos
-                dragTo = toPos
-
-                adapter?.move(dragFrom, dragTo)
-            }
-
-            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-                super.onSelectedChanged(viewHolder, actionState)
-
-                when (actionState) {
-                    ItemTouchHelper.ACTION_STATE_IDLE -> {
-                        if (dragFrom > -1 && dragTo > -1 && dragFrom != dragTo) {
-                            val holdItem = adapter?.getAt(dragTo)
-                            val targetHold = adapter?.getAt(dragFrom)
-
-                            if (holdItem != null && targetHold != null &&
-                                holdItem["idx"] != null && targetHold["idx"] != null &&
-                                dragFrom > -1 && dragTo > -1 && dragFrom != dragTo &&
-                                prevState == ItemTouchHelper.ACTION_STATE_DRAG
-                            ) {
-                                snackbar.setText("Item #${dragFrom + 1} - ${holdItem["name"]} moving to #${dragTo + 1}")
-                                    .setAction("Undo", undoMove(dragFrom, dragTo))
-                                    .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                                        override fun onShown(transientBottomBar: Snackbar?) {
-                                            super.onShown(transientBottomBar)
-                                            undoFlag = false
-                                        }
-
-                                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                                            super.onDismissed(transientBottomBar, event)
-
-                                            if (!undoFlag && !updatingDrag) {
-                                                updatingDrag = true
-                                                var toOriginalIdx = targetHold["idx"] as Int
-
-                                                if (dragTo > dragFrom) {
-                                                    if (toOriginalIdx + 1 < goal.bucketList.size) toOriginalIdx += 1
-                                                }
-                                                else {
-                                                    if (toOriginalIdx > 0) toOriginalIdx -= 1
-                                                }
-
-                                                goal.bucketList.removeAt(holdItem["idx"] as Int).apply {
-                                                    goal.bucketList.add(
-                                                        toOriginalIdx,
-                                                        this
-                                                    )
-                                                }
-
-                                                goal.updateBucketListByGid {
-                                                    if (it != null) {
-                                                        toast.success("Item moved successfully")
-                                                    }
-                                                    else {
-                                                        undoMove(dragFrom, dragTo)
-                                                        toast.error("Please try again, failed to move item")
-                                                    }
-
-                                                    adapter?.updateFilteredList()
-                                                    ShowBucketListItemsOngoingFragment.adapter?.updateFilteredList()
-                                                    resetDragStates()
-                                                }
-                                            }
-                                        }
-                                    }).show()
-                            }
-                        }
-                        else resetDragStates()
-                    }
-                }
-
-                prevState = actionState
+                return false
             }
 
             override fun onChildDraw(
@@ -275,19 +174,6 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                 adapter?.insert(item, position)
                 ShowBucketListItemsOngoingFragment.adapter?.remove()
                 adapter?.updateFilteredList()
-            }
-
-            private fun undoMove(originalFromPosition: Int, originalToPosition: Int): View.OnClickListener = View.OnClickListener {
-                undoFlag = true
-                adapter?.move(originalToPosition, originalFromPosition)
-                adapter?.updateFilteredList()
-            }
-
-            private fun resetDragStates() {
-                dragFrom = -1
-                dragTo = -1
-                updatingDrag = false
-                prevState = -1
             }
         }
 

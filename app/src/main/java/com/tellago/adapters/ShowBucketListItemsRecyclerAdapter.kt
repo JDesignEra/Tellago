@@ -57,7 +57,6 @@ class ShowBucketListItemsRecyclerAdapter(
 
         filteredList.removeAt(fromPosition)
         filteredList.add(toPosition, holdItem)
-
         notifyItemMoved(fromPosition, toPosition)
     }
 
