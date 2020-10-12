@@ -3,6 +3,7 @@ package com.tellago.fragments
 import android.graphics.Canvas
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +32,7 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        goal = Goal()
+        goal = ShowBucketListItemsTabsFragment.goal
 
         if (this.arguments != null) bundle = requireArguments()
         if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
@@ -94,8 +95,16 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                         if (!undoFlag) {
                                             goal.bucketList.removeAt(holdItem["idx"] as Int)
                                             goal.updateBucketListByGid {
-                                                if (it != null) toast.success("Item #${itemPos} - ${item?.get("name")} deleted")
-                                                else toast.error("Failed to delete Item #${itemPos} - ${item?.get("name")}")
+                                                if (it != null) toast.success(
+                                                    "Item #${itemPos} - ${item?.get("name")} deleted",
+                                                    gravity = Gravity.TOP or Gravity.END,
+                                                    cornerRadius = 5
+                                                )
+                                                else toast.error(
+                                                    "Failed to delete Item #${itemPos} - ${item?.get("name")}",
+                                                    gravity = Gravity.TOP or Gravity.END,
+                                                    cornerRadius = 5
+                                                )
                                             }
                                         }
                                     }
@@ -122,8 +131,16 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                         if (!undoFlag) {
                                             goal.bucketList[holdItem["idx"] as Int]["completed"] = false
                                             goal.updateBucketListByGid {
-                                                if (it != null) toast.success("Item #${itemPos} - ${item?.get("name")} moved to in progress")
-                                                else toast.error("Item #${itemPos} - ${item?.get("name")} failed to move to in progress")
+                                                if (it != null) toast.success(
+                                                    "Item #${itemPos} - ${item?.get("name")} moved to in progress",
+                                                    gravity = Gravity.TOP or Gravity.END,
+                                                    cornerRadius = 5
+                                                )
+                                                else toast.error(
+                                                    "Item #${itemPos} - ${item?.get("name")} failed to move to in progress",
+                                                    gravity = Gravity.TOP or Gravity.END,
+                                                    cornerRadius = 5
+                                                )
                                             }
                                         }
                                     }

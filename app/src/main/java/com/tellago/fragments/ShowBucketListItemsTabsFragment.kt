@@ -60,14 +60,6 @@ class ShowBucketListItemsTabsFragment : Fragment() {
         val ongoingItemsFragment = ShowBucketListItemsOngoingFragment()
         val completedItemsFragment = ShowBucketListItemsCompletedFragment()
 
-        ongoingItemsFragment.arguments = Bundle().apply {
-            putParcelable(goal::class.java.name, goal)
-        }
-
-        completedItemsFragment.arguments = Bundle().apply {
-            putParcelable(goal::class.java.name, goal)
-        }
-
         val fragmentList = arrayListOf(
             ongoingItemsFragment,
             completedItemsFragment

@@ -3,6 +3,7 @@ package com.tellago.fragments
 import android.graphics.Canvas
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,8 +90,16 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
                                         if (!undoFlag) {
                                             goal.bucketList.removeAt(holdItem["idx"] as Int)
                                             goal.updateBucketListByGid {
-                                                if (it != null) toast.success("Item #${itemPos} - ${item?.get("name")} deleted")
-                                                else toast.error("Failed to delete Item #${itemPos} - ${item?.get("name")}")
+                                                if (it != null) toast.success(
+                                                    "Item #${itemPos} - ${item?.get("name")} deleted",
+                                                    gravity = Gravity.TOP or Gravity.END,
+                                                    cornerRadius = 5
+                                                )
+                                                else toast.error(
+                                                    "Failed to delete Item #${itemPos} - ${item?.get("name")}",
+                                                    gravity = Gravity.TOP or Gravity.END,
+                                                    cornerRadius = 5
+                                                )
                                             }
                                         }
                                     }
@@ -117,8 +126,16 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
                                         if (!undoFlag) {
                                             goal.bucketList[holdItem["idx"] as Int]["completed"] = true
                                             goal.updateBucketListByGid {
-                                                if (it != null) toast.success("Item #${itemPos} - ${item?.get("name")} moved to complete")
-                                                else toast.error("Failed Item #${itemPos} - ${item?.get("name")} failed to moved to complete")
+                                                if (it != null) toast.success(
+                                                    "Item #${itemPos} - ${item?.get("name")} moved to complete",
+                                                    gravity = Gravity.TOP or Gravity.END,
+                                                    cornerRadius = 5
+                                                )
+                                                else toast.error(
+                                                    "Failed Item #${itemPos} - ${item?.get("name")} failed to moved to complete",
+                                                    gravity = Gravity.TOP or Gravity.END,
+                                                    cornerRadius = 5
+                                                )
                                             }
                                         }
                                     }

@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 toast.success(
                     "Welcome to tellsquare, %s".format(user?.displayName),
                     R.drawable.ic_home_24_white,
-                    gravity = Gravity.TOP or Gravity.RIGHT,
+                    gravity = Gravity.TOP or Gravity.END,
                     cornerRadius = 5
                 )
             }

@@ -52,14 +52,6 @@ class ShowBucketListItemsRecyclerAdapter(
         notifyItemRemoved(position ?: filteredList.size - 1)
     }
 
-    fun move(fromPosition: Int, toPosition: Int) {
-        val holdItem = filteredList[fromPosition]
-
-        filteredList.removeAt(fromPosition)
-        filteredList.add(toPosition, holdItem)
-        notifyItemMoved(fromPosition, toPosition)
-    }
-
     fun updateFilteredList() {
         filteredList = model.bucketList
             .map { it.toMutableMap() }
