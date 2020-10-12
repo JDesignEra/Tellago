@@ -13,7 +13,6 @@ import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_bucket_list_items_tab.*
 
-
 class ShowBucketListItemsTabsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
     private var bundle: Bundle? = null
@@ -43,6 +42,8 @@ class ShowBucketListItemsTabsFragment : Fragment() {
         configureToolbar()
         setUpTabs()
 
+        if (goal.completed) fab_add_bucketListItem.visibility = View.GONE
+
         fab_add_bucketListItem.setOnClickListener {
             createBucketListItemFragment.arguments = Bundle().apply {
                 putParcelable(goal::class.java.name, goal)
@@ -57,13 +58,9 @@ class ShowBucketListItemsTabsFragment : Fragment() {
 
     private fun setUpTabs() {
         val viewPager2 = view_pager_ShowBucketListItemsTabsFragment
-        val ongoingItemsFragment = ShowBucketListItemsOngoingFragment()
-        val completedItemsFragment = ShowBucketListItemsCompletedFragment()
-
-        val fragmentList = arrayListOf(
-            ongoingItemsFragment,
-            completedItemsFragment
-        )
+        val fragmentList = arrayListOf<Fragment>()
+        if (!goal.completed) fragmentList.add(ShowBucketListItemsOngoingFragment())
+        fragmentList.add(ShowBucketListItemsCompletedFragment())
 
         // set Orientation in ViewPager2
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -72,10 +69,12 @@ class ShowBucketListItemsTabsFragment : Fragment() {
 
         val tabLayout = tab_layout_ShowBucketListItemsTabsFragment
 
-
-        TabLayoutMediator(tabLayout, viewPager2) { tab, position -> // Styling each tab here
+        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {
-                0 -> tab.text = "In Progress"
+                0 -> {
+                    if (goal.completed) tab.text = "Completed"
+                    else tab.text = "In Progress"
+                }
                 1 -> tab.text = "Completed"
             }
         }.attach()

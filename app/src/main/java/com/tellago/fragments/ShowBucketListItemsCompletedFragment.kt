@@ -195,7 +195,8 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
         }
 
         val itemTouchHelper = ItemTouchHelper(recyclerViewSwipeDecorator)
-        itemTouchHelper.attachToRecyclerView(recycler_view_show_bucketListItems_completed_fragment)
+
+        if (!goal.completed) itemTouchHelper.attachToRecyclerView(recycler_view_show_bucketListItems_completed_fragment)
     }
 
     companion object {

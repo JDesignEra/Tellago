@@ -42,18 +42,6 @@ data class Goal(
     @IgnoredOnParcel
     private val collection = db.collection("goals")
 
-    fun getByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
-        if (gid != null) {
-            collection.document(gid!!).get().addOnSuccessListener {
-                onComplete?.invoke(it.toObject<Goal>())
-            }.addOnFailureListener {
-                Log.e(this::class.java.name, "Failed to get Goal by GID.")
-                onComplete?.invoke(null)
-            }
-        }
-        else Log.e(this::class.java.name, "GID is required for getByGid().")
-    }
-
     fun add(onComplete: ((goal: Goal?) -> Unit)? = null) {
         collection.add(this).addOnSuccessListener {
             gid = it.id
@@ -93,48 +81,17 @@ data class Goal(
         else Log.e(this::class.java.name, "GID is required for updateBucketListByGid().")
     }
 
-//    fun updateByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
-//        if (gid != null) {
-//            val data = hashMapOf<String, Any?>()
-//            if (uid != null) data["uid"] = uid
-//            if (jid != null) data["jid"] = jid
-//            if (title != null) data["title"] = title
-//            if (category != null) data["category"] = category!!.distinct()
-//            if (bucketList != null) data["bucketList"] = bucketList
-//            if (deadline != null) data["deadline"] = deadline
-//            if (reminderMonthsFreq != null) data["reminderMonthsFreq"] = reminderMonthsFreq
-//
-//            if (currentAmt != null || targetAmt != null || completed != null) {
-//                collection.document(gid!!).get().addOnSuccessListener {
-//                    val oldGoal = it.toObject<Goal>()
-//
-//                    if (currentAmt == null) currentAmt = oldGoal?.currentAmt
-//                    if (targetAmt == null) targetAmt = oldGoal?.targetAmt
-//                    data["complete"] = currentAmt!! >= targetAmt!!
-//
-//                    // Assign values to 'currentAmt' and 'targetAmt' fields in Firestore document
-//                    data["currentAmt"] = currentAmt!!
-//                    data["targetAmt"] = targetAmt!!
-//
-//                    collection.document(gid!!).update(data).addOnSuccessListener {
-//                        onComplete?.invoke(this)
-//                    }.addOnFailureListener {
-//                        Log.e("Goal", "Failed to update Goal.")
-//                        onComplete?.invoke(null)
-//                    }
-//                }
-//            }
-//            else {
-//                collection.document(gid!!).update(data).addOnSuccessListener {
-//                    onComplete?.invoke(this)
-//                }.addOnFailureListener {
-//                    Log.e("Goal", "Failed to update Goal.")
-//                    onComplete?.invoke(null)
-//                }
-//            }
-//        }
-//        else Log.e("Goal", "GID is required for updateByGid().")
-//    }
+    fun updateCompleteByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
+        if (!gid.isNullOrBlank()) {
+            collection.document(gid!!).update("completed", completed).addOnSuccessListener {
+                onComplete?.invoke(this)
+            }.addOnFailureListener {
+                Log.e(this::class.java.name, "Failed to update Goal's bucketList.")
+                onComplete?.invoke(null)
+            }
+        }
+        else Log.e(this::class.java.name, "GID is required for updateCompleteByGid().")
+    }
 
     fun deleteByGid() {
         if (gid != null) collection.document(gid!!).delete()

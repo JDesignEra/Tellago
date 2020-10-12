@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,8 @@ class ShowBucketListItemsRecyclerAdapter(
 
     override fun onBindViewHolder(holder: BucketListItemViewHolder, position: Int) {
         holder.tvTitle.text = filteredList[position]["name"] as String
+
+        if (model.completed) holder.btnEdit.visibility = View.GONE
     }
 
     override fun getItemCount(): Int {
@@ -69,6 +72,7 @@ class ShowBucketListItemsRecyclerAdapter(
         completed: Boolean
     ) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.tv_bucketList_Title
+        val btnEdit: Button = itemView.btn_ShowBucketItemDetails
 
         init {
             itemView.btn_ShowBucketItemDetails.setOnClickListener {

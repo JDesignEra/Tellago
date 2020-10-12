@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.models.Goal
+import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
+import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ShowGoalDetailsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
+    private lateinit var toast: CustomToast
 
     private var bundle: Bundle? = null
     private var goal = Goal()
@@ -26,6 +29,7 @@ class ShowGoalDetailsFragment : Fragment() {
             requireActivity().supportFragmentManager,
             R.id.fragment_container_goal_activity
         )
+        toast = CustomToast(requireContext())
 
         if (this.arguments != null) bundle = requireArguments()
         if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
@@ -44,11 +48,12 @@ class ShowGoalDetailsFragment : Fragment() {
 
         configureToolbar()
 
+        if (goal.completed) btn_CompleteGoal.isEnabled = false
+
         tv_title.text = goal.title
         tv_categories.text = goal.categories.toString()
         tv_targetAmt.text = String.format("$%.2f", goal.targetAmt)
         tv_currentAmt.text = String.format("$%.2f", goal.currentAmt)
-        //tv_bucketList.text = goal.bucketList.toString()
 
         // Displaying deadline as DateTime rather than TimeStamp for user viewing
         val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -89,7 +94,23 @@ class ShowGoalDetailsFragment : Fragment() {
         }
 
         btn_CompleteGoal.setOnClickListener {
-            Log.d("Complete Goal", "FIRED")
+            val bucketFilter = goal.bucketList.toList().filter { !(it["completed"] as Boolean) }
+            val currentAmt = tv_currentAmt.text.toString().substring(1).toDouble()
+            val targetAmt = tv_targetAmt.text.toString().substring(1).toDouble()
+
+            if (currentAmt < targetAmt) {
+                toast.error("Current Amount needs to be more then or equals to Targeted Amount")
+            }
+            else if (!bucketFilter.isNullOrEmpty()) {
+                toast.error("Bucket List contains in progress item(s)")
+            }
+            else {
+                goal.completed = true
+                goal.updateCompleteByGid {
+                    if (it != null) toast.success("Goal completed successfully")
+                    else toast.error("Please try again, there was an issue completing the goal")
+                }
+            }
         }
     }
 

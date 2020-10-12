@@ -54,6 +54,14 @@ class EditGoalDetailsFragment : Fragment() {
         textInput_targetAmt.setText(String.format("%.2f", goal.targetAmt))
         textInput_currentAmt.setText(String.format("%.2f", goal.currentAmt))
 
+        if (goal.completed) {
+            textInputLayout_targetAmt.visibility = View.GONE
+            textInputLayout_currentAmt.visibility = View.GONE
+            textInputLayout_deadline.visibility = View.GONE
+            tv_reminderFreqTitle.visibility = View.GONE
+            radioGrp_reminder.visibility = View.GONE
+        }
+
         if (goal.reminderMonthsFreq == 3) radioBtn_3MonthsReminder.isChecked = true
         else if (goal.reminderMonthsFreq == 6) radioBtn_6MonthsReminder.isChecked = true
 

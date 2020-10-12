@@ -45,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                app:endIconMode="clear_text"
                 android:hint="Title">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -71,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="Target Amount"
-                app:endIconMode="clear_text"
                 app:prefixText="$">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -92,7 +90,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="Current Amount"
-                app:endIconMode="clear_text"
                 app:prefixText="$">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -131,6 +128,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_reminderFreqTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -139,7 +137,7 @@
 
             <RadioGroup
                 android:orientation="horizontal"
-                android:id="@+id/radioGrp_deadline"
+                android:id="@+id/radioGrp_reminder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
