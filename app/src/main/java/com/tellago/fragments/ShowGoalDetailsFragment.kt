@@ -55,12 +55,6 @@ class ShowGoalDetailsFragment : Fragment() {
         tv_targetAmt.text = String.format("$%.2f", goal.targetAmt)
         tv_currentAmt.text = String.format("$%.2f", goal.currentAmt)
 
-        val progressAmtPercentFloat = ((goal.currentAmt / goal.targetAmt) * 100).toFloat()
-        val progressAmtPercent = (progressAmtPercentFloat).toInt()
-        Log.d("progressAmtPercent", "${progressAmtPercent} percent")
-        Log.d("progressAmtPercentFloat", "${progressAmtPercentFloat} percent")
-        tv_progressAmt.text = String.format("You have saved %.2f %% of the target amount!", progressAmtPercentFloat)
-        progress_bar_progressAmt.progress = progressAmtPercent
 
         // Displaying deadline as DateTime rather than TimeStamp for user viewing
         val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -90,20 +84,6 @@ class ShowGoalDetailsFragment : Fragment() {
             fragmentUtils.replace(showBucketListItemsTabFragment)
         }
 
-        if (goal.bucketList.count() != 0)
-        {
-            linear_layout_progressBucketList.visibility = View.VISIBLE
-
-            var blItem_InProgress = 0
-            var blItem_Completed = 0
-            for (item in 1 until goal.bucketList.count())
-            {
-                if (goal.bucketList[item]["completed"] == true) blItem_Completed += 1
-                else if (goal.bucketList[item]["completed"] == false) blItem_InProgress += 1
-            }
-
-            tv_progressBucketList.text = "${blItem_Completed} of ${goal.bucketList.count()} List Items Completed"
-        }
 
         btn_EditGoalDetails.setOnClickListener {
             val editGoalDetailsFragment = EditGoalDetailsFragment()
@@ -122,11 +102,9 @@ class ShowGoalDetailsFragment : Fragment() {
 
             if (currentAmt < targetAmt) {
                 toast.error("Current Amount needs to be more then or equals to Targeted Amount")
-            }
-            else if (!bucketFilter.isNullOrEmpty()) {
+            } else if (!bucketFilter.isNullOrEmpty()) {
                 toast.error("Bucket List contains in progress item(s)")
-            }
-            else {
+            } else {
                 goal.completed = true
                 goal.updateCompleteByGid {
                     if (it != null) toast.success("Goal completed successfully")
@@ -134,6 +112,54 @@ class ShowGoalDetailsFragment : Fragment() {
                 }
             }
         }
+
+        updateProgressBar()
+
+    }
+
+    private fun updateProgressBar() {
+        val progressAmtPercentFloat = ((goal.currentAmt / goal.targetAmt) * 100).toFloat()
+        val totalProgress: Float
+
+        tv_progressAmt.text =
+            String.format("You have saved %.1f %% of the target amount!", progressAmtPercentFloat)
+
+        Log.d("bucketList count", "${goal.bucketList.count()}")
+        if (goal.bucketList.count() != 0) {
+            // include bucket list for progress calculation
+
+            linear_layout_progressBucketList.visibility = View.VISIBLE
+
+            var blItem_InProgress = 0
+            var blItem_Completed = 0
+
+
+            for (item in 0 until goal.bucketList.count()) {
+                if (goal.bucketList[item].containsValue(true)) blItem_Completed += 1
+                else blItem_InProgress += 1
+            }
+
+
+            // bucketListProgress is 50% of totalProgress
+            val bucketListProgress =
+                ((blItem_Completed * 50 / goal.bucketList.count()).toFloat())
+
+            // amountSavedProgress is 50% of totalProgress
+            val amountSavedProgress = progressAmtPercentFloat / 2
+            // adding bucketListProgress to amountSavedProgress to obtain new totalProgress
+            totalProgress = bucketListProgress + amountSavedProgress
+            tv_progressBucketList.text =
+                "${blItem_Completed} of ${goal.bucketList.count()} List Items Completed"
+
+        } else {
+            // do not include bucket list for progress calculation
+            // amountSavedProgress is 100% of totalProgress
+            totalProgress = progressAmtPercentFloat
+
+        }
+
+        progress_bar_progressAmt.progress = totalProgress.toInt()
+        tv_progress_bar_display.text = String.format("%.2f %%", totalProgress)
     }
 
     private fun configureToolbar() {

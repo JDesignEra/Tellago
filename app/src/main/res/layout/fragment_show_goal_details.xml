@@ -30,15 +30,39 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
+        <ProgressBar
+            android:id="@+id/progress_bar_progressAmt"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:indeterminateOnly="false"
+            android:progressDrawable="@drawable/progressbar_circle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout_view_goal_details"
+            tools:progress="50"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_progress_bar_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintBottom_toBottomOf="@id/progress_bar_progressAmt"
+            app:layout_constraintEnd_toEndOf="@id/progress_bar_progressAmt"
+            app:layout_constraintStart_toStartOf="@id/progress_bar_progressAmt"
+            app:layout_constraintTop_toTopOf="@id/progress_bar_progressAmt" />
+
+
         <LinearLayout
             android:id="@+id/linear_vertical_show_goal_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout_view_goal_details">
+            app:layout_constraintTop_toBottomOf="@id/progress_bar_progressAmt">
 
 
             <LinearLayout
@@ -123,38 +147,15 @@
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/linear_layout_progressAmt"
+            <TextView
+                android:id="@+id/tv_progressAmt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:orientation="vertical"
-                android:visibility="visible">
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textStyle="italic" />
 
-
-                <ProgressBar
-                    android:id="@+id/progress_bar_progressAmt"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_marginTop="8dp"
-                    android:max="100"
-                    android:progress="1"
-                    android:progressBackgroundTint="@color/colorPrimaryDark"
-                    android:scaleY="4" />
-
-                <TextView
-                    android:id="@+id/tv_progressAmt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -240,6 +241,7 @@
                     android:layout_height="wrap_content"
                     android:scrollHorizontally="false"
                     android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="12sp"
                     android:textStyle="italic" />
 

@@ -18,9 +18,11 @@ import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : FirestoreRecyclerAdapter<Goal, ShowGoalsRecyclerAdapter.GoalViewHolder>(options) {
+class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
+    FirestoreRecyclerAdapter<Goal, ShowGoalsRecyclerAdapter.GoalViewHolder>(options) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoalViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_goal_list_item, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.layout_goal_list_item, parent, false)
         return GoalViewHolder(view)
     }
 
@@ -33,8 +35,34 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         holder.tvFullAmt.text = String.format("$%.2f", model.targetAmt)
 
         val progressAmtPercentFloat = ((model.currentAmt / model.targetAmt) * 100).toFloat()
-        val progressAmtPercent = (progressAmtPercentFloat).toInt()
-        holder.progressBar.progress = progressAmtPercent
+        val totalProgress: Float
+
+        if (model.bucketList.count() != 0) {
+            // include bucket list for progress calculation
+            var blItem_InProgress = 0
+            var blItem_Completed = 0
+
+            for (item in 0 until model.bucketList.count()) {
+                if (model.bucketList[item].containsValue(true)) blItem_Completed += 1
+                else blItem_InProgress += 1
+            }
+
+            // bucketListProgress is 50% of totalProgress
+            val bucketListProgress =
+                ((blItem_Completed * 50 / model.bucketList.count()).toFloat())
+            // amountSavedProgress is 50% of totalProgress
+            val amountSavedProgress = progressAmtPercentFloat / 2
+            // adding bucketListProgress to amountSavedProgress to obtain new totalProgress
+            totalProgress = bucketListProgress + amountSavedProgress
+        } else {
+            // do not include bucket list for progress calculation
+            // amountSavedProgress is 100% of totalProgress
+            totalProgress = progressAmtPercentFloat
+
+        }
+
+        holder.progressBar.progress = totalProgress.toInt()
+
     }
 
     class GoalViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -46,7 +74,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         val tvIcon = itemView.iv_gIcon
 
         init {
-            val activity : AppCompatActivity = itemView.context as AppCompatActivity
+            val activity: AppCompatActivity = itemView.context as AppCompatActivity
 
             itemView.cardView_goal_item.setOnClickListener { v: View? ->
                 val showGoalDetailsFragment = ShowGoalDetailsFragment()
