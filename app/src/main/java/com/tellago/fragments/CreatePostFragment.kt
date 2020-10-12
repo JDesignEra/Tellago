@@ -355,10 +355,12 @@ class CreatePostFragment : Fragment() {
                     uri ->  setImage(uri)
 
                     // redo if it is tilting
-                    attach_post_image.minimumHeight = 196
-                    attach_post_image.minimumWidth = 196
+                    attach_post_image.minimumHeight = 121
+                    attach_post_image.minimumWidth = 121
+                    attach_post_image.maxHeight = 169
+                    attach_post_image.maxWidth = 169
 
-                    textView_attachMedia.text = "Change Image / Video"
+                    textView_attachMedia.text = "Change Image"
 
                     post.multimediaURI = uri.toString()
 
