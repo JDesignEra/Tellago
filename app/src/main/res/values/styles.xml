@@ -9,6 +9,7 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:colorEdgeEffect">#9e9e9e</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme">

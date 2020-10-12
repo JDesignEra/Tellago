@@ -42,7 +42,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         init {
             val activity : AppCompatActivity = itemView.context as AppCompatActivity
 
-            itemView.btn_ShowGoalDetails.setOnClickListener { v: View? ->
+            itemView.cardView_goal_item.setOnClickListener { v: View? ->
                 val showGoalDetailsFragment = ShowGoalDetailsFragment()
 
                 showGoalDetailsFragment.arguments = Bundle().apply {
