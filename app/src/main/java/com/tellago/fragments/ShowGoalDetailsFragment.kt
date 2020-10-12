@@ -108,7 +108,10 @@ class ShowGoalDetailsFragment : Fragment() {
             } else {
                 goal.completed = true
                 goal.updateCompleteByGid {
-                    if (it != null) toast.success("Goal completed successfully")
+                    if (it != null) {
+                        btn_CompleteGoal.isEnabled = false
+                        toast.success("Goal completed successfully")
+                    }
                     else toast.error("Please try again, there was an issue completing the goal")
                 }
             }

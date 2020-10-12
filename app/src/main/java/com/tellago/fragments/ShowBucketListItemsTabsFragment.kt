@@ -1,9 +1,11 @@
 package com.tellago.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -74,10 +76,19 @@ class ShowBucketListItemsTabsFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {
                 0 -> {
-                    if (goal.completed) tab.text = "Completed"
-                    else tab.text = "In Progress"
+                    if (goal.completed) {
+                        tab.text = "Completed"
+                        tab.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_check_circle_48)
+                    }
+                    else {
+                        tab.text = "In Progress"
+                        tab.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_hourglass_top_white_48dp)
+                    }
                 }
-                1 -> tab.text = "Completed"
+                1 -> {
+                    tab.text = "Completed"
+                    tab.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_check_circle_48)
+                }
             }
         }.attach()
     }
