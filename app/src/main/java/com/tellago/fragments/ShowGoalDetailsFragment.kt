@@ -1,6 +1,7 @@
 package com.tellago.fragments
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -113,6 +114,7 @@ class ShowGoalDetailsFragment : Fragment() {
             }
         }
 
+        // Function to update the progress bar and text views for Bucket List & Target Amount
         updateProgressBar()
 
     }
@@ -133,12 +135,10 @@ class ShowGoalDetailsFragment : Fragment() {
             var blItem_InProgress = 0
             var blItem_Completed = 0
 
-
             for (item in 0 until goal.bucketList.count()) {
                 if (goal.bucketList[item].containsValue(true)) blItem_Completed += 1
                 else blItem_InProgress += 1
             }
-
 
             // bucketListProgress is 50% of totalProgress
             val bucketListProgress =
@@ -158,7 +158,9 @@ class ShowGoalDetailsFragment : Fragment() {
 
         }
 
-        progress_bar_progressAmt.progress = totalProgress.toInt()
+        Handler().post {
+            progress_bar_progressAmt.progress = totalProgress.toInt()
+        }
         tv_progress_bar_display.text = String.format("%.2f %%", totalProgress)
     }
 
