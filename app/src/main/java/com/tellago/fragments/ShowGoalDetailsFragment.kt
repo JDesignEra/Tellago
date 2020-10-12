@@ -55,6 +55,13 @@ class ShowGoalDetailsFragment : Fragment() {
         tv_targetAmt.text = String.format("$%.2f", goal.targetAmt)
         tv_currentAmt.text = String.format("$%.2f", goal.currentAmt)
 
+        val progressAmtPercentFloat = ((goal.currentAmt / goal.targetAmt) * 100).toFloat()
+        val progressAmtPercent = (progressAmtPercentFloat).toInt()
+        Log.d("progressAmtPercent", "${progressAmtPercent} percent")
+        Log.d("progressAmtPercentFloat", "${progressAmtPercentFloat} percent")
+        tv_progressAmt.text = String.format("You have saved %.2f %% of the target amount!", progressAmtPercentFloat)
+        progress_bar_progressAmt.progress = progressAmtPercent
+
         // Displaying deadline as DateTime rather than TimeStamp for user viewing
         val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
@@ -81,6 +88,21 @@ class ShowGoalDetailsFragment : Fragment() {
                 putParcelable(goal::class.java.name, goal)
             }
             fragmentUtils.replace(showBucketListItemsTabFragment)
+        }
+
+        if (goal.bucketList.count() != 0)
+        {
+            linear_layout_progressBucketList.visibility = View.VISIBLE
+
+            var blItem_InProgress = 0
+            var blItem_Completed = 0
+            for (item in 1 until goal.bucketList.count())
+            {
+                if (goal.bucketList[item]["completed"] == true) blItem_Completed += 1
+                else if (goal.bucketList[item]["completed"] == false) blItem_InProgress += 1
+            }
+
+            tv_progressBucketList.text = "${blItem_Completed} of ${goal.bucketList.count()} List Items Completed"
         }
 
         btn_EditGoalDetails.setOnClickListener {

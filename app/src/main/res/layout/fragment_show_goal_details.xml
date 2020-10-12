@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ShowGoalDetailsFragment">
@@ -9,17 +9,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="35dp"
-        >
+        android:layout_marginBottom="35dp">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout_view_goal_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:elevation="0dp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_view_goal_details"
@@ -35,18 +34,18 @@
             android:id="@+id/linear_vertical_show_goal_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout_view_goal_details"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:orientation="vertical">
+            app:layout_constraintTop_toBottomOf="@id/appBarLayout_view_goal_details">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -67,8 +66,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -80,16 +79,15 @@
                     android:id="@+id/tv_categories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -101,16 +99,15 @@
                     android:id="@+id/tv_targetAmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -122,8 +119,40 @@
                     android:id="@+id/tv_currentAmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linear_layout_progressAmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_progressAmt"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginTop="8dp"
+                    android:max="100"
+                    android:progress="1"
+                    android:progressBackgroundTint="@color/colorPrimaryDark"
+                    android:scaleY="4" />
+
+                <TextView
+                    android:id="@+id/tv_progressAmt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
                     android:textSize="12sp"
-                    />
+                    android:textStyle="italic" />
+
 
             </LinearLayout>
 
@@ -143,8 +172,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Null"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_Journey_View"
@@ -179,8 +207,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_Bucket_List_View"
@@ -199,12 +226,30 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/linear_layout_progressBucketList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_progressBucketList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollHorizontally="false"
+                    android:textAlignment="center"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -216,16 +261,15 @@
                     android:id="@+id/tv_deadline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -237,16 +281,15 @@
                     android:id="@+id/tv_lastReminder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -258,16 +301,15 @@
                     android:id="@+id/tv_reminderMonthsFreq"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
                 android:layout_marginBottom="6dp"
+                android:layout_weight="2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -279,8 +321,7 @@
                     android:id="@+id/tv_createDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -292,24 +333,24 @@
             android:layout_marginHorizontal="35dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_CompleteGoal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:text="Complete Goal"/>
+                android:text="Complete Goal" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_EditGoalDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:backgroundTint="@color/colorUnderlyingBackground"
                 android:text="Edit Details"
-                android:textColor="@color/colorTextBlack"
-                android:backgroundTint="@color/colorUnderlyingBackground"/>
+                android:textColor="@color/colorTextBlack" />
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
