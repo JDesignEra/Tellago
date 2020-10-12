@@ -13,6 +13,7 @@ import com.tellago.R
 import com.tellago.fragments.ShowGoalDetailsFragment
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
+import kotlinx.android.synthetic.main.fragment_show_goal_details.*
 import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,6 +31,10 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         holder.tvTitle.text = model.title
         holder.tvCreationDate.text = dateFormatter.format(model.createDate)
         holder.tvFullAmt.text = String.format("$%.2f", model.targetAmt)
+
+        val progressAmtPercentFloat = ((model.currentAmt / model.targetAmt) * 100).toFloat()
+        val progressAmtPercent = (progressAmtPercentFloat).toInt()
+        holder.progressBar.progress = progressAmtPercent
     }
 
     class GoalViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,6 +42,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) : Firest
         val tvTitle = itemView.tv_gTitle
         val tvCreationDate = itemView.tv_gCreationDate
         val tvFullAmt = itemView.tv_gFullAmount
+        val progressBar = itemView.progress_bar_progressAmt_layout_goal
         val tvIcon = itemView.iv_gIcon
 
         init {
