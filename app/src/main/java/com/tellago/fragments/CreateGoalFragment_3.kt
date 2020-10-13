@@ -68,6 +68,10 @@ class CreateGoalFragment_3 : Fragment() {
             fragmentUtils.popBackStack()
         }
 
+        btn_clearSelection.setOnClickListener {
+            adapter?.clearSelections()
+        }
+
         btn_CreateGoal.setOnClickListener {
             goal.uid = user?.uid
 
@@ -77,11 +81,16 @@ class CreateGoalFragment_3 : Fragment() {
             else null
 
             if (pids != null) {
-                goal.addWithJid(pids) {
-                    if (it != null) {
-                        addSuccessRedirect()
+                if (et_journey_title.text.toString().isBlank()) {
+                    et_journey_title.error = "Field is required when you have selected posts"
+                }
+                else {
+                    goal.addWithJid(et_journey_title.text.toString(), pids) {
+                        if (it != null) {
+                            addSuccessRedirect()
+                        }
+                        else toast.error("Please try again, there was an error creating your goal")
                     }
-                    else toast.error("Please try again, there was an error creating your goal")
                 }
             }
             else {

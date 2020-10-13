@@ -52,8 +52,8 @@ data class Goal(
         }
     }
 
-    fun addWithJid(pids: ArrayList<String>, onComplete: ((goal: Goal?) -> Unit)?) {
-        Journey(uid = uid, pids = pids).add { journey ->
+    fun addWithJid(title: String, pids: ArrayList<String>, onComplete: ((goal: Goal?) -> Unit)?) {
+        Journey(uid = uid, title = title, pids = pids).add { journey ->
             journey?.jid?.let { id -> jid.add(id) }
 
             add {

@@ -8,7 +8,6 @@ import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
-
 @Parcelize
 data class Journey(
     @DocumentId var jid: String? = null,

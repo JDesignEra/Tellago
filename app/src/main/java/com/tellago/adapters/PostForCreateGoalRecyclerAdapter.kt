@@ -30,6 +30,11 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
     override fun onBindViewHolder(holder: PostViewHolder, position: Int, model: Post) {
         holder.tvPostDuration.text = model.createDate.toString()
         holder.tvMsg.text = model.messageBody
+
+        if (pids.find { it == model.pid } == null) {
+            holder.cardView.isChecked = false
+        }
+
         holder.cardView.setOnClickListener {
             holder.cardView.toggle()
 
@@ -49,5 +54,10 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
 
     fun getPids(): ArrayList<String> {
         return pids
+    }
+
+    fun clearSelections() {
+        pids.clear()
+        notifyDataSetChanged()
     }
 }
