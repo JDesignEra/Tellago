@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import androidx.core.net.toUri
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Post
@@ -135,25 +137,50 @@ class CreatePostFragment : Fragment() {
 
 
 
+        // Run this sequence of code onViewCreated instead of onClickListener for btn_AddJourney
+        val availableJourneysArrayList = ArrayList<String>()
+        var jidsFromGoal = ArrayList<String>()
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        db.collection("goals").whereEqualTo("uid", user?.uid)
+            .get()
+            .addOnSuccessListener {
+                    it ->
+                for (document in it.documents)
+                {
+                    jidsFromGoal = document["jid"] as ArrayList<String>
+                    Log.d("jidsFromGoal is", jidsFromGoal.toString())
+                    for (jid in jidsFromGoal)
+                    {
+                        availableJourneysArrayList.add(jid)
+                    }
+                    Log.d("availableJourneys", availableJourneysArrayList.toString())
+                }
+            }
+
+        btn_AddJourney.setOnClickListener {
+            Log.d("Button for journey", "FIRED")
+
+
+            Handler().post {
+                val bundle = Bundle()
+                bundle.putStringArrayList("availableJourneysArrayList", availableJourneysArrayList)
+                Log.d("availJourneysArrayList1", availableJourneysArrayList.toString())
+                // short redirect to new fragment to select from available Journeys
+                val attachPostToJourneysFragment = AttachPostToJourneysFragment()
+                attachPostToJourneysFragment.arguments = bundle
+                fragmentUtils.replace(attachPostToJourneysFragment)
+
+            }
+
+        }
+
+
         btn_add_poll_option.setOnClickListener {
             Log.d("button for adding poll", "FIRED")
 
             linear_layout_poll_options.addView(createNewPollOptionEditText())
             linear_layout_poll_remove_buttons.addView(createNewPollOptionDeleteButton())
         }
-
-
-
-        btn_AddJourney.setOnClickListener {
-            Log.d("Button for journey", "FIRED")
-
-            // short redirect to new fragment to select from available Journeys
-            //fragmentUtils.replace(AttachPostToJourneysFragment())
-
-
-        }
-
-
 
 
         btn_CreatePost.setOnClickListener {

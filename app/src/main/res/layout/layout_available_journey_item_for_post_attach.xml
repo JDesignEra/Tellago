@@ -24,6 +24,13 @@
             android:orientation="horizontal"
             android:paddingVertical="12dp">
 
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkbox_available_journey_item"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:checked="false"
+                />
 
             <LinearLayout
                 android:id="@+id/linear_layout_availableJourney_list_item"
@@ -49,7 +56,6 @@
                     android:textSize="16sp" />
 
 
-
             </LinearLayout>
 
             <TextView
@@ -59,6 +65,8 @@
                 android:text="Post ID"
                 android:textSize="16sp"
                 android:visibility="gone" />
+
+
 
 
         </LinearLayout>

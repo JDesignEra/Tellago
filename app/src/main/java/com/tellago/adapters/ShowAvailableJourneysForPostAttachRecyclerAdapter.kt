@@ -1,5 +1,6 @@
 package com.tellago.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,17 +30,30 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter (options: FirestoreRecyc
     ) {
         holder.model = model
         holder.tvJourneyTitle.text = model.title
+//        holder.checkboxAvailableItem = model..
     }
 
 
     class AvailableJourneyViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var model: Journey? = null
         val tvJourneyTitle = itemView.tv_availableJourneyTitle
-
+        val checkboxAvailableItem = itemView.checkbox_available_journey_item
 
 
         init {
             val activity: AppCompatActivity = itemView.context as AppCompatActivity
+
+            checkboxAvailableItem.setOnCheckedChangeListener { _, isChecked ->
+                when (isChecked)
+                {
+                    true -> Log.d("Button checked", "FIRED")
+                    false -> Log.d("Button NOT checked", "FIRED")
+                }
+            }
+
+            itemView.cardview_availableJourney_list_item.setOnClickListener {
+                Log.d("Card Clicked", "FIRED")
+            }
 
         }
 
