@@ -105,15 +105,14 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@id/linear_layout_create_goal_3_bottom">
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_create_goal_show_posts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:itemCount="16"
-                />
+                tools:itemCount="16" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:id="@+id/linear_layout_create_goal_3_bottom"
             android:layout_width="match_parent"

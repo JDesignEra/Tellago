@@ -231,7 +231,7 @@ class CreatePostFragment : Fragment() {
 
                 pollArrayList.add(map)
 
-                post.poll = pollArrayList
+//                post.poll = pollArrayList
 
                 post.add {
                     if (it != null) {
@@ -246,8 +246,6 @@ class CreatePostFragment : Fragment() {
             }
             else if (post.postType == "multimedia")
             {
-
-
                 post.add {
                     if (it != null) {
                         Log.d("added multimediaURI", post.multimediaURI.toString())

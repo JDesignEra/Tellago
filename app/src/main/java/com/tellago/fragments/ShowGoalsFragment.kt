@@ -16,6 +16,7 @@ import com.tellago.R
 import com.tellago.adapters.ShowGoalsRecyclerAdapter
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
+import com.tellago.models.Goal.Companion.collection
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_show_goals.*
@@ -24,7 +25,6 @@ class ShowGoalsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
 
     private var adapter: ShowGoalsRecyclerAdapter? = null
-    private val createGoalFragment1: Fragment = CreateGoalFragment_1()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +33,12 @@ class ShowGoalsFragment : Fragment() {
             R.id.fragment_container_goal_activity
         )
 
-        val query = FirebaseFirestore.getInstance().collection("goals").whereEqualTo("uid", user?.uid)
-
         adapter = ShowGoalsRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Goal>()
-                .setQuery(query, Goal::class.java)
-                .build()
+                .setQuery(
+                    collection.whereEqualTo("uid", user?.uid),
+                    Goal::class.java
+                ).build()
         )
     }
 
@@ -59,7 +59,7 @@ class ShowGoalsFragment : Fragment() {
 
         fab_add_goal.setOnClickListener {
             fragmentUtils.replace(
-                createGoalFragment1,
+                CreateGoalFragment_1(),
                 enter = R.anim.fragment_open_enter,
                 exit = R.anim.fragment_open_exit
             )
@@ -69,14 +69,12 @@ class ShowGoalsFragment : Fragment() {
     override fun onStart() {
         // Adapter which is populated using Firestore data (through query) will require this function
         super.onStart()
-
         adapter?.startListening()
     }
 
     override fun onStop() {
         // Adapter which is populated using Firestore data (through query) will require this function
         super.onStop()
-
         adapter?.stopListening()
     }
 

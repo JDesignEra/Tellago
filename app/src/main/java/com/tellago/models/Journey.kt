@@ -12,6 +12,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Journey(
     @DocumentId var jid: String? = null,
+    val uid: String? = null,
     var title: String = "My Journey",
     var pids: ArrayList<String> = ArrayList()
 ) : Parcelable {

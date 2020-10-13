@@ -45,18 +45,6 @@ data class Post(
     @IgnoredOnParcel
     private val storageRef = storage.reference
 
-    fun getByUid(onComplete: ((post: ArrayList<Post>) -> Unit)? = null) {
-        if (uid != null) {
-            collection.whereEqualTo("uid", uid).get().addOnSuccessListener {
-                onComplete?.invoke(ArrayList(it.toObjects()))
-            }.addOnFailureListener {
-                Log.e(this::class.java.name, "Failed to get Posts by UID.")
-                onComplete?.invoke(ArrayList())
-            }
-        }
-        else Log.e(this::class.java.name, "UID is required for getByUid().")
-    }
-
     fun getByPid(onComplete: ((post : Post?) -> Unit)? = null) {
         if (pid != null) {
             collection.document(pid!!).get().addOnSuccessListener {
@@ -96,5 +84,9 @@ data class Post(
         val file = Uri.fromFile((File(URI.create(uri.toString()))))
 
         return storageRef.child("uploads/postMedia/$pid").putFile(file)
+    }
+
+    companion object {
+        val collection = Post().collection
     }
 }

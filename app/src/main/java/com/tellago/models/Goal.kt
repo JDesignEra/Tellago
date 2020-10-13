@@ -2,6 +2,7 @@ package com.tellago.models
 
 import android.os.Parcelable
 import android.util.Log
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -51,6 +52,16 @@ data class Goal(
         }
     }
 
+    fun addWithJid(pids: ArrayList<String>, onComplete: ((goal: Goal?) -> Unit)?) {
+        Journey(uid = uid, pids = pids).add { journey ->
+            journey?.jid?.let { id -> jid.add(id) }
+
+            add {
+                onComplete?.invoke(it)
+            }
+        }
+    }
+
     fun setByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
         if (!gid.isNullOrBlank()) {
             val mergeFields = arrayListOf<String>(
@@ -95,5 +106,9 @@ data class Goal(
     fun deleteByGid() {
         if (gid != null) collection.document(gid!!).delete()
         else Log.e(this::class.java.name, "GID is required for deleteByGid().")
+    }
+
+    companion object {
+        val collection: CollectionReference = Goal().collection
     }
 }
