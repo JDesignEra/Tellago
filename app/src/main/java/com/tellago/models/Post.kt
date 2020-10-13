@@ -9,36 +9,32 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.tellago.R
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
 import java.io.File
 import java.net.URI
 import java.util.*
-
+import kotlin.collections.ArrayList
 
 private val todayCalendar = Calendar.getInstance()
 
 @Parcelize
 data class Post(
-
-
     @DocumentId var pid: String? = null,
     var uid: String? = null,
     var messageBody: String? = null,
     val createDate: Date = todayCalendar.time,
     var postType: String? = null,
     var multimediaURI: String? = null,
-    var journeyArray: ArrayList<String> = ArrayList(),
-    var poll: ArrayList<MutableMap<String, Int>> = ArrayList(),
+    var jid: String? = null,
+    var poll: ArrayList<MutableMap<String, ArrayList<String>>> = ArrayList(),
     var pollQuestion: String? = null,
-    var comment: ArrayList<String> = ArrayList(),
+    var comment: ArrayList<MutableMap<String, String>> = ArrayList(),
     var likes: ArrayList<String> = ArrayList()
-
-
 ) : Parcelable {
     @IgnoredOnParcel
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -49,6 +45,17 @@ data class Post(
     @IgnoredOnParcel
     private val storageRef = storage.reference
 
+    fun getByUid(onComplete: ((post: ArrayList<Post>) -> Unit)? = null) {
+        if (uid != null) {
+            collection.whereEqualTo("uid", uid).get().addOnSuccessListener {
+                onComplete?.invoke(ArrayList(it.toObjects()))
+            }.addOnFailureListener {
+                Log.e(this::class.java.name, "Failed to get Posts by UID.")
+                onComplete?.invoke(ArrayList())
+            }
+        }
+        else Log.e(this::class.java.name, "UID is required for getByUid().")
+    }
 
     fun getByPid(onComplete: ((post : Post?) -> Unit)? = null) {
         if (pid != null) {
@@ -78,7 +85,6 @@ data class Post(
         else Log.e(this::class.java.name, "PID is required for deleteByPid().")
     }
 
-
     fun displayPostMedia(context: Context, imageView: ImageView) {
         Glide.with(context)
             .load(storageRef.child("uploads/postMedia/$pid"))
@@ -91,6 +97,4 @@ data class Post(
 
         return storageRef.child("uploads/postMedia/$pid").putFile(file)
     }
-
-
 }

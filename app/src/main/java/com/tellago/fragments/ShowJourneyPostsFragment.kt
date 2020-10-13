@@ -1,28 +1,22 @@
 package com.tellago.fragments
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.adapters.NewPostRecyclerAdapter
-import com.tellago.adapters.ShowBucketListItemsRecyclerAdapter
-import com.tellago.adapters.ShowGoalsRecyclerAdapter
-import com.tellago.adapters.UserPostRecyclerAdapter
-import com.tellago.models.*
+import com.tellago.models.Journey
+import com.tellago.models.Post
+import com.tellago.models.UserPost
 import com.tellago.utilities.FragmentUtils
-import kotlinx.android.synthetic.main.fragment_bucket_list_items_tab.*
-import kotlinx.android.synthetic.main.fragment_show_goal_details.*
-import kotlinx.android.synthetic.main.fragment_show_goal_details.toolbar_view_goal_details
 import kotlinx.android.synthetic.main.fragment_show_journey_posts.*
-import kotlinx.android.synthetic.main.fragment_show_journeys.*
 
 
 class ShowJourneyPostsFragment : Fragment() {

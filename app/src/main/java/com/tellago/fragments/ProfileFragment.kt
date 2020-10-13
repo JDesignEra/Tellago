@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tellago.DataSource
 import com.tellago.R
-import com.tellago.TopSpacingItemDecoration
 import com.tellago.activities.EditProfileActivity
 import com.tellago.adapters.ProfilePostRecyclerAdapter
 import com.tellago.models.Auth.Companion.profile

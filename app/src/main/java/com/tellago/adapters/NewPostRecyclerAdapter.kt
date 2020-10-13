@@ -15,7 +15,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
 import com.tellago.models.Post
-import com.tellago.models.UserPost
 import kotlinx.android.synthetic.main.layout_new_post_list_item.view.*
 import java.time.LocalDate
 import java.time.Period

@@ -1,7 +1,6 @@
 package com.tellago.adapters
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import com.tellago.R
 import com.tellago.fragments.ShowGoalDetailsFragment
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
-import kotlinx.android.synthetic.main.fragment_show_goal_details.*
 import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
