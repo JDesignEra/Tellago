@@ -143,7 +143,20 @@ class CreatePostFragment : Fragment() {
             textView_jid_from_bundle.visibility = View.VISIBLE
             availableJID.remove(null)
 //            availableJID.remove("null")
-            textView_jid_from_bundle.text = availableJID.toString()
+            val journeyTitleList = ArrayList<String>()
+            for (jid in availableJID) {
+                Log.d("jid is", jid)
+                Journey(jid = jid).getByJid {
+                    val journeyTitle = it?.title
+                    Log.d("journey title", journeyTitle)
+                    if (journeyTitle != null) {
+                        journeyTitleList.add(journeyTitle)
+                    }
+                }
+
+                textView_jid_from_bundle.text = journeyTitleList.toString()
+            }
+//            textView_jid_from_bundle.text = journeyTitleList.toString()
 
         }
 
@@ -255,9 +268,7 @@ class CreatePostFragment : Fragment() {
                     } else toast.error("Please try again, there was an error creating your post")
                 }
 
-            }
-            else if (post.postType == "multimedia")
-            {
+            } else if (post.postType == "multimedia") {
                 post.add {
                     if (it != null) {
                         Log.d("added multimediaURI", post.multimediaURI.toString())
@@ -297,29 +308,16 @@ class CreatePostFragment : Fragment() {
     private fun updateJourneyPIDS(availableJID: java.util.ArrayList<String>) {
         for (jid in availableJID) {
 
-            Journey().getByJid { journey ->
-                if (journey != null) {
-                    if (journey.jid == jid) {
-                        val pids = journey.pids
-                        Log.d("before PIDS", "$pids")
-                        post.pid?.let { pids.add(it) }
-                        journey.updateByJid(pids)
-                        Log.d("after PIDS", "$pids")
-                    }
+            Journey(jid = jid).getByJid {
+                val pids = it?.pids
+                Log.d("before PIDS", "$pids")
+                post.pid?.let { pids?.add(it) }
+                if (pids != null) {
+                    it?.updateByJid(pids)
                 }
+                Log.d("after PIDS", "$pids")
             }
 
-
-//            val pids = journey.pids
-
-            // populating availableJourneyList
-//            model?.jid?.let { it1 -> availableJourneyList.add(it1) }
-
-
-//            Log.d("before PIDS", "$pids")
-//            post.pid?.let { pids.add(it) }
-//            journey.updateByJid(pids)
-//            Log.d("after PIDS", "$pids")
         }
     }
 
