@@ -3,11 +3,12 @@ package com.tellago.models
 import android.content.Context
 import android.net.Uri
 import android.widget.ImageView
-import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.tellago.GlideApp
 import com.tellago.R
 import java.io.File
 import java.net.URI
@@ -35,9 +36,10 @@ data class User(
     }
 
     fun displayProfilePicture(context: Context, imageView: ImageView) {
-        Glide.with(context)
+        GlideApp.with(context)
             .load(storageRef.child("uploads/dp/$uid"))
             .error(R.drawable.ic_android_photo)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .circleCrop()
             .into(imageView)
     }

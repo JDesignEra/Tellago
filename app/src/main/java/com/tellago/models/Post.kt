@@ -1,17 +1,23 @@
 package com.tellago.models
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Parcelable
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
-import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.tellago.GlideApp
 import com.tellago.R
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
@@ -74,9 +80,28 @@ data class Post(
     }
 
     fun displayPostMedia(context: Context, imageView: ImageView) {
-        Glide.with(context)
+        GlideApp.with(context)
             .load(storageRef.child("uploads/postMedia/$pid"))
             .error(R.drawable.ic_android_photo)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(imageView)
+    }
+
+    fun displayPostMedia(view: View, imageView: ImageView, onLoadFailed: ((visibility: Int) -> Unit)? = null) {
+        GlideApp.with(view)
+            .load(storageRef.child("uploads/postMedia/$pid"))
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                    onLoadFailed?.invoke(View.GONE)
+                    return false
+                }
+
+                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    onLoadFailed?.invoke(View.VISIBLE)
+                    return false
+                }
+            })
             .into(imageView)
     }
 

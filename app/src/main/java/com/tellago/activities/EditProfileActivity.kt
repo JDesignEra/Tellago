@@ -15,7 +15,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
-import com.bumptech.glide.Glide
+import com.tellago.GlideApp
 import com.tellago.R
 import com.tellago.fragments.ConfirmEditProfileFragment
 import com.tellago.models.Auth
@@ -171,7 +171,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
     }
 
     private fun setImage(uri: Uri){
-        Glide.with(this)
+        GlideApp.with(this)
             .load(uri)
             .circleCrop()
             .into(profile_image)

@@ -12,7 +12,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
 import com.tellago.models.Journey
-import kotlinx.android.synthetic.main.fragment_attach_post_to_journeys.view.*
 import kotlinx.android.synthetic.main.layout_available_journey_item_for_post_attach.view.*
 
 

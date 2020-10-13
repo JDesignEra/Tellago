@@ -11,7 +11,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.adapters.ShowGoalsRecyclerAdapter
 import com.tellago.models.Auth.Companion.user

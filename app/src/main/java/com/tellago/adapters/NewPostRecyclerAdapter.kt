@@ -9,10 +9,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.tellago.GlideApp
 import com.tellago.R
 import com.tellago.models.Post
 import kotlinx.android.synthetic.main.layout_new_post_list_item.view.*
@@ -136,7 +136,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
                 Log.d("No multimedia display", "FIRED")
                 post_image.maxHeight = 0;
                 post_image.maxWidth = 0;
-                Glide.with(activity.application.baseContext)
+                GlideApp.with(activity.application.baseContext)
                     .applyDefaultRequestOptions(requestOptions)
                     .load(R.drawable.ic_launcher_background)
                     .into(post_image)

@@ -13,7 +13,6 @@ import com.tellago.activities.GoalsActivity
 import com.tellago.adapters.PostForCreateGoalRecyclerAdapter
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
-import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.models.Post.Companion.collection
 import com.tellago.utilities.CustomToast

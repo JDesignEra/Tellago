@@ -9,10 +9,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
 import com.tellago.models.Post
 import kotlinx.android.synthetic.main.layout_post_for_create_goal_item.view.*
-import java.time.*
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.temporal.ChronoUnit
-import java.util.*
-import kotlin.collections.ArrayList
 
 class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>) :
     FirestoreRecyclerAdapter<Post, PostForCreateGoalRecyclerAdapter.PostViewHolder>(options) {
@@ -75,14 +75,8 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
             model.pid?.let { pid -> pids.add(pid) }
         }
 
-        // TODO: implement multimedia
-        if (model.multimediaURI != null) {
-            holder.ivImage.visibility = View.VISIBLE
-        }
-
-        // TODO: implement video
-        if (model.multimediaURI != null) {
-            holder.vvVideo.visibility = View.VISIBLE
+        model.displayPostMedia(holder.itemView, holder.ivImage) {
+            holder.ivImage.visibility = it
         }
     }
 

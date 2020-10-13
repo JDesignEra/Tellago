@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.tellago.GlideApp
 import com.tellago.R
 import com.tellago.models.UserPost
 import kotlinx.android.synthetic.main.layout_user_post_list_item.view.*
@@ -81,17 +81,17 @@ class ProfilePostRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(userPost.image == "NIL"){
                 post_image.maxWidth = 0;
                 post_image.maxHeight = 0;
-                Glide.with(itemView.context)
+                GlideApp.with(itemView.context)
                     .applyDefaultRequestOptions(requestOptions)
                     .load(userPost.image)
                     .into(post_image)
             }
-            Glide.with(itemView.context)
+            GlideApp.with(itemView.context)
                 .applyDefaultRequestOptions(requestOptions)
                 .load(userPost.image)
                 .into(post_image)
 
-            Glide.with(itemView.context)
+            GlideApp.with(itemView.context)
                 .applyDefaultRequestOptions(requestOptions)
                 .load(userPost.profilePic)
                 .circleCrop()

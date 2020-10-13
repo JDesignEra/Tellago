@@ -9,15 +9,18 @@ import com.bumptech.glide.module.AppGlideModule;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.InputStream;
 
 @GlideModule
 public class GlideAppModule extends AppGlideModule {
     @Override
-    public void registerComponents(Context context, Glide glide, Registry registry) {
+    public void registerComponents(@NotNull Context context, @NotNull Glide glide, Registry registry) {
         registry.append(
             StorageReference.class,
-            InputStream.class, new FirebaseImageLoader.Factory()
+            InputStream.class,
+            new FirebaseImageLoader.Factory()
         );
     }
 }
