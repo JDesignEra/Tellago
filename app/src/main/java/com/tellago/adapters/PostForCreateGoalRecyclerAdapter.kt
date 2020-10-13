@@ -1,13 +1,18 @@
 package com.tellago.adapters
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
+import com.tellago.activities.GoalsActivity
 import com.tellago.models.Post
+import kotlinx.android.synthetic.main.fragment_create_goal_3.*
 import kotlinx.android.synthetic.main.layout_post_for_create_goal_item.view.*
 import java.time.Instant
 import java.time.LocalDateTime
@@ -71,12 +76,30 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
 
         holder.cardView.setOnClickListener {
             holder.cardView.toggle()
-
-            model.pid?.let { pid -> pids.add(pid) }
         }
 
         model.displayPostMedia(holder.itemView, holder.ivImage) {
             holder.ivImage.visibility = it
+        }
+
+        holder.cardView.setOnCheckedChangeListener { card, isChecked ->
+            val btnClearSelection = (holder.itemView.context as AppCompatActivity).btn_clearSelection
+
+            if (isChecked) {
+                model.pid?.let { pid -> pids.add(pid) }
+            }
+            else {
+                pids.remove(model.pid)
+            }
+
+            if (pids.isNotEmpty()) {
+                btnClearSelection.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.colorPrimary)
+                btnClearSelection.iconTint = null
+            }
+            else {
+                btnClearSelection.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.superlightgray)
+                btnClearSelection.iconTint = ContextCompat.getColorStateList(holder.itemView.context, R.color.colorTextDarkGray)
+            }
         }
     }
 
