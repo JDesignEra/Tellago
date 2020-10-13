@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.button.MaterialButton
 import com.tellago.R
 import com.tellago.activities.GoalsActivity
 import com.tellago.models.Post
@@ -82,8 +83,8 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
             holder.ivImage.visibility = it
         }
 
-        holder.cardView.setOnCheckedChangeListener { card, isChecked ->
-            val btnClearSelection = (holder.itemView.context as AppCompatActivity).btn_clearSelection
+        holder.cardView.setOnCheckedChangeListener { _, isChecked ->
+            val btnClearSelection = (holder.itemView.context as AppCompatActivity).btn_clearSelection ?: null
 
             if (isChecked) {
                 model.pid?.let { pid -> pids.add(pid) }
@@ -92,13 +93,15 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
                 pids.remove(model.pid)
             }
 
-            if (pids.isNotEmpty()) {
-                btnClearSelection.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.colorPrimary)
-                btnClearSelection.iconTint = null
-            }
-            else {
-                btnClearSelection.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.superlightgray)
-                btnClearSelection.iconTint = ContextCompat.getColorStateList(holder.itemView.context, R.color.colorTextDarkGray)
+            if (btnClearSelection != null) {
+                if (pids.isNotEmpty()) {
+                    btnClearSelection.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.colorPrimary)
+                    btnClearSelection.iconTint = null
+                }
+                else {
+                    btnClearSelection.backgroundTintList = ContextCompat.getColorStateList(holder.itemView.context, R.color.superlightgray)
+                    btnClearSelection.iconTint = ContextCompat.getColorStateList(holder.itemView.context, R.color.colorTextDarkGray)
+                }
             }
         }
     }
