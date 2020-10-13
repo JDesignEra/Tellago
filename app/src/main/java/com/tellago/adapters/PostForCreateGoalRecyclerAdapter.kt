@@ -9,6 +9,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
 import com.tellago.models.Post
 import kotlinx.android.synthetic.main.layout_post_for_create_goal_item.view.*
+import java.time.*
+import java.time.temporal.ChronoUnit
+import java.util.*
+import kotlin.collections.ArrayList
 
 class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>) :
     FirestoreRecyclerAdapter<Post, PostForCreateGoalRecyclerAdapter.PostViewHolder>(options) {
@@ -28,8 +32,35 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int, model: Post) {
-        holder.tvPostDuration.text = model.createDate.toString()
+        val today = LocalDateTime.now()
+        val createdDateTime = Instant.ofEpochMilli(model.createDate.time).atZone(ZoneId.systemDefault()).toLocalDateTime()
+        var durationStr = "0 mins ago"
+
+        when {
+            createdDateTime.until(today, ChronoUnit.YEARS) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.YEARS)} years ago"
+            }
+            createdDateTime.until(today, ChronoUnit.MONTHS) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.MONTHS)} months ago"
+            }
+            createdDateTime.until(today, ChronoUnit.WEEKS) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.MONTHS)} weeks ago"
+            }
+            createdDateTime.until(today, ChronoUnit.DAYS) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.DAYS)} days ago"
+            }
+            createdDateTime.until(today, ChronoUnit.HOURS) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.HOURS)} hours ago"
+            }
+            else -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.MINUTES)} mins ago"
+            }
+        }
+
+        holder.tvPostDuration.text = durationStr
         holder.tvMsg.text = model.messageBody
+
+        if (!model.messageBody.isNullOrBlank()) holder.tvMsg.visibility = View.VISIBLE
 
         if (pids.find { it == model.pid } == null) {
             holder.cardView.isChecked = false
