@@ -34,7 +34,7 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
     override fun onBindViewHolder(holder: PostViewHolder, position: Int, model: Post) {
         val today = LocalDateTime.now()
         val createdDateTime = Instant.ofEpochMilli(model.createDate.time).atZone(ZoneId.systemDefault()).toLocalDateTime()
-        var durationStr = "0 mins ago"
+        val durationStr: String
 
         when {
             createdDateTime.until(today, ChronoUnit.YEARS) > 0 -> {
@@ -52,8 +52,11 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
             createdDateTime.until(today, ChronoUnit.HOURS) > 0 -> {
                 durationStr = "${createdDateTime.until(today, ChronoUnit.HOURS)} hours ago"
             }
-            else -> {
+            createdDateTime.until(today, ChronoUnit.MINUTES) > 0 -> {
                 durationStr = "${createdDateTime.until(today, ChronoUnit.MINUTES)} mins ago"
+            }
+            else -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.SECONDS)} secs ago"
             }
         }
 
