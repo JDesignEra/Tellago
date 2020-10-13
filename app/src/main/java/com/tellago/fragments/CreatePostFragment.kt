@@ -50,6 +50,8 @@ class CreatePostFragment : Fragment() {
             R.id.fragment_container
         )
 
+        if (this.arguments != null) bundle = requireArguments()
+
     }
 
     override fun onCreateView(
@@ -66,8 +68,26 @@ class CreatePostFragment : Fragment() {
 
         configureToolbar()
 
-        // On load, default view should be Message Post
+
+        // On load without bundle, default view should be Message Post
         chip_message_radioToggle.isChecked = true
+        chip_poll_radioToggle.isChecked = false
+        chip_multimedia_radioToggle.isChecked = false
+
+
+        Log.d("post Type from BUN", bundle?.getString("post type").toString())
+        val post_type_from_bundle = bundle?.getString("post type").toString()
+
+        // Changes to chip highlight depending on Bundle value
+        when (post_type_from_bundle) {
+            "text post" -> chip_message_radioToggle.isChecked = true
+            "poll" -> chip_poll_radioToggle.isChecked = true
+            "multimedia" -> chip_multimedia_radioToggle.isChecked = true
+        }
+
+        // Display initial layout depending on chip radio toggles
+        // For initial selection
+        resetLayoutUsingChipRadioToggle()
 
 
         var lastCheckedID = View.NO_ID
@@ -81,57 +101,7 @@ class CreatePostFragment : Fragment() {
             Log.d("lastCheckedID : ", lastCheckedID.toString())
 
             // For new selection
-            if (chip_message_radioToggle.isChecked) {
-
-                chip_poll_radioToggle.isChecked = false
-                chip_multimedia_radioToggle.isChecked = false
-
-                post.postType = "text post"
-
-                // toggle layout accordingly
-                textinputlayout_messageBody.visibility = View.VISIBLE
-                textinputlayout_pollQuestion.visibility = View.GONE
-                btn_add_poll_option.visibility = View.GONE
-                linear_layout_poll_options.visibility = View.GONE
-                linear_layout_poll_remove_buttons.visibility = View.GONE
-                textView_attachMedia.visibility = View.GONE
-            } else if (chip_poll_radioToggle.isChecked) {
-                chip_message_radioToggle.isChecked = false
-                chip_multimedia_radioToggle.isChecked = false
-
-                post.postType = "poll"
-
-                // toggle layout accordingly
-                textinputlayout_pollQuestion.visibility = View.VISIBLE
-                btn_add_poll_option.visibility = View.VISIBLE
-                linear_layout_poll_options.visibility = View.VISIBLE
-                linear_layout_poll_remove_buttons.visibility = View.VISIBLE
-                textinputlayout_messageBody.visibility = View.GONE
-                textView_attachMedia.visibility = View.GONE
-            } else if (chip_multimedia_radioToggle.isChecked) {
-                chip_poll_radioToggle.isChecked = false
-                chip_message_radioToggle.isChecked = false
-
-                post.postType = "multimedia"
-
-                textView_attachMedia.setOnClickListener {
-                    pickImageIntent()
-                    attach_post_image.visibility = View.VISIBLE
-                }
-
-                attach_post_image.setOnClickListener {
-                    pickImageIntent()
-                }
-
-
-                // toggle layout accordingly
-                textView_attachMedia.visibility = View.VISIBLE
-                textinputlayout_messageBody.visibility = View.GONE
-                textinputlayout_pollQuestion.visibility = View.GONE
-                btn_add_poll_option.visibility = View.GONE
-                linear_layout_poll_options.visibility = View.GONE
-                linear_layout_poll_remove_buttons.visibility = View.GONE
-            }
+            resetLayoutUsingChipRadioToggle()
 
         }
 
@@ -152,11 +122,15 @@ class CreatePostFragment : Fragment() {
                     if (journeyTitle != null) {
                         journeyTitleList.add(journeyTitle)
                     }
+                    // Replace this text view with for loop values instead of displaying entire List
+                    textView_jid_from_bundle.text = journeyTitleList.toString()
+                    Log.d("journey title TV", textView_jid_from_bundle.text.toString())
                 }
 
-                textView_jid_from_bundle.text = journeyTitleList.toString()
+//                textView_jid_from_bundle.text = journeyTitleList.toString()
             }
 //            textView_jid_from_bundle.text = journeyTitleList.toString()
+//            Log.d("journey title TV", textView_jid_from_bundle.text.toString())
 
         }
 
@@ -182,18 +156,20 @@ class CreatePostFragment : Fragment() {
             Log.d("Button for journey", "FIRED")
 
 
-            Handler().post {
-                val bundle = Bundle()
-                bundle.putStringArrayList("availableJourneysArrayList", availableJourneysArrayList)
-                // Use bundle to store current input values
-                bundle.putString("post.uid", post.uid)
-                Log.d("availJourneysArrayList1", availableJourneysArrayList.toString())
-                // short redirect to new fragment to select from available Journeys
-                val attachPostToJourneysFragment = AttachPostToJourneysFragment()
-                attachPostToJourneysFragment.arguments = bundle
-                fragmentUtils.replace(attachPostToJourneysFragment)
+            val bundle = Bundle()
+            bundle.putStringArrayList("availableJourneysArrayList", availableJourneysArrayList)
+            // Use bundle to store current input values
+            bundle.putString("post.uid", user?.uid)
+            bundle.putString("post.postType", post.postType)
+            Log.d("availJourneysArrayList1", availableJourneysArrayList.toString())
 
-            }
+            Log.d("post.uid", user?.uid.toString())
+            Log.d("post.postType", post.postType.toString())
+            // short redirect to new fragment to select from available Journeys
+            val attachPostToJourneysFragment = AttachPostToJourneysFragment()
+            attachPostToJourneysFragment.arguments = bundle
+            fragmentUtils.replace(attachPostToJourneysFragment)
+
 
         }
 
@@ -303,6 +279,60 @@ class CreatePostFragment : Fragment() {
 
         }
 
+    }
+
+    private fun resetLayoutUsingChipRadioToggle() {
+        if (chip_message_radioToggle.isChecked) {
+
+            chip_poll_radioToggle.isChecked = false
+            chip_multimedia_radioToggle.isChecked = false
+
+            post.postType = "text post"
+
+            // toggle layout accordingly
+            textinputlayout_messageBody.visibility = View.VISIBLE
+            textinputlayout_pollQuestion.visibility = View.GONE
+            btn_add_poll_option.visibility = View.GONE
+            linear_layout_poll_options.visibility = View.GONE
+            linear_layout_poll_remove_buttons.visibility = View.GONE
+            textView_attachMedia.visibility = View.GONE
+        } else if (chip_poll_radioToggle.isChecked) {
+            chip_message_radioToggle.isChecked = false
+            chip_multimedia_radioToggle.isChecked = false
+
+            post.postType = "poll"
+
+            // toggle layout accordingly
+            textinputlayout_pollQuestion.visibility = View.VISIBLE
+            btn_add_poll_option.visibility = View.VISIBLE
+            linear_layout_poll_options.visibility = View.VISIBLE
+            linear_layout_poll_remove_buttons.visibility = View.VISIBLE
+            textinputlayout_messageBody.visibility = View.GONE
+            textView_attachMedia.visibility = View.GONE
+        } else if (chip_multimedia_radioToggle.isChecked) {
+            chip_poll_radioToggle.isChecked = false
+            chip_message_radioToggle.isChecked = false
+
+            post.postType = "multimedia"
+
+            textView_attachMedia.setOnClickListener {
+                pickImageIntent()
+                attach_post_image.visibility = View.VISIBLE
+            }
+
+            attach_post_image.setOnClickListener {
+                pickImageIntent()
+            }
+
+
+            // toggle layout accordingly
+            textView_attachMedia.visibility = View.VISIBLE
+            textinputlayout_messageBody.visibility = View.GONE
+            textinputlayout_pollQuestion.visibility = View.GONE
+            btn_add_poll_option.visibility = View.GONE
+            linear_layout_poll_options.visibility = View.GONE
+            linear_layout_poll_remove_buttons.visibility = View.GONE
+        }
     }
 
     private fun updateJourneyPIDS(availableJID: java.util.ArrayList<String>) {

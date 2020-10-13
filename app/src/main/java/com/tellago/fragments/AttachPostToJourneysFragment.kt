@@ -53,8 +53,6 @@ class AttachPostToJourneysFragment : Fragment() {
         val availableJourneysArrayList =
             bundle?.getStringArrayList("availableJourneysArrayList") as ArrayList<String>
 
-        Log.d("post.uid", bundle!!.getString("post.uid").toString())
-
 
         val query = FirebaseFirestore.getInstance().collection("journeys").whereIn(
             FieldPath.documentId(), availableJourneysArrayList
@@ -85,6 +83,14 @@ class AttachPostToJourneysFragment : Fragment() {
 
         configureToolbar()
 
+        val bundle_postUID = bundle?.getString("post.uid")
+        val bundle_postType = bundle?.getString("post.postType")
+
+        // Store values in text views with VISIBILITY = GONE
+        tv_store_uid.text = bundle_postUID.toString()
+        tv_store_postType.text = bundle_postType.toString()
+
+
         recycler_view_show_availableJourney_posts_fragment.layoutManager =
             LinearLayoutManager(requireContext())
 
@@ -110,6 +116,8 @@ class AttachPostToJourneysFragment : Fragment() {
 
             createPostFragment.arguments = bundle?.apply {
                 putStringArrayList("arrayListString", broadcastMsgArrayListString)
+                putString("post uid", tv_store_uid.text.toString())
+                putString("post type", tv_store_postType.text.toString())
                 Log.d("Passed String ArrayList", "FIRED")
             }
             fragmentUtils.replace(createPostFragment)
