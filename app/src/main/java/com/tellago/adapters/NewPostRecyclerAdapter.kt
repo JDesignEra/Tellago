@@ -73,8 +73,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 //
 //                        val newPostObj = Post(
 //                            uid = post.uid,
-//                            postType = post.postType,
-//                            journeyArray = post.journeyArray
+//                            postType = post.postType
 //                        )
 //
 //                        when (it.postType) {

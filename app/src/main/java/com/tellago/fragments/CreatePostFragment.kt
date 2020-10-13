@@ -144,20 +144,23 @@ class CreatePostFragment : Fragment() {
 
 
 
-        chip_add_journey.setOnClickListener {
-            Log.d("chip for journey", "FIRED")
+        btn_AddJourney.setOnClickListener {
+            Log.d("Button for journey", "FIRED")
+
+            // short redirect to new fragment to select from available Journeys
+            //fragmentUtils.replace(AttachPostToJourneysFragment())
+
+
         }
+
+
 
 
         btn_CreatePost.setOnClickListener {
             Log.d("Creating post", "FIRED")
 
             post.uid = user?.uid
-            // Assign journeyArray with user input below
-            // Replace the following static data with user Input
-            val journeyarraylist = ArrayList<String>()
-            journeyarraylist.add("some journey ID")
-            post.journeyArray = journeyarraylist
+
 
             // conditional based on type of post
             if (post.postType == "text post") {
@@ -189,14 +192,14 @@ class CreatePostFragment : Fragment() {
 
                 }
 
-                val map = mutableMapOf<String, Int>()
-                val pollArrayList = ArrayList<MutableMap<String, Int>>()
+                val map = mutableMapOf<String, ArrayList<String>>()
+                val pollArrayList = ArrayList<MutableMap<String, ArrayList<String>>>()
 
                 for (optionNo in 1 .. pollOptions.size)
                 {
                     // pollOptions[optionNo] is the option String
                     // assign map[String] = 0 because each option starts off with 0 votes/likes
-                    map[pollOptions[optionNo - 1]] = 0
+                    map[pollOptions[optionNo - 1]] = ArrayList<String>()
                 }
 
                 pollArrayList.add(map)

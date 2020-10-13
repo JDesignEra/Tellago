@@ -142,17 +142,17 @@
                 android:layout_height="196dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:visibility="gone"
-                android:src="@drawable/ic_android_photo" />
+                android:src="@drawable/ic_android_photo"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView_attachMedia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Add Image"
                 android:textColor="@color/colorLinkBlue"
                 android:textSize="20sp"
-                android:layout_marginTop="10dp"
                 android:visibility="gone" />
 
 
@@ -181,25 +181,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Poll Option"
-                android:visibility="gone"
                 android:textColor="@color/colorTextBlack"
+                android:visibility="gone"
                 app:backgroundTint="@color/colorUnderlyingBackground" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_weight="5"
-                >
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/linear_layout_poll_options"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                 </LinearLayout>
 
@@ -208,30 +207,28 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                 </LinearLayout>
 
             </LinearLayout>
 
 
-
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_add_journey"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_AddJourney"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add to Journey"
-                android:layout_marginVertical="20dp"
-                android:visibility="visible"
-                app:checkedIconTint="@color/colorPrimary"
-                app:checkedIconVisible="true"
-                app:chipIcon="@drawable/ic_baseline_directions_walk_24"
-                app:chipIconVisible="true"
-                app:iconEndPadding="-2dp"
-                app:iconStartPadding="5dp" />
+                android:elevation="10dp"
+                android:layout_marginVertical="8dp"
+                android:text="Add Journey(s)"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:icon="@drawable/ic_baseline_directions_walk_24"
+                app:backgroundTint="@color/colorPrimaryLight"
+                app:cornerRadius="5dp" />
+
+
 
 
             <com.google.android.material.button.MaterialButton
