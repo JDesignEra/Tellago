@@ -33,8 +33,6 @@ data class Journey(
     fun getByJid(onComplete: ((journey: Journey?) -> Unit)? = null) {
         if (jid != null) {
             collection.document(jid!!).get().addOnSuccessListener {
-                // TODO: Retrieve posts by PID and return a list of Post class object
-
                 onComplete?.invoke(it.toObject<Journey>())
             }.addOnFailureListener {
                 onComplete?.invoke(null)

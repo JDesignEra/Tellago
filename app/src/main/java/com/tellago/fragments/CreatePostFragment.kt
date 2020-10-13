@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.models.Auth.Companion.user
+import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
@@ -36,6 +37,8 @@ class CreatePostFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
 
     private var post = Post()
+    private var journey = Journey()
+    private var bundle: Bundle? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,8 +72,7 @@ class CreatePostFragment : Fragment() {
 
         var lastCheckedID = View.NO_ID
         chipGrp_post_type.setOnCheckedChangeListener { group, checkedId ->
-            if (checkedId == View.NO_ID)
-            {
+            if (checkedId == View.NO_ID) {
                 // User tried to uncheck, make sure to keep the chip checked
                 group.check(lastCheckedID)
                 return@setOnCheckedChangeListener
@@ -93,8 +95,7 @@ class CreatePostFragment : Fragment() {
                 linear_layout_poll_options.visibility = View.GONE
                 linear_layout_poll_remove_buttons.visibility = View.GONE
                 textView_attachMedia.visibility = View.GONE
-            }
-            else if (chip_poll_radioToggle.isChecked) {
+            } else if (chip_poll_radioToggle.isChecked) {
                 chip_message_radioToggle.isChecked = false
                 chip_multimedia_radioToggle.isChecked = false
 
@@ -107,8 +108,7 @@ class CreatePostFragment : Fragment() {
                 linear_layout_poll_remove_buttons.visibility = View.VISIBLE
                 textinputlayout_messageBody.visibility = View.GONE
                 textView_attachMedia.visibility = View.GONE
-            }
-            else if (chip_multimedia_radioToggle.isChecked) {
+            } else if (chip_multimedia_radioToggle.isChecked) {
                 chip_poll_radioToggle.isChecked = false
                 chip_message_radioToggle.isChecked = false
 
@@ -136,6 +136,17 @@ class CreatePostFragment : Fragment() {
         }
 
 
+        // Assign values to text view for jid if it is available from bundle
+        if (this.arguments != null) bundle = requireArguments()
+        val availableJID = bundle?.getStringArrayList("arrayListString")
+        if (availableJID != null) {
+            textView_jid_from_bundle.visibility = View.VISIBLE
+            availableJID.remove(null)
+//            availableJID.remove("null")
+            textView_jid_from_bundle.text = availableJID.toString()
+
+        }
+
 
         // Run this sequence of code onViewCreated instead of onClickListener for btn_AddJourney
         val availableJourneysArrayList = ArrayList<String>()
@@ -143,14 +154,11 @@ class CreatePostFragment : Fragment() {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         db.collection("goals").whereEqualTo("uid", user?.uid)
             .get()
-            .addOnSuccessListener {
-                    it ->
-                for (document in it.documents)
-                {
+            .addOnSuccessListener { it ->
+                for (document in it.documents) {
                     jidsFromGoal = document["jid"] as ArrayList<String>
                     Log.d("jidsFromGoal is", jidsFromGoal.toString())
-                    for (jid in jidsFromGoal)
-                    {
+                    for (jid in jidsFromGoal) {
                         availableJourneysArrayList.add(jid)
                     }
                     Log.d("availableJourneys", availableJourneysArrayList.toString())
@@ -164,6 +172,8 @@ class CreatePostFragment : Fragment() {
             Handler().post {
                 val bundle = Bundle()
                 bundle.putStringArrayList("availableJourneysArrayList", availableJourneysArrayList)
+                // Use bundle to store current input values
+                bundle.putString("post.uid", post.uid)
                 Log.d("availJourneysArrayList1", availableJourneysArrayList.toString())
                 // short redirect to new fragment to select from available Journeys
                 val attachPostToJourneysFragment = AttachPostToJourneysFragment()
@@ -195,24 +205,24 @@ class CreatePostFragment : Fragment() {
 
                 post.add {
                     if (it != null) {
+                        // iterate through availableJID to updateByJid
+                        if (availableJID != null) {
+                            updateJourneyPIDS(availableJID)
+                        }
                         // Post created successfully, so redirect to Feed fragment?
                         fragmentUtils.replace(FeedFragment(), null)
 
                         toast.success("Text Post created")
-                    }
-                    else toast.error("Please try again, there was an error creating your post")
+                    } else toast.error("Please try again, there was an error creating your post")
                 }
 
-            }
-            else if (post.postType == "poll")
-            {
+            } else if (post.postType == "poll") {
                 post.pollQuestion = et_PollQuestion.text.toString()
                 // Assign options to the poll below (start off with Int = 0 for each poll option)
                 val pollOptions = mutableListOf<String>()
 
-                for (optionNo in 1 .. linear_layout_poll_options.childCount)
-                {
-                    val editText : EditText = linear_layout_poll_options[optionNo - 1] as EditText
+                for (optionNo in 1..linear_layout_poll_options.childCount) {
+                    val editText: EditText = linear_layout_poll_options[optionNo - 1] as EditText
                     Log.d("edit text: ", editText.text.toString())
 
                     pollOptions.add(editText.text.toString())
@@ -222,8 +232,7 @@ class CreatePostFragment : Fragment() {
                 val map = mutableMapOf<String, ArrayList<String>>()
                 val pollArrayList = ArrayList<MutableMap<String, ArrayList<String>>>()
 
-                for (optionNo in 1 .. pollOptions.size)
-                {
+                for (optionNo in 1..pollOptions.size) {
                     // pollOptions[optionNo] is the option String
                     // assign map[String] = 0 because each option starts off with 0 votes/likes
                     map[pollOptions[optionNo - 1]] = ArrayList<String>()
@@ -235,12 +244,15 @@ class CreatePostFragment : Fragment() {
 
                 post.add {
                     if (it != null) {
+                        // iterate through availableJID to updateByJid
+                        if (availableJID != null) {
+                            updateJourneyPIDS(availableJID)
+                        }
                         // Post created successfully, so redirect to Feed fragment?
                         fragmentUtils.replace(FeedFragment(), null)
 
                         toast.success("Poll created")
-                    }
-                    else toast.error("Please try again, there was an error creating your post")
+                    } else toast.error("Please try again, there was an error creating your post")
                 }
 
             }
@@ -257,6 +269,11 @@ class CreatePostFragment : Fragment() {
 
                                 // reassign post.multimediaURI to match storageRef of postID ???
                                 post.multimediaURI = post.pid
+                                // iterate through availableJID to updateByJid
+                                if (availableJID != null) {
+                                    updateJourneyPIDS(availableJID)
+                                }
+
 
                             }.addOnFailureListener {
                                 // Failed to upload
@@ -268,14 +285,42 @@ class CreatePostFragment : Fragment() {
                         fragmentUtils.replace(FeedFragment(), null)
 
                         toast.success("Multimedia Post created")
-                    }
-                    else toast.error("Please try again, there was an error creating your post")
+                    } else toast.error("Please try again, there was an error creating your post")
                 }
             }
 
 
         }
 
+    }
+
+    private fun updateJourneyPIDS(availableJID: java.util.ArrayList<String>) {
+        for (jid in availableJID) {
+
+            Journey().getByJid { journey ->
+                if (journey != null) {
+                    if (journey.jid == jid) {
+                        val pids = journey.pids
+                        Log.d("before PIDS", "$pids")
+                        post.pid?.let { pids.add(it) }
+                        journey.updateByJid(pids)
+                        Log.d("after PIDS", "$pids")
+                    }
+                }
+            }
+
+
+//            val pids = journey.pids
+
+            // populating availableJourneyList
+//            model?.jid?.let { it1 -> availableJourneyList.add(it1) }
+
+
+//            Log.d("before PIDS", "$pids")
+//            post.pid?.let { pids.add(it) }
+//            journey.updateByJid(pids)
+//            Log.d("after PIDS", "$pids")
+        }
     }
 
     private fun configureToolbar() {
@@ -286,7 +331,7 @@ class CreatePostFragment : Fragment() {
     }
 
 
-    private fun createNewPollOptionEditText() : EditText {
+    private fun createNewPollOptionEditText(): EditText {
 
         val lparams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -301,7 +346,7 @@ class CreatePostFragment : Fragment() {
         return editTextPollOption
     }
 
-    private fun createNewPollOptionDeleteButton() : Button {
+    private fun createNewPollOptionDeleteButton(): Button {
 
         val lparams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -380,7 +425,8 @@ class CreatePostFragment : Fragment() {
                 resultUri.let {
 
                     // display selected image as attach_post_image (only shown locally; not yet updated to Storage)
-                    uri ->  setImage(uri)
+                        uri ->
+                    setImage(uri)
 
                     // redo if it is tilting
                     attach_post_image.minimumHeight = 121
@@ -410,7 +456,7 @@ class CreatePostFragment : Fragment() {
             .start(requireActivity())
     }
 
-    private fun setImage(uri: Uri){
+    private fun setImage(uri: Uri) {
         Glide.with(this)
             .load(uri)
             .into(attach_post_image)

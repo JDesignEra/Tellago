@@ -15,6 +15,7 @@
             android:id="@+id/coord_layout_show_availableJourney_posts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -63,9 +64,17 @@
                 android:visibility="invisible" />
 
 
-
-
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_confirm_journey_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@id/coord_layout_show_availableJourney_posts"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="Confirm Selection" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
