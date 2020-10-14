@@ -1,7 +1,9 @@
 package com.tellago.adapters
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +30,7 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
     ): AvailableJourneyViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.layout_available_journey_item_for_post_attach, parent, false)
+
         return AvailableJourneyViewHolder(view)
     }
 
@@ -39,8 +42,6 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
         holder.model = model
         holder.tvJourneyTitle.text = model.title
 
-
-        val selectedJourneyList = ArrayList<String>()
 
         holder.journeyCardView.setOnClickListener {
             holder.journeyCardView.toggle()
@@ -61,12 +62,12 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
             }
 
 
-
         }
 
     }
 
-    private fun broadcastRemoveJID(context : Context, jid : String) {
+
+    private fun broadcastRemoveJID(context: Context, jid: String) {
         val intent = Intent("chooseJourney")
         intent.putExtra("journey remove", jid)
         LocalBroadcastManager.getInstance(context)
@@ -74,7 +75,7 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
         Log.d("Broadcast Sent", "FIRED")
     }
 
-    private fun broadcastAddJID(context : Context, jid : String) {
+    private fun broadcastAddJID(context: Context, jid: String) {
         val intent = Intent("chooseJourney")
         intent.putExtra("journey add", jid)
         LocalBroadcastManager.getInstance(context)

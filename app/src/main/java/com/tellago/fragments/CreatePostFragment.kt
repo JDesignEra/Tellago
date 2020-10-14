@@ -1,6 +1,7 @@
 package com.tellago.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -69,14 +71,15 @@ class CreatePostFragment : Fragment() {
         configureToolbar()
 
 
+
+
         // On load without bundle, default view should be Message Post
         chip_message_radioToggle.isChecked = true
         chip_poll_radioToggle.isChecked = false
         chip_multimedia_radioToggle.isChecked = false
 
 
-        Log.d("post Type from BUN", bundle?.getString("post type").toString())
-        val post_type_from_bundle = bundle?.getString("post type").toString()
+        val post_type_from_bundle = post.postType
 
         // Changes to chip highlight depending on Bundle value
         when (post_type_from_bundle) {
@@ -107,7 +110,11 @@ class CreatePostFragment : Fragment() {
 
 
         // Assign values to text view for jid if it is available from bundle
-        if (this.arguments != null) bundle = requireArguments()
+//        if (this.arguments != null) bundle = requireArguments()
+//        val parentLayoutFromBundle = bundle?.getString("sendingparentlayout")
+//        // let layout follow layout from bundle??
+
+
         val availableJID = bundle?.getStringArrayList("arrayListString")
         if (availableJID != null) {
             textView_jid_from_bundle.visibility = View.VISIBLE
@@ -164,23 +171,25 @@ class CreatePostFragment : Fragment() {
         btn_AddJourney.setOnClickListener {
             Log.d("Button for journey", "FIRED")
 
+            // Hide keyboard before displaying the next Fragment
+            it.hideKeyboard()
 
             val bundle = Bundle()
             updatePostModelPartial()
 
-//            bundle.putStringArrayList("availableJourneysArrayList", availableJourneysArrayList)
-            // Use bundle to store current input values
-//            bundle.putString("post.uid", user?.uid)
-//            bundle.putString("post.postType", post.postType)
             Log.d("availJourneysArrayList1", availableJourneysArrayList.toString())
 
-//            Log.d("post.uid", user?.uid.toString())
-//            Log.d("post.postType", post.postType.toString())
+            val parentLayout = linear_layout_option_parent
+            Log.d("parentlayout is", parentLayout.toString())
+
             // short redirect to new fragment to select from available Journeys
             val attachPostToJourneysFragment = AttachPostToJourneysFragment()
             attachPostToJourneysFragment.arguments = bundle.apply {
                 putParcelable(post::class.java.name, post)
                 putStringArrayList("availableJourneysArrayList", availableJourneysArrayList)
+                putString("parentlayout", parentLayout.toString())
+                // Function not completed: Pass previously selected journey title to AttachPostToJourneysFragment
+//                putString("attachedJourneys", textView_jid_from_bundle.text.toString())
             }
             fragmentUtils.replace(attachPostToJourneysFragment)
 
@@ -305,6 +314,12 @@ class CreatePostFragment : Fragment() {
 
             post.postType = "text post"
 
+            // Displaying text for et_Message if messageBody available from Post Model
+            if (post.messageBody != null)
+            {
+                et_PostMessage.setText(post.messageBody)
+            }
+
             // toggle layout accordingly
             textinputlayout_messageBody.visibility = View.VISIBLE
             textinputlayout_pollQuestion.visibility = View.GONE
@@ -319,6 +334,19 @@ class CreatePostFragment : Fragment() {
 
             post.postType = "poll"
 
+            // Displaying text for et_PollQuestion if pollQuestion available from Post Model
+            if (post.pollQuestion != null)
+            {
+                et_PollQuestion.setText(post.pollQuestion)
+            }
+
+            // Display poll options from earlier...
+            val parentLayoutFromBundle = bundle?.getString("sendingparentlayout")
+            // let layout follow layout from bundle??
+//            linear_layout_option_parent = parentLayoutFromBundle
+//            linear_layout_option_parent.layoutParams
+
+
             // toggle layout accordingly
             textinputlayout_pollQuestion.visibility = View.VISIBLE
             btn_add_poll_option.visibility = View.VISIBLE
@@ -332,6 +360,13 @@ class CreatePostFragment : Fragment() {
             chip_message_radioToggle.isChecked = false
 
             post.postType = "multimedia"
+
+            // Displaying image on attach_post_image if available from Post Model
+            if (post.multimediaURI != null)
+            {
+                attach_post_image.visibility = View.VISIBLE
+                setImage(post.multimediaURI!!.toUri())
+            }
 
             textView_attachMedia.setOnClickListener {
                 pickImageIntent()
@@ -425,6 +460,12 @@ class CreatePostFragment : Fragment() {
 
         return btnRemoveET
     }
+
+//    private fun savePollOptionParentLayout() {
+//
+//        val parentLayout = linear_layout_option_parent
+//
+//    }
 
     private fun pickImageIntent() {
         val intent = Intent()
@@ -532,6 +573,9 @@ class CreatePostFragment : Fragment() {
             .into(attach_post_image)
     }
 
-
+    fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
+    }
 
 }

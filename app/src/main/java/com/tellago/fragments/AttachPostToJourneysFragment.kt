@@ -57,10 +57,7 @@ class AttachPostToJourneysFragment : Fragment() {
 
         if (bundle != null) post = bundle!!.getParcelable(post::class.java.name)!!
         Log.d("Retrieved bundle", bundle.toString())
-//        Log.d("passed from bundle", post.postType)
-//        Log.d("passed from bundle", post.multimediaURI)
-//        Log.d("passed from bundle", post.messageBody)
-//        Log.d("passed from bundle", post.pollQuestion)
+
 
         val query = FirebaseFirestore.getInstance().collection("journeys").whereIn(
             FieldPath.documentId(), availableJourneysArrayList
@@ -92,12 +89,26 @@ class AttachPostToJourneysFragment : Fragment() {
         configureToolbar()
 
 
-        val bundle_postUID = bundle?.getString("post.uid")
-        val bundle_postType = bundle?.getString("post.postType")
+        // Function not completed: Received previously selected journey title from CreatePostFragment
+        // Pass this Array of Strings to ShowAvailableJourneysForPostAttachRecyclerAdapter
+        // Allow recycler adapter to set checked value of card view to true if the card's title
+        // is contained inside the Array of Strings passed to the recycler adapter
+//        val journeysInBundle = bundle?.getString("attachedJourneys")
+//        if (journeysInBundle != null)
+//        {
+//            Log.d("journey in bundle 2", journeysInBundle.toString())
+//
+//        }
+
+
 
         // Store values in text views with VISIBILITY = GONE
-        tv_store_uid.text = bundle_postUID.toString()
-        tv_store_postType.text = bundle_postType.toString()
+        tv_store_uid.text = post.uid
+        tv_store_postType.text = post.postType
+
+        val parentLayoutReceived = bundle?.getString("parentlayout")
+        Log.d("received parent layout", parentLayoutReceived.toString())
+        tv_store_pollParentLayout.text = parentLayoutReceived
 
 
         recycler_view_show_availableJourney_posts_fragment.layoutManager =
@@ -124,13 +135,10 @@ class AttachPostToJourneysFragment : Fragment() {
 
             createPostFragment.arguments = bundle?.apply {
                 putStringArrayList("arrayListString", broadcastMsgArrayListString)
-                putString("post uid", tv_store_uid.text.toString())
-                putString("post type", tv_store_postType.text.toString())
+                putString("sendingparentlayout", tv_store_pollParentLayout.text.toString())
                 Log.d("Passed String ArrayList", "FIRED")
             }
             fragmentUtils.replace(createPostFragment)
-
-//            fragmentUtils.popBackStack(null)
 
         }
 
@@ -174,17 +182,15 @@ class AttachPostToJourneysFragment : Fragment() {
                     // here, there is a JID to add
                     if (!broadcastMsgArrayListString.contains(jidToAdd)) {
                         broadcastMsgArrayListString.add(jidToAdd)
-                        //                    Log.d("broadcastMsg.. NOW", broadcastMsgArrayListString.toString())
+
                     }
 
                 } else if (intent.getStringExtra("journey remove") != null) {
-//                    Log.d("broadcastMsg.. b4 rem", broadcastMsgArrayListString.toString())
 
                     val jidToRemove = intent.getStringExtra("journey remove") as String
                     // here, there is a JID to remove
                     if (broadcastMsgArrayListString.contains(jidToRemove)) {
                         broadcastMsgArrayListString.remove(jidToRemove)
-//                        Log.d("broadcastMsg.. NOW", broadcastMsgArrayListString.toString())
                     }
                 }
 
