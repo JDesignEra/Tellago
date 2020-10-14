@@ -33,6 +33,8 @@ class AttachPostToJourneysFragment : Fragment() {
 
 
     private var bundle: Bundle? = null
+
+    //  broadcastMsgArrayListString declared to be persistent
     private var broadcastMsgArrayListString: ArrayList<String> = ArrayList()
 
 
@@ -83,6 +85,7 @@ class AttachPostToJourneysFragment : Fragment() {
 
         configureToolbar()
 
+
         val bundle_postUID = bundle?.getString("post.uid")
         val bundle_postType = bundle?.getString("post.postType")
 
@@ -101,9 +104,8 @@ class AttachPostToJourneysFragment : Fragment() {
         // We are registering an observer (mMessageReceiver) to receive Intents
         // with actions named "chooseJourney".
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
-            mMessageReceiver, IntentFilter ("chooseJourney")
+            mMessageReceiver, IntentFilter("chooseJourney")
         )
-
 
 
 
@@ -155,47 +157,34 @@ class AttachPostToJourneysFragment : Fragment() {
     val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
 
-            // reset broadcastMsgArrayListString
-            broadcastMsgArrayListString = ArrayList()
 
-            // Get extra data included in the Intent
-            val iterate = intent.getIntExtra("journey count", 0)
-            Log.d("iterate value", "$iterate")
-            for (i in 0 .. iterate)
-            {
-                val jidReceived = intent.getStringExtra("journey #$i")
-                broadcastMsgArrayListString.add(jidReceived)
+            val journeyIntent = intent.action
+
+            if (journeyIntent == "chooseJourney") {
+                if (intent.getStringExtra("journey add") != null) {
+                    val jidToAdd = intent.getStringExtra("journey add") as String
+                    // here, there is a JID to add
+                    if (!broadcastMsgArrayListString.contains(jidToAdd)) {
+                        broadcastMsgArrayListString.add(jidToAdd)
+                        //                    Log.d("broadcastMsg.. NOW", broadcastMsgArrayListString.toString())
+                    }
+
+                } else if (intent.getStringExtra("journey remove") != null) {
+//                    Log.d("broadcastMsg.. b4 rem", broadcastMsgArrayListString.toString())
+
+                    val jidToRemove = intent.getStringExtra("journey remove") as String
+                    // here, there is a JID to remove
+                    if (broadcastMsgArrayListString.contains(jidToRemove)) {
+                        broadcastMsgArrayListString.remove(jidToRemove)
+//                        Log.d("broadcastMsg.. NOW", broadcastMsgArrayListString.toString())
+                    }
+                }
+
             }
-            Log.d("broadcastMsgAL", broadcastMsgArrayListString.toString())
-//            val selectJourneyList =
-//                intent.getStringArrayExtra("selectedJourneyList") as Array<String>
-//            Log.d("selectedJourneyList R", selectJourneyList.toString())
+
+
         }
     }
 
-//    private val receiverListener = mMessageReceiver()
-//
-//    inner class mMessageReceiver : BroadcastReceiver() {
-//        override fun onReceive(context: Context?, intent: Intent?) {
-//
-//            when (intent?.action) {
-//                "chooseJourney" -> Log.d("choose", "FIRED")
-//            }
-//
-//            // Get extra data included in the Intent
-////            val selectJourneyList = intent.getStringArrayListExtra("selectedJourneyList")
-//            val selectJourneyList =
-//                intent?.getStringArrayExtra("selectedJourneyList") as Array<String>
-//            Log.d("selectedJourneyList R", selectJourneyList.toString())
-//            Log.d("count", selectJourneyList.count().toString())
-//            // pass over to...
-//            //broadcastMsg = selectJourneyList.toMutableList()
-//            for (journey in selectJourneyList) {
-//                broadcastMsg.add(journey)
-//            }
-//
-//
-//        }
-//    }
 
 }

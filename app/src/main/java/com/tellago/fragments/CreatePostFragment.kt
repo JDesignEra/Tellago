@@ -112,6 +112,7 @@ class CreatePostFragment : Fragment() {
             textView_jid_from_bundle.visibility = View.VISIBLE
             availableJID.remove(null)
 //            availableJID.remove("null")
+            Log.d("received availableJID", availableJID.toString())
             val journeyTitleList = ArrayList<String>()
             for (jid in availableJID) {
                 Log.d("jid is", jid)
@@ -120,7 +121,15 @@ class CreatePostFragment : Fragment() {
                     Log.d("journey title", journeyTitle)
                     if (journeyTitle != null) {
                         journeyTitleList.add(journeyTitle)
+                        Log.d("journey list is: ", journeyTitleList.toString())
                     }
+
+//                    if (journeyTitleList.contains("null"))
+//                    {
+//                        Log.d("Removing Null", "FIRED")
+//                        journeyTitleList.remove("null")
+//                    }
+
                     // Replace this text view with for loop values instead of displaying entire List
                     textView_jid_from_bundle.text = journeyTitleList.toString()
                     Log.d("journey title TV", textView_jid_from_bundle.text.toString())
