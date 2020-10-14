@@ -145,18 +145,8 @@ class CreatePostFragment : Fragment() {
 
                 }
 
-//                textView_jid_from_bundle.text = journeyTitleList.toString()
             }
-//            textView_jid_from_bundle.text = journeyTitleList.toString()
-//            Log.d("journey title TV", textView_jid_from_bundle.text.toString())
 
-//            textView_journey_titles.visibility = View.VISIBLE
-//            for (title in journeyTitleList)
-//            {
-//                val previousTitle = textView_journey_titles.text
-//                // set new title(s)
-//                textView_journey_titles.text = "$previousTitle, $title"
-//            }
 
         }
 
@@ -186,6 +176,9 @@ class CreatePostFragment : Fragment() {
 
             val bundle = Bundle()
             updatePostModelPartial()
+            updateAndStorePollOptions()
+            Log.d("storing poll values", post.poll.toString())
+
 
             Log.d("availJourneysArrayList1", availableJourneysArrayList.toString())
 
@@ -209,6 +202,10 @@ class CreatePostFragment : Fragment() {
 
             linear_layout_poll_options.addView(createNewPollOptionEditText())
             linear_layout_poll_remove_buttons.addView(createNewPollOptionDeleteButton())
+
+            updateAndStorePollOptions()
+            Log.d("Assign poll option ADD", post.poll.toString())
+
         }
 
 
@@ -239,29 +236,8 @@ class CreatePostFragment : Fragment() {
             } else if (post.postType == "poll") {
                 post.pollQuestion = et_PollQuestion.text.toString()
                 clearPostModelMultimediaURI()
-                // Assign options to the poll below (start off with Int = 0 for each poll option)
-                val pollOptions = mutableListOf<String>()
 
-                for (optionNo in 1..linear_layout_poll_options.childCount) {
-                    val editText: EditText = linear_layout_poll_options[optionNo - 1] as EditText
-                    Log.d("edit text: ", editText.text.toString())
-
-                    pollOptions.add(editText.text.toString())
-
-                }
-
-                val map = mutableMapOf<String, ArrayList<String>>()
-                val pollArrayList = ArrayList<MutableMap<String, ArrayList<String>>>()
-
-                for (optionNo in 1..pollOptions.size) {
-                    // pollOptions[optionNo] is the option String
-                    // assign map[String] = 0 because each option starts off with 0 votes/likes
-                    map[pollOptions[optionNo - 1]] = ArrayList<String>()
-                }
-
-                pollArrayList.add(map)
-
-//                post.poll = pollArrayList
+                updateAndStorePollOptions()
 
                 post.add {
                     if (it != null) {
@@ -313,6 +289,31 @@ class CreatePostFragment : Fragment() {
 
     }
 
+    private fun updateAndStorePollOptions() {
+        // Assign options to the poll below (start off with Int = 0 for each poll option)
+        val pollOptions = mutableListOf<String>()
+
+        for (optionNo in 1..linear_layout_poll_options.childCount) {
+            val editText: EditText = linear_layout_poll_options[optionNo - 1] as EditText
+            Log.d("edit text: ", editText.text.toString())
+
+            pollOptions.add(editText.text.toString())
+
+        }
+
+        val map = mutableMapOf<String, ArrayList<String>>()
+        val pollArrayList = ArrayList<MutableMap<String, ArrayList<String>>>()
+
+        for (optionNo in 1..pollOptions.size) {
+            // pollOptions[optionNo] is the option String
+            // assign map[String] = 0 because each option starts off with 0 votes/likes
+            map[pollOptions[optionNo - 1]] = ArrayList<String>()
+        }
+
+        pollArrayList.add(map)
+        post.poll = pollArrayList
+    }
+
     private fun resetLayoutUsingChipRadioToggle() {
         if (chip_message_radioToggle.isChecked) {
 
@@ -345,6 +346,35 @@ class CreatePostFragment : Fragment() {
                 et_PollQuestion.setText(post.pollQuestion)
             }
 
+            // poll = [{3=[], haha=[], fou=[]}]
+            if (post.poll.isNotEmpty())
+            {
+                // to store element values
+                val pollElementsList : ArrayList<String> = ArrayList()
+                // iterating
+                for (stuffLayer1 in post.poll)
+                {
+                    Log.d("printing Pt1: ", stuffLayer1.toString())
+
+                    for (Layer2 in stuffLayer1)
+                    {
+                        Log.d("printing Pt2: ", Layer2.toString())
+                        val splitElements = Layer2.toString().split("=")
+                        pollElementsList.add(splitElements[0].toString())
+                    }
+
+                }
+                Log.d("print elements", pollElementsList.toString())
+
+                // Iterate through elements in pollElementsList to dynamically populate linear_layout_poll_options
+                for (element in pollElementsList)
+                {
+                    linear_layout_poll_options.addView(populateNewPollOptionEditText(element))
+                    linear_layout_poll_remove_buttons.addView(createNewPollOptionDeleteButton())
+                    Log.d("new layout created", "FIRED")
+                }
+
+            }
 
             // toggle layout accordingly
             textinputlayout_pollQuestion.visibility = View.VISIBLE
@@ -394,7 +424,7 @@ class CreatePostFragment : Fragment() {
                 Log.d("before PIDS", "$pids")
                 post.pid?.let { pids?.add(it) }
                 if (pids != null) {
-                    it?.updateByJid(pids)
+                    it.updateByJid(pids)
                 }
                 Log.d("after PIDS", "$pids")
             }
@@ -418,6 +448,21 @@ class CreatePostFragment : Fragment() {
         )
         val editTextPollOption = EditText(requireContext())
         editTextPollOption.setHint("Add option to your poll...")
+
+
+        editTextPollOption.layoutParams = lparams
+
+        return editTextPollOption
+    }
+
+    private fun populateNewPollOptionEditText(userOptionInput : String): EditText {
+
+        val lparams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        val editTextPollOption = EditText(requireContext())
+        editTextPollOption.setText(userOptionInput)
 
 
         editTextPollOption.layoutParams = lparams
@@ -451,6 +496,10 @@ class CreatePostFragment : Fragment() {
 
             linearSibling.removeView(linearSibling[indexOfCurrentButton])
             linearChild.removeView(linearChild[indexOfCurrentButton])
+
+
+            updateAndStorePollOptions()
+            Log.d("Assign poll option REM", post.poll.toString())
 
         }
 
@@ -519,9 +568,7 @@ class CreatePostFragment : Fragment() {
 
                     textView_attachMedia.text = "Change Image"
 
-                    // redundant function?
                     updatePostModelMultimediaURI(uri)
-//                    Log.d("multimediaURI 2", post.multimediaURI)
 
 
                 }
@@ -533,12 +580,15 @@ class CreatePostFragment : Fragment() {
     }
 
     private fun updatePostModelPartial() {
-        post.jid = textView_jid_from_bundle.text.toString()
+        // post.jid is meant to be used for Posts which post entire Journey (late game feature)
+        // can use post.jid to store previously-selected Journeys as short-term feature --> still uncompleted
+//        post.jid = textView_jid_from_bundle.text.toString()
         post.messageBody = et_PostMessage.text.toString()
         post.pollQuestion = et_PollQuestion.text.toString()
         post.uid = user?.uid
 
     }
+
 
     private fun updatePostModelMultimediaURI(uri: Uri) {
         post.multimediaURI = uri.toString()
