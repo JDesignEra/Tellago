@@ -15,13 +15,13 @@ import kotlinx.android.synthetic.main.fragment_create_goal_1.*
 
 class CreateGoalFragment_1 : Fragment() {
     private var goal: Goal = Goal()
-    private lateinit var bundle: Bundle
+    private var bundle: Bundle? = null
     private lateinit var fragmentUtils: FragmentUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        bundle = requireArguments()
+        bundle = arguments
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
             R.id.fragment_container_goal_activity
@@ -66,7 +66,7 @@ class CreateGoalFragment_1 : Fragment() {
 
                 createGoalFragment2.arguments = Bundle().apply {
                     putParcelable(goal::class.java.name, goal)
-                    putStringArrayList("pids", bundle.getStringArrayList("pids"))
+                    putStringArrayList("pids", bundle?.getStringArrayList("pids"))
                 }
 
                 fragmentUtils.replace(createGoalFragment2, setTargetFragment = this, requestCode = -1)
@@ -78,7 +78,7 @@ class CreateGoalFragment_1 : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK && requestCode == -1) {
-            bundle.putStringArrayList("pids", data?.getStringArrayListExtra("pids"))
+            bundle?.putStringArrayList("pids", data?.getStringArrayListExtra("pids"))
         }
     }
 
