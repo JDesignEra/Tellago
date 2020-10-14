@@ -1,22 +1,32 @@
 package com.tellago.adapters
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.toColor
 import androidx.core.net.toUri
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.GlideApp
 import com.tellago.R
+import com.tellago.R.*
 import com.tellago.models.Post
 import kotlinx.android.synthetic.main.layout_new_post_list_item.view.*
-import java.time.*
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 
 
@@ -28,7 +38,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         return NewPostViewHolder(
             // Layout inflator to inflate FROM layout_new_post_list_item
             LayoutInflater.from(parent.context).inflate(
-                R.layout.layout_new_post_list_item,
+                layout.layout_new_post_list_item,
                 parent,
                 false
             )
@@ -41,31 +51,107 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 //        holder.bind(items[position])
 
         // Use NewPostRecyclerAdapter to handle conditional for displaying Posts based on PostType
-        when(model.postType)
-        {
-            "text post" ->
-            {
+        when (model.postType) {
+            "text post" -> {
                 holder.post_title.visibility = View.VISIBLE
                 holder.post_title.text = model.messageBody
             }
 
-            "poll" ->
-            {
+            "poll" -> {
                 holder.post_title.visibility = View.VISIBLE
                 val pollQn = model.pollQuestion
                 holder.post_title.text = "Poll Question: $pollQn"
                 holder.post_pollOption.visibility = View.VISIBLE
-                holder.post_pollOption.text = model.poll.toString()
+//                holder.post_pollOption.text = model.poll.toString()
+                holder.post_pollOption.text = ""
+                holder.layout_poll_options.visibility = View.VISIBLE
+                holder.layout_poll_option_progressbar.visibility = View.VISIBLE
+
+                // check model.poll for number of elements
+                if (model.poll.isNotEmpty()) {
+                    // to store element values
+                    val pollElementsList: ArrayList<String> = ArrayList()
+                    val pollVotesList: ArrayList<Int> = ArrayList()
+                    var totalVoteCount = 0
+                    // iterating
+                    for (stuffLayer1 in model.poll) {
+                        Log.d("printing Pt1: ", stuffLayer1.toString())
+
+                        for (Layer2 in stuffLayer1) {
+                            Log.d("printing Pt2: ", Layer2.toString())
+                            val splitElements = Layer2.toString().split("=")
+                            pollElementsList.add(splitElements[0])
+                            Log.d("index 1: ", splitElements[1])
+                            if (splitElements[1] == "[]") {
+                                pollVotesList.add(0)
+                            } else {
+
+                                val splitUserVotes = splitElements[1].split(",")
+                                Log.d("splitUserVotes is: ", splitUserVotes.toString())
+                                var noOfUserID = 0
+                                for (userID in splitUserVotes) {
+                                    noOfUserID += 1
+                                    Log.d("userID is: ", userID)
+                                }
+                                pollVotesList.add(noOfUserID)
+                                totalVoteCount += noOfUserID
+                            }
+                            Log.d("totalVoteCount: ", totalVoteCount.toString())
+                            Log.d("printing splitEle: ", splitElements.toString())
+                        }
+
+                    }
+                    Log.d("print elements", pollElementsList.toString())
+
+
+                    var iterateVal = 0
+                    // Iterate through elements in pollElementsList to dynamically populate linear_layout_poll_options
+                    for (element in pollElementsList) {
+
+                        holder.layout_poll_options.addView(
+                            populateNewPollOptionTextView(
+                                holder.itemView.context,
+                                element
+                            )
+                        )
+                        
+                        if (totalVoteCount == 0)
+                        {
+                            holder.layout_poll_option_progressbar.addView(
+                                populateNewPollVotesAsText(
+                                    holder.itemView.context,
+                                    pollVotesList[iterateVal],
+                                    totalVoteCount
+                                )
+                            )
+                        } else
+                        {
+                            holder.layout_poll_option_progressbar.addView(
+                                populateNewPollVotesProgressBar(
+                                    holder.itemView.context,
+                                    pollVotesList[iterateVal],
+                                    totalVoteCount
+                                )
+                            )
+                        }
+
+                        iterateVal += 1
+
+                        Log.d("new layout created", "FIRED")
+                    }
+                }
+
             }
 
-            "multimedia" ->
-            {
+            "multimedia" -> {
                 holder.post_image.visibility = View.VISIBLE
             }
         }
 
         val today = LocalDateTime.now()
-        val createdDateTime = Instant.ofEpochMilli(model.createDate.time).atZone(ZoneId.systemDefault()).toLocalDateTime()
+        val createdDateTime =
+            Instant.ofEpochMilli(model.createDate.time).atZone(ZoneId.systemDefault())
+                .toLocalDateTime()
         val durationStr: String
 
         when {
@@ -101,10 +187,68 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         // use this function to display images using Glide (one for profile pic of poster & one for any multimedia belonging to Post)
         holder.bind(model)
 
-
     }
 
 
+    private fun populateNewPollOptionTextView(context: Context, userOptionInput: String): TextView {
+
+        val lparams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            50
+        )
+        val textViewPollOption = TextView(context)
+        textViewPollOption.text = userOptionInput
+        textViewPollOption.maxLines = 3
+
+        textViewPollOption.layoutParams = lparams
+
+        return textViewPollOption
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun populateNewPollVotesProgressBar(
+        context: Context,
+        optionVote: Int,
+        totalVoteCount: Int
+    ): ProgressBar {
+
+        val lparams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            50
+        )
+        val progressBarOptionVote =
+            ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal)
+        progressBarOptionVote.setBackgroundResource(color.colorBackground)
+//        progressBarOptionVote.setBackgroundColor(color.colorWarning)
+//        progressBarOptionVote.background = drawable.gradient_background.toDrawable()
+        progressBarOptionVote.isIndeterminate = false
+        progressBarOptionVote.scaleY = 1.toFloat()
+        progressBarOptionVote.max = totalVoteCount
+        progressBarOptionVote.progress = optionVote
+
+        progressBarOptionVote.layoutParams = lparams
+
+        return progressBarOptionVote
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun populateNewPollVotesAsText(
+        context: Context,
+        optionVote: Int,
+        totalVoteCount: Int
+    ): TextView {
+        val lparams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            50
+        )
+        val textViewPollOption = TextView(context)
+        textViewPollOption.text = "$optionVote out of $totalVoteCount votes"
+
+
+        textViewPollOption.layoutParams = lparams
+
+        return textViewPollOption
+    }
 
     // Constructor for Post ViewHolder
     class NewPostViewHolder constructor(
@@ -117,6 +261,8 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         val post_title: TextView = itemView.new_post_title
         val post_pollOption: TextView = itemView.new_post_pollOption
         val post_duration: TextView = itemView.new_post_duration
+        val layout_poll_options = itemView.linear_layout_post_poll_options
+        val layout_poll_option_progressbar = itemView.linear_layout_post_poll_progressbar
         val likes: TextView = itemView.new_post_likes
         val comments: TextView = itemView.new_post_comments
 
@@ -127,8 +273,8 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         fun bind(post: Post) {
             // use Glide to set image to post_image
             val requestOptions = RequestOptions()
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
+                .placeholder(drawable.ic_launcher_background)
+                .error(drawable.ic_launcher_background)
 
 
             val imageURI = model?.multimediaURI?.toUri()
@@ -139,7 +285,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
                 post_image.maxWidth = 0;
                 GlideApp.with(activity.application.baseContext)
                     .applyDefaultRequestOptions(requestOptions)
-                    .load(R.drawable.ic_launcher_background)
+                    .load(drawable.ic_launcher_background)
                     .into(post_image)
 
             }

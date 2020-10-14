@@ -84,11 +84,44 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="12dp"
-                android:textSize="14sp"
                 android:textColor="@color/colorTextBlack"
+                android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/new_post_title" />
+
+
+
+            <LinearLayout
+                android:id="@+id/linear_layout_post_poll_option_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/new_post_pollOption">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_post_poll_options"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_post_poll_progressbar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
             <ImageView
@@ -103,7 +136,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/new_post_pollOption">
+                app:layout_constraintTop_toBottomOf="@id/linear_layout_post_poll_option_parent">
 
             </ImageView>
 
@@ -151,13 +184,13 @@
                     android:id="@+id/new_post_comment_btn"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_mode_comment_24"/>
+                    android:src="@drawable/ic_baseline_mode_comment_24" />
 
                 <ImageView
                     android:id="@+id/new_post_share_btn"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_share_24"/>
+                    android:src="@drawable/ic_baseline_share_24" />
             </LinearLayout>
 
             <LinearLayout
