@@ -1,6 +1,7 @@
 package com.tellago.models
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Parcelable
@@ -8,8 +9,11 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.firebase.firestore.DocumentId
@@ -79,30 +83,49 @@ data class Post(
         else Log.e(this::class.java.name, "PID is required for deleteByPid().")
     }
 
-    fun displayPostMedia(context: Context, imageView: ImageView) {
+    fun displayPostMedia(
+        context: Context,
+        imageView: ImageView,
+        vararg transforms: Transformation<Bitmap>
+    ) {
         GlideApp.with(context)
             .load(storageRef.child("uploads/postMedia/$pid"))
-            .error(R.drawable.ic_android_photo)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(imageView)
+            .apply {
+                if (transforms.isNotEmpty()) transform(*transforms)
+                else transform(CenterInside())
+
+                error(R.drawable.ic_android_photo)
+                diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            }.into(imageView)
     }
 
-    fun displayPostMedia(view: View, imageView: ImageView, onLoadFailed: ((visibility: Int) -> Unit)? = null) {
+    fun displayPostMedia(
+        view: View,
+        imageView: ImageView,
+        vararg transforms: Transformation<Bitmap>,
+        onLoadFailed: ((visibility: Int) -> Unit)? = null
+    ) {
         GlideApp.with(view)
             .load(storageRef.child("uploads/postMedia/$pid"))
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                    onLoadFailed?.invoke(View.GONE)
-                    return false
+            .apply {
+                if (transforms.isNotEmpty()) transform(*transforms)
+                else {
+                    transform(CenterInside(), RoundedCorners(15))
                 }
 
-                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                    onLoadFailed?.invoke(View.VISIBLE)
-                    return false
-                }
-            })
-            .into(imageView)
+                diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                        onLoadFailed?.invoke(View.GONE)
+                        return false
+                    }
+
+                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                        onLoadFailed?.invoke(View.VISIBLE)
+                        return false
+                    }
+                })
+            }.into(imageView)
     }
 
     fun uploadPostMedia(uri: Uri): UploadTask {

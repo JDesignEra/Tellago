@@ -15,6 +15,8 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.tellago.GlideApp
 import com.tellago.R
 import com.tellago.fragments.ConfirmEditProfileFragment
@@ -172,9 +174,9 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
 
     private fun setImage(uri: Uri){
         GlideApp.with(this)
-            .load(uri)
-            .circleCrop()
-            .into(profile_image)
+            .load(uri).apply {
+                transform(CenterInside(), CircleCrop())
+            }.into(profile_image)
     }
 
     private fun confirmEditProfileAlert() {

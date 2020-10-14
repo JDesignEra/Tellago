@@ -1,9 +1,13 @@
 package com.tellago.models
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.ImageView
+import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
@@ -35,13 +39,20 @@ data class User(
         return this
     }
 
-    fun displayProfilePicture(context: Context, imageView: ImageView) {
+    fun displayProfilePicture(
+        context: Context,
+        imageView: ImageView,
+        vararg transforms: Transformation<Bitmap>
+    ) {
         GlideApp.with(context)
             .load(storageRef.child("uploads/dp/$uid"))
-            .error(R.drawable.ic_android_photo)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .circleCrop()
-            .into(imageView)
+            .apply {
+                if (transforms.isNotEmpty()) transform(*transforms)
+                else transform(CircleCrop(), CenterInside())
+
+                error(R.drawable.ic_android_photo)
+                diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            }.into(imageView)
     }
 
     fun uploadDp(uri: Uri): UploadTask {

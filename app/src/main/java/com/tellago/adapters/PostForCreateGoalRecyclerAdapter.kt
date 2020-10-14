@@ -1,17 +1,16 @@
 package com.tellago.adapters
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.android.material.button.MaterialButton
 import com.tellago.R
-import com.tellago.activities.GoalsActivity
 import com.tellago.models.Post
 import kotlinx.android.synthetic.main.fragment_create_goal_3.*
 import kotlinx.android.synthetic.main.layout_post_for_create_goal_item.view.*
