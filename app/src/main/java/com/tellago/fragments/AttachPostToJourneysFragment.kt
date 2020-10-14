@@ -55,6 +55,12 @@ class AttachPostToJourneysFragment : Fragment() {
         val availableJourneysArrayList =
             bundle?.getStringArrayList("availableJourneysArrayList") as ArrayList<String>
 
+        if (bundle != null) post = bundle!!.getParcelable(post::class.java.name)!!
+        Log.d("Retrieved bundle", bundle.toString())
+//        Log.d("passed from bundle", post.postType)
+//        Log.d("passed from bundle", post.multimediaURI)
+//        Log.d("passed from bundle", post.messageBody)
+//        Log.d("passed from bundle", post.pollQuestion)
 
         val query = FirebaseFirestore.getInstance().collection("journeys").whereIn(
             FieldPath.documentId(), availableJourneysArrayList
@@ -123,6 +129,8 @@ class AttachPostToJourneysFragment : Fragment() {
                 Log.d("Passed String ArrayList", "FIRED")
             }
             fragmentUtils.replace(createPostFragment)
+
+//            fragmentUtils.popBackStack(null)
 
         }
 

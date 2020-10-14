@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.models.Auth.Companion.user
+import com.tellago.models.Goal
 import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.utilities.CustomToast
@@ -50,6 +52,7 @@ class CreatePostFragment : Fragment() {
         )
 
         if (this.arguments != null) bundle = requireArguments()
+        if (bundle != null) post = bundle!!.getParcelable(post::class.java.name)!!
 
     }
 
@@ -165,17 +168,22 @@ class CreatePostFragment : Fragment() {
 
 
             val bundle = Bundle()
-            bundle.putStringArrayList("availableJourneysArrayList", availableJourneysArrayList)
+            updatePostModelPartial()
+
+//            bundle.putStringArrayList("availableJourneysArrayList", availableJourneysArrayList)
             // Use bundle to store current input values
-            bundle.putString("post.uid", user?.uid)
-            bundle.putString("post.postType", post.postType)
+//            bundle.putString("post.uid", user?.uid)
+//            bundle.putString("post.postType", post.postType)
             Log.d("availJourneysArrayList1", availableJourneysArrayList.toString())
 
-            Log.d("post.uid", user?.uid.toString())
-            Log.d("post.postType", post.postType.toString())
+//            Log.d("post.uid", user?.uid.toString())
+//            Log.d("post.postType", post.postType.toString())
             // short redirect to new fragment to select from available Journeys
             val attachPostToJourneysFragment = AttachPostToJourneysFragment()
-            attachPostToJourneysFragment.arguments = bundle
+            attachPostToJourneysFragment.arguments = bundle.apply {
+                putParcelable(post::class.java.name, post)
+                putStringArrayList("availableJourneysArrayList", availableJourneysArrayList)
+            }
             fragmentUtils.replace(attachPostToJourneysFragment)
 
 
@@ -199,7 +207,8 @@ class CreatePostFragment : Fragment() {
             // conditional based on type of post
             if (post.postType == "text post") {
                 post.messageBody = et_PostMessage.text.toString()
-
+                clearPostModelMultimediaURI()
+                
                 post.add {
                     if (it != null) {
                         // iterate through availableJID to updateByJid
@@ -215,6 +224,7 @@ class CreatePostFragment : Fragment() {
 
             } else if (post.postType == "poll") {
                 post.pollQuestion = et_PollQuestion.text.toString()
+                clearPostModelMultimediaURI()
                 // Assign options to the poll below (start off with Int = 0 for each poll option)
                 val pollOptions = mutableListOf<String>()
 
@@ -304,6 +314,7 @@ class CreatePostFragment : Fragment() {
             linear_layout_poll_options.visibility = View.GONE
             linear_layout_poll_remove_buttons.visibility = View.GONE
             textView_attachMedia.visibility = View.GONE
+            attach_post_image.visibility = View.GONE
         } else if (chip_poll_radioToggle.isChecked) {
             chip_message_radioToggle.isChecked = false
             chip_multimedia_radioToggle.isChecked = false
@@ -317,6 +328,7 @@ class CreatePostFragment : Fragment() {
             linear_layout_poll_remove_buttons.visibility = View.VISIBLE
             textinputlayout_messageBody.visibility = View.GONE
             textView_attachMedia.visibility = View.GONE
+            attach_post_image.visibility = View.GONE
         } else if (chip_multimedia_radioToggle.isChecked) {
             chip_poll_radioToggle.isChecked = false
             chip_message_radioToggle.isChecked = false
@@ -437,6 +449,12 @@ class CreatePostFragment : Fragment() {
 
         Log.d("requestCode", requestCode.toString())
 
+//        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+//            data?.getParcelableExtra<Post>(Post::class.java.name).let {
+//                post = it!!
+//            }
+//        }
+
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             // pick single image
             val imageUri = CropImage.getPickImageResultUri(requireContext(), data)
@@ -461,8 +479,8 @@ class CreatePostFragment : Fragment() {
                 resultUri.let {
 
                     // display selected image as attach_post_image (only shown locally; not yet updated to Storage)
-                        uri ->
-                    setImage(uri)
+                        uri -> setImage(uri)
+
 
                     // redo if it is tilting
                     attach_post_image.minimumHeight = 121
@@ -472,7 +490,9 @@ class CreatePostFragment : Fragment() {
 
                     textView_attachMedia.text = "Change Image"
 
-                    post.multimediaURI = uri.toString()
+                    // redundant function?
+                    updatePostModelMultimediaURI(uri)
+//                    Log.d("multimediaURI 2", post.multimediaURI)
 
 
                 }
@@ -481,6 +501,22 @@ class CreatePostFragment : Fragment() {
                 Log.e("TAG", "Crop Error: ${result.error}")
             }
         }
+    }
+
+    private fun updatePostModelPartial() {
+        post.jid = textView_jid_from_bundle.text.toString()
+        post.messageBody = et_PostMessage.text.toString()
+        post.pollQuestion = et_PollQuestion.text.toString()
+        post.uid = user?.uid
+
+    }
+
+    private fun updatePostModelMultimediaURI(uri: Uri) {
+        post.multimediaURI = uri.toString()
+    }
+
+    private fun clearPostModelMultimediaURI() {
+        post.multimediaURI = null
     }
 
     private fun startCrop(imageUri: Uri) {
@@ -497,5 +533,7 @@ class CreatePostFragment : Fragment() {
             .load(uri)
             .into(attach_post_image)
     }
+
+
 
 }

@@ -95,7 +95,7 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
 
         init {
             val activity: AppCompatActivity = itemView.context as AppCompatActivity
-            
+
 
 
         }
