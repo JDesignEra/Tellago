@@ -3,6 +3,7 @@ package com.tellago.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.tellago.activities.GoalsActivity
 import com.tellago.adapters.PostForCreateGoalRecyclerAdapter
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
+import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.models.Post.Companion.collection
 import com.tellago.utilities.CustomToast
@@ -33,7 +35,7 @@ class CreateGoalFragment_3 : Fragment() {
         super.onCreate(savedInstanceState)
 
         bundle = requireArguments()
-        goal = bundle.getParcelable(goal::class.java.name)!!
+        goal = bundle.getParcelable(goal::class.java.name) ?: Goal()
         toast = CustomToast(requireContext())
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
@@ -68,6 +70,10 @@ class CreateGoalFragment_3 : Fragment() {
         recycler_view_create_goal_show_posts.adapter = adapter
 
         if (pids != null) adapter?.setPids(pids!!)
+        if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
+            btn_BackToFragmentTwo.isEnabled = false
+            btn_CreateGoal.text = "Create Journey"
+        }
 
         btn_BackToFragmentTwo.setOnClickListener {
             val intent = Intent(requireContext(), this::class.java)
@@ -83,32 +89,45 @@ class CreateGoalFragment_3 : Fragment() {
         }
 
         btn_CreateGoal.setOnClickListener {
-            goal.uid = user?.uid
+            if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
+                pids = adapter?.getPids() ?: ArrayList()
 
-            pids = if (adapter != null && adapter!!.getPids().isNotEmpty()) {
-                adapter!!.getPids()
+                if (et_journey_title.text.toString().isBlank()) et_journey_title.error = "Field is required"
+                else {
+                    Journey(uid = user?.uid, title = et_journey_title.text.toString(), pids = pids!!).add {
+                        if (it != null) toast.success("Journey added successfully")
+                        else toast.error("Failed to add Journey, please try again")
+                    }
+                }
             }
-            else null
+            else {
+                goal.uid = user?.uid
 
-            if (pids != null) {
-                if (et_journey_title.text.toString().isBlank()) {
-                    et_journey_title.error = "Field is required when you have selected posts"
+                pids = if (adapter != null && adapter!!.getPids().isNotEmpty()) {
+                    adapter!!.getPids()
+                }
+                else null
+
+                if (pids != null) {
+                    if (et_journey_title.text.toString().isBlank()) {
+                        et_journey_title.error = "Field is required when you have selected posts"
+                    }
+                    else {
+                        goal.addWithJid(et_journey_title.text.toString(), pids!!) {
+                            if (it != null) {
+                                addSuccessRedirect()
+                            }
+                            else toast.error("Please try again, there was an error creating your goal")
+                        }
+                    }
                 }
                 else {
-                    goal.addWithJid(et_journey_title.text.toString(), pids!!) {
+                    goal.add {
                         if (it != null) {
                             addSuccessRedirect()
                         }
                         else toast.error("Please try again, there was an error creating your goal")
                     }
-                }
-            }
-            else {
-                goal.add {
-                    if (it != null) {
-                        addSuccessRedirect()
-                    }
-                    else toast.error("Please try again, there was an error creating your goal")
                 }
             }
         }

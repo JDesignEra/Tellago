@@ -17,9 +17,7 @@ import com.tellago.models.Journey
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_journeys.*
 
-
 class ShowJourneysFragment : Fragment() {
-
     private lateinit var fragmentUtils: FragmentUtils
     private lateinit var goal: Goal
     private lateinit var journey: Journey
@@ -54,8 +52,6 @@ class ShowJourneysFragment : Fragment() {
                 .setQuery(query, Journey::class.java)
                 .build()
         )
-
-
     }
 
 
@@ -80,7 +76,12 @@ class ShowJourneysFragment : Fragment() {
         Log.d("recycler view adapter", adapter.toString())
 
         fab_add_journey.setOnClickListener {
-            Log.d("fab Journey create", "FIRED")
+            val createGoalFragment3 = CreateGoalFragment_3()
+            createGoalFragment3.arguments = Bundle().apply {
+                putBoolean(ShowJourneysFragment::class.java.name, true)
+            }
+
+            fragmentUtils.replace(createGoalFragment3)
         }
 
     }
