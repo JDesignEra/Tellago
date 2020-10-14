@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.resource.bitmap.CenterInside
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
@@ -21,7 +19,7 @@ import java.time.temporal.ChronoUnit
 
 class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>) :
     FirestoreRecyclerAdapter<Post, PostForCreateGoalRecyclerAdapter.PostViewHolder>(options) {
-    private val pids = ArrayList<String>()
+    private var pids = ArrayList<String>()
 
     class PostViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvPostDuration = itemView.tv_post_duration
@@ -70,9 +68,7 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
 
         if (!model.messageBody.isNullOrBlank()) holder.tvMsg.visibility = View.VISIBLE
 
-        if (pids.find { it == model.pid } == null) {
-            holder.cardView.isChecked = false
-        }
+        holder.cardView.isChecked = pids.find { it == model.pid } != null
 
         holder.cardView.setOnClickListener {
             holder.cardView.toggle()
@@ -107,6 +103,11 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
 
     fun getPids(): ArrayList<String> {
         return pids
+    }
+
+    fun setPids(pids: ArrayList<String>) {
+        this.pids = pids
+        notifyDataSetChanged()
     }
 
     fun clearSelections() {

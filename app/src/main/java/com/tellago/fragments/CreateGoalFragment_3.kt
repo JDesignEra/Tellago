@@ -1,5 +1,6 @@
 package com.tellago.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +27,7 @@ class CreateGoalFragment_3 : Fragment() {
 
     private var goal = Goal()
     private var adapter: PostForCreateGoalRecyclerAdapter? = null
+    private var pids: ArrayList<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,8 @@ class CreateGoalFragment_3 : Fragment() {
                     Post::class.java
                 ).build()
         )
+
+        pids = bundle.getStringArrayList("pids")
     }
 
     override fun onCreateView(
@@ -63,7 +67,14 @@ class CreateGoalFragment_3 : Fragment() {
         recycler_view_create_goal_show_posts.layoutManager = LinearLayoutManager(requireContext())
         recycler_view_create_goal_show_posts.adapter = adapter
 
+        if (pids != null) adapter?.setPids(pids!!)
+
         btn_BackToFragmentTwo.setOnClickListener {
+            val intent = Intent(requireContext(), this::class.java)
+            intent.putExtra("pids", adapter?.getPids())
+
+            targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+
             fragmentUtils.popBackStack()
         }
 
@@ -74,7 +85,7 @@ class CreateGoalFragment_3 : Fragment() {
         btn_CreateGoal.setOnClickListener {
             goal.uid = user?.uid
 
-            val pids: ArrayList<String>? = if (adapter != null && adapter!!.getPids().isNotEmpty()) {
+            pids = if (adapter != null && adapter!!.getPids().isNotEmpty()) {
                 adapter!!.getPids()
             }
             else null
@@ -84,7 +95,7 @@ class CreateGoalFragment_3 : Fragment() {
                     et_journey_title.error = "Field is required when you have selected posts"
                 }
                 else {
-                    goal.addWithJid(et_journey_title.text.toString(), pids) {
+                    goal.addWithJid(et_journey_title.text.toString(), pids!!) {
                         if (it != null) {
                             addSuccessRedirect()
                         }
@@ -111,6 +122,14 @@ class CreateGoalFragment_3 : Fragment() {
     override fun onStop() {
         super.onStop()
         adapter?.stopListening()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == Activity.RESULT_OK && resultCode == -1) {
+
+        }
     }
 
     private fun addSuccessRedirect() {

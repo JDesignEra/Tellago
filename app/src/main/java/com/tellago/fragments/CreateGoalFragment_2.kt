@@ -1,5 +1,6 @@
 package com.tellago.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -81,6 +82,12 @@ class CreateGoalFragment_2 : Fragment() {
 
         btn_ToFragmentOne.setOnClickListener {
             updateGoalModel()
+
+            val intent = Intent(requireContext(), this::class.java)
+            intent.putExtra("pids", bundle.getStringArrayList("pids"))
+
+            targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+
             fragmentUtils.popBackStack()
         }
 
@@ -89,10 +96,10 @@ class CreateGoalFragment_2 : Fragment() {
 
             updateGoalModel()
             createGoalFragment3.arguments = Bundle().apply {
-                putParcelable(goal::class.java.name, goal)
+                putAll(bundle)
             }
 
-            fragmentUtils.replace(createGoalFragment3)
+            fragmentUtils.replace(createGoalFragment3, setTargetFragment = this, requestCode = -1)
         }
 
         yearPicker.setOnValueChangedListener { picker, oldVal, newVal ->
@@ -129,7 +136,14 @@ class CreateGoalFragment_2 : Fragment() {
                 exit = R.anim.fragment_open_exit
             )
         }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK && requestCode == -1) {
+            bundle.putStringArrayList("pids", data?.getStringArrayListExtra("pids"))
+        }
     }
 
     private fun updateGoalModel() {

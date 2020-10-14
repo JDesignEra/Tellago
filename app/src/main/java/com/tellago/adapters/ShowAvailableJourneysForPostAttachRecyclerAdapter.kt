@@ -7,16 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.tellago.R
 import com.tellago.models.Journey
-import kotlinx.android.synthetic.main.fragment_create_goal_3.*
 import kotlinx.android.synthetic.main.layout_available_journey_item_for_post_attach.view.*
-import kotlin.coroutines.coroutineContext
 
 
 class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecyclerOptions<Journey>) :

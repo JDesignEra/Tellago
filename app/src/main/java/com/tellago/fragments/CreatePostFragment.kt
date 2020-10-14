@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +21,6 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.models.Auth.Companion.user
-import com.tellago.models.Goal
 import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.utilities.CustomToast
