@@ -71,8 +71,6 @@ class CreatePostFragment : Fragment() {
         configureToolbar()
 
 
-
-
         // On load without bundle, default view should be Message Post
         chip_message_radioToggle.isChecked = true
         chip_poll_radioToggle.isChecked = false
@@ -110,14 +108,10 @@ class CreatePostFragment : Fragment() {
 
 
         // Assign values to text view for jid if it is available from bundle
-//        if (this.arguments != null) bundle = requireArguments()
-//        val parentLayoutFromBundle = bundle?.getString("sendingparentlayout")
-//        // let layout follow layout from bundle??
-
-
         val availableJID = bundle?.getStringArrayList("arrayListString")
         if (availableJID != null) {
-            textView_jid_from_bundle.visibility = View.VISIBLE
+            // textView_jid_from_bundle remains View.GONE
+
             availableJID.remove(null)
 //            availableJID.remove("null")
             Log.d("received availableJID", availableJID.toString())
@@ -130,23 +124,39 @@ class CreatePostFragment : Fragment() {
                     if (journeyTitle != null) {
                         journeyTitleList.add(journeyTitle)
                         Log.d("journey list is: ", journeyTitleList.toString())
+                        textView_journey_titles.visibility = View.VISIBLE
+                        val previousTitle = textView_journey_titles.text
+                        // set new title(s)
+
+                        if (previousTitle == "")
+                        {
+                            textView_journey_titles.text = "$journeyTitle"
+                        } else
+                        {
+                            textView_journey_titles.text = "$previousTitle, $journeyTitle"
+                        }
+
                     }
 
-//                    if (journeyTitleList.contains("null"))
-//                    {
-//                        Log.d("Removing Null", "FIRED")
-//                        journeyTitleList.remove("null")
-//                    }
 
                     // Replace this text view with for loop values instead of displaying entire List
                     textView_jid_from_bundle.text = journeyTitleList.toString()
                     Log.d("journey title TV", textView_jid_from_bundle.text.toString())
+
                 }
 
 //                textView_jid_from_bundle.text = journeyTitleList.toString()
             }
 //            textView_jid_from_bundle.text = journeyTitleList.toString()
 //            Log.d("journey title TV", textView_jid_from_bundle.text.toString())
+
+//            textView_journey_titles.visibility = View.VISIBLE
+//            for (title in journeyTitleList)
+//            {
+//                val previousTitle = textView_journey_titles.text
+//                // set new title(s)
+//                textView_journey_titles.text = "$previousTitle, $title"
+//            }
 
         }
 
@@ -179,15 +189,12 @@ class CreatePostFragment : Fragment() {
 
             Log.d("availJourneysArrayList1", availableJourneysArrayList.toString())
 
-            val parentLayout = linear_layout_option_parent
-            Log.d("parentlayout is", parentLayout.toString())
 
             // short redirect to new fragment to select from available Journeys
             val attachPostToJourneysFragment = AttachPostToJourneysFragment()
             attachPostToJourneysFragment.arguments = bundle.apply {
                 putParcelable(post::class.java.name, post)
                 putStringArrayList("availableJourneysArrayList", availableJourneysArrayList)
-                putString("parentlayout", parentLayout.toString())
                 // Function not completed: Pass previously selected journey title to AttachPostToJourneysFragment
 //                putString("attachedJourneys", textView_jid_from_bundle.text.toString())
             }
@@ -215,7 +222,7 @@ class CreatePostFragment : Fragment() {
             if (post.postType == "text post") {
                 post.messageBody = et_PostMessage.text.toString()
                 clearPostModelMultimediaURI()
-                
+
                 post.add {
                     if (it != null) {
                         // iterate through availableJID to updateByJid
@@ -315,8 +322,7 @@ class CreatePostFragment : Fragment() {
             post.postType = "text post"
 
             // Displaying text for et_Message if messageBody available from Post Model
-            if (post.messageBody != null)
-            {
+            if (post.messageBody != null) {
                 et_PostMessage.setText(post.messageBody)
             }
 
@@ -335,16 +341,9 @@ class CreatePostFragment : Fragment() {
             post.postType = "poll"
 
             // Displaying text for et_PollQuestion if pollQuestion available from Post Model
-            if (post.pollQuestion != null)
-            {
+            if (post.pollQuestion != null) {
                 et_PollQuestion.setText(post.pollQuestion)
             }
-
-            // Display poll options from earlier...
-            val parentLayoutFromBundle = bundle?.getString("sendingparentlayout")
-            // let layout follow layout from bundle??
-//            linear_layout_option_parent = parentLayoutFromBundle
-//            linear_layout_option_parent.layoutParams
 
 
             // toggle layout accordingly
@@ -362,8 +361,7 @@ class CreatePostFragment : Fragment() {
             post.postType = "multimedia"
 
             // Displaying image on attach_post_image if available from Post Model
-            if (post.multimediaURI != null)
-            {
+            if (post.multimediaURI != null) {
                 attach_post_image.visibility = View.VISIBLE
                 setImage(post.multimediaURI!!.toUri())
             }
@@ -461,11 +459,6 @@ class CreatePostFragment : Fragment() {
         return btnRemoveET
     }
 
-//    private fun savePollOptionParentLayout() {
-//
-//        val parentLayout = linear_layout_option_parent
-//
-//    }
 
     private fun pickImageIntent() {
         val intent = Intent()
@@ -488,11 +481,7 @@ class CreatePostFragment : Fragment() {
 
         Log.d("requestCode", requestCode.toString())
 
-//        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-//            data?.getParcelableExtra<Post>(Post::class.java.name).let {
-//                post = it!!
-//            }
-//        }
+
 
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             // pick single image
@@ -518,7 +507,8 @@ class CreatePostFragment : Fragment() {
                 resultUri.let {
 
                     // display selected image as attach_post_image (only shown locally; not yet updated to Storage)
-                        uri -> setImage(uri)
+                        uri ->
+                    setImage(uri)
 
 
                     // redo if it is tilting
@@ -574,7 +564,8 @@ class CreatePostFragment : Fragment() {
     }
 
     fun View.hideKeyboard() {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 

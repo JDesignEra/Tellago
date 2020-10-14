@@ -106,10 +106,6 @@ class AttachPostToJourneysFragment : Fragment() {
         tv_store_uid.text = post.uid
         tv_store_postType.text = post.postType
 
-        val parentLayoutReceived = bundle?.getString("parentlayout")
-        Log.d("received parent layout", parentLayoutReceived.toString())
-        tv_store_pollParentLayout.text = parentLayoutReceived
-
 
         recycler_view_show_availableJourney_posts_fragment.layoutManager =
             LinearLayoutManager(requireContext())
@@ -135,7 +131,6 @@ class AttachPostToJourneysFragment : Fragment() {
 
             createPostFragment.arguments = bundle?.apply {
                 putStringArrayList("arrayListString", broadcastMsgArrayListString)
-                putString("sendingparentlayout", tv_store_pollParentLayout.text.toString())
                 Log.d("Passed String ArrayList", "FIRED")
             }
             fragmentUtils.replace(createPostFragment)
