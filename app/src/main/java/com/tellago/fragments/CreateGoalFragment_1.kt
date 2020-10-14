@@ -45,6 +45,7 @@ class CreateGoalFragment_1 : Fragment() {
 
             if (et_goalTitle.text.isNullOrBlank()) errors["title"] = "Field is required"
             if (et_goalPrice.text.isNullOrBlank()) errors["amount"] = "Field is required"
+            if (et_goalPrice.text.toString().toDouble() < 0.01) errors["amount"]  = "Needs to be more than 0"
             if (Regex("\\d+?\\.\\d{3,}").matches(et_goalPrice.text.toString())) errors["amount"] = "Cents can't be more then 2 digits"
 
             if (errors.isNotEmpty()) {
