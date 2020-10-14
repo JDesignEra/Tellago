@@ -75,6 +75,7 @@ class ShowJourneysFragment : Fragment() {
         recycler_view_show_journeys_fragment.adapter = adapter
         Log.d("recycler view adapter", adapter.toString())
 
+        // TODO: Use a separate fragment instead in the future.
         fab_add_journey.setOnClickListener {
             val createGoalFragment3 = CreateGoalFragment_3()
             createGoalFragment3.arguments = Bundle().apply {

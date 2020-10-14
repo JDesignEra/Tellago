@@ -33,7 +33,6 @@ class ShowJourneyPostsFragment : Fragment() {
     private val userPostArrayList = ArrayList<UserPost>()
     private val newPostArrayList = ArrayList<Post>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,9 +48,6 @@ class ShowJourneyPostsFragment : Fragment() {
             requireActivity().supportFragmentManager,
             R.id.fragment_container_goal_activity
         )
-
-
-
 
         // This recyclerview adapter should use data in 'Posts' collection on Firestore, but Post feature is not completed yet
         // So, static data will be passed to the adapter for now
@@ -75,7 +71,6 @@ class ShowJourneyPostsFragment : Fragment() {
                     .setQuery(query, Post::class.java)
                     .build()
             )
-
         }
         else {
             // Query if journeyPostsList is populated
@@ -92,9 +87,6 @@ class ShowJourneyPostsFragment : Fragment() {
                     .build()
             )
         }
-
-
-
     }
 
     override fun onCreateView(
@@ -111,11 +103,8 @@ class ShowJourneyPostsFragment : Fragment() {
 
         configureToolbar()
 
-        recycler_view_show_journey_posts_fragment.layoutManager =
-            LinearLayoutManager(requireContext())
-
+        recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
         recycler_view_show_journey_posts_fragment.adapter = adapter
-
 
         val journeyPostsList2 = journey.pids
         if (journeyPostsList2.isNullOrEmpty())
@@ -137,16 +126,20 @@ class ShowJourneyPostsFragment : Fragment() {
                 }
 
             }
-
         }
 
-
+        // TODO: Use a separate fragment instead in the future.
         fab_edit_journey_posts.setOnClickListener {
-            Log.d("redirect to EDIT", "FIRED")
+            val createGoalFragment3 = CreateGoalFragment_3()
+            createGoalFragment3.arguments = Bundle().apply {
+                putBoolean(ShowJourneyPostsFragment::class.java.name, true)
+                putStringArrayList("pids", journey.pids)
+                putString("journeyTitle", journey.title)
+                putString("jid", journey.jid)
+            }
 
+            fragmentUtils.replace(createGoalFragment3)
         }
-
-
     }
 
     override fun onStart() {

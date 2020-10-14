@@ -41,6 +41,22 @@ data class Journey(
         else Log.e(this::class.java.name, "JID is required for getByJid().")
     }
 
+    fun updateByJid(onComplete: ((journey: Journey?) -> Unit)? = null) {
+        if (jid != null) {
+            collection.document(jid!!).get().addOnSuccessListener {
+                if (it != null) {
+                    collection.document(jid!!).update("pids", pids, "title", title).addOnSuccessListener {
+                        onComplete?.invoke(this)
+                    }.addOnFailureListener {
+                        Log.e(this::class.java.name, "Failed to update Journey")
+                        onComplete?.invoke(null)
+                    }
+                }
+            }
+        }
+        else Log.e(this::class.java.name, "JID is required for updateByJid().")
+    }
+
     fun updateByJid(addOnList: List<String>, onComplete: ((journey: Journey?) -> Unit)? = null) {
         if (jid != null) {
             collection.document(jid!!).get().addOnSuccessListener {

@@ -70,7 +70,13 @@ class CreateGoalFragment_3 : Fragment() {
         recycler_view_create_goal_show_posts.adapter = adapter
 
         if (pids != null) adapter?.setPids(pids!!)
-        if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
+
+        if (bundle.getBoolean(ShowJourneyPostsFragment::class.java.name, false)) {
+            btn_BackToFragmentTwo.isEnabled = false
+            btn_CreateGoal.text = "Save Changes"
+            et_journey_title.setText(bundle.getString("journeyTitle"))
+        }
+        else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
             btn_BackToFragmentTwo.isEnabled = false
             btn_CreateGoal.text = "Create Journey"
         }
@@ -89,13 +95,30 @@ class CreateGoalFragment_3 : Fragment() {
         }
 
         btn_CreateGoal.setOnClickListener {
-            if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
+            if (bundle.getBoolean(ShowJourneyPostsFragment::class.java.name, false)) {
+                pids = adapter?.getPids() ?: ArrayList()
+
+                if (et_journey_title.text.toString().isBlank()) et_journey_title.error = "Field is required"
+                else {
+                    Journey(jid = bundle.getString("jid"), uid = user?.uid, title = et_journey_title.text.toString(), pids = pids!!).updateByJid {
+                        if (it != null) {
+                            toast.success("Journey updated successfully")
+                            fragmentUtils.popBackStack()
+                        }
+                        else toast.error("Failed to update Journey, please try again")
+                    }
+                }
+            }
+            else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
                 pids = adapter?.getPids() ?: ArrayList()
 
                 if (et_journey_title.text.toString().isBlank()) et_journey_title.error = "Field is required"
                 else {
                     Journey(uid = user?.uid, title = et_journey_title.text.toString(), pids = pids!!).add {
-                        if (it != null) toast.success("Journey added successfully")
+                        if (it != null) {
+                            toast.success("Journey added successfully")
+                            fragmentUtils.popBackStack()
+                        }
                         else toast.error("Failed to add Journey, please try again")
                     }
                 }
