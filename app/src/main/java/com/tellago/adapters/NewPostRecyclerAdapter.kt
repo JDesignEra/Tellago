@@ -16,9 +16,8 @@ import com.tellago.GlideApp
 import com.tellago.R
 import com.tellago.models.Post
 import kotlinx.android.synthetic.main.layout_new_post_list_item.view.*
-import java.time.LocalDate
-import java.time.Period
-import java.time.ZoneId
+import java.time.*
+import java.time.temporal.ChronoUnit
 
 
 class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
@@ -41,18 +40,60 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
 //        holder.bind(items[position])
 
-        holder.post_title.text = "${model.postType} : ${model.messageBody}"
-        model.uid?.let {
-            com.tellago.models.User(uid = it).getUserWithUid {
-                if (it != null) {
-                    holder.post_author.text = it.displayName
-                }
-            }.toString()
+        // Use NewPostRecyclerAdapter to handle conditional for displaying Posts based on PostType
+        when(model.postType)
+        {
+            "text post" ->
+            {
+                holder.post_title.visibility = View.VISIBLE
+                holder.post_title.text = model.messageBody
+            }
+
+            "poll" ->
+            {
+                holder.post_title.visibility = View.VISIBLE
+                val pollQn = model.pollQuestion
+                holder.post_title.text = "Poll Question: $pollQn"
+                holder.post_pollOption.visibility = View.VISIBLE
+                holder.post_pollOption.text = model.poll.toString()
+            }
+
+            "multimedia" ->
+            {
+                holder.post_image.visibility = View.VISIBLE
+            }
         }
-        holder.post_duration.text = Period.between(
-            model.createDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-            LocalDate.now()
-        ).toString() + " ago"
+
+        val today = LocalDateTime.now()
+        val createdDateTime = Instant.ofEpochMilli(model.createDate.time).atZone(ZoneId.systemDefault()).toLocalDateTime()
+        val durationStr: String
+
+        when {
+            createdDateTime.until(today, ChronoUnit.YEARS) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.YEARS)} years ago"
+            }
+            createdDateTime.until(today, ChronoUnit.MONTHS) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.MONTHS)} months ago"
+            }
+            createdDateTime.until(today, ChronoUnit.WEEKS) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.MONTHS)} weeks ago"
+            }
+            createdDateTime.until(today, ChronoUnit.DAYS) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.DAYS)} days ago"
+            }
+            createdDateTime.until(today, ChronoUnit.HOURS) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.HOURS)} hours ago"
+            }
+            createdDateTime.until(today, ChronoUnit.MINUTES) > 0 -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.MINUTES)} mins ago"
+            }
+            else -> {
+                durationStr = "${createdDateTime.until(today, ChronoUnit.SECONDS)} secs ago"
+            }
+        }
+
+        holder.post_duration.text = durationStr
+
         holder.likes.text = model.likes.size.toString()
         // need to display comments individually instead of as an entire ArrayList<String>
         holder.comments.text = model.comment.toString()
@@ -64,45 +105,6 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
     }
 
 
-    // Use NewPostRecyclerAdapter to handle conditional for displaying Posts based on PostType
-//        if (journeyPostsList != null) {
-//            for (journeyPost in journeyPostsList) {
-//                post.pid = journeyPost.toString()
-//                post.getByPid {
-//                    if (it != null) {
-//
-//                        val newPostObj = Post(
-//                            uid = post.uid,
-//                            postType = post.postType
-//                        )
-//
-//                        when (it.postType) {
-//                            "text post" -> {
-//                                Log.d("postType is text post", "FIRED")
-//                                //newPostObj.postType = it.postType!!
-//
-//                            }
-//
-//                            "poll" -> {
-//                                Log.d("postType is poll", "FIRED")
-//                                //newPostObj.postType = it.postType!!
-//
-//                            }
-//
-//                            "multimedia" -> {
-//                                Log.d("postType is multimedia", "FIRED")
-//                                //newPostObj.postType = it.postType!!
-//
-//                            }
-//                        }
-//
-//                        Log.d("newPostObj", newPostObj.toString())
-//                        newPostArrayList.add(newPostObj)
-//                        Log.d("newPostArrayList", newPostArrayList.size.toString())
-//
-//
-//                    }
-
 
     // Constructor for Post ViewHolder
     class NewPostViewHolder constructor(
@@ -113,8 +115,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         // Setting properties to the View (reference to layout_new_post_list_item item ID)
         val post_image: ImageView = itemView.new_post_image
         val post_title: TextView = itemView.new_post_title
-        val post_author: TextView = itemView.new_post_author
-        val post_profile_pic: ImageView = itemView.new_post_profile_pic
+        val post_pollOption: TextView = itemView.new_post_pollOption
         val post_duration: TextView = itemView.new_post_duration
         val likes: TextView = itemView.new_post_likes
         val comments: TextView = itemView.new_post_comments
@@ -145,12 +146,6 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
             // Display image of post
             post.displayPostMedia(activity.application.baseContext, post_image)
 
-            // Retrieve user's profile picture
-            // Display user's profile picture
-            model?.uid?.let {
-                com.tellago.models.User(uid = it)
-                    .displayProfilePicture(itemView.context, post_profile_pic)
-            }
 
         }
 

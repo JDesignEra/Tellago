@@ -226,8 +226,9 @@ class CreatePostFragment : Fragment() {
                         if (availableJID != null) {
                             updateJourneyPIDS(availableJID)
                         }
-                        // Post created successfully, so redirect to Feed fragment?
-                        fragmentUtils.replace(FeedFragment(), null)
+                        // Post created successfully, so redirect to Feed fragment (do so after Community Feature is Complete)
+//                        fragmentUtils.replace(FeedFragment(), null)
+                        fragmentUtils.replace(ProfileFragment(), null)
 
                         toast.success("Text Post created")
                     } else toast.error("Please try again, there was an error creating your post")
@@ -245,8 +246,9 @@ class CreatePostFragment : Fragment() {
                         if (availableJID != null) {
                             updateJourneyPIDS(availableJID)
                         }
-                        // Post created successfully, so redirect to Feed fragment?
-                        fragmentUtils.replace(FeedFragment(), null)
+                        // Post created successfully, so redirect to Feed fragment (do so after Community Feature is Complete)
+//                        fragmentUtils.replace(FeedFragment(), null)
+                        fragmentUtils.replace(ProfileFragment(), null)
 
                         toast.success("Poll created")
                     } else toast.error("Please try again, there was an error creating your post")
@@ -276,8 +278,9 @@ class CreatePostFragment : Fragment() {
                             }
                         }
 
-                        // Post created successfully, so redirect to Feed fragment?
-                        fragmentUtils.replace(FeedFragment(), null)
+                        // Post created successfully, so redirect to Feed fragment (do so after Community Feature is Complete)
+//                        fragmentUtils.replace(FeedFragment(), null)
+                        fragmentUtils.replace(ProfileFragment(), null)
 
                         toast.success("Multimedia Post created")
                     } else toast.error("Please try again, there was an error creating your post")

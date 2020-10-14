@@ -8,18 +8,52 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.tellago.DataSource
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.activities.EditProfileActivity
-import com.tellago.adapters.ProfilePostRecyclerAdapter
+import com.tellago.adapters.NewPostRecyclerAdapter
+import com.tellago.adapters.PostForCreateGoalRecyclerAdapter
+import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Auth.Companion.profile
+import com.tellago.models.Post
+import kotlinx.android.synthetic.main.activity_auth.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
-    private lateinit var profilePostAdapter: ProfilePostRecyclerAdapter
+
+    private lateinit var adapter: NewPostRecyclerAdapter
+    private lateinit var post: Post
+
+//    private var adapter: PostForCreateGoalRecyclerAdapter? = null
+//    private var adapter: NewPostRecyclerAdapter? = null
+    private var pids: ArrayList<String>? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        post = Post()
+
+        // Testing Firestore query
+        val query = FirebaseFirestore.getInstance().collection("posts").whereEqualTo("uid", user?.uid).orderBy("createDate", Query.Direction.DESCENDING)
+
+
+
+        adapter = NewPostRecyclerAdapter(
+            FirestoreRecyclerOptions.Builder<Post>()
+                .setQuery(
+                    query,
+                    Post::class.java
+                ).build()
+        )
+
+//        adapter = PostForCreateGoal
+
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,15 +66,17 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         profile?.displayProfilePicture(requireContext(), profile_image)
-        initRecyclerView()
-        addDataSet()
+
+        recycler_view_profile_fragment.layoutManager = LinearLayoutManager(requireContext())
+        recycler_view_profile_fragment.adapter = adapter
+
 
         button_edit_profile.setOnClickListener {
             startActivity(Intent(activity, EditProfileActivity::class.java))
         }
     }
 
-    override fun onResume(){
+    override fun onResume() {
         super.onResume()
         // Code to fetch updated profile information
         // Updated display name
@@ -49,31 +85,17 @@ class ProfileFragment : Fragment() {
         profile_bio.text = profile?.bio ?: "Introduce yourself to the others."
         // Updated profile picture
         profile?.displayProfilePicture(requireContext(), profile_image)
+
+
     }
 
-    private fun addDataSet() {
-        // data created in DataSource data class should be retrieved from Firebase Storage & Cloud Firestore
-        val data = DataSource.createDataSetForHome()
-        profilePostAdapter.submitList(data)
-        Log.d("addDataSet()", "FIRED")
+    override fun onStop() {
+        super.onStop()
+        adapter.stopListening()
     }
 
-    private fun initRecyclerView() {
-        Log.d("initRecyclerView()", "FIRED")
-        // recyclerview from fragment_home.xml
-        recycler_view_home_fragment.apply {
-
-            // Step 1: set layoutManager for recyclerview
-            Log.d("LayoutManager Home", "FIRED")
-            layoutManager = LinearLayoutManager(activity?.application?.baseContext)
-
-            // Step 2: Adding padding decoration for spacing between viewholders (defined in TopSpacingItemDecoration.kt)
-//            val topSpacingDecoration = TopSpacingItemDecoration(20)
-//            addItemDecoration(topSpacingDecoration)
-
-            // Step 3: Initialise the lateinit variable homePostAdapter
-            profilePostAdapter = ProfilePostRecyclerAdapter()
-            adapter = profilePostAdapter
-        }
+    override fun onStart() {
+        super.onStart()
+        adapter.startListening()
     }
 }

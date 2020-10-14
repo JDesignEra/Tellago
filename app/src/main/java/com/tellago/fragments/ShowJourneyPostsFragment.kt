@@ -10,8 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.adapters.NewPostRecyclerAdapter
+import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.models.UserPost
@@ -56,19 +59,39 @@ class ShowJourneyPostsFragment : Fragment() {
 
         Log.d("journeyPostsList", journeyPostsList.toString())
 
-        // Testing Firestore query
-        val query = FirebaseFirestore.getInstance().collection("posts").whereIn(
-            FieldPath.documentId(),
-            journeyPostsList
-        )
 
-        Log.d("document", query.toString())
+        if (journeyPostsList.isNullOrEmpty())
+        {
+            // Query if journeyPostsList is NullOrEmpty
+            val query = FirebaseFirestore.getInstance().collection("posts").whereEqualTo(
+                "uid",
+                user?.uid
+            )
 
-        adapter = NewPostRecyclerAdapter(
-            FirestoreRecyclerOptions.Builder<Post>()
-                .setQuery(query, Post::class.java)
-                .build()
-        )
+            Log.d("document", query.toString())
+
+            adapter = NewPostRecyclerAdapter(
+                FirestoreRecyclerOptions.Builder<Post>()
+                    .setQuery(query, Post::class.java)
+                    .build()
+            )
+
+        }
+        else {
+            // Query if journeyPostsList is populated
+            val query = FirebaseFirestore.getInstance().collection("posts").whereIn(
+                FieldPath.documentId(),
+                journeyPostsList
+            )
+
+            Log.d("document", query.toString())
+
+            adapter = NewPostRecyclerAdapter(
+                FirestoreRecyclerOptions.Builder<Post>()
+                    .setQuery(query, Post::class.java)
+                    .build()
+            )
+        }
 
 
 
@@ -93,11 +116,29 @@ class ShowJourneyPostsFragment : Fragment() {
 
         recycler_view_show_journey_posts_fragment.adapter = adapter
 
-        // prompt user to assign posts to journey if recycler view is empty
-//        if (newPostArrayList.size == 0) {
-//            tv_show_journey_posts_empty.visibility = View.VISIBLE
-//            recycler_view_show_journey_posts_fragment.visibility = View.GONE
-//        }
+
+        val journeyPostsList2 = journey.pids
+        if (journeyPostsList2.isNullOrEmpty())
+        {
+            // Query if journeyPostsList is NullOrEmpty
+            journeyPostsList2.add("-100")
+            val query2 = FirebaseFirestore.getInstance().collection("posts").whereIn(
+                FieldPath.documentId(),
+                journeyPostsList2
+            )
+            query2.get().addOnSuccessListener {
+                    it ->
+
+                // prompt user to assign posts to journey if recycler view is empty
+                if (it.size() == 0)
+                {
+                    tv_show_journey_posts_empty.visibility = View.VISIBLE
+                    recycler_view_show_journey_posts_fragment.visibility = View.GONE
+                }
+
+            }
+
+        }
 
 
         fab_edit_journey_posts.setOnClickListener {
