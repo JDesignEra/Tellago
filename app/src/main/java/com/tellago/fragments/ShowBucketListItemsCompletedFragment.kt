@@ -2,6 +2,7 @@ package com.tellago.fragments
 
 import android.graphics.Canvas
 import android.os.Bundle
+import android.os.Handler
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -81,7 +82,7 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                             Snackbar.make(view, "Deleting item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]}", Snackbar.LENGTH_LONG)
                                 .setAction("Undo", undoRemove(holdItem, viewHolder.layoutPosition))
                                 .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                                    val item = holdItem
+                                    val item = holdItem.toMap()
                                     val itemPos = viewHolder.layoutPosition + 1
 
                                     override fun onShown(transientBottomBar: Snackbar?) {
@@ -93,15 +94,20 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                         super.onDismissed(transientBottomBar, event)
 
                                         if (!undoFlag) {
-                                            goal.bucketList.removeAt(holdItem["idx"] as Int)
+                                            val idx = if (item["idx"] as Int > goal.bucketList.size - 1) {
+                                                item["idx"] as Int - 1
+                                            }
+                                            else item["idx"] as Int
+
+                                            goal.bucketList.removeAt(idx)
                                             goal.updateBucketListByGid {
                                                 if (it != null) toast.success(
-                                                    "Item #${itemPos} - ${item?.get("name")} deleted",
+                                                    "Item #${itemPos} - ${item["name"]} deleted",
                                                     gravity = Gravity.TOP or Gravity.END,
                                                     cornerRadius = 5
                                                 )
                                                 else toast.error(
-                                                    "Failed to delete Item #${itemPos} - ${item?.get("name")}",
+                                                    "Failed to delete Item #${itemPos} - ${item["name"]}",
                                                     gravity = Gravity.TOP or Gravity.END,
                                                     cornerRadius = 5
                                                 )
@@ -114,10 +120,18 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                             adapter?.remove(viewHolder.layoutPosition)
                             ShowBucketListItemsOngoingFragment.adapter?.insert(holdItem)
 
-                            Snackbar.make(view, "Item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]} moving to 'In Progress'", Snackbar.LENGTH_LONG)
-                                .setAction("Undo", undoComplete(holdItem, viewHolder.layoutPosition))
-                                .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                                    val item = holdItem
+                            Snackbar.make(
+                                view,
+                                "Item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]} moving to 'In Progress'",
+                                Snackbar.LENGTH_LONG
+                            )
+                                .setAction(
+                                    "Undo",
+                                    undoComplete(holdItem, viewHolder.layoutPosition)
+                                )
+                                .addCallback(object :
+                                    BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                                    val item = holdItem.toMap()
                                     val itemPos = viewHolder.layoutPosition + 1
 
                                     override fun onShown(transientBottomBar: Snackbar?) {
@@ -125,19 +139,28 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                         undoFlag = false
                                     }
 
-                                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                    override fun onDismissed(
+                                        transientBottomBar: Snackbar?,
+                                        event: Int
+                                    ) {
                                         super.onDismissed(transientBottomBar, event)
 
                                         if (!undoFlag) {
-                                            goal.bucketList[holdItem["idx"] as Int]["completed"] = false
+                                            val idx = if (item["idx"] as Int > goal.bucketList.size - 1) {
+                                                item["idx"] as Int - 1
+                                            }
+                                            else item["idx"] as Int
+
+
+                                            goal.bucketList[idx]["completed"] = false
                                             goal.updateBucketListByGid {
                                                 if (it != null) toast.success(
-                                                    "Item #${itemPos} - ${item?.get("name")} moved to in progress",
+                                                    "Item #${itemPos} - ${item["name"]} moved to in progress",
                                                     gravity = Gravity.TOP or Gravity.END,
                                                     cornerRadius = 5
                                                 )
                                                 else toast.error(
-                                                    "Item #${itemPos} - ${item?.get("name")} failed to move to in progress",
+                                                    "Item #${itemPos} - ${item["name"]} failed to move to in progress",
                                                     gravity = Gravity.TOP or Gravity.END,
                                                     cornerRadius = 5
                                                 )

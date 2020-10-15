@@ -76,7 +76,7 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
                             Snackbar.make(view, "Deleting item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]}", Snackbar.LENGTH_LONG)
                                 .setAction("Undo", undoRemove(holdItem, viewHolder.layoutPosition))
                                 .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                                    val item = holdItem
+                                    val item = holdItem.toMap()
                                     val itemPos = viewHolder.layoutPosition + 1
 
                                     override fun onShown(transientBottomBar: Snackbar?) {
@@ -88,15 +88,20 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
                                         super.onDismissed(transientBottomBar, event)
 
                                         if (!undoFlag) {
-                                            goal.bucketList.removeAt(holdItem["idx"] as Int)
+                                            val idx = if (item["idx"] as Int > goal.bucketList.size - 1) {
+                                                item["idx"] as Int - 1
+                                            }
+                                            else item["idx"] as Int
+
+                                            goal.bucketList.removeAt(idx)
                                             goal.updateBucketListByGid {
                                                 if (it != null) toast.success(
-                                                    "Item #${itemPos} - ${item?.get("name")} deleted",
+                                                    "Item #${itemPos} - ${item["name"]} deleted",
                                                     gravity = Gravity.TOP or Gravity.END,
                                                     cornerRadius = 5
                                                 )
                                                 else toast.error(
-                                                    "Failed to delete Item #${itemPos} - ${item?.get("name")}",
+                                                    "Failed to delete Item #${itemPos} - ${item["name"]}",
                                                     gravity = Gravity.TOP or Gravity.END,
                                                     cornerRadius = 5
                                                 )
@@ -112,7 +117,7 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
                             Snackbar.make(view, "Completing Item #${viewHolder.layoutPosition + 1} - ${holdItem["name"]}", Snackbar.LENGTH_LONG)
                                 .setAction("Undo", undoComplete(holdItem, viewHolder.layoutPosition))
                                 .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-                                    val item = holdItem
+                                    val item = holdItem.toMap()
                                     val itemPos = viewHolder.layoutPosition + 1
 
                                     override fun onShown(transientBottomBar: Snackbar?) {
@@ -124,15 +129,20 @@ class ShowBucketListItemsOngoingFragment : Fragment() {
                                         super.onDismissed(transientBottomBar, event)
 
                                         if (!undoFlag) {
-                                            goal.bucketList[holdItem["idx"] as Int]["completed"] = true
+                                            val idx = if (item["idx"] as Int > goal.bucketList.size - 1) {
+                                                item["idx"] as Int - 1
+                                            }
+                                            else item["idx"] as Int
+
+                                            goal.bucketList[idx]["completed"] = true
                                             goal.updateBucketListByGid {
                                                 if (it != null) toast.success(
-                                                    "Item #${itemPos} - ${item?.get("name")} moved to complete",
+                                                    "Item #${itemPos} - ${item["name"]} moved to complete",
                                                     gravity = Gravity.TOP or Gravity.END,
                                                     cornerRadius = 5
                                                 )
                                                 else toast.error(
-                                                    "Failed Item #${itemPos} - ${item?.get("name")} failed to moved to complete",
+                                                    "Failed Item #${itemPos} - ${item["name"]} failed to moved to complete",
                                                     gravity = Gravity.TOP or Gravity.END,
                                                     cornerRadius = 5
                                                 )
