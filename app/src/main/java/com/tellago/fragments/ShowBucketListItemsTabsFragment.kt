@@ -45,7 +45,10 @@ class ShowBucketListItemsTabsFragment : Fragment() {
 
         tv_goal_title.text = goal.title
 
-        if (goal.completed) linearLayout_footer.visibility = View.GONE
+        if (goal.completed) {
+            tv_instruction_footer.visibility = View.GONE
+            fab_add_bucketListItem.visibility = View.GONE
+        }
 
         fab_add_bucketListItem.setOnClickListener {
             createBucketListItemFragment.arguments = Bundle().apply {
