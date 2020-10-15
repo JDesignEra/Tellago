@@ -77,6 +77,10 @@ class EditGoalDetailsFragment : Fragment() {
             val errors = mutableMapOf<String, String>()
             val moneyRegex = Regex("\\d+?\\.\\d{3,}")
 
+            textInput_title.error = null
+            textInput_targetAmt.error = null
+            textInput_currentAmt.error = null
+
             if (textInput_title.text.isNullOrBlank()) errors["title"] = "Field is required"
             when {
                 textInput_targetAmt.text.isNullOrBlank() -> errors["targetAmt"] = "Field is required"
