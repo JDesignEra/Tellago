@@ -2,13 +2,11 @@ package com.tellago.fragments
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.*
-import androidx.core.view.children
+import androidx.core.content.ContextCompat.getColor
+import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import com.tellago.R
@@ -18,7 +16,6 @@ import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 class ShowGoalDetailsFragment : Fragment() {
@@ -116,7 +113,12 @@ class ShowGoalDetailsFragment : Fragment() {
             showJourneysFragment.arguments = Bundle().apply {
                 putParcelable(goal::class.java.name, goal)
             }
-            fragmentUtils.replace(showJourneysFragment)
+            fragmentUtils.replace(
+                showJourneysFragment,
+                enter = R.anim.fragment_close_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_slide_right_enter,
+                popExit = R.anim.fragment_slide_right_exit)
         }
 
         btn_Bucket_List_View.setOnClickListener {
@@ -125,7 +127,12 @@ class ShowGoalDetailsFragment : Fragment() {
             showBucketListItemsTabFragment.arguments = Bundle().apply {
                 putParcelable(goal::class.java.name, goal)
             }
-            fragmentUtils.replace(showBucketListItemsTabFragment)
+            fragmentUtils.replace(
+                showBucketListItemsTabFragment,
+                enter = R.anim.fragment_close_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_slide_right_enter,
+                popExit = R.anim.fragment_slide_right_exit)
         }
 
 
@@ -136,7 +143,12 @@ class ShowGoalDetailsFragment : Fragment() {
                 putParcelable(goal::class.java.name, goal)
             }
 
-            fragmentUtils.replace(editGoalDetailsFragment)
+            fragmentUtils.replace(
+                editGoalDetailsFragment,
+                enter = R.anim.fragment_close_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_slide_right_enter,
+                popExit = R.anim.fragment_slide_right_exit)
         }
 
         btn_CompleteGoal.setOnClickListener {

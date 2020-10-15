@@ -59,7 +59,7 @@ class ShowJourneysRecyclerAdapter(options: FirestoreRecyclerOptions<Journey>) :
                     R.id.fragment_container_goal_activity
                 ).replace(
                     showJourneyPostsFragment,
-                    enter = R.anim.fragment_open_enter,
+                    enter = R.anim.fragment_close_enter,
                     exit = R.anim.fragment_open_exit,
                     popEnter = R.anim.fragment_slide_right_enter,
                     popExit = R.anim.fragment_slide_right_exit

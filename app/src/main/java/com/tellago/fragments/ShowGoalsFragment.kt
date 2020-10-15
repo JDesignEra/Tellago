@@ -59,7 +59,7 @@ class ShowGoalsFragment : Fragment() {
         fab_add_goal.setOnClickListener {
             fragmentUtils.replace(
                 CreateGoalFragment_1(),
-                enter = R.anim.fragment_open_enter,
+                enter = R.anim.fragment_close_enter,
                 exit = R.anim.fragment_open_exit
             )
         }

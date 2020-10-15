@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.*
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -89,7 +88,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
                     R.id.fragment_container_goal_activity
                 ).replace(
                     showGoalDetailsFragment,
-                    enter = R.anim.fragment_open_enter,
+                    enter = R.anim.fragment_close_enter,
                     exit = R.anim.fragment_open_exit,
                     popEnter = R.anim.fragment_slide_right_enter,
                     popExit = R.anim.fragment_slide_right_exit

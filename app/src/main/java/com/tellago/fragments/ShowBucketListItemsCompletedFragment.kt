@@ -2,7 +2,6 @@ package com.tellago.fragments
 
 import android.graphics.Canvas
 import android.os.Bundle
-import android.os.Handler
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater

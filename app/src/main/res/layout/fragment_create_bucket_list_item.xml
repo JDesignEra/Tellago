@@ -72,7 +72,7 @@
                 android:background="@drawable/rounded_btn_gray"
                 android:hint="Enter Bucket List Item"
                 app:boxBackgroundColor="@color/lightGray"
-                app:startIconDrawable="@drawable/ic_baseline_outlined_flag_24">
+                app:startIconDrawable="@drawable/ic_baseline_add_task_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_bucketListItemName"

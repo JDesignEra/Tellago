@@ -132,7 +132,7 @@ class CreateGoalFragment_2 : Fragment() {
 
             fragmentUtils.replace(
                 showBucketListItemsFragment,
-                enter = R.anim.fragment_open_enter,
+                enter = R.anim.fragment_close_enter,
                 exit = R.anim.fragment_open_exit
             )
         }
