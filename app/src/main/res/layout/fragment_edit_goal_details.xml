@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     tools:context=".fragments.EditGoalDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="25dp">
+        android:layout_marginBottom="25dp"
+        android:clipChildren="false">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout_edit_goal_details"
