@@ -54,8 +54,8 @@ class ShowGoalDetailsFragment : Fragment() {
         }
         else 100
 
-        val overallPercent = if (goal.bucketList.size < 1 || goal.targetAmt < 0.01) {
-            monetaryPercent + bucketListPercent
+        val overallPercent = if (goal.bucketList.size < 1) {
+            monetaryPercent
         }
         else (monetaryPercent + bucketListPercent) / 2
 
