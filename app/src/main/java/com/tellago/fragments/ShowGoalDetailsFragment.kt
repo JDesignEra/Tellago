@@ -52,7 +52,7 @@ class ShowGoalDetailsFragment : Fragment() {
         val bucketListPercent = if (goal.bucketList.size > 0) {
             (goal.bucketList.filter { it["completed"] as Boolean }.toMutableList().size.toDouble() / goal.bucketList.size.toDouble() * 100).roundToInt()
         }
-        else 0
+        else 100
 
         val overallPercent = if (goal.bucketList.size < 1 || goal.targetAmt < 0.01) {
             monetaryPercent + bucketListPercent
