@@ -29,7 +29,8 @@
                 <NumberPicker
                     android:id="@+id/numPick_year"
                     android:layout_width="90dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    android:descendantFocusability="blocksDescendants" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/mtv_year"
@@ -52,7 +53,8 @@
                     android:id="@+id/numPick_month"
                     android:layout_width="90dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    android:descendantFocusability="blocksDescendants" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/mtv_month"
@@ -74,7 +76,8 @@
                 <NumberPicker
                     android:id="@+id/numPick_day"
                     android:layout_width="90dp"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    android:descendantFocusability="blocksDescendants" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/mtv_day"
