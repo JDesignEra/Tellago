@@ -11,7 +11,11 @@ import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
+import kotlinx.android.synthetic.main.fragment_create_goal_1.*
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
+import kotlinx.android.synthetic.main.fragment_edit_goal_details.category_btn_1
+import kotlinx.android.synthetic.main.fragment_edit_goal_details.category_btn_2
+import kotlinx.android.synthetic.main.fragment_edit_goal_details.category_btn_3
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -70,7 +74,28 @@ class EditGoalDetailsFragment : Fragment() {
         if (goal.categories.contains("leisure")) category_btn_3.isChecked = true
 
         btn_ConfirmEditGoalDetails.setOnClickListener {
-            if (!goal.gid?.isBlank()!!) {
+            val errors = mutableMapOf<String, String>()
+            val moneyRegex = Regex("\\d+?\\.\\d{3,}")
+
+            if (textInput_title.text.isNullOrBlank()) errors["title"] = "Field is required"
+            when {
+                textInput_targetAmt.text.isNullOrBlank() -> errors["targetAmt"] = "Field is required"
+                textInput_targetAmt.text.toString().toDouble() < 0.01 -> errors["targetAmt"]  = "Needs to be more than 0"
+                moneyRegex.matches(textInput_targetAmt.text.toString()) -> errors["targetAmt"] = "Cents can't be more then 2 digits"
+                textInput_targetAmt.text.toString().toDouble() < textInput_currentAmt.text.toString().toDouble()-> errors["targetAmt"] = "Field has to more or same as Current Monetary Value"
+            }
+            when {
+                textInput_currentAmt.text.isNullOrBlank() -> errors["currentAmt"] = "Field is required"
+                moneyRegex.matches(textInput_currentAmt.text.toString()) -> errors["currentAmt"] = "Cents can't be more then 2 digits"
+                textInput_currentAmt.text.toString().toDouble() > textInput_targetAmt.text.toString().toDouble() -> errors["currentAmt"] = "Field has to less or same as Target Monetary Value"
+            }
+
+            if (errors.isNotEmpty()) {
+                errors["title"].let { textInput_title.error = it }
+                errors["targetAmt"].let { textInput_targetAmt.error = it }
+                errors["currentAmt"].let { textInput_currentAmt.error = it }
+            }
+            else if (!goal.gid?.isBlank()!!) {
                 updateGoalModel()
 
                 goal.setByGid {
@@ -91,7 +116,15 @@ class EditGoalDetailsFragment : Fragment() {
                 putParcelable(goal::class.java.name, goal)
             }
 
-            fragmentUtils.replace(dialogFragment, setTargetFragment = this, requestCode = 0)
+            fragmentUtils.replace(
+                dialogFragment,
+                setTargetFragment = this,
+                requestCode = 0,
+                enter = R.anim.fragment_close_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_slide_right_enter,
+                popExit = R.anim.fragment_slide_right_exit
+            )
         }
 
         btn_DeleteGoal.setOnClickListener {

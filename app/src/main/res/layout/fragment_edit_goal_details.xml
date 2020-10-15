@@ -48,8 +48,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:hint="Title"
                 app:boxBackgroundColor="@color/lightGray"
-                android:hint="Title">
+                app:startIconDrawable="@drawable/ic_baseline_outlined_flag_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInput_title"
@@ -70,9 +71,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:hint="Target Monetary Value"
                 app:boxBackgroundColor="@color/lightGray"
-                android:hint="Target Amount"
-                app:prefixText="$">
+                app:startIconDrawable="@drawable/ic_baseline_attach_money_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInput_targetAmt"
@@ -88,9 +89,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:hint="Current Monetary Value"
                 app:boxBackgroundColor="@color/lightGray"
-                android:hint="Current Amount"
-                app:prefixText="$">
+                app:startIconDrawable="@drawable/ic_baseline_attach_money_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInput_currentAmt"
@@ -106,12 +107,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:hint="Deadline"
                 app:boxBackgroundColor="@color/lightGray"
                 app:endIconDrawable="@drawable/ic_edit"
                 app:endIconTint="@color/colorPrimary"
                 app:endIconMode="custom"
                 app:endIconContentDescription="Edit deadline"
-                android:hint="Deadline">
+                app:startIconDrawable="@drawable/ic_baseline_date_range_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInput_deadline"
@@ -128,6 +130,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="Reminder Frequency"
+                android:textSize="18sp"
+                android:textColor="@color/colorTextDarkGray"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <RadioGroup
@@ -167,6 +171,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="Categories"
+                android:textSize="18sp"
+                android:textColor="@color/colorTextDarkGray"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
             <LinearLayout
