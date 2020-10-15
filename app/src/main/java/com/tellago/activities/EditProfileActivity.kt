@@ -65,7 +65,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
 
         }
 
-        imageView_changePhoto.setOnClickListener {
+        profile_image.setOnClickListener {
             pickImageIntent()
         }
 
@@ -74,10 +74,6 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
         }
 
     }
-
-//    override fun onBackPressed() {
-//        //by default, kill the current activity
-//    }
 
     private fun StartTimer() {
         handler = Handler()

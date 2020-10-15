@@ -5,130 +5,126 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <include
         android:id="@+id/toolbar_editProfile"
         layout="@layout/toolbar"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="186dp" />
 
-    <RelativeLayout
-        android:id="@+id/profile_image_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/profile_picture_border"
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="35dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_editProfile">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_editProfile">
 
-
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="121dp"
-            android:layout_height="121dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/profile_picture_shape"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_android_photo" />
-
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/changePhoto_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_image_layout">
-
-        <TextView
-            android:id="@+id/textView_changePhoto"
+        <LinearLayout
+            android:id="@+id/changePhoto_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change Profile Picture"
-            android:textColor="@color/colorLinkBlue"
-            android:textSize="15sp" />
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/changeDisplayName_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
-        <ImageView
-            android:id="@+id/imageView_changePhoto"
-            android:layout_width="16dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="3dp"
-            android:src="@drawable/edit_icon_blue_link" />
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="121dp"
+                android:layout_height="121dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/profile_picture_shape"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_android_photo" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView_changePhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Change Profile Picture "
+                android:textColor="@color/colorLinkBlue"
+                android:textSize="14sp"
+                app:drawableEndCompat="@drawable/ic_edit_18"
+                app:drawableTint="@color/colorLinkBlue" />
 
-    <LinearLayout
-        android:id="@+id/changeDisplayName_layout"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/changePhoto_layout">
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView_changeDisplayName"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/changeDisplayName_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="Name"
-            android:textSize="13sp" />
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/changePhoto_layout"
+            app:layout_constraintBottom_toTopOf="@+id/changeBio_layout">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editText_changeDisplayName"
-            android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Display Name"
+                app:startIconDrawable="@drawable/ic_baseline_person_outline_24"
+                app:boxBackgroundColor="@color/lightGray">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_changeDisplayName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/changeBio_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Android McAndroid" />
+            android:layout_marginVertical="8dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/changeDisplayName_layout"
+            app:layout_constraintBottom_toTopOf="@+id/updateBtn">
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Bio"
+                app:startIconDrawable="@drawable/ic_baseline_format_align_left_24"
+                app:boxBackgroundColor="@color/lightGray">
 
-    </LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_changeBio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-    <LinearLayout
-        android:id="@+id/changeBio_layout"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20px"
-        android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/changeDisplayName_layout">
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/textView_changeBio"
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/updateBtn"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:text="Biography"
-            android:textSize="13sp" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editText_changeBio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Fill in your bio here" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/updateBtn"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:text="Update"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeBio_layout"
-        app:layout_constraintVertical_bias="0.052"
-        android:backgroundTint="@color/lightGray"
-        android:textColor="@color/colorTextDarkGray"/>
-
+            android:layout_marginTop="16dp"
+            android:text="Update"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:letterSpacing="0.03"
+            app:icon="@drawable/ic_baseline_save_24"
+            app:iconGravity="textStart"
+            app:iconSize="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/changeBio_layout"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
