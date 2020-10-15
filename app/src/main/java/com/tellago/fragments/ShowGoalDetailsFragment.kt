@@ -63,7 +63,7 @@ class ShowGoalDetailsFragment : Fragment() {
         tv_title.text = goal.title
         tv_createDate.text = dateFormatter.format(goal.createDate)
         tv_deadline.text = dateFormatter.format(goal.deadline)
-        if (goal.reminderMonthsFreq > 0) tv_deadline.text = "Every ${goal.reminderMonthsFreq} months"
+        if (goal.reminderMonthsFreq > 0) tv_reminderMonthsFreq.text = "Every ${goal.reminderMonthsFreq} months"
 
         if (monetaryPercent < 80) tv_monetary_progress.setTextColor(getColor(requireContext(), R.color.colorTextBlack))
         tv_monetary_progress.text = "$%.2f / $%.2f".format(goal.currentAmt, goal.targetAmt)
