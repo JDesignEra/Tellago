@@ -6,7 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.*
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import com.google.android.material.chip.Chip
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
@@ -14,6 +18,8 @@ import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.roundToInt
 
 class ShowGoalDetailsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
@@ -35,11 +41,7 @@ class ShowGoalDetailsFragment : Fragment() {
         if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_show_goal_details, container, false)
     }
 
@@ -48,23 +50,65 @@ class ShowGoalDetailsFragment : Fragment() {
 
         configureToolbar()
 
-        if (goal.completed) btn_CompleteGoal.isEnabled = false
-
-        tv_title.text = goal.title
-        tv_categories.text = goal.categories.toString()
-        tv_targetAmt.text = String.format("$%.2f", goal.targetAmt)
-        tv_currentAmt.text = String.format("$%.2f", goal.currentAmt)
-
-
-        // Displaying deadline as DateTime rather than TimeStamp for user viewing
         val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val monetaryPercent = (goal.currentAmt / goal.targetAmt * 100).roundToInt()
+        val bucketListPercent = if (goal.bucketList.size > 0) {
+            (goal.bucketList.filter { it["completed"] as Boolean }.toMutableList().size.toDouble() / goal.bucketList.size.toDouble() * 100).roundToInt()
+        }
+        else 0
 
-        tv_deadline.text = dateFormatter.format(goal.deadline).toString()
-        tv_lastReminder.text = goal.lastReminder.toString()
-        tv_reminderMonthsFreq.text = goal.reminderMonthsFreq.toString()
+        val overallPercent = if (goal.bucketList.size < 1 || goal.targetAmt < 0.01) {
+            monetaryPercent + bucketListPercent
+        }
+        else (monetaryPercent + bucketListPercent) / 2
 
-        // Displaying createDate as DateTime rather than TimeStamp for user viewing
-        tv_createDate.text = dateFormatter.format(goal.createDate).toString()
+        tv_overallProgress.text = "$overallPercent%"
+        tv_title.text = goal.title
+        tv_createDate.text = dateFormatter.format(goal.createDate)
+        tv_deadline.text = dateFormatter.format(goal.deadline)
+        if (goal.reminderMonthsFreq > 0) tv_deadline.text = "Every ${goal.reminderMonthsFreq} months"
+
+        if (monetaryPercent < 80) tv_monetary_progress.setTextColor(getColor(requireContext(), R.color.colorTextBlack))
+        tv_monetary_progress.text = "$%.2f / $%.2f".format(goal.currentAmt, goal.targetAmt)
+
+        if (bucketListPercent < 60) tv_bucketList_progress.setTextColor(getColor(requireContext(), R.color.colorTextBlack))
+        tv_bucketList_progress.text = "${goal.bucketList.filter { it["completed"] as Boolean }.size} / ${goal.bucketList.size}"
+
+        Handler().post {
+            progressIndicator_overallProgress.progress = overallPercent
+            progressIndicator_monetary.progress = monetaryPercent
+            progressIndicator_bucketList.progress = bucketListPercent
+        }
+
+        if (goal.categories.size > 0) {
+            val categoryToDrawableId = mapOf(
+                "career" to R.drawable.ic_baseline_work_24,
+                "family" to R.drawable.ic_family_restroom_24,
+                "leisure" to R.drawable.ic_baseline_local_airport_24
+            )
+
+            for ((idx, category) in goal.categories.withIndex()) {
+                val chipHolder = Chip(chipGroup_category.context).apply {
+                    iconEndPadding = chip_category_none.iconStartPadding
+                    iconStartPadding = chip_category_none.iconStartPadding
+                    isCheckedIconVisible = chip_category_none.isChipIconVisible
+                    isCheckable = chip_category_none.isCheckable
+                    rippleColor = null
+                    setEnsureMinTouchTargetSize(false)
+                }
+
+                chipHolder.text = category
+                chipHolder.chipIcon = categoryToDrawableId[category]?.let { getDrawable(requireContext(), it) }
+                chipGroup_category.addView(chipHolder)
+            }
+
+            chipGroup_category.removeView(chip_category_none)
+        }
+
+        if (goal.completed) {
+            btn_CompleteGoal.isEnabled = false
+            btn_CompleteGoal.text = "Completed"
+        }
 
         btn_Journey_View.setOnClickListener {
             val showJourneysFragment = ShowJourneysFragment()
@@ -97,14 +141,14 @@ class ShowGoalDetailsFragment : Fragment() {
 
         btn_CompleteGoal.setOnClickListener {
             val bucketFilter = goal.bucketList.toList().filter { !(it["completed"] as Boolean) }
-            val currentAmt = tv_currentAmt.text.toString().substring(1).toDouble()
-            val targetAmt = tv_targetAmt.text.toString().substring(1).toDouble()
 
-            if (currentAmt < targetAmt) {
+            if (goal.currentAmt < goal.targetAmt) {
                 toast.error("Current Amount needs to be more then or equals to Targeted Amount")
-            } else if (!bucketFilter.isNullOrEmpty()) {
+            }
+            else if (!bucketFilter.isNullOrEmpty()) {
                 toast.error("Bucket List contains in progress item(s)")
-            } else {
+            }
+            else {
                 goal.completed = true
                 goal.updateCompleteByGid {
                     if (it != null) {
@@ -115,55 +159,6 @@ class ShowGoalDetailsFragment : Fragment() {
                 }
             }
         }
-
-        // Function to update the progress bar and text views for Bucket List & Target Amount
-        updateProgressBar()
-
-    }
-
-    private fun updateProgressBar() {
-        val progressAmtPercentFloat = ((goal.currentAmt / goal.targetAmt) * 100).toFloat()
-        val totalProgress: Float
-
-        tv_progressAmt.text =
-            String.format("You have saved %.1f %% of the target amount!", progressAmtPercentFloat)
-
-        Log.d("bucketList count", "${goal.bucketList.count()}")
-        if (goal.bucketList.count() != 0) {
-            // include bucket list for progress calculation
-
-            linear_layout_progressBucketList.visibility = View.VISIBLE
-
-            var blItem_InProgress = 0
-            var blItem_Completed = 0
-
-            for (item in 0 until goal.bucketList.count()) {
-                if (goal.bucketList[item].containsValue(true)) blItem_Completed += 1
-                else blItem_InProgress += 1
-            }
-
-            // bucketListProgress is 50% of totalProgress
-            val bucketListProgress =
-                ((blItem_Completed * 50 / goal.bucketList.count()).toFloat())
-
-            // amountSavedProgress is 50% of totalProgress
-            val amountSavedProgress = progressAmtPercentFloat / 2
-            // adding bucketListProgress to amountSavedProgress to obtain new totalProgress
-            totalProgress = bucketListProgress + amountSavedProgress
-            tv_progressBucketList.text =
-                "${blItem_Completed} of ${goal.bucketList.count()} List Items Completed"
-
-        } else {
-            // do not include bucket list for progress calculation
-            // amountSavedProgress is 100% of totalProgress
-            totalProgress = progressAmtPercentFloat
-
-        }
-
-        Handler().post {
-            progress_bar_progressAmt.progress = totalProgress.toInt()
-        }
-        tv_progress_bar_display.text = String.format("%.2f %%", totalProgress)
     }
 
     private fun configureToolbar() {

@@ -112,7 +112,8 @@
                     android:progress="50"
                     android:indeterminate="false"
                     app:indicatorSize="16dp"
-                    app:indicatorCornerRadius="16dp"/>
+                    app:indicatorCornerRadius="16dp"
+                    app:trackColor="@color/lightGray" />
 
                 <TextView
                     android:id="@+id/tv_progress"

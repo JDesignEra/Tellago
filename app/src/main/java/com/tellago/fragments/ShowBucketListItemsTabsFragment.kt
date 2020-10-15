@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TableLayout
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.*
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.tellago.R
 import com.tellago.adapters.ViewPagerBucketListItemsFragmentStateAdapter
@@ -74,6 +78,17 @@ class ShowBucketListItemsTabsFragment : Fragment() {
         viewPager2.isUserInputEnabled = false
 
         val tabLayout = tab_layout_ShowBucketListItemsTabsFragment
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> tv_instruction_footer.text = fromHtml(getString(R.string.bucket_list_tabs_footer_instruction, "complete"), FROM_HTML_MODE_COMPACT)
+                    1 -> tv_instruction_footer.text = fromHtml(getString(R.string.bucket_list_tabs_footer_instruction, "in progress"), FROM_HTML_MODE_COMPACT)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {

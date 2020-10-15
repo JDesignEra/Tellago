@@ -244,6 +244,7 @@ If you have any questions or suggestions about our Terms and Conditions, do not 
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="bucket_list_tabs_footer_instruction">Swipe right to move to &lt;b>%1$s&lt;/b> or left to &lt;b>delete&lt;/b></string>
 
 
 </resources>

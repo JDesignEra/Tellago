@@ -41,17 +41,18 @@ class ShowJourneysFragment : Fragment() {
             R.id.fragment_container_goal_activity
         )
 
-
         // to update query based on unique identifier for each journey (with reference to arrayListJourneyID)
         val arrayListJourneyID = goal.jid
-        val query = FirebaseFirestore.getInstance().collection("journeys").whereIn(FieldPath.documentId(), arrayListJourneyID)
 
+        if (arrayListJourneyID.isNotEmpty()) {
+            val query = FirebaseFirestore.getInstance().collection("journeys").whereIn(FieldPath.documentId(), arrayListJourneyID)
 
-        adapter = ShowJourneysRecyclerAdapter(
-            FirestoreRecyclerOptions.Builder<Journey>()
-                .setQuery(query, Journey::class.java)
-                .build()
-        )
+            adapter = ShowJourneysRecyclerAdapter(
+                FirestoreRecyclerOptions.Builder<Journey>()
+                    .setQuery(query, Journey::class.java)
+                    .build()
+            )
+        }
     }
 
 

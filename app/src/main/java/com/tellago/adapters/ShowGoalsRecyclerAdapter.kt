@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.*
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -59,6 +61,8 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
 
         holder.progressBar.progress = totalProgress.toInt()
         holder.tvProgress.text = "${totalProgress.toInt()}%"
+
+        if (totalProgress.toInt() < 50) holder.tvProgress.setTextColor(getColor(holder.itemView.context, R.color.colorTextDarkGray))
     }
 
     class GoalViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {

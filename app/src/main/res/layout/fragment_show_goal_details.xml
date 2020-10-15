@@ -1,357 +1,424 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     tools:context=".fragments.ShowGoalDetailsFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout_view_goal_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_view_goal_details"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorBackground"
+            app:title="Goal Details" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="35dp">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout_view_goal_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_view_goal_details"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorBackground"
-                app:title="Goal Details" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <ProgressBar
-            android:id="@+id/progress_bar_progressAmt"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_gravity="center"
-            android:indeterminateOnly="false"
-            android:progressDrawable="@drawable/progressbar_circle"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayout_view_goal_details"
-            tools:progress="50" />
-
-        <TextView
-            android:id="@+id/tv_progress_bar_display"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintBottom_toBottomOf="@id/progress_bar_progressAmt"
-            app:layout_constraintEnd_toEndOf="@id/progress_bar_progressAmt"
-            app:layout_constraintStart_toStartOf="@id/progress_bar_progressAmt"
-            app:layout_constraintTop_toTopOf="@id/progress_bar_progressAmt" />
-
+        android:layout_height="0dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="35dp"
+        android:clipChildren="false"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout_view_goal_details"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
-            android:id="@+id/linear_vertical_show_goal_details"
+            android:id="@+id/linearLayout_goalTitle"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:gravity="center_horizontal|center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/relativeLayout_progress">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Your Goal"
+                android:textColor="@color/colorPrimary"
+                android:textSize="17sp"
+                android:letterSpacing="-0.02"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" GOAL"
+                android:textColor="@color/colorTextDarkGray"
+                android:textSize="17sp"
+                android:letterSpacing="-0.02"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout_goalTitle"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout_timeline">
+
+            <com.google.android.material.progressindicator.ProgressIndicator
+                style="@style/Widget.MaterialComponents.ProgressIndicator.Circular.Determinate"
+                android:id="@+id/progressIndicator_overallProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:progress="50"
+                app:circularRadius="80dp"
+                app:indicatorSize="10dp"
+                app:indicatorCornerRadius="10dp"
+                app:trackColor="@color/lightGray"/>
+
+            <TextView
+                android:id="@+id/tv_overallProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="50%"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_timeline"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_bar_progressAmt">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Title: " />
-
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="none"
-                    android:maxLines="2"
-                    android:scrollHorizontally="false"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="6dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Categories: " />
-
-                <TextView
-                    android:id="@+id/tv_categories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="6dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Target Amount: " />
-
-                <TextView
-                    android:id="@+id/tv_targetAmt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="6dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Current Amount: " />
-
-                <TextView
-                    android:id="@+id/tv_currentAmt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout_progress"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout_goal_amt">
 
             <TextView
-                android:id="@+id/tv_progressAmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Timeline"
+                android:textSize="18sp"
+                android:textColor="@color/colorTextDarkGray"
+                android:letterSpacing="-0.02"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="12sp"
-                android:textStyle="italic" />
+                android:layout_marginTop="8dp">
 
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginBottom="6dp"
-                android:orientation="horizontal">
-
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Journey ID: " />
+                    android:orientation="vertical"
+                    android:gravity="bottom">
 
-                <TextView
-                    android:id="@+id/tv_jid"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Created "
+                        android:textSize="14sp"
+                        android:textColor="@color/colorTextDarkGray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Deadline "
+                        android:textSize="14sp"
+                        android:textColor="@color/colorTextDarkGray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Reminder "
+                        android:textSize="14sp"
+                        android:textColor="@color/colorTextDarkGray" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Null"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:gravity="bottom">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_Journey_View"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:elevation="10dp"
-                    android:letterSpacing="-0.02"
-                    android:padding="10dp"
-                    android:text="VIEW JOURNEY"
-                    android:textSize="14sp"
-                    app:backgroundTint="@color/colorPrimaryLight"
-                    app:cornerRadius="5dp"
-                    app:icon="@drawable/ic_baseline_directions_walk_24"
-                    app:iconGravity="textEnd" />
+                    <TextView
+                        android:id="@+id/tv_createDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30/12/2021"
+                        android:textSize="14sp"/>
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_deadline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="30/12/2021"
+                        android:textSize="14sp"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginBottom="6dp"
-                android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_reminderMonthsFreq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Never"
+                        android:textSize="14sp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bucket List: " />
-
-                <TextView
-                    android:id="@+id/tv_bucketList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_Bucket_List_View"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:elevation="10dp"
-                    android:letterSpacing="-0.02"
-                    android:padding="10dp"
-                    android:text="VIEW LIST"
-                    android:textSize="14sp"
-                    app:backgroundTint="@color/colorPrimaryLight"
-                    app:cornerRadius="5dp"
-                    app:icon="@drawable/ic_baseline_list_24"
-                    app:iconGravity="textEnd" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_layout_progressBucketList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/tv_progressBucketList"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollHorizontally="false"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="6dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Deadline: " />
-
-                <TextView
-                    android:id="@+id/tv_deadline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="6dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Most Recent Reminder: " />
-
-                <TextView
-                    android:id="@+id/tv_lastReminder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="6dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Reminder Frequency: " />
-
-                <TextView
-                    android:id="@+id/tv_reminderMonthsFreq"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="6dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Created On: " />
-
-                <TextView
-                    android:id="@+id/tv_createDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp" />
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/linearLayout_goal_amt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="35dp"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_timeline"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout_bucketList">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monetary"
+                android:textSize="18sp"
+                android:textColor="@color/colorTextDarkGray"
+                android:letterSpacing="-0.02"/>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_goal_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <com.google.android.material.progressindicator.ProgressIndicator
+                    android:id="@+id/progressIndicator_monetary"
+                    style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Indeterminate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progress="50"
+                    android:indeterminate="false"
+                    app:indicatorSize="22dp"
+                    app:indicatorCornerRadius="22dp"
+                    app:trackColor="@color/lightGray" />
+
+                <TextView
+                    android:id="@+id/tv_monetary_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:text="$0 / $0" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_bucketList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_goal_amt"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout_category">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bucket List"
+                android:textSize="18sp"
+                android:textColor="@color/colorTextDarkGray"
+                android:letterSpacing="-0.02"/>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_bucket_list_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp">
+
+                <com.google.android.material.progressindicator.ProgressIndicator
+                    android:id="@+id/progressIndicator_bucketList"
+                    style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Indeterminate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:progress="50"
+                    android:indeterminate="false"
+                    app:indicatorSize="22dp"
+                    app:indicatorCornerRadius="22dp"
+                    app:trackColor="@color/lightGray" />
+
+                <TextView
+                    android:id="@+id/tv_bucketList_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:text="0 / 0" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:orientation="vertical"
+            android:clipChildren="false"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout_first_footer"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_bucketList">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="-0.02"
+                android:text="Category"
+                android:textColor="@color/colorTextDarkGray"
+                android:textSize="18sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:selectionRequired="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_category_none"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="false"
+                    android:text="None"
+                    app:rippleColor="@null"
+                    app:chipIcon="@drawable/ic_baseline_block_18"
+                    app:iconEndPadding="-2dp"
+                    app:iconStartPadding="5dp"
+                    app:ensureMinTouchTargetSize="false"
+                    app:checkedIconVisible="false"/>
+
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_first_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="4dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_category"
+            app:layout_constraintBottom_toTopOf="@+id/relativeLayout_last_footer">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_Journey_View"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight=".5"
+                android:backgroundTint="@color/lightGray"
+                android:text="Journey"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:letterSpacing="0.03"
+                android:textColor="@color/colorTextDarkGray"
+                app:icon="@drawable/ic_baseline_directions_run_24"
+                app:iconGravity="textStart"
+                app:iconSize="16dp"
+                app:iconTint="@color/colorTextDarkGray" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_Bucket_List_View"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/lightGray"
+                android:text="Bucket List"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:letterSpacing="0.03"
+                android:textColor="@color/colorTextDarkGray"
+                app:icon="@drawable/ic_baseline_format_list_bulleted_24"
+                app:iconGravity="textStart"
+                app:iconSize="16dp"
+                app:iconTint="@color/colorTextDarkGray" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/relativeLayout_last_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout_first_footer">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_CompleteGoal"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:text="Complete Goal" />
+                android:layout_marginEnd="8dp"
+                android:layout_weight=".5"
+                android:text="Complete"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:letterSpacing="0.03"
+                app:icon="@drawable/ic_baseline_check_circle_48"
+                app:iconGravity="textStart"
+                app:iconSize="16dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_EditGoalDetails"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:backgroundTint="@color/colorUnderlyingBackground"
-                android:text="Edit Details"
-                android:textColor="@color/colorTextBlack" />
-        </RelativeLayout>
+                android:layout_marginStart="8dp"
+                android:layout_weight=".5"
+                android:backgroundTint="@color/colorSuccess"
+                android:text="Edit"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:letterSpacing="0.03"
+                app:icon="@drawable/ic_edit"
+                app:iconGravity="textStart"
+                app:iconSize="16dp" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

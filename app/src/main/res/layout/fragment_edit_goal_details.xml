@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="35dp">
+        android:layout_marginBottom="25dp">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout_edit_goal_details"
@@ -36,7 +36,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginHorizontal="35dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/relativeLayout_editgoaldetails"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout_footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout_edit_goal_details">
@@ -167,60 +167,58 @@
                 android:text="Categories"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGrp_categories"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_career"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp">
+                <CheckBox
+                    android:id="@+id/category_btn_1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/checkbox_selection"
+                    android:button="@color/colorTransparent"
+                    android:textAlignment="center"
                     android:text="Career"
-                    app:chipIcon="@drawable/ic_baseline_work_24"
-                    app:chipIconVisible="true"
-                    app:checkedIcon="@drawable/ic_baseline_work_24"
-                    app:checkedIconTint="@color/colorPrimary"
-                    app:checkedIconVisible="true"
-                    app:iconStartPadding="5dp"
-                    app:iconEndPadding="-2dp"/>
+                    android:textColor="@drawable/checkbox_text_selection"
+                    android:textSize="16sp"
+                    android:layout_weight="0.3"
+                    android:letterSpacing="-0.02"/>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_family"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                <CheckBox
+                    android:id="@+id/category_btn_2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/checkbox_selection"
+                    android:button="@color/colorTransparent"
+                    android:textAlignment="center"
                     android:text="Family"
-                    app:chipIcon="@drawable/ic_family_restroom_24"
-                    app:chipIconVisible="true"
-                    app:checkedIcon="@drawable/ic_family_restroom_24"
-                    app:checkedIconTint="@color/colorPrimary"
-                    app:checkedIconVisible="true"
-                    app:iconStartPadding="5dp"
-                    app:iconEndPadding="-2dp"/>
+                    android:textColor="@drawable/checkbox_text_selection"
+                    android:textSize="16sp"
+                    android:layout_weight="0.3"
+                    android:layout_marginLeft="5dp"
+                    android:letterSpacing="-0.02"/>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_leisure"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                <CheckBox
+                    android:id="@+id/category_btn_3"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/checkbox_selection"
+                    android:button="@color/colorTransparent"
+                    android:textAlignment="center"
                     android:text="Leisure"
-                    app:chipIcon="@drawable/ic_baseline_local_airport_24"
-                    app:chipIconVisible="true"
-                    app:checkedIcon="@drawable/ic_baseline_local_airport_24"
-                    app:checkedIconTint="@color/colorPrimary"
-                    app:checkedIconVisible="true"
-                    app:iconStartPadding="5dp"
-                    app:iconEndPadding="-2dp"/>
-
-            </com.google.android.material.chip.ChipGroup>
+                    android:textColor="@drawable/checkbox_text_selection"
+                    android:textSize="16sp"
+                    android:layout_weight="0.3"
+                    android:layout_marginLeft="5dp"
+                    android:letterSpacing="-0.02"/>
+            </LinearLayout>
         
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout_editgoaldetails"
+        <LinearLayout
+            android:id="@+id/linearLayout_footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="35dp"
@@ -231,23 +229,34 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_DeleteGoal"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="Delete Goal"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:layout_marginEnd="8dp"
+                android:layout_weight=".5"
+                android:text="Delete"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:letterSpacing="0.03"
+                app:icon="@drawable/ic_baseline_delete_forever_48"
+                app:iconGravity="textStart"
+                app:iconSize="16dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_ConfirmEditGoalDetails"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:backgroundTint="@color/colorUnderlyingBackground"
-                android:text="Confirm Edit"
-                android:textColor="@color/colorTextBlack"
-                android:textSize="12sp" />
-        </RelativeLayout>
+                android:layout_marginStart="8dp"
+                android:layout_weight=".5"
+                android:backgroundTint="@color/lightGray"
+                android:text="Update"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                android:letterSpacing="0.03"
+                android:textColor="@color/colorTextDarkGray"
+                app:icon="@drawable/ic_baseline_save_24"
+                app:iconGravity="textStart"
+                app:iconSize="16dp"
+                app:iconTint="@color/colorTextDarkGray" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

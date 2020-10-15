@@ -65,9 +65,9 @@ class EditGoalDetailsFragment : Fragment() {
         if (goal.reminderMonthsFreq == 3) radioBtn_3MonthsReminder.isChecked = true
         else if (goal.reminderMonthsFreq == 6) radioBtn_6MonthsReminder.isChecked = true
 
-        if (goal.categories.contains("career")) chip_career.isChecked = true
-        if (goal.categories.contains("family")) chip_family.isChecked = true
-        if (goal.categories.contains("leisure")) chip_leisure.isChecked = true
+        if (goal.categories.contains("career")) category_btn_1.isChecked = true
+        if (goal.categories.contains("family")) category_btn_2.isChecked = true
+        if (goal.categories.contains("leisure")) category_btn_3.isChecked = true
 
         btn_ConfirmEditGoalDetails.setOnClickListener {
             if (!goal.gid?.isBlank()!!) {
@@ -128,9 +128,9 @@ class EditGoalDetailsFragment : Fragment() {
         }
         goal.categories.apply {
             removeAll(this)
-            if (chip_career.isChecked) add("career")
-            if (chip_family.isChecked) add("family")
-            if (chip_leisure.isChecked) add("leisure")
+            if (category_btn_1.isChecked) add("career")
+            if (category_btn_2.isChecked) add("family")
+            if (category_btn_3.isChecked) add("leisure")
         }
     }
 
