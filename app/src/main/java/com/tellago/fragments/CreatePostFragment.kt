@@ -562,15 +562,8 @@ class CreatePostFragment : Fragment() {
                         uri ->
                     setImage(uri)
 
-
-                    // redo if it is tilting
-                    attach_post_image.minimumHeight = 121
-                    attach_post_image.minimumWidth = 121
-                    attach_post_image.maxHeight = 169
-                    attach_post_image.maxWidth = 169
-
+                    // Change text & display user's cropped image after they have completed image selection activity
                     textView_attachMedia.text = "Change Image"
-
                     updatePostModelMultimediaURI(uri)
 
 
