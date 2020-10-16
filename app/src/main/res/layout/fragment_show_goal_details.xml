@@ -28,7 +28,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="35dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="52dp"
         android:clipChildren="false"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:progress="50"
-                app:circularRadius="80dp"
+                app:circularRadius="64dp"
                 app:indicatorCornerRadius="10dp"
                 app:indicatorSize="10dp"
                 app:trackColor="@color/lightGray" />
@@ -122,6 +122,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
+                    android:layout_marginEnd="8dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -143,8 +144,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:layout_weight=".5">
+                    android:layout_marginStart="8dp"
+                    android:layout_weight=".5"
+                    android:gravity="end">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -311,7 +313,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
+                app:singleLine="true"
                 app:selectionRequired="false">
 
                 <com.google.android.material.chip.Chip
@@ -323,7 +325,7 @@
                     app:checkedIconVisible="false"
                     app:chipIcon="@drawable/ic_baseline_block_18"
                     app:ensureMinTouchTargetSize="false"
-                    app:iconEndPadding="-2dp"
+                    app:iconEndPadding="-5dp"
                     app:iconStartPadding="5dp"
                     app:rippleColor="@null" />
 
@@ -346,7 +348,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight=".5"
                 android:backgroundTint="@color/lightGray"
-                android:letterSpacing="0.03"
+                android:letterSpacing="0.01"
                 android:text="Journey"
                 android:textAllCaps="false"
                 android:textColor="@color/colorTextDarkGray"
@@ -363,7 +365,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight=".5"
                 android:backgroundTint="@color/lightGray"
-                android:letterSpacing="0.03"
+                android:letterSpacing="0.01"
                 android:text="Bucket List"
                 android:textAllCaps="false"
                 android:textColor="@color/colorTextDarkGray"
@@ -391,7 +393,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight=".5"
-                android:letterSpacing="0.03"
+                android:letterSpacing="0.01"
                 android:text="Complete"
                 android:textAllCaps="false"
                 android:textSize="14sp"
@@ -406,7 +408,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight=".5"
                 android:backgroundTint="@color/colorSuccess"
-                android:letterSpacing="0.03"
+                android:letterSpacing="0.01"
                 android:text="Edit"
                 android:textAllCaps="false"
                 android:textSize="14sp"

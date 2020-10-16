@@ -86,7 +86,7 @@ class ShowGoalDetailsFragment : Fragment() {
 
             for ((idx, category) in goal.categories.withIndex()) {
                 val chipHolder = Chip(chipGroup_category.context).apply {
-                    iconEndPadding = chip_category_none.iconStartPadding
+                    iconEndPadding = chip_category_none.iconEndPadding
                     iconStartPadding = chip_category_none.iconStartPadding
                     isCheckedIconVisible = chip_category_none.isChipIconVisible
                     isCheckable = chip_category_none.isCheckable

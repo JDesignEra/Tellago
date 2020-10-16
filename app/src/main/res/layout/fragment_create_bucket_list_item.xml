@@ -33,7 +33,7 @@
             android:id="@+id/linear_layout_create_bucket_list_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
+            android:layout_marginHorizontal="32dp"
             android:layout_marginTop="100dp"
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"

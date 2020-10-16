@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginHorizontal="50dp"
+            android:layout_marginHorizontal="32dp"
             android:layout_marginTop="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                 android:id="@+id/textInputLayout_journey_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="32dp"
                 android:layout_weight="1"
                 android:hint="Name your Journey"
                 app:boxBackgroundColor="@color/lightGray"
@@ -163,13 +163,13 @@
             android:layout_height="100dp"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="32dp"
             android:weightSum="2"
             android:clipChildren="false"
             app:layout_constraintTop_toBottomOf="@id/recycler_view"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginHorizontal="50dp">
+            app:layout_constraintRight_toRightOf="parent">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_BackToFragmentTwo"

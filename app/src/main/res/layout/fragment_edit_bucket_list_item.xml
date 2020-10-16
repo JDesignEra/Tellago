@@ -33,7 +33,7 @@
             android:id="@+id/linear_layout_edit_bucket_list_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
+            android:layout_marginHorizontal="32dp"
             android:layout_marginTop="100dp"
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -105,7 +105,7 @@
                     android:layout_height="match_parent"
                     android:text="In Progress"
                     android:textSize="16sp"
-                    android:letterSpacing="0.08"
+                    android:letterSpacing="0.05"
                     android:textAllCaps="false"
                     android:layout_weight="0.5"
                     style="?attr/materialButtonOutlinedStyle"/>
@@ -116,7 +116,7 @@
                     android:layout_height="match_parent"
                     android:text="Completed"
                     android:textSize="16sp"
-                    android:letterSpacing="0.08"
+                    android:letterSpacing="0.05"
                     android:textAllCaps="false"
                     android:layout_weight="0.5"
                     style="?attr/materialButtonOutlinedStyle"/>

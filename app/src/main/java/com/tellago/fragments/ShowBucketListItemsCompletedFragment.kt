@@ -93,7 +93,7 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                         super.onDismissed(transientBottomBar, event)
 
                                         if (!undoFlag) {
-                                            val idx = if (item["idx"] as Int > goal.bucketList.size - 1) {
+                                            val idx = if (item["idx"] as Int > goal.bucketList.size - 1 && item["idx"] as Int > 0) {
                                                 item["idx"] as Int - 1
                                             }
                                             else item["idx"] as Int
@@ -145,7 +145,7 @@ class ShowBucketListItemsCompletedFragment : Fragment() {
                                         super.onDismissed(transientBottomBar, event)
 
                                         if (!undoFlag) {
-                                            val idx = if (item["idx"] as Int > goal.bucketList.size - 1) {
+                                            val idx = if (item["idx"] as Int > goal.bucketList.size - 1 && item["idx"] as Int > 0) {
                                                 item["idx"] as Int - 1
                                             }
                                             else item["idx"] as Int
