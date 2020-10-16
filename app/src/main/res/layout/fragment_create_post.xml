@@ -44,12 +44,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:letterSpacing="-0.02"
                 android:text="Attach Journeys To This Post"
-                android:textSize="20sp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textColor="@color/colorTextDarkGray"
+                android:textSize="18sp" />
 
 
             <TextView
@@ -80,21 +81,24 @@
                 android:layout_marginVertical="8dp"
                 android:layout_weight="1"
                 android:elevation="10dp"
+                android:letterSpacing="0.03"
                 android:text="Attach Journey(s)"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:textStyle="italic"
                 app:backgroundTint="@color/colorPrimaryLight"
                 app:cornerRadius="5dp"
                 app:icon="@drawable/ic_baseline_directions_walk_24" />
 
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:letterSpacing="-0.02"
                 android:text="Type of Post"
-                android:textSize="20sp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textColor="@color/colorTextDarkGray"
+                android:textSize="18sp" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -184,8 +188,8 @@
 
             <ImageView
                 android:id="@+id/attach_post_image"
-                android:layout_width="196dp"
-                android:layout_height="196dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_android_photo"
@@ -196,9 +200,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
                 android:text="Add Image"
                 android:textColor="@color/colorLinkBlue"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:visibility="gone" />
 
 
