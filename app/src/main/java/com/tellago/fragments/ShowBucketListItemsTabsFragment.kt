@@ -46,14 +46,12 @@ class ShowBucketListItemsTabsFragment : Fragment() {
         configureToolbar()
         setUpTabs()
 
-        tv_goal_title.text = goal.title
 
         if (goal.completed) {
             tv_instruction_footer.visibility = View.GONE
-            fab_add_bucketListItem.visibility = View.GONE
         }
 
-        fab_add_bucketListItem.setOnClickListener {
+        toolbar_add_bucketlist_item.setOnClickListener  {
             createBucketListItemFragment.arguments = Bundle().apply {
                 putParcelable(goal::class.java.name, goal)
             }
@@ -63,6 +61,19 @@ class ShowBucketListItemsTabsFragment : Fragment() {
                 R.id.fragment_container_goal_activity
             ).replace(createBucketListItemFragment, setTargetFragment = this)
         }
+
+
+        tv_add_bucketlist_item.setOnClickListener  {
+            createBucketListItemFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
+            }
+
+            FragmentUtils(
+                requireActivity().supportFragmentManager,
+                R.id.fragment_container_goal_activity
+            ).replace(createBucketListItemFragment, setTargetFragment = this)
+        }
+
     }
 
     private fun setUpTabs() {

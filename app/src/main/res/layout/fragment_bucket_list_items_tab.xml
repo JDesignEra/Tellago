@@ -39,11 +39,14 @@
                     />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_add_bucketlist_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="Add Goal"
+                    android:text="Add Item"
                     android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:textFontWeight="700"
                     app:textAllCaps="true"
                     app:layout_constraintRight_toLeftOf="@id/toolbar_add_bucketlist_item"
                     app:layout_constraintTop_toTopOf="parent"
@@ -75,12 +78,16 @@
             android:id="@+id/tab_item_ongoing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textFontWeight="700"
             android:text="In Progress" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_item_completed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textFontWeight="700"
             android:text="Completed" />
 
     </com.google.android.material.tabs.TabLayout>
@@ -101,27 +108,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/bucket_list_tabs_footer_instruction"
-        android:textSize="11dp"
+        android:textSize="12sp"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/fab_add_bucketListItem"
         app:layout_constraintTop_toBottomOf="@+id/view_pager_ShowBucketListItemsTabsFragment" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_bucketListItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:backgroundTint="@color/colorPrimary"
-        app:borderWidth="0dp"
-        app:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:maxImageSize="32dp"
-        app:rippleColor="@color/colorBackground"
-        app:srcCompat="@drawable/ic_baseline_add_48_white"
-        app:tint="@color/colorBackground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

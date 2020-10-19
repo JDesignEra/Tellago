@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clipToPadding="false"
     android:paddingHorizontal="8dp"
-    android:paddingVertical="4dp"
-    android:clipToPadding="false">
+    android:paddingVertical="4dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview_bucket_list_item"
@@ -18,9 +18,9 @@
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
         app:contentPadding="16dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,26 +32,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="Title"
-                android:textSize="16sp"
+                android:textColor="#565656"
+                android:textFontWeight="400"
+                android:textSize="13sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/btn_ShowBucketItemDetails"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintRight_toLeftOf="@+id/imageview_ShowBucketItemDetails"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_ShowBucketItemDetails"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageview_ShowBucketItemDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:backgroundTint="@color/colorSuccess"
+                android:src="@drawable/ic_edit_color_success"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/tv_bucketList_Title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:icon="@drawable/ic_edit_18"
-                app:iconPadding="0dp"
-                app:iconGravity="textStart"/>
+                app:layout_constraintTop_toTopOf="parent" />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
