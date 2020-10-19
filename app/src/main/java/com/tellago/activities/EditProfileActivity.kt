@@ -98,7 +98,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
         // To 'hide' Title display in actionbar
         actionbar?.setTitle("  Edit Profile")
         actionbar?.setDisplayHomeAsUpEnabled(false)
-        
+
         (toolbar_editProfile as Toolbar?)?.setNavigationIcon(R.drawable.toolbar_cancel_icon)
 
         // Navigate back to MainActivity (by closing the current Edit Profile Activity)
