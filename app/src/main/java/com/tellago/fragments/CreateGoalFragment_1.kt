@@ -69,28 +69,22 @@ class CreateGoalFragment_1 : Fragment() {
             val createGoalFragment2 = CreateGoalFragment_2()
             val categories = ArrayList<String>()
 
-            
-            when (categories_toggleGrp.checkedButtonId)
+            for (btnId in categories_toggleGrp.checkedButtonIds)
             {
-                R.id.btn_career -> categories.add("career")
-                R.id.btn_family -> categories.add("family")
-                R.id.btn_leisure -> categories.add("leisure")
+                // use r.id_int instead of unique ID for the buttons
+                if (btnId == 2131230873) categories.add("career")
+                if (btnId == 2131230878) categories.add("family")
+                if (btnId == 2131230880) categories.add("leisure")
             }
+
+
+
+            categories_toggleGrp.addOnButtonCheckedListener { group, checkedId, isChecked ->  }
+
+            Log.d("checkedButtonIds", categories_toggleGrp.checkedButtonIds.toString())
 
             Log.d("Printing categories", categories.toString())
 
-//            if (btn_career.isSelected) Log.d("career select", "FIRED")
-//            else Log.d("career unselect", "FIRED")
-//
-//            if (btn_family.isSelected) Log.d("family select", "FIRED")
-//            else Log.d("family unselect", "FIRED")
-//
-//            if (btn_leisure.isSelected) Log.d("leisure select", "FIRED")
-//            else Log.d("leisure unselect", "FIRED")
-
-    //                if (category_btn_1.isChecked) categories.add("career")
-    //                if (category_btn_2.isChecked) categories.add("family")
-    //                if (category_btn_3.isChecked) categories.add("leisure")
 
             goal.title = et_goalTitle.text.toString()
             goal.targetAmt = et_goalPrice.text.toString().toDouble()
