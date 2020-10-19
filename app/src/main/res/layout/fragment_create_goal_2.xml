@@ -67,55 +67,79 @@
 
 
             <LinearLayout
-                android:id="@+id/tv_progress_create_goal_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@color/colorBackgroundTintGrey"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="26dp"
+                    android:layout_marginTop="18dp"
                     android:letterSpacing="-0.02"
-                    android:text="LET'S DIVE "
-                    android:textColor="@color/colorTextDarkGray"
-                    android:textSize="17sp"
+                    android:text="STEP TWO"
+                    android:textColor="@color/colorTextLightGray"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="-0.02"
-                    android:text="DEEPER.."
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:layout_marginHorizontal="26dp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="-0.02"
+                        android:text="LET'S DIVE "
+                        android:textColor="@color/colorTextDarkGray"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="-0.02"
+                        android:text="DEEPER..."
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="26dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="18dp"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/progress_rectangle_selected" />
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="2dp"
+                        android:src="@drawable/progress_rectangle_selected" />
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/progress_rectangle_unselected" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ProgressBar
-                    android:id="@+id/progress_bar_create_goal_2"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:progress="66" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:letterSpacing="-0.02"
-                    android:text="(2/3)"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_Bucket_List"

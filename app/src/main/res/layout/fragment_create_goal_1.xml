@@ -79,7 +79,8 @@
                     android:letterSpacing="-0.02"
                     android:text="STEP ONE"
                     android:textColor="@color/colorTextLightGray"
-                    android:textSize="11sp" />
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -173,78 +174,181 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Select Category"
-                android:textColor="@color/colorTextDarkGray"
-                android:textSize="14sp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:background="@drawable/header_background_rectangle">
 
-                <CheckBox
-                    android:id="@+id/category_btn_1"
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
-                    android:background="@drawable/checkbox_selection"
-                    android:button="@color/colorTransparent"
-                    android:letterSpacing="-0.02"
-                    android:text="Career"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/checkbox_text_selection"
-                    android:textSize="16sp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="4dp"
+                    android:layout_marginHorizontal="26dp"
+                    android:text="Category"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    />
 
-                <CheckBox
-                    android:id="@+id/category_btn_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="0.3"
-                    android:background="@drawable/checkbox_selection"
-                    android:button="@color/colorTransparent"
-                    android:letterSpacing="-0.02"
-                    android:text="Family"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/checkbox_text_selection"
-                    android:textSize="16sp" />
 
-                <CheckBox
-                    android:id="@+id/category_btn_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="0.3"
-                    android:background="@drawable/checkbox_selection"
-                    android:button="@color/colorTransparent"
-                    android:letterSpacing="-0.02"
-                    android:text="Leisure"
-                    android:textAlignment="center"
-                    android:textColor="@drawable/checkbox_text_selection"
-                    android:textSize="16sp" />
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_ToFragmentTwo"
-                android:layout_width="match_parent"
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/categories_toggleGrp"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginBottom="5dp"
+                app:singleSelection="false"
+                app:selectionRequired="false">
+
+                <Button
+                    android:id="@+id/btn_career"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Career"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05"
+                    android:textAllCaps="false"
+                    android:layout_weight="0.5"
+                    style="?attr/materialButtonOutlinedStyle"/>
+
+                <Button
+                    android:id="@+id/btn_family"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Family"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05"
+                    android:textAllCaps="false"
+                    android:layout_weight="0.5"
+                    style="?attr/materialButtonOutlinedStyle"/>
+
+                <Button
+                    android:id="@+id/btn_leisure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Leisure"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05"
+                    android:textAllCaps="false"
+                    android:layout_weight="0.5"
+                    style="?attr/materialButtonOutlinedStyle"/>
+
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+            <!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="45dp"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <CheckBox-->
+<!--                    android:id="@+id/category_btn_1"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="0.3"-->
+<!--                    android:background="@drawable/checkbox_selection"-->
+<!--                    android:button="@color/colorTransparent"-->
+<!--                    android:letterSpacing="-0.02"-->
+<!--                    android:text="Career"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:textColor="@color/colorTextDarkGray"-->
+<!--                    android:textSize="13sp"-->
+<!--                    style="?attr/materialButtonOutlinedStyle"-->
+<!--                    />-->
+
+<!--                <CheckBox-->
+<!--                    android:id="@+id/category_btn_2"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginLeft="5dp"-->
+<!--                    android:layout_weight="0.3"-->
+<!--                    android:background="@drawable/checkbox_selection"-->
+<!--                    android:button="@color/colorTransparent"-->
+<!--                    android:letterSpacing="-0.02"-->
+<!--                    android:text="Family"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:textColor="@color/colorTextDarkGray"-->
+<!--                    android:textSize="13sp"-->
+<!--                    style="?attr/materialButtonOutlinedStyle"-->
+<!--                    />-->
+
+<!--                <CheckBox-->
+<!--                    android:id="@+id/category_btn_3"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginLeft="5dp"-->
+<!--                    android:layout_weight="0.3"-->
+<!--                    android:background="@drawable/checkbox_selection"-->
+<!--                    android:button="@color/colorTransparent"-->
+<!--                    android:letterSpacing="-0.02"-->
+<!--                    android:text="Leisure"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:textColor="@color/colorTextDarkGray"-->
+<!--                    android:textSize="13sp"-->
+<!--                    style="?attr/materialButtonOutlinedStyle"-->
+<!--                    />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/btn_ToFragmentTwo"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:elevation="10dp"-->
+<!--                android:letterSpacing="-0.02"-->
+<!--                android:padding="10dp"-->
+<!--                android:text="Next"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textSize="14sp"-->
+<!--                app:backgroundTint="@color/colorPrimary"-->
+<!--                app:cornerRadius="5dp"-->
+<!--                app:icon="@drawable/ic_baseline_arrow_forward_24"-->
+<!--                app:iconGravity="textEnd" />-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_create_goal_1_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="36dp"
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            >
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_next_to_fragment_2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:elevation="10dp"
-                android:letterSpacing="-0.02"
-                android:padding="10dp"
-                android:text="Next"
-                android:textAllCaps="false"
-                android:textSize="14sp"
-                app:backgroundTint="@color/colorPrimary"
-                app:cornerRadius="5dp"
-                app:icon="@drawable/ic_baseline_arrow_forward_24"
-                app:iconGravity="textEnd" />
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="4dp"
+                android:text="NEXT"
+                android:textColor="@color/colorTextLightGray"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_view_create_goal_1_to_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:src="@drawable/next_icon"/>
+
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
