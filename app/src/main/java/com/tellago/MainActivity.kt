@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         handler = Handler()
         handlerTask = Runnable { // do something
             hideSystemUI()
-            handler!!.postDelayed(handlerTask, 5000)
+            handler!!.postDelayed(handlerTask, 3000)
         }
 
         handlerTask!!.run()
