@@ -157,7 +157,7 @@ class AttachPostToJourneysFragment : Fragment() {
 
 
     private fun configureToolbar() {
-        toolbar_view_availableJourney_posts.setNavigationIcon(R.drawable.ic_arrow_back_36)
+        toolbar_view_availableJourney_posts.setNavigationIcon(R.drawable.toolbar_back_icon)
         toolbar_view_availableJourney_posts.setNavigationOnClickListener {
             fragmentUtils.popBackStack(null)
         }

@@ -96,8 +96,10 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
 
         val actionbar: ActionBar? = supportActionBar
         // To 'hide' Title display in actionbar
-        actionbar?.setTitle("Edit Profile")
-        actionbar?.setDisplayHomeAsUpEnabled(true)
+        actionbar?.setTitle("  Edit Profile")
+        actionbar?.setDisplayHomeAsUpEnabled(false)
+        
+        (toolbar_editProfile as Toolbar?)?.setNavigationIcon(R.drawable.toolbar_cancel_icon)
 
         // Navigate back to MainActivity (by closing the current Edit Profile Activity)
         (toolbar_editProfile as Toolbar?)?.setNavigationOnClickListener {
@@ -106,6 +108,8 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
                 this.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             }
         }
+
+
     }
 
     private fun pickImageIntent() {

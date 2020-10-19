@@ -26,7 +26,7 @@
                 android:background="@color/colorBackground"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:navigationIcon="@drawable/ic_cancel_grey_48" />
+                app:navigationIcon="@drawable/toolbar_cancel_icon" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
