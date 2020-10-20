@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="80dp"
             android:orientation="vertical"
             android:background="@color/colorWhiteBackground"
             app:layout_constraintLeft_toLeftOf="parent"

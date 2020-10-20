@@ -80,26 +80,21 @@ class CreateGoalFragment_2 : Fragment() {
             )
         }
 
-        btn_ToFragmentOne.setOnClickListener {
-            updateGoalModel()
 
-            val intent = Intent(requireContext(), this::class.java)
-            intent.putExtra("pids", bundle.getStringArrayList("pids"))
-
-            targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
-
-            fragmentUtils.popBackStack()
+        tv_back_to_fragment_1.setOnClickListener {
+            NavigateBackToFragment1()
         }
 
-        btn_ToFragmentThree.setOnClickListener {
-            val createGoalFragment3 = CreateGoalFragment_3()
+        imageView_BackToFragmentOne.setOnClickListener {
+            NavigateBackToFragment1()
+        }
 
-            updateGoalModel()
-            createGoalFragment3.arguments = Bundle().apply {
-                putAll(bundle)
-            }
+        tv_next_to_fragment_3.setOnClickListener {
+            navigateToFragment3()
+        }
 
-            fragmentUtils.replace(createGoalFragment3, setTargetFragment = this, requestCode = -1)
+        imageView_ToFragmentThree.setOnClickListener {
+            navigateToFragment3()
         }
 
         yearPicker.setOnValueChangedListener { picker, oldVal, newVal ->
@@ -122,7 +117,7 @@ class CreateGoalFragment_2 : Fragment() {
             }
         }
 
-        btn_Bucket_List.setOnClickListener {
+        text_view_create_bucket_list.setOnClickListener {
             val showBucketListItemsFragment = ShowBucketListItemsTabsFragment()
 
             showBucketListItemsFragment.arguments = Bundle().apply {
@@ -136,6 +131,28 @@ class CreateGoalFragment_2 : Fragment() {
                 exit = R.anim.fragment_open_exit
             )
         }
+    }
+
+    private fun NavigateBackToFragment1() {
+        updateGoalModel()
+
+        val intent = Intent(requireContext(), this::class.java)
+        intent.putExtra("pids", bundle.getStringArrayList("pids"))
+
+        targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+
+        fragmentUtils.popBackStack()
+    }
+
+    private fun navigateToFragment3() {
+        val createGoalFragment3 = CreateGoalFragment_3()
+
+        updateGoalModel()
+        createGoalFragment3.arguments = Bundle().apply {
+            putAll(bundle)
+        }
+
+        fragmentUtils.replace(createGoalFragment3, setTargetFragment = this, requestCode = -1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

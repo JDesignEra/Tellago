@@ -160,7 +160,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun configureToolbar() {
-        toolbar_Account.setNavigationIcon(R.drawable.toolbar_back_icon)
+        toolbar_Account.setNavigationIcon(R.drawable.back_arrow_btn)
         toolbar_Account.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
             activity?.supportFragmentManager?.popBackStack()

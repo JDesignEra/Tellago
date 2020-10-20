@@ -26,7 +26,7 @@ class PrivacyPolicyScrollingFragment : Fragment() {
 
     private fun configureToolbar() {
 
-        toolbar_Privacy.setNavigationIcon(R.drawable.toolbar_back_icon)
+        toolbar_Privacy.setNavigationIcon(R.drawable.back_arrow_btn)
         toolbar_Privacy.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
             activity?.supportFragmentManager?.popBackStack()

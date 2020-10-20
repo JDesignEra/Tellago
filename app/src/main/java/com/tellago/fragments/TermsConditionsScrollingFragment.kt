@@ -25,7 +25,7 @@ class TermsConditionsScrollingFragment : Fragment() {
     }
 
     private fun configureToolbar() {
-        toolbar_TermsConditions.setNavigationIcon(R.drawable.toolbar_back_icon)
+        toolbar_TermsConditions.setNavigationIcon(R.drawable.back_arrow_btn)
         toolbar_TermsConditions.setNavigationOnClickListener{
             // Allow user to return to previous fragment in the Stack
             activity?.supportFragmentManager?.popBackStack()

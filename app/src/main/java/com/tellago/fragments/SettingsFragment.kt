@@ -64,7 +64,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun configureToolbar() {
-        toolbar_Setting.setNavigationIcon(R.drawable.toolbar_back_icon)
+        toolbar_Setting.setNavigationIcon(R.drawable.back_arrow_btn)
         toolbar_Setting.setNavigationOnClickListener {
             activity?.apply {
                 this.finish()

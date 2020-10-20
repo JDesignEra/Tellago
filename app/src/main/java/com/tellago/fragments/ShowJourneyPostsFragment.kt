@@ -157,7 +157,7 @@ class ShowJourneyPostsFragment : Fragment() {
         // not within an Activity which contains a fragment_container for the recycler view
 
         toolbar_view_journey_posts.title = "Journey: ${journey.title}"
-        toolbar_view_journey_posts.setNavigationIcon(R.drawable.toolbar_back_icon)
+        toolbar_view_journey_posts.setNavigationIcon(R.drawable.back_arrow_btn)
         toolbar_view_journey_posts.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
             fragmentUtils.popBackStack()

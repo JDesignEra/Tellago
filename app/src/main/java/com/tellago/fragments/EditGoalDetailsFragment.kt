@@ -11,7 +11,6 @@ import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
-import kotlinx.android.synthetic.main.fragment_create_goal_1.*
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.category_btn_1
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.category_btn_2
@@ -172,7 +171,7 @@ class EditGoalDetailsFragment : Fragment() {
     }
 
     private fun configureToolbar() {
-        toolbar_edit_goal_details.setNavigationIcon(R.drawable.toolbar_back_icon)
+        toolbar_edit_goal_details.setNavigationIcon(R.drawable.back_arrow_btn)
         toolbar_edit_goal_details.setNavigationOnClickListener {
             fragmentUtils.popBackStack()
         }
