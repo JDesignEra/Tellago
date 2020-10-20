@@ -15,6 +15,7 @@
             android:id="@+id/appBarLayout_createGoalFragment3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorDefaultBackground"
             app:elevation="0dp"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -22,7 +23,7 @@
                 android:id="@+id/toolbar_createGoalFragment3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhiteBackground"
+                android:background="@color/colorTransparent"
                 android:elevation="0dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways"
@@ -38,7 +39,6 @@
                         android:layout_height="wrap_content"
                         android:text="Cancel"
                         android:textColor="#AAAAAA"
-                        android:textFontWeight="700"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +57,7 @@
             android:id="@+id/linear_layout_create_goal_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="32dp"
+            android:layout_marginHorizontal="28dp"
             android:layout_marginTop="80dp"
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"

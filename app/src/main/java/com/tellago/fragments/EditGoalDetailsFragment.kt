@@ -84,12 +84,12 @@ class EditGoalDetailsFragment : Fragment() {
             when {
                 textInput_targetAmt.text.isNullOrBlank() -> errors["targetAmt"] = "Field is required"
                 textInput_targetAmt.text.toString().toDouble() < 0.01 -> errors["targetAmt"]  = "Needs to be more than 0"
-                moneyRegex.matches(textInput_targetAmt.text.toString()) -> errors["targetAmt"] = "Cents can't be more then 2 digits"
+                moneyRegex.matches(textInput_targetAmt.text.toString()) -> errors["targetAmt"] = "Cents can't be more than 2 digits"
                 textInput_targetAmt.text.toString().toDouble() < textInput_currentAmt.text.toString().toDouble()-> errors["targetAmt"] = "Field has to more or same as Current Monetary Value"
             }
             when {
                 textInput_currentAmt.text.isNullOrBlank() -> errors["currentAmt"] = "Field is required"
-                moneyRegex.matches(textInput_currentAmt.text.toString()) -> errors["currentAmt"] = "Cents can't be more then 2 digits"
+                moneyRegex.matches(textInput_currentAmt.text.toString()) -> errors["currentAmt"] = "Cents can't be more than 2 digits"
                 textInput_currentAmt.text.toString().toDouble() > textInput_targetAmt.text.toString().toDouble() -> errors["currentAmt"] = "Field has to less or same as Target Monetary Value"
             }
 

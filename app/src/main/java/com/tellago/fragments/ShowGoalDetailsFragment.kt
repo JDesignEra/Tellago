@@ -156,7 +156,7 @@ class ShowGoalDetailsFragment : Fragment() {
             val bucketFilter = goal.bucketList.toList().filter { !(it["completed"] as Boolean) }
 
             if (goal.currentAmt < goal.targetAmt) {
-                toast.error("Current Amount needs to be more then or equals to Targeted Amount")
+                toast.error("Current Amount needs to be more than or equals to Targeted Amount")
             }
             else if (!bucketFilter.isNullOrEmpty()) {
                 toast.error("Bucket List contains in progress item(s)")

@@ -16,7 +16,7 @@
             android:id="@+id/appBarLayout_createGoalFragment1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhiteBackground"
+            android:background="@color/colorDefaultBackground"
             app:elevation="0dp"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -24,7 +24,7 @@
                 android:id="@+id/toolbar_createGoalFragment1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhiteBackground"
+                android:background="@color/colorTransparent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIcon="@drawable/toolbar_cancel_icon">
@@ -40,7 +40,6 @@
                         android:layout_height="wrap_content"
                         android:text="Cancel"
                         android:textColor="#AAAAAA"
-                        android:textFontWeight="700"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,10 +58,10 @@
             android:id="@+id/linear_layout_create_goal_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="32dp"
+            android:layout_marginHorizontal="28dp"
             android:layout_marginTop="80dp"
+            android:background="@color/colorDefaultBackground"
             android:orientation="vertical"
-            android:background="@color/colorWhiteBackground"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -70,18 +69,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorBackgroundTintGrey"
+                android:background="@drawable/dark_grey_background_with_corner_radius"
                 android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="26dp"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="16dp"
                     android:letterSpacing="-0.02"
                     android:text="STEP ONE"
                     android:textColor="@color/colorTextLightGray"
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -116,7 +115,7 @@
                     android:layout_marginStart="26dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="18dp"
+                    android:layout_marginBottom="16dp"
                     android:orientation="horizontal">
 
 
@@ -142,7 +141,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linear_layout_create_goal_1_separator"
+                android:id="@+id/linear_layout_create_goal_1_separator_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -150,74 +149,126 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="16dp"
-                    android:src="@color/colorDefaultBackground"/>
+                    android:src="@color/colorDefaultBackground" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhiteBackground"
-                android:orientation="horizontal">
+                android:background="@drawable/white_background_with_corner_radius"
+                android:orientation="vertical">
 
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:orientation="vertical">
+                    android:background="@color/colorTransparent"
+                    android:orientation="horizontal">
+
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/header_background_rectangle">
+                        android:layout_weight="3"
+                        android:orientation="vertical">
 
-                        <com.google.android.material.textview.MaterialTextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="26dp"
-                            android:layout_marginVertical="4dp"
-                            android:text="Goal"
-                            android:textAllCaps="true"
-                            android:textColor="@color/colorTextDarkGray"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/header_background_rectangle">
 
-                    </LinearLayout>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="26dp"
+                                android:layout_marginVertical="4dp"
+                                android:text="Goal"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorTextDarkGray"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorWhiteBackground"
-                        app:boxBackgroundColor="@color/colorWhiteBackground">
+                        </LinearLayout>
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_goalTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
                             android:layout_marginStart="12dp"
                             android:layout_marginEnd="24dp"
                             android:maxLines="2" />
 
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/header_background_rectangle">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="26dp"
+                                android:layout_marginVertical="4dp"
+                                android:text="$ Amount"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorTextDarkGray"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_goalPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginEnd="24dp"
+                            android:inputType="numberDecimal"
+                            android:maxLength="10" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/linear_layout_create_goal_1_separator_2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:src="@color/colorDefaultBackground" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorTransparent"
                     android:orientation="vertical">
+
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginBottom="12dp"
                         android:background="@drawable/header_background_rectangle">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -225,183 +276,68 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="26dp"
                             android:layout_marginVertical="4dp"
-                            android:text="$ Amount"
+                            android:text="Category"
                             android:textAllCaps="true"
                             android:textColor="@color/colorTextDarkGray"
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
+
                     </LinearLayout>
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorWhiteBackground"
-                        app:boxBackgroundColor="@color/colorWhiteBackground"
-                        >
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/categories_toggleGrp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="55dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/colorTransparent"
+                        app:selectionRequired="false"
+                        app:singleSelection="false">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_goalPrice"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="24dp"
-                            android:inputType="numberDecimal"
-                            android:maxLength="10" />
+                        <Button
+                            android:id="@+id/btn_career"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:letterSpacing="0.05"
+                            android:text="Career"
+                            android:textAllCaps="false"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                        <Button
+                            android:id="@+id/btn_family"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:letterSpacing="0.05"
+                            android:text="Family"
+                            android:textAllCaps="false"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
+                        <Button
+                            android:id="@+id/btn_leisure"
+                            style="?attr/materialButtonOutlinedStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:letterSpacing="0.05"
+                            android:text="Leisure"
+                            android:textAllCaps="false"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
 
                 </LinearLayout>
 
             </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginVertical="24dp"
-                android:background="@drawable/header_background_rectangle">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="26dp"
-                    android:layout_marginVertical="4dp"
-                    android:text="Category"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorTextDarkGray"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/categories_toggleGrp"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/colorTransparent"
-                app:selectionRequired="false"
-                app:singleSelection="false">
-
-                <Button
-                    android:id="@+id/btn_career"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:letterSpacing="0.05"
-                    android:text="Career"
-                    android:textAllCaps="false"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/btn_family"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:letterSpacing="0.05"
-                    android:text="Family"
-                    android:textAllCaps="false"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/btn_leisure"
-                    style="?attr/materialButtonOutlinedStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:letterSpacing="0.05"
-                    android:text="Leisure"
-                    android:textAllCaps="false"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="45dp"-->
-            <!--                android:layout_marginBottom="5dp"-->
-            <!--                android:orientation="horizontal">-->
-
-            <!--                <CheckBox-->
-            <!--                    android:id="@+id/category_btn_1"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="match_parent"-->
-            <!--                    android:layout_weight="0.3"-->
-            <!--                    android:background="@drawable/checkbox_selection"-->
-            <!--                    android:button="@color/colorTransparent"-->
-            <!--                    android:letterSpacing="-0.02"-->
-            <!--                    android:text="Career"-->
-            <!--                    android:textAlignment="center"-->
-            <!--                    android:textAllCaps="false"-->
-            <!--                    android:textColor="@color/colorTextDarkGray"-->
-            <!--                    android:textSize="13sp"-->
-            <!--                    style="?attr/materialButtonOutlinedStyle"-->
-            <!--                    />-->
-
-            <!--                <CheckBox-->
-            <!--                    android:id="@+id/category_btn_2"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="match_parent"-->
-            <!--                    android:layout_marginLeft="5dp"-->
-            <!--                    android:layout_weight="0.3"-->
-            <!--                    android:background="@drawable/checkbox_selection"-->
-            <!--                    android:button="@color/colorTransparent"-->
-            <!--                    android:letterSpacing="-0.02"-->
-            <!--                    android:text="Family"-->
-            <!--                    android:textAlignment="center"-->
-            <!--                    android:textAllCaps="false"-->
-            <!--                    android:textColor="@color/colorTextDarkGray"-->
-            <!--                    android:textSize="13sp"-->
-            <!--                    style="?attr/materialButtonOutlinedStyle"-->
-            <!--                    />-->
-
-            <!--                <CheckBox-->
-            <!--                    android:id="@+id/category_btn_3"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="match_parent"-->
-            <!--                    android:layout_marginLeft="5dp"-->
-            <!--                    android:layout_weight="0.3"-->
-            <!--                    android:background="@drawable/checkbox_selection"-->
-            <!--                    android:button="@color/colorTransparent"-->
-            <!--                    android:letterSpacing="-0.02"-->
-            <!--                    android:text="Leisure"-->
-            <!--                    android:textAlignment="center"-->
-            <!--                    android:textAllCaps="false"-->
-            <!--                    android:textColor="@color/colorTextDarkGray"-->
-            <!--                    android:textSize="13sp"-->
-            <!--                    style="?attr/materialButtonOutlinedStyle"-->
-            <!--                    />-->
-
-            <!--            </LinearLayout>-->
-
-            <!--            <com.google.android.material.button.MaterialButton-->
-            <!--                android:id="@+id/btn_ToFragmentTwo"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="10dp"-->
-            <!--                android:elevation="10dp"-->
-            <!--                android:letterSpacing="-0.02"-->
-            <!--                android:padding="10dp"-->
-            <!--                android:text="Next"-->
-            <!--                android:textAllCaps="false"-->
-            <!--                android:textSize="14sp"-->
-            <!--                app:backgroundTint="@color/colorPrimary"-->
-            <!--                app:cornerRadius="5dp"-->
-            <!--                app:icon="@drawable/ic_baseline_arrow_forward_24"-->
-            <!--                app:iconGravity="textEnd" />-->
 
         </LinearLayout>
 
@@ -409,9 +345,10 @@
             android:id="@+id/linear_layout_create_goal_1_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="36dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="32dp"
             android:orientation="horizontal"
+            android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_1">
 
@@ -422,7 +359,8 @@
                 android:layout_marginHorizontal="4dp"
                 android:layout_marginTop="4dp"
                 android:text="NEXT"
-                android:textColor="@color/colorTextLightGray" />
+                android:textColor="@color/colorTextLightGray"
+                android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_view_create_goal_1_to_2"

@@ -40,11 +40,7 @@ class CreateGoalFragment_1 : Fragment() {
 
         configureToolbar()
 
-        tv_next_to_fragment_2.setOnClickListener {
-            navigateToFragment2()
-        }
-
-        image_view_create_goal_1_to_2.setOnClickListener {
+        linear_layout_create_goal_1_bottom.setOnClickListener {
             navigateToFragment2()
         }
     }
@@ -61,7 +57,7 @@ class CreateGoalFragment_1 : Fragment() {
             et_goalPrice.text.toString().toDouble() < 0.01 -> errors["amount"] =
                 "Needs to be more than 0"
             Regex("\\d+?\\.\\d{3,}").matches(et_goalPrice.text.toString()) -> errors["amount"] =
-                "Cents can't be more then 2 digits"
+                "Cents can't be more than 2 digits"
         }
 
         if (errors.isNotEmpty()) {
@@ -98,7 +94,7 @@ class CreateGoalFragment_1 : Fragment() {
                 putStringArrayList("pids", bundle?.getStringArrayList("pids"))
             }
 
-            fragmentUtils.replace(createGoalFragment2, setTargetFragment = this, requestCode = -1)
+            fragmentUtils.replace(createGoalFragment2, setTargetFragment = this, requestCode = -1, animate = false)
         }
     }
 
