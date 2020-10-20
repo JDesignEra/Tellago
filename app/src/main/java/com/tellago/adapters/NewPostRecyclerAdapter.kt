@@ -214,7 +214,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         )
         val progressBarOptionVote =
             ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal)
-        progressBarOptionVote.setBackgroundResource(color.colorBackground)
+        progressBarOptionVote.setBackgroundResource(color.colorWhiteBackground)
 //        progressBarOptionVote.setBackgroundColor(color.colorWarning)
 //        progressBarOptionVote.background = drawable.gradient_background.toDrawable()
         progressBarOptionVote.isIndeterminate = false

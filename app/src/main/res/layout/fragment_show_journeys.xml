@@ -23,14 +23,14 @@
                 android:id="@+id/appBarLayout_show_journeys"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorBackground"
+                android:background="@color/colorWhiteBackground"
                 app:elevation="0dp">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar_show_journeys"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colorBackground"
+                    android:background="@color/colorWhiteBackground"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:navigationIcon="@drawable/toolbar_back_icon"
                     app:title="Journey Toward Your Goal" />

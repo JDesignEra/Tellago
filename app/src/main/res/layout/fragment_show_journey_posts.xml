@@ -30,7 +30,7 @@
                     android:id="@+id/toolbar_view_journey_posts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorBackground"
+                    android:background="@color/colorWhiteBackground"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:title="Journey and Posts" >
 

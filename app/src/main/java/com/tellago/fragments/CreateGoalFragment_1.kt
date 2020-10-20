@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
+import com.google.android.material.button.MaterialButton
 import com.tellago.R
 import com.tellago.activities.GoalsActivity
 import com.tellago.models.Goal
@@ -77,9 +79,7 @@ class CreateGoalFragment_1 : Fragment() {
                 if (btnId == 2131230880) categories.add("leisure")
             }
 
-
-
-            categories_toggleGrp.addOnButtonCheckedListener { group, checkedId, isChecked ->  }
+//            categories_toggleGrp.addOnButtonCheckedListener { group, checkedId, isChecked ->  }
 
             Log.d("checkedButtonIds", categories_toggleGrp.checkedButtonIds.toString())
 

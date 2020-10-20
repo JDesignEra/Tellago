@@ -5,7 +5,7 @@
     android:id="@+id/sign_in_methods_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/colorWhiteBackground"
     android:orientation="vertical"
     tools:context=".activities.GuestScrollingActivity">
 
@@ -52,7 +52,7 @@
         android:layout_gravity="end|top"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/colorBackground"
+        android:background="@color/colorWhiteBackground"
         android:backgroundTint="@color/colorPrimaryLight"
         android:clickable="true"
         android:focusable="true"

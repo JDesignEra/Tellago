@@ -93,7 +93,7 @@
                                     android:id="@+id/button_edit_profile"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:backgroundTint="@color/colorBackground"
+                                    android:backgroundTint="@color/colorWhiteBackground"
                                     android:text="@string/edit_profile"
                                     android:textSize="14sp"
                                     android:textAllCaps="false"

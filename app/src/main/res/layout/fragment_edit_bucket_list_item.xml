@@ -21,7 +21,7 @@
                 android:id="@+id/toolbar_edit_bucket_list_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorBackground"
+                android:background="@color/colorWhiteBackground"
                 android:elevation="0dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways"
