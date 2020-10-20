@@ -54,7 +54,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
-            android:id="@+id/linear_layout_create_goal_3"
+            android:id="@+id/linear_layout_create_goal_3_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="28dp"
@@ -68,18 +68,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorBackgroundTintGrey"
+                android:background="@drawable/dark_grey_background_with_corner_radius"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="26dp"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="16dp"
                     android:letterSpacing="-0.02"
                     android:text="STEP THREE"
                     android:textColor="@color/colorTextLightGray"
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -141,13 +141,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="26dp"
-                    android:layout_marginBottom="18dp"
+                    android:layout_marginBottom="16dp"
                     android:text="Note -  Select stories you have posted before, and add
 them to your Journey."
                     android:textColor="@color/colorTextLightGray"
                     android:textSize="11sp" />
 
             </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_create_goal_3_separator_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_3_1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="14dp"
+                android:src="@color/colorDefaultBackground" />
 
         </LinearLayout>
 
@@ -161,7 +175,7 @@ them to your Journey."
             app:layout_constraintBottom_toTopOf="@id/recycler_view"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_3">
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_3_separator_1">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_journey_title"
