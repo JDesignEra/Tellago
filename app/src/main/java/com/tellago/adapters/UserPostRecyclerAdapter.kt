@@ -83,8 +83,8 @@ class UserPostRecyclerAdapter(private var items: List<UserPost>) :
 
             // allow glide to LOAD (image URI from Firebase storage?) INTO post_image
             if (userPost.image == "NIL") {
-                post_image.maxWidth = 0;
-                post_image.maxHeight = 0;
+                post_image.maxWidth = 0
+                post_image.maxHeight = 0
                 GlideApp.with(itemView.context)
                     .applyDefaultRequestOptions(requestOptions)
                     .load(userPost.image)

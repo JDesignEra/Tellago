@@ -9,6 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorDefaultBackground"
         android:clipChildren="false">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -141,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="26dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="4dp"
                     android:text="Note -  Select stories you have posted before, and add
 them to your Journey."
                     android:textColor="@color/colorTextLightGray"
@@ -149,13 +150,97 @@ them to your Journey."
 
             </LinearLayout>
 
+
+            <LinearLayout
+                android:id="@+id/linear_layout_create_goal_3_separator_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_3_1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:src="@color/colorDefaultBackground" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_background_with_corner_radius"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_3_separator_1">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/header_background_rectangle">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="26dp"
+                        android:layout_marginVertical="4dp"
+                        android:text="Journey Name"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorTextDarkGray"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_journey_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/white_background_with_corner_radius"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_3_separator_1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_journeyTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_weight="0.75"
+                        android:maxLines="2" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_clearSelection"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_weight="0.25"
+                        android:backgroundTint="@color/superlightgray"
+                        app:elevation="10dp"
+                        app:icon="@drawable/ic_baseline_clear_all_24"
+                        app:iconGravity="textEnd"
+                        app:iconPadding="0dp"
+                        app:iconTint="@color/colorTextDarkGray" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linear_layout_create_goal_3_separator_1"
+            android:id="@+id/linear_layout_create_goal_3_separator_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_3_1"
+            app:layout_constraintTop_toBottomOf="@+id/linear_layout_create_goal_3_1"
             android:orientation="horizontal">
 
             <ImageView
@@ -166,116 +251,123 @@ them to your Journey."
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/linearLayout_journey_title"
+            android:id="@+id/linear_layout_recycler_view_post_create_goal_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/recycler_view"
+            android:layout_height="380dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/colorWhiteBackground"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_3_separator_1">
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_create_goal_3_separator_2"
+            app:layout_constraintBottom_toTopOf="@id/constraint_layout_create_goal_3_bottom_navigation_btn"
+            android:orientation="vertical"
+            >
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout_journey_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_weight="1"
-                android:hint="Name your Journey"
-                app:boxBackgroundColor="@color/lightGray"
-                app:startIconDrawable="@drawable/ic_baseline_directions_run_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_journey_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_clearSelection"
+            <LinearLayout
+                android:id="@+id/linear_layout_create_goal_3_2"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="15dp"
-                android:layout_weight=".6"
-                android:backgroundTint="@color/superlightgray"
-                app:elevation="10dp"
-                app:icon="@drawable/ic_baseline_clear_all_24"
-                app:iconGravity="textEnd"
-                app:iconPadding="0dp"
-                app:iconTint="@color/colorTextDarkGray" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/header_background_rectangle">
 
-        </LinearLayout>
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="26dp"
+                    android:layout_marginVertical="4dp"
+                    android:text="Select Posts"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/lightGray"
-            app:layout_constraintBottom_toTopOf="@id/linear_layout_create_goal_3_bottom"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linearLayout_journey_title">
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_create_goal_show_posts"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_create_goal_3_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginHorizontal="32dp"
-            android:layout_marginTop="20dp"
-            android:clipChildren="false"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_view">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_BackToFragmentTwo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:elevation="10dp"
-                android:letterSpacing="-0.02"
-                android:padding="10dp"
-                android:text="Back"
-                android:textAllCaps="false"
-                android:textColor="@color/colorTextDarkGray"
-                android:textSize="14sp"
-                app:backgroundTint="@color/superlightgray"
-                app:cornerRadius="5dp"
-                app:icon="@drawable/ic_baseline_arrow_back_24"
-                app:iconGravity="textStart"
-                app:iconTint="@color/colorTextDarkGray" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_CreateGoal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_weight="1"
-                android:elevation="10dp"
-                android:letterSpacing="-0.02"
-                android:padding="12dp"
-                android:text="Create Goal"
-                android:textAllCaps="false"
-                android:textSize="14sp"
-                app:backgroundTint="@color/colorPrimary"
-                app:cornerRadius="5dp" />
+                android:layout_height="340dp"
+                android:background="@color/colorWhiteBackground"
+                />
 
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout_create_goal_3_bottom_navigation_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="28dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+
+            <LinearLayout
+                android:id="@+id/linear_layout_create_goal_3_bottom_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageView_BackToFragmentOne"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:src="@drawable/back_arrow_btn" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_back_to_fragment_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginTop="4dp"
+                    android:text="BACK"
+                    android:textColor="@color/colorTextLightGray"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linear_layout_create_goal_3_bottom_finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_next_to_fragment_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:layout_marginTop="4dp"
+                    android:text="FINISH"
+                    android:textColor="@color/colorTextLightGray"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageView_ToFragmentThree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    android:src="@drawable/next_icon" />
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

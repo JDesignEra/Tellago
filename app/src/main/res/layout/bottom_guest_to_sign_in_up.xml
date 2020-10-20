@@ -24,7 +24,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/linear_layout_recycler_view_post_create_goal_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="5dp"

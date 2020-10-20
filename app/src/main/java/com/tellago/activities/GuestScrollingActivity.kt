@@ -96,7 +96,7 @@ class GuestScrollingActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         Log.d("initRecyclerView()", "FIRED")
         // recyclerview from bottom_guest_to_sign_in_up.xml
-        recycler_view.apply {
+        linear_layout_recycler_view_post_create_goal_item.apply {
 
             // Step 1: set layoutManager for recyclerview
             layoutManager = LinearLayoutManager(this@GuestScrollingActivity)

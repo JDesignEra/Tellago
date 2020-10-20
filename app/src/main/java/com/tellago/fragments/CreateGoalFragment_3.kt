@@ -71,16 +71,14 @@ class CreateGoalFragment_3 : Fragment() {
         if (pids != null) adapter?.setPids(pids!!)
 
         if (bundle.getBoolean(ShowJourneyPostsFragment::class.java.name, false)) {
-            btn_BackToFragmentTwo.isEnabled = false
-            btn_CreateGoal.text = "Save Changes"
-            et_journey_title.setText(bundle.getString("journeyTitle"))
+            linear_layout_create_goal_3_bottom_back.isEnabled = false
+            et_journeyTitle.setText(bundle.getString("journeyTitle"))
         }
         else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
-            btn_BackToFragmentTwo.isEnabled = false
-            btn_CreateGoal.text = "Create Journey"
+            linear_layout_create_goal_3_bottom_back.isEnabled = false
         }
 
-        btn_BackToFragmentTwo.setOnClickListener {
+        linear_layout_create_goal_3_bottom_back.setOnClickListener {
             val intent = Intent(requireContext(), this::class.java)
             intent.putExtra("pids", adapter?.getPids())
 
@@ -93,13 +91,13 @@ class CreateGoalFragment_3 : Fragment() {
             adapter?.clearSelections()
         }
 
-        btn_CreateGoal.setOnClickListener {
+        linear_layout_create_goal_3_bottom_finish.setOnClickListener {
             if (bundle.getBoolean(ShowJourneyPostsFragment::class.java.name, false)) {
                 pids = adapter?.getPids() ?: ArrayList()
 
-                if (et_journey_title.text.toString().isBlank()) et_journey_title.error = "Field is required"
+                if (et_journeyTitle.text.toString().isBlank()) et_journeyTitle.error = "Field is required"
                 else {
-                    Journey(jid = bundle.getString("jid"), uid = user?.uid, title = et_journey_title.text.toString(), pids = pids!!).updateByJid {
+                    Journey(jid = bundle.getString("jid"), uid = user?.uid, title = et_journeyTitle.text.toString(), pids = pids!!).updateByJid {
                         if (it != null) {
                             toast.success("Journey updated successfully")
                             fragmentUtils.popBackStack()
@@ -111,9 +109,9 @@ class CreateGoalFragment_3 : Fragment() {
             else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
                 pids = adapter?.getPids() ?: ArrayList()
 
-                if (et_journey_title.text.toString().isBlank()) et_journey_title.error = "Field is required"
+                if (et_journeyTitle.text.toString().isBlank()) et_journeyTitle.error = "Field is required"
                 else {
-                    Journey(uid = user?.uid, title = et_journey_title.text.toString(), pids = pids!!).add {
+                    Journey(uid = user?.uid, title = et_journeyTitle.text.toString(), pids = pids!!).add {
                         if (it != null) {
                             toast.success("Journey added successfully")
                             fragmentUtils.popBackStack()
@@ -131,11 +129,11 @@ class CreateGoalFragment_3 : Fragment() {
                 else null
 
                 if (pids != null) {
-                    if (et_journey_title.text.toString().isBlank()) {
-                        et_journey_title.error = "Field is required when you have selected posts"
+                    if (et_journeyTitle.text.toString().isBlank()) {
+                        et_journeyTitle.error = "Field is required when you have selected posts"
                     }
                     else {
-                        goal.addWithJid(et_journey_title.text.toString(), pids!!) {
+                        goal.addWithJid(et_journeyTitle.text.toString(), pids!!) {
                             if (it != null) {
                                 addSuccessRedirect()
                             }
