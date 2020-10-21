@@ -196,7 +196,7 @@
                         app:circularRadius="26.5dp"
                         app:indicatorCornerRadius="6dp"
                         app:indicatorSize="6dp"
-                        app:trackColor="@color/colorUnderlyingBackground" />
+                        app:trackColor="#ddd" />
 
                     <TextView
                         android:id="@+id/tv_overallProgress"
