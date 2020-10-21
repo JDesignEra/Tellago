@@ -77,29 +77,10 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:id="@+id/appBarLayout_view_goal_details"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/colorDefaultBackground"-->
-<!--        app:elevation="0dp"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/toolbar_view_goal_details"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            android:background="@color/colorDefaultBackground"-->
-<!--            app:title="Goal Details" />-->
-
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
-
     <LinearLayout
         android:id="@+id/linearLayout_heroHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="70dp"
         android:layout_marginBottom="11dp"
         android:paddingBottom="15dp"
@@ -113,7 +94,8 @@
         <com.synnapps.carouselview.CarouselView
             android:id="@+id/heroHeader_carouselView"
             android:layout_width="match_parent"
-            android:layout_height="176dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:indicatorVisibility="gone"
             app:slideInterval="5000" />
 
@@ -122,7 +104,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="5dp"
+                android:layout_marginHorizontal="3dp"
+                android:src="@drawable/progress_rectangle_selected" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -130,7 +120,7 @@
         android:id="@+id/constraintLayout_contents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="52dp"
         android:layout_marginHorizontal="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
