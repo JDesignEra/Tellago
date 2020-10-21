@@ -33,6 +33,7 @@
                 android:id="@+id/iv_gIcon"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginEnd="7dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_android_photo"
@@ -42,91 +43,71 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="7dp"
+                android:layout_marginEnd="17dp"
                 android:orientation="vertical"
                 android:gravity="center_vertical">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <TextView
+                    android:id="@+id/tv_gTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:text="Title"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textStyle="bold"
+                    android:maxLines="2" />
+
+                <TextView
+                    android:id="@+id/tv_gFullAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="$0"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorTextDarkGray" />
+
+                <com.google.android.material.progressindicator.ProgressIndicator
+                    android:id="@+id/progress_bar_progressAmt_layout_goal"
+                    style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Determinate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    android:layout_gravity="top">
+                    android:layout_marginBottom="6dp"
+                    android:background="@color/colorTransparent"
+                    app:indicatorSize="7dp"
+                    app:indicatorCornerRadius="7dp"
+                    app:trackColor="@color/colorWhiteBackground" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_createdOn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/progress_bar_progressAmt_layout_goal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent">
 
                     <TextView
-                        android:id="@+id/tv_gTitle"
+                        android:id="@+id/tv_TitleForPostDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="2dp"
-                        android:text="Title"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorTextDarkGray"
-                        android:textStyle="bold"
-                        android:maxLines="2"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/tv_gFullAmount"/>
+                        android:text="on "
+                        android:textSize="11sp"
+                        android:textColor="@color/colorTextLightGray"
+                        />
 
                     <TextView
-                        android:id="@+id/tv_gFullAmount"
+                        android:id="@+id/tv_gCreationDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="$0"
-                        android:textSize="20sp"
-                        android:textColor="@color/colorTextDarkGray"
-                        app:layout_constraintBottom_toTopOf="@id/progress_bar_progressAmt_layout_goal"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_gTitle" />
+                        android:text="31/12/2021"
+                        android:textSize="11sp"
+                        android:textColor="@color/colorTextLightGray"/>
 
-                    <com.google.android.material.progressindicator.ProgressIndicator
-                        android:id="@+id/progress_bar_progressAmt_layout_goal"
-                        style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Determinate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="17dp"
-                        android:layout_marginBottom="6dp"
-                        android:background="@color/colorTransparent"
-                        app:indicatorSize="7dp"
-                        app:indicatorCornerRadius="7dp"
-                        app:trackColor="@color/colorWhiteBackground"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_gFullAmount"
-                        app:layout_constraintBottom_toTopOf="@+id/linearLayout_createdOn"/>
-
-                    <LinearLayout
-                        android:id="@+id/linearLayout_createdOn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@id/progress_bar_progressAmt_layout_goal"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent">
-
-                        <TextView
-                            android:id="@+id/tv_TitleForPostDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="on "
-                            android:textSize="11sp"
-                            android:textColor="@color/colorTextLightGray"
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_gCreationDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="31/12/2021"
-                            android:textSize="11sp"
-                            android:textColor="@color/colorTextLightGray"
-                            />
-
-                    </LinearLayout>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
             </LinearLayout>
-
 
         </LinearLayout>
 
