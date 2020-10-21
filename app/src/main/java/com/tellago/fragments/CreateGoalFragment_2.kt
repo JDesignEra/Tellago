@@ -152,7 +152,7 @@ class CreateGoalFragment_2 : Fragment() {
             putAll(bundle)
         }
 
-        fragmentUtils.replace(createGoalFragment3, setTargetFragment = this, requestCode = -1, animate = false)
+        fragmentUtils.replace(createGoalFragment3, setTargetFragment = this, requestCode = -1)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

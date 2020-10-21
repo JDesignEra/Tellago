@@ -25,7 +25,7 @@ class AboutUsScrollingFragment : Fragment() {
     }
 
     private fun configureToolbar() {
-        toolbar_AboutUs.setNavigationIcon(R.drawable.back_arrow_btn)
+        toolbar_AboutUs.setNavigationIcon(R.drawable.toolbar_back_icon)
         toolbar_AboutUs.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
             activity?.supportFragmentManager?.popBackStack()

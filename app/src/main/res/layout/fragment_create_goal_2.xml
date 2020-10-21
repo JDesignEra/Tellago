@@ -432,7 +432,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginHorizontal="4dp"
-                    android:src="@drawable/back_arrow_btn" />
+                    android:src="@drawable/toolbar_back_icon" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_back_to_fragment_1"

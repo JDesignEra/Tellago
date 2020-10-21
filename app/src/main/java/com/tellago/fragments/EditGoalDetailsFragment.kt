@@ -171,7 +171,7 @@ class EditGoalDetailsFragment : Fragment() {
     }
 
     private fun configureToolbar() {
-        toolbar_edit_goal_details.setNavigationIcon(R.drawable.back_arrow_btn)
+        toolbar_edit_goal_details.setNavigationIcon(R.drawable.toolbar_back_icon)
         toolbar_edit_goal_details.setNavigationOnClickListener {
             fragmentUtils.popBackStack()
         }

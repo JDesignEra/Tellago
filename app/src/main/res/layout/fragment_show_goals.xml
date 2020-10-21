@@ -8,53 +8,87 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorDefaultBackground"
+        android:clipChildren="false">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout_show_goals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhiteBackground"
+            android:background="@color/colorDefaultBackground"
             app:elevation="0dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_show_goals"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorWhiteBackground"
+                android:layout_height="wrap_content"
+                android:background="@color/colorTransparent"
+                android:elevation="0dp"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:navigationIcon="@drawable/back_arrow_btn"
-                app:title="Your Goals" />
+                app:navigationIcon="@drawable/toolbar_cancel_icon">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraint_layout_show_goals_add_goal_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/toolbar_add_goal_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/toolbar_add_icon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_add_goal_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="Add Item"
+                            android:textColor="@color/colorPrimary"
+                            android:textFontWeight="700"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/toolbar_add_goal_item"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:textAllCaps="true" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_show_goals_fragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingBottom="72dp"
             android:clipToPadding="false"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout_show_goals"
+            android:paddingBottom="72dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_goal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"
-            app:borderWidth="0dp"
-            app:elevation="4dp"
-            app:backgroundTint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_baseline_add_48_white"
-            app:tint="@color/colorWhiteBackground"
-            app:maxImageSize="32dp"
-            app:rippleColor="@color/colorWhiteBackground"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout_show_goals" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

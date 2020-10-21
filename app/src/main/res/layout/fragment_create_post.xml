@@ -26,7 +26,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorWhiteBackground"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:navigationIcon="@drawable/back_arrow_btn"
+                app:navigationIcon="@drawable/toolbar_back_icon"
                 app:title="Create New Post" />
 
         </com.google.android.material.appbar.AppBarLayout>

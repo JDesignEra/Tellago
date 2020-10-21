@@ -56,7 +56,8 @@ class ShowGoalsFragment : Fragment() {
         recycler_view_show_goals_fragment.layoutManager = LinearLayoutManager(requireContext())
         recycler_view_show_goals_fragment.adapter = adapter
 
-        fab_add_goal.setOnClickListener {
+
+        constraint_layout_show_goals_add_goal_item.setOnClickListener {
             fragmentUtils.replace(
                 CreateGoalFragment_1(),
                 enter = R.anim.fragment_close_enter,

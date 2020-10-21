@@ -175,7 +175,7 @@ class ShowGoalDetailsFragment : Fragment() {
     }
 
     private fun configureToolbar() {
-        toolbar_view_goal_details.setNavigationIcon(R.drawable.back_arrow_btn)
+        toolbar_view_goal_details.setNavigationIcon(R.drawable.toolbar_back_icon)
         toolbar_view_goal_details.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
             fragmentUtils.popBackStack()

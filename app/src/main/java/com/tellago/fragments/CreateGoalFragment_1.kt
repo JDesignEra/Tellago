@@ -94,7 +94,7 @@ class CreateGoalFragment_1 : Fragment() {
                 putStringArrayList("pids", bundle?.getStringArrayList("pids"))
             }
 
-            fragmentUtils.replace(createGoalFragment2, setTargetFragment = this, requestCode = -1, animate = false)
+            fragmentUtils.replace(createGoalFragment2, setTargetFragment = this, requestCode = -1)
         }
     }
 

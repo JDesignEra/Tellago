@@ -82,7 +82,7 @@ class GoalsActivity : AppCompatActivity() {
         val actionbar: ActionBar? = supportActionBar
         actionbar?.setTitle("")
         actionbar?.setDisplayHomeAsUpEnabled(true)
-        actionbar?.setHomeAsUpIndicator(R.drawable.back_arrow_btn)
+        actionbar?.setHomeAsUpIndicator(R.drawable.toolbar_back_icon)
 
         (toolbar_createGoal as Toolbar?)?.setNavigationOnClickListener {
             if (intentFrom == "add") {
