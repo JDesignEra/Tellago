@@ -1,6 +1,7 @@
 package com.tellago.adapters
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
+import com.firebase.ui.common.ChangeEventType
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.DocumentSnapshot
 import com.tellago.R
 import com.tellago.fragments.ShowGoalDetailsFragment
 import com.tellago.models.Goal
@@ -25,6 +28,11 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.layout_goal_list_item, parent, false)
         return GoalViewHolder(view)
+    }
+
+    override fun onViewAttachedToWindow(holder: GoalViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        holder.progressBar.visibility = View.VISIBLE
     }
 
     override fun onBindViewHolder(holder: GoalViewHolder, position: Int, model: Goal) {
@@ -66,9 +74,7 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
             totalProgress = progressAmtPercentFloat
         }
 
-        // Initial load
         holder.progressBar.progress = totalProgress.toInt()
-        Log.d("progressBar initial", "${holder.progressBar.progress} // ${model.title}")
 
         when {
             "leisure" in model.categories -> {

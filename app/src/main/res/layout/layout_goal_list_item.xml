@@ -75,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
                     android:background="@color/colorTransparent"
+                    android:visibility="visible"
                     app:indicatorSize="7dp"
                     app:indicatorCornerRadius="7dp"
                     app:trackColor="@color/colorWhiteBackground" />
