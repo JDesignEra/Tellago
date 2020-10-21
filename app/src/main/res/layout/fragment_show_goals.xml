@@ -16,7 +16,7 @@
             android:id="@+id/recycler_view_show_goals_fragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:paddingVertical="10dp"
             android:clipToPadding="false"
             app:layout_constraintRight_toRightOf="parent"
