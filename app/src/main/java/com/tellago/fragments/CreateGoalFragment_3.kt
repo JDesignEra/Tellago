@@ -3,6 +3,7 @@ package com.tellago.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,6 +77,11 @@ class CreateGoalFragment_3 : Fragment() {
         }
         else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
             linear_layout_create_goal_3_bottom_back.isEnabled = false
+        }
+
+        text_view_note_create_goal_fragment_3.error = "."
+        text_view_note_create_goal_fragment_3.setOnClickListener {
+            toast.warning(msg = "Select posts to add to your Journey.", gravity = Gravity.TOP or Gravity.END)
         }
 
         linear_layout_create_goal_3_bottom_back.setOnClickListener {
