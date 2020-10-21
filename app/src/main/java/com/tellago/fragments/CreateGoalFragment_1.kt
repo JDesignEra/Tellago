@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import com.tellago.R
@@ -15,6 +16,7 @@ import com.tellago.activities.GoalsActivity
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_1.*
+import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 
 class CreateGoalFragment_1 : Fragment() {
     private var goal: Goal = Goal()
@@ -67,15 +69,24 @@ class CreateGoalFragment_1 : Fragment() {
             val createGoalFragment2 = CreateGoalFragment_2()
             val categories = ArrayList<String>()
 
+            val uniqueBtnIDList : java.util.ArrayList<Int> = java.util.ArrayList()
+            val toggleGrpButtonCount = categories_toggleGrp.childCount
+            Log.d("childCount", categories_toggleGrp.childCount.toString())
+            for (index in 0 .. (toggleGrpButtonCount - 1))
+            {
+                Log.d("Unique ID", (categories_toggleGrp[index].id).toString())
+                uniqueBtnIDList.add(categories_toggleGrp[index].id)
+            }
+
+
             for (btnId in categories_toggleGrp.checkedButtonIds)
             {
                 // use r.id_int instead of unique ID for the buttons
-                if (btnId == 2131230873) categories.add("career")
-                if (btnId == 2131230878) categories.add("family")
-                if (btnId == 2131230880) categories.add("leisure")
+                if (btnId == categories_toggleGrp[0].id) categories.add("career")
+                if (btnId == categories_toggleGrp[1].id) categories.add("family")
+                if (btnId == categories_toggleGrp[2].id) categories.add("leisure")
             }
 
-//            categories_toggleGrp.addOnButtonCheckedListener { group, checkedId, isChecked ->  }
 
             Log.d("checkedButtonIds", categories_toggleGrp.checkedButtonIds.toString())
 
