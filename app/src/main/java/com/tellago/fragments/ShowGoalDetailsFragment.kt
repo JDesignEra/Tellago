@@ -113,8 +113,8 @@ class ShowGoalDetailsFragment : Fragment() {
         else (monetaryPercent + bucketListPercent) / 2
 
         tv_overallProgress.text = "$overallPercent%"
-        tv_title.text = goal.title
-        tv_deadline.text = dateFormatter.format(goal.deadline)
+        tv_title.text = goal.title.toUpperCase()
+        tv_deadline.text = "by ${dateFormatter.format(goal.deadline)}"
 
         Handler().post {
             progressIndicator_overallProgress.progress = overallPercent
