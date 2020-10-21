@@ -126,8 +126,23 @@ class ShowJourneyPostsFragment : Fragment() {
             }
         }
 
+
+        // Same functionality for both constraint_layout_show_journey_posts_add_post and btn_edit_journey_posts
+        // on click listeners
+        constraint_layout_show_journey_posts_add_post.setOnClickListener {
+            val createGoalFragment3 = CreateGoalFragment_3()
+            createGoalFragment3.arguments = Bundle().apply {
+                putBoolean(ShowJourneyPostsFragment::class.java.name, true)
+                putStringArrayList("pids", journey.pids)
+                putString("journeyTitle", journey.title)
+                putString("jid", journey.jid)
+            }
+
+            fragmentUtils.replace(createGoalFragment3)
+        }
+
         // TODO: Use a separate fragment instead in the future.
-        fab_edit_journey_posts.setOnClickListener {
+        btn_edit_journey_posts.setOnClickListener {
             val createGoalFragment3 = CreateGoalFragment_3()
             createGoalFragment3.arguments = Bundle().apply {
                 putBoolean(ShowJourneyPostsFragment::class.java.name, true)
@@ -156,8 +171,11 @@ class ShowJourneyPostsFragment : Fragment() {
         // It will not be possible to collapse toolbar & floating action button when scrolling as these elements belong to ShowJourneyPostsFragment
         // not within an Activity which contains a fragment_container for the recycler view
 
-        toolbar_view_journey_posts.title = "Journey: ${journey.title}"
-        toolbar_view_journey_posts.setNavigationIcon(R.drawable.toolbar_back_icon)
+
+
+        text_view_journey_title.text = "Journey: ${journey.title}"
+//        text_view_journey_creation_date.text =
+
         toolbar_view_journey_posts.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
             fragmentUtils.popBackStack()

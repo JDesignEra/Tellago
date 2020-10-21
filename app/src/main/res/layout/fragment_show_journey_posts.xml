@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorDefaultBackground">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coord_layout_show_journey_posts"
@@ -24,21 +25,140 @@
                 android:id="@+id/appBarLayout_view_journey_posts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorTextDarkGray"
                 app:elevation="0dp">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar_view_journey_posts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorWhiteBackground"
+                    android:background="@color/colorTextDarkGray"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:title="Journey and Posts" >
+                    app:navigationIcon="@drawable/toolbar_back_icon">
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:background="@color/colorTransparent">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraint_layout_show_journey_posts_add_post"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/image_view_show_journey_posts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:src="@drawable/toolbar_add_icon"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/text_view_show_journey_posts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:text="Add Post"
+                                android:textColor="@color/colorWhiteBackground"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintRight_toLeftOf="@id/image_view_show_journey_posts"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:textAllCaps="true" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorTransparent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/text_view_journey_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:text="Journey Title"
+                                android:textColor="@color/colorWhiteBackground"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toTopOf="@id/linear_layout_journey_creation_date"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:textAllCaps="true" />
+
+                            <LinearLayout
+                                android:id="@+id/linear_layout_journey_creation_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="12dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/text_view_created_on"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:text="Created on"
+                                    android:textColor="@color/colorWhiteBackground"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:textAllCaps="true" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/text_view_journey_creation_date"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="8dp"
+                                    android:text="31/12/2020"
+                                    android:textColor="@color/colorWhiteBackground"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toEndOf="@id/text_view_created_on"
+                                    app:textAllCaps="true" />
+
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/btn_edit_journey_posts"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_margin="12dp"
+                            android:src="@drawable/toolbar_edit_icon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.AppBarLayout>
 
+
+<!--            <com.google.android.material.textview.MaterialTextView-->
+<!--                android:id="@+id/text_view_date_on_display"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Date On Display" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_show_journey_posts_fragment"
@@ -57,24 +177,9 @@
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="60dp"
                 android:text="There are no posts in this journey. Paint your journey now!"
-                android:textSize="20sp"
                 android:textColor="@color/colorTextBlack"
+                android:textSize="20sp"
                 android:visibility="invisible" />
-
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_edit_journey_posts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="36dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_edit_18"
-                app:borderWidth="0dp"
-                app:layout_scrollFlags="scroll"
-                app:maxImageSize="50dp" />
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
