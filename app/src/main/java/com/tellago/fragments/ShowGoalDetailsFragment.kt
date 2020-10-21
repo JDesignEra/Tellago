@@ -15,6 +15,7 @@ import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -119,6 +120,9 @@ class ShowGoalDetailsFragment : Fragment() {
         Handler().post {
             progressIndicator_overallProgress.progress = overallPercent
         }
+
+        tv_goalAmt.text = DecimalFormat("$#,###").format(goal.targetAmt)
+        tv_currentAmt.text = DecimalFormat("$#,###").format(goal.currentAmt)
 
         val categoryStrToBtn = mapOf<String, Int>(
             "career" to btn_career.id,
