@@ -66,31 +66,21 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
             totalProgress = progressAmtPercentFloat
         }
 
-
         // Initial load
         holder.progressBar.progress = totalProgress.toInt()
-        holder.tvProgress.text = "${totalProgress.toInt()}%"
         Log.d("progressBar initial", "${holder.progressBar.progress} // ${model.title}")
 
-
-        // adjust threshold of colour change from 50% to 55%
-        if (totalProgress.toInt() < 55) holder.tvProgress.setTextColor(
-            getColor(
-                holder.itemView.context,
-                R.color.colorTextDarkGray
-            )
-        )
-
-
-        if ("leisure" in model.categories) {
-            holder.tvIcon.setImageResource(R.drawable.travel_white_bg)
-        } else if ("family" in model.categories) {
-            holder.tvIcon.setImageResource(R.drawable.family_white_bg)
-        } else if ("career" in model.categories) {
-            holder.tvIcon.setImageResource(R.drawable.job_white_bg)
+        when {
+            "leisure" in model.categories -> {
+                holder.tvIcon.setImageResource(R.drawable.travel_white_bg)
+            }
+            "family" in model.categories -> {
+                holder.tvIcon.setImageResource(R.drawable.family_white_bg)
+            }
+            "career" in model.categories -> {
+                holder.tvIcon.setImageResource(R.drawable.job_white_bg)
+            }
         }
-
-
     }
 
     class GoalViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -99,14 +89,10 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
         val tvCreationDate = itemView.tv_gCreationDate
         val tvFullAmt = itemView.tv_gFullAmount
         val progressBar = itemView.progress_bar_progressAmt_layout_goal
-        val tvProgress = itemView.tv_progress
         val tvIcon = itemView.iv_gIcon
-
 
         init {
             val activity: AppCompatActivity = itemView.context as AppCompatActivity
-
-
 
             itemView.cardView_goal_item.setOnClickListener { v: View? ->
                 val showGoalDetailsFragment = ShowGoalDetailsFragment()
@@ -128,5 +114,4 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
             }
         }
     }
-
 }
