@@ -195,7 +195,7 @@
                         android:progress="50"
                         app:circularRadius="26.5dp"
                         app:indicatorCornerRadius="6dp"
-                        app:indicatorSize="6dp"
+                        app:indicatorSize="5dp"
                         app:trackColor="#ddd" />
 
                     <TextView
