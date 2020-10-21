@@ -485,7 +485,7 @@
                     android:layout_marginEnd="6.5dp"
                     android:layout_weight=".5"
                     android:layout_marginTop="8dp"
-                    android:text="Delete"
+                    android:text="Delete Goal"
                     android:textSize="11sp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
