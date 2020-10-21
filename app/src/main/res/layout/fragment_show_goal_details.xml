@@ -44,7 +44,7 @@
                 android:id="@+id/constraint_layout_edit_goal_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="10dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true">
 

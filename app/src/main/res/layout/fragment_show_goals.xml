@@ -57,7 +57,7 @@
                             android:id="@+id/toolbar_add_goal_item"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
+                            android:layout_marginEnd="10dp"
                             android:src="@drawable/toolbar_add_icon"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
