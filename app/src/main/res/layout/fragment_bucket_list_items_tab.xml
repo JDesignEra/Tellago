@@ -46,7 +46,6 @@
                     android:text="Add Item"
                     android:textStyle="bold"
                     android:textSize="13sp"
-                    android:textFontWeight="700"
                     app:textAllCaps="true"
                     app:layout_constraintRight_toLeftOf="@id/toolbar_add_bucketlist_item"
                     app:layout_constraintTop_toTopOf="parent"

@@ -340,7 +340,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="26dp"
                             android:layout_marginVertical="4dp"
-                            android:text="Reminders"
+                            android:text="Reminder Frequency"
                             android:textAllCaps="true"
                             android:textColor="@color/colorTextDarkGray"
                             android:textSize="12sp"
@@ -358,7 +358,7 @@
                         android:layout_marginBottom="16dp"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.radiobutton.MaterialRadioButton
+                        <RadioButton
                             android:id="@+id/radiobutton_reminder_0mth"
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="wrap_content"
@@ -372,7 +372,7 @@
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
-                        <com.google.android.material.radiobutton.MaterialRadioButton
+                        <RadioButton
                             android:id="@+id/radiobutton_reminder_3mth"
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="wrap_content"
@@ -387,7 +387,7 @@
                             android:textSize="12sp"
                             android:textStyle="bold" />
 
-                        <com.google.android.material.radiobutton.MaterialRadioButton
+                        <RadioButton
                             android:id="@+id/radiobutton_reminder_6mth"
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="wrap_content"

@@ -276,7 +276,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="26dp"
                             android:layout_marginVertical="4dp"
-                            android:text="Category"
+                            android:text="Categories"
                             android:textAllCaps="true"
                             android:textColor="@color/colorTextDarkGray"
                             android:textSize="12sp"
