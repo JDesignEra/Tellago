@@ -1,6 +1,7 @@
 package com.tellago.adapters
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.tellago.fragments.ShowGoalDetailsFragment
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.layout_goal_list_item.view.*
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,9 +33,15 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
         holder.model = model
         holder.tvTitle.text = model.title
         holder.tvCreationDate.text = dateFormatter.format(model.createDate)
-        holder.tvFullAmt.text = String.format("$%.2f", model.targetAmt)
+        val decim = DecimalFormat("#,###.##")
 
-        val progressAmtPercentFloat = ((model.currentAmt / model.targetAmt) * 100).toFloat()
+        holder.tvFullAmt.text = String.format("$${decim.format(model.targetAmt)}")
+
+        // save values as variables to reduce loading time when swiping through recycler view items
+        val currentAmt = model.currentAmt
+        val targetAmt = model.targetAmt
+
+        val progressAmtPercentFloat = ((currentAmt / targetAmt) * 100).toFloat()
         val totalProgress: Float
 
         if (model.bucketList.count() != 0) {
@@ -58,10 +66,31 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
             totalProgress = progressAmtPercentFloat
         }
 
+
+        // Initial load
         holder.progressBar.progress = totalProgress.toInt()
         holder.tvProgress.text = "${totalProgress.toInt()}%"
+        Log.d("progressBar initial", "${holder.progressBar.progress} // ${model.title}")
 
-        if (totalProgress.toInt() < 50) holder.tvProgress.setTextColor(getColor(holder.itemView.context, R.color.colorTextDarkGray))
+
+        // adjust threshold of colour change from 50% to 55%
+        if (totalProgress.toInt() < 55) holder.tvProgress.setTextColor(
+            getColor(
+                holder.itemView.context,
+                R.color.colorTextDarkGray
+            )
+        )
+
+
+        if ("leisure" in model.categories) {
+            holder.tvIcon.setImageResource(R.drawable.travel_white_bg)
+        } else if ("family" in model.categories) {
+            holder.tvIcon.setImageResource(R.drawable.family_white_bg)
+        } else if ("career" in model.categories) {
+            holder.tvIcon.setImageResource(R.drawable.job_white_bg)
+        }
+
+
     }
 
     class GoalViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -73,8 +102,11 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
         val tvProgress = itemView.tv_progress
         val tvIcon = itemView.iv_gIcon
 
+
         init {
             val activity: AppCompatActivity = itemView.context as AppCompatActivity
+
+
 
             itemView.cardView_goal_item.setOnClickListener { v: View? ->
                 val showGoalDetailsFragment = ShowGoalDetailsFragment()
@@ -96,4 +128,5 @@ class ShowGoalsRecyclerAdapter(options: FirestoreRecyclerOptions<Goal>) :
             }
         }
     }
+
 }
