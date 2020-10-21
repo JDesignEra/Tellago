@@ -307,7 +307,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="97dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:paddingVertical="4dp"
@@ -347,11 +347,10 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:paddingVertical="4dp"
-                            android:paddingHorizontal="12dp"
                             android:background="@drawable/header_background_rectangle"
                             android:gravity="center"
                             android:text="$ AMOUNT SAVED"
