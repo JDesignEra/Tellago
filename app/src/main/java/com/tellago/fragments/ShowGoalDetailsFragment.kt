@@ -7,14 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getColor
-import androidx.core.content.ContextCompat.getDrawable
-import androidx.core.view.marginEnd
-import androidx.core.view.marginStart
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import com.google.android.material.chip.Chip
+import androidx.viewpager.widget.ViewPager
 import com.tellago.R
 import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
@@ -61,7 +56,7 @@ class ShowGoalDetailsFragment : Fragment() {
 
         linearLayout_heroHeader_indicators.removeAllViews()
 
-        for (v in heroImagesId) {
+        for (i in heroImagesId.indices) {
             val indicatorsImageView = ImageView(requireContext()).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     (30 * resources.displayMetrics.density).roundToInt(),
@@ -72,13 +67,29 @@ class ShowGoalDetailsFragment : Fragment() {
                 }
 
                 scaleType = ImageView.ScaleType.FIT_XY
-                setImageResource(R.drawable.progress_rectangle_unselected)
+
+                if (i == 0) setImageResource(R.drawable.progress_rectangle_selected)
+                else setImageResource(R.drawable.progress_rectangle_unselected)
             }
 
             linearLayout_heroHeader_indicators.addView(indicatorsImageView)
         }
 
         heroHeader_carouselView.apply {
+            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrollStateChanged(state: Int) {}
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+                override fun onPageSelected(position: Int) {
+                    for ((i, v) in linearLayout_heroHeader_indicators.children.withIndex()) {
+                        val indicatorImageView = v as ImageView
+
+                        if (i == position) indicatorImageView.setImageResource(R.drawable.progress_rectangle_selected)
+                        else indicatorImageView.setImageResource(R.drawable.progress_rectangle_unselected)
+                    }
+                }
+            })
+
             setImageListener { position, imageView ->
                 imageView.apply {
                     setImageResource(heroImagesId[position])
@@ -89,131 +100,111 @@ class ShowGoalDetailsFragment : Fragment() {
             pageCount = heroImagesId.size
         }
 
-//        val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-//        val monetaryPercent = (goal.currentAmt / goal.targetAmt * 100).roundToInt()
-//        val bucketListPercent = if (goal.bucketList.size > 0) {
-//            (goal.bucketList.filter { it["completed"] as Boolean }.toMutableList().size.toDouble() / goal.bucketList.size.toDouble() * 100).roundToInt()
-//        }
-//        else 100
-//
-//        val overallPercent = if (goal.bucketList.size < 1) {
-//            monetaryPercent
-//        }
-//        else (monetaryPercent + bucketListPercent) / 2
-//
-//        tv_overallProgress.text = "$overallPercent%"
-//        tv_title.text = goal.title
-//        tv_createDate.text = dateFormatter.format(goal.createDate)
-//        tv_deadline.text = dateFormatter.format(goal.deadline)
-//        if (goal.reminderMonthsFreq > 0) tv_reminderMonthsFreq.text = "Every ${goal.reminderMonthsFreq} months"
-//
-//        if (monetaryPercent < 70) tv_monetary_progress.setTextColor(getColor(requireContext(), R.color.colorTextBlack))
-//        tv_monetary_progress.text = "$%.2f / $%.2f".format(goal.currentAmt, goal.targetAmt)
-//
-//        if (bucketListPercent < 60) tv_bucketList_progress.setTextColor(getColor(requireContext(), R.color.colorTextBlack))
-//        tv_bucketList_progress.text = "${goal.bucketList.filter { it["completed"] as Boolean }.size} / ${goal.bucketList.size}"
-//
-//        Handler().post {
-//            progressIndicator_overallProgress.progress = overallPercent
-//            progressIndicator_monetary.progress = monetaryPercent
-//            progressIndicator_bucketList.progress = bucketListPercent
-//        }
-//
-//        if (goal.categories.size > 0) {
-//            val categoryToDrawableId = mapOf(
-//                "career" to R.drawable.ic_baseline_work_24,
-//                "family" to R.drawable.ic_family_restroom_24,
-//                "leisure" to R.drawable.ic_baseline_local_airport_24
-//            )
-//
-//            for ((idx, category) in goal.categories.withIndex()) {
-//                val chipHolder = Chip(chipGroup_category.context).apply {
-//                    iconEndPadding = chip_category_none.iconEndPadding
-//                    iconStartPadding = chip_category_none.iconStartPadding
-//                    isCheckedIconVisible = chip_category_none.isChipIconVisible
-//                    isCheckable = chip_category_none.isCheckable
-//                    rippleColor = null
-//                    setEnsureMinTouchTargetSize(false)
-//                }
-//
-//                chipHolder.text = category
-//                chipHolder.chipIcon = categoryToDrawableId[category]?.let { getDrawable(requireContext(), it) }
-//                chipGroup_category.addView(chipHolder)
-//            }
-//
-//            chipGroup_category.removeView(chip_category_none)
-//        }
-//
-//        if (goal.completed) {
-//            btn_CompleteGoal.isEnabled = false
-//            btn_CompleteGoal.text = "Completed"
-//        }
-//
-//        btn_Journey_View.setOnClickListener {
-//            val showJourneysFragment = ShowJourneysFragment()
-//
-//            showJourneysFragment.arguments = Bundle().apply {
-//                putParcelable(goal::class.java.name, goal)
-//            }
-//            fragmentUtils.replace(
-//                showJourneysFragment,
-//                enter = R.anim.fragment_close_enter,
-//                exit = R.anim.fragment_open_exit,
-//                popEnter = R.anim.fragment_slide_right_enter,
-//                popExit = R.anim.fragment_slide_right_exit)
-//        }
-//
-//        btn_Bucket_List_View.setOnClickListener {
-//            val showBucketListItemsTabFragment = ShowBucketListItemsTabsFragment()
-//
-//            showBucketListItemsTabFragment.arguments = Bundle().apply {
-//                putParcelable(goal::class.java.name, goal)
-//            }
-//            fragmentUtils.replace(
-//                showBucketListItemsTabFragment,
-//                enter = R.anim.fragment_close_enter,
-//                exit = R.anim.fragment_open_exit,
-//                popEnter = R.anim.fragment_slide_right_enter,
-//                popExit = R.anim.fragment_slide_right_exit)
-//        }
-//
-//
-//        btn_EditGoalDetails.setOnClickListener {
-//            val editGoalDetailsFragment = EditGoalDetailsFragment()
-//
-//            editGoalDetailsFragment.arguments = Bundle().apply {
-//                putParcelable(goal::class.java.name, goal)
-//            }
-//
-//            fragmentUtils.replace(
-//                editGoalDetailsFragment,
-//                enter = R.anim.fragment_close_enter,
-//                exit = R.anim.fragment_open_exit,
-//                popEnter = R.anim.fragment_slide_right_enter,
-//                popExit = R.anim.fragment_slide_right_exit
-//            )
-//        }
-//
-//        btn_CompleteGoal.setOnClickListener {
-//            val bucketFilter = goal.bucketList.toList().filter { !(it["completed"] as Boolean) }
-//
-//            if (goal.currentAmt < goal.targetAmt) {
-//                toast.error("Current Amount needs to be more than or equals to Targeted Amount")
-//            }
-//            else if (!bucketFilter.isNullOrEmpty()) {
-//                toast.error("Bucket List contains in progress item(s)")
-//            }
-//            else {
-//                goal.completed = true
-//                goal.updateCompleteByGid {
-//                    if (it != null) {
-//                        btn_CompleteGoal.isEnabled = false
-//                        toast.success("Goal completed successfully")
-//                    }
-//                    else toast.error("Please try again, there was an issue completing the goal")
-//                }
-//            }
-//        }
+        val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val monetaryPercent = (goal.currentAmt / goal.targetAmt * 100).roundToInt()
+        val bucketListPercent = if (goal.bucketList.size > 0) {
+            (goal.bucketList.filter { it["completed"] as Boolean }.toMutableList().size.toDouble() / goal.bucketList.size.toDouble() * 100).roundToInt()
+        }
+        else 100
+
+        val overallPercent = if (goal.bucketList.size < 1) {
+            monetaryPercent
+        }
+        else (monetaryPercent + bucketListPercent) / 2
+
+        tv_overallProgress.text = "$overallPercent%"
+        tv_title.text = goal.title
+        tv_deadline.text = dateFormatter.format(goal.deadline)
+
+        Handler().post {
+            progressIndicator_overallProgress.progress = overallPercent
+        }
+
+        val categoryStrToBtn = mapOf<String, Int>(
+            "career" to btn_career.id,
+            "family" to btn_family.id,
+            "leisure" to btn_leisure.id
+        )
+
+        goal.categories.forEach {
+            categoryStrToBtn[it]?.let { id -> categories_toggleGrp.check(id) }
+        }
+
+        if (goal.completed) {
+            btn_CompleteGoal.isEnabled = false
+            btn_CompleteGoal.text = "Completed"
+        }
+
+        btn_Journey_View.setOnClickListener {
+            val showJourneysFragment = ShowJourneysFragment()
+
+            showJourneysFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
+            }
+            fragmentUtils.replace(
+                showJourneysFragment,
+                enter = R.anim.fragment_close_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_slide_right_enter,
+                popExit = R.anim.fragment_slide_right_exit)
+        }
+
+        btn_Bucket_List_View.setOnClickListener {
+            val showBucketListItemsTabFragment = ShowBucketListItemsTabsFragment()
+
+            showBucketListItemsTabFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
+            }
+            fragmentUtils.replace(
+                showBucketListItemsTabFragment,
+                enter = R.anim.fragment_close_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_slide_right_enter,
+                popExit = R.anim.fragment_slide_right_exit)
+        }
+
+
+        constraint_layout_edit_goal_details.setOnClickListener {
+            val editGoalDetailsFragment = EditGoalDetailsFragment()
+
+            editGoalDetailsFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
+            }
+
+            fragmentUtils.replace(
+                editGoalDetailsFragment,
+                enter = R.anim.fragment_close_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_slide_right_enter,
+                popExit = R.anim.fragment_slide_right_exit
+            )
+        }
+
+        btn_DeleteGoal.setOnClickListener {
+            Goal(gid = goal.gid).deleteByGid()
+            fragmentUtils.popBackStack()
+        }
+
+        btn_CompleteGoal.setOnClickListener {
+            val bucketFilter = goal.bucketList.toList().filter { !(it["completed"] as Boolean) }
+
+            if (goal.currentAmt < goal.targetAmt) {
+                toast.error("Current Amount needs to be more than or equals to Targeted Amount")
+            }
+            else if (!bucketFilter.isNullOrEmpty()) {
+                toast.error("Bucket List contains in progress item(s)")
+            }
+            else {
+                goal.completed = true
+                goal.updateCompleteByGid {
+                    if (it != null) {
+                        btn_CompleteGoal.isEnabled = false
+                        toast.success("Goal completed successfully")
+                    }
+                    else toast.error("Please try again, there was an issue completing the goal")
+                }
+            }
+        }
     }
 
     private fun configureToolbar() {

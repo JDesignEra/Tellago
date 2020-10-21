@@ -14,9 +14,6 @@ import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
-import kotlinx.android.synthetic.main.fragment_edit_goal_details.category_btn_1
-import kotlinx.android.synthetic.main.fragment_edit_goal_details.category_btn_2
-import kotlinx.android.synthetic.main.fragment_edit_goal_details.category_btn_3
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -132,11 +129,6 @@ class EditGoalDetailsFragment : Fragment() {
                 popExit = R.anim.fragment_slide_right_exit
             )
         }
-
-//        btn_DeleteGoal.setOnClickListener {
-//            Goal(gid = goal.gid).deleteByGid()
-//            fragmentUtils.replace(ShowGoalsFragment())
-//        }
     }
 
     override fun onStart() {

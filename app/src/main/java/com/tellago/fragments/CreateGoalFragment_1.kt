@@ -7,16 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import com.google.android.material.button.MaterialButton
 import com.tellago.R
 import com.tellago.activities.GoalsActivity
 import com.tellago.models.Goal
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_create_goal_1.*
-import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 
 class CreateGoalFragment_1 : Fragment() {
     private var goal: Goal = Goal()
