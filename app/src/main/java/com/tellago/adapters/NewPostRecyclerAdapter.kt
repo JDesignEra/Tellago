@@ -158,7 +158,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
                 durationStr = "${createdDateTime.until(today, ChronoUnit.MONTHS)} months ago"
             }
             createdDateTime.until(today, ChronoUnit.WEEKS) > 0 -> {
-                durationStr = "${createdDateTime.until(today, ChronoUnit.MONTHS)} weeks ago"
+                durationStr = "${createdDateTime.until(today, ChronoUnit.WEEKS)} weeks ago"
             }
             createdDateTime.until(today, ChronoUnit.DAYS) > 0 -> {
                 durationStr = "${createdDateTime.until(today, ChronoUnit.DAYS)} days ago"

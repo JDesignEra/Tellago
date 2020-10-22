@@ -57,10 +57,13 @@ class ShowGoalDetailsFragment : Fragment() {
 
         configureToolbar()
 
+        // We could actually use this for call to action
+        // do a little compute based on the Category (and sub categories) of the Goal
+        // then show relevant products, links, and contact details using the Carousel view
         val heroImagesId = arrayOf(
+            R.drawable.family_invisi_bg,
             R.drawable.job_invisi_bg,
-            R.drawable.job_invisi_bg,
-            R.drawable.job_invisi_bg
+            R.drawable.travel_invisi_bg
         )
 
         linearLayout_heroHeader_indicators.removeAllViews()
