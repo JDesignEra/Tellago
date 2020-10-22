@@ -164,7 +164,7 @@
                 android:id="@+id/recycler_view_show_journey_posts_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="80dp"
                 android:layout_marginBottom="60dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -197,10 +197,32 @@
         <!--            app:layout_constraintStart_toStartOf="parent">-->
 
 
+        <!--        <TextView-->
+        <!--            android:id="@+id/current_month_show_journey_posts"-->
+        <!--            android:layout_width="80dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="November"-->
+        <!--            android:textAlignment="center"-->
+        <!--            android:textColor="@color/colorTextDarkGray"-->
+        <!--            android:textSize="16sp"-->
+        <!--            android:textStyle="bold" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/current_year_show_journey_posts"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="12dp"-->
+        <!--            android:text="2020"-->
+        <!--            android:textAlignment="center"-->
+        <!--            android:textColor="@color/colorTextDarkGray"-->
+        <!--            android:textSize="16sp"-->
+        <!--            android:textStyle="bold" />-->
+
+
         <!--            <TextView-->
         <!--                android:layout_width="wrap_content"-->
         <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginHorizontal="4dp"-->
+        <!--                android:layout_marginHorizontal="26dp"-->
         <!--                android:layout_marginBottom="4dp"-->
         <!--                android:text="2005"-->
         <!--                android:textAlignment="center"-->
@@ -215,8 +237,8 @@
         <!--            <com.tellago.utilities.VerticalSeekBarTopToBottom-->
         <!--                android:id="@+id/vertical_seekbar_top_to_bottom"-->
         <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="400dp"-->
-        <!--                android:layout_marginStart="8dp"-->
+        <!--                android:layout_height="360dp"-->
+        <!--                android:layout_marginStart="30dp"-->
         <!--                android:progress="20" />-->
 
 
@@ -229,7 +251,7 @@
         <!--            <TextView-->
         <!--                android:layout_width="wrap_content"-->
         <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginHorizontal="4dp"-->
+        <!--                android:layout_marginHorizontal="26dp"-->
         <!--                android:layout_marginTop="4dp"-->
         <!--                android:text="2020"-->
         <!--                android:textAlignment="center"-->
@@ -250,9 +272,30 @@
 
 
             <TextView
+                android:id="@+id/current_month_show_journey_posts"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="November"
+                android:textAlignment="center"
+                android:textColor="@color/colorTextDarkGray"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/current_year_show_journey_posts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="2020"
+                android:textAlignment="center"
+                android:textColor="@color/colorTextDarkGray"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
+                android:layout_marginHorizontal="26dp"
                 android:layout_marginBottom="4dp"
                 android:text="2041"
                 android:textAlignment="center"
@@ -267,8 +310,8 @@
             <com.tellago.utilities.VerticalSeekBarBottomToTop
                 android:id="@+id/vertical_seekbar_bottom_to_top"
                 android:layout_width="wrap_content"
-                android:layout_height="400dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="360dp"
+                android:layout_marginStart="30dp"
                 android:progress="5" />
 
 
@@ -281,7 +324,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
+                android:layout_marginHorizontal="26dp"
                 android:layout_marginTop="4dp"
                 android:text="2019"
                 android:textAlignment="center"
