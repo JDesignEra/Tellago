@@ -92,20 +92,6 @@
 
 
             <LinearLayout
-                android:id="@+id/linear_layout_create_goal_1_separator_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="14dp"
-                    android:src="@color/colorDefaultBackground" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_background_with_corner_radius"
@@ -158,6 +144,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/linear_layout_current_amount_edit_goal_details"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -293,6 +280,7 @@
 
 
             <LinearLayout
+                android:id="@+id/linear_layout_target_duration_edit_goal_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_background_with_corner_radius"
@@ -348,6 +336,7 @@
 
 
             <LinearLayout
+                android:id="@+id/linear_layout_reminder_frequency_edit_goal_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_background_with_corner_radius"

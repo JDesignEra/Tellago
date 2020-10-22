@@ -58,10 +58,9 @@ class EditGoalDetailsFragment : Fragment() {
 
         if (goal.completed) {
 //            textInputLayout_targetAmt.visibility = View.GONE
-//            textInputLayout_currentAmt.visibility = View.GONE
-//            textInputLayout_deadline.visibility = View.GONE
-//            tv_reminderFreqTitle.visibility = View.GONE
-            radioGrp_reminder.visibility = View.GONE
+            linear_layout_current_amount_edit_goal_details.visibility = View.GONE
+            linear_layout_target_duration_edit_goal_details.visibility = View.GONE
+            linear_layout_reminder_frequency_edit_goal_details.visibility = View.GONE
         }
 
         if (goal.reminderMonthsFreq == 3) radioBtn_3MonthsReminder.isChecked = true
