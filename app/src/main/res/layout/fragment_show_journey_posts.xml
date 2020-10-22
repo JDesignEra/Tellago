@@ -123,7 +123,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="8dp"
-                                    android:text="31/12/2020"
+                                    android:text="31/12/2019"
                                     android:textColor="@color/colorWhiteBackground"
                                     android:textSize="13sp"
                                     android:textStyle="bold"
@@ -153,17 +153,18 @@
             </com.google.android.material.appbar.AppBarLayout>
 
 
-<!--            <com.google.android.material.textview.MaterialTextView-->
-<!--                android:id="@+id/text_view_date_on_display"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Date On Display" />-->
+            <!--            <com.google.android.material.textview.MaterialTextView-->
+            <!--                android:id="@+id/text_view_date_on_display"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="Date On Display" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_show_journey_posts_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="50dp"
                 android:layout_marginBottom="60dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -183,6 +184,111 @@
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/linear_layout_top_to_bottom_seekbar"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="8dp"-->
+        <!--            android:layout_marginBottom="16dp"-->
+        <!--            android:orientation="vertical"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent">-->
+
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginHorizontal="4dp"-->
+        <!--                android:layout_marginBottom="4dp"-->
+        <!--                android:text="2005"-->
+        <!--                android:textAlignment="center"-->
+        <!--                android:textSize="12sp" />-->
+
+        <!--            <com.google.android.material.imageview.ShapeableImageView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="4dp"-->
+        <!--                android:src="@drawable/header_primary_background_rectangle" />-->
+
+
+        <!--            <com.tellago.utilities.VerticalSeekBarTopToBottom-->
+        <!--                android:id="@+id/vertical_seekbar_top_to_bottom"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="400dp"-->
+        <!--                android:layout_marginStart="8dp"-->
+        <!--                android:progress="20" />-->
+
+
+        <!--            <com.google.android.material.imageview.ShapeableImageView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="4dp"-->
+        <!--                android:src="@drawable/header_primary_background_rectangle" />-->
+
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginHorizontal="4dp"-->
+        <!--                android:layout_marginTop="4dp"-->
+        <!--                android:text="2020"-->
+        <!--                android:textAlignment="center"-->
+        <!--                android:textSize="12sp" />-->
+
+        <!--        </LinearLayout>-->
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout_bottom_to_top_seekbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="2041"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:src="@drawable/header_primary_background_rectangle" />
+
+
+            <com.tellago.utilities.VerticalSeekBarBottomToTop
+                android:id="@+id/vertical_seekbar_bottom_to_top"
+                android:layout_width="wrap_content"
+                android:layout_height="400dp"
+                android:layout_marginStart="8dp"
+                android:progress="5" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:src="@drawable/header_primary_background_rectangle" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="4dp"
+                android:text="2019"
+                android:textAlignment="center"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
