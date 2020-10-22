@@ -389,10 +389,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="7dp"
                         android:paddingVertical="4dp"
-                        android:paddingHorizontal="19dp"
                         android:background="@drawable/header_background_rectangle"
                         android:gravity="center"
-                        android:text="CATEGORY"
+                        android:text="CATEGORIES"
                         android:textSize="11sp"
                         android:textColor="@color/colorTextDarkGray"
                         android:textStyle="bold"/>
