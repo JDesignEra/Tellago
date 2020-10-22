@@ -1,5 +1,6 @@
 package com.tellago.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -69,7 +70,8 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
             pickImageIntent()
         }
 
-        textView_changePhoto.setOnClickListener {
+
+        linear_layout_edit_profile_picture.setOnClickListener {
             pickImageIntent()
         }
 
@@ -90,6 +92,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun configureToolbar() {
         // Indicate that toolbar_editProfile will replace Actionbar
         setSupportActionBar(toolbar_editProfile as Toolbar?)
@@ -100,6 +103,7 @@ class EditProfileActivity : AppCompatActivity(), ConfirmEditProfileFragment.Noti
         actionbar?.setDisplayHomeAsUpEnabled(false)
 
         (toolbar_editProfile as Toolbar?)?.setNavigationIcon(R.drawable.toolbar_cancel_icon)
+        (toolbar_editProfile as Toolbar?)?.setBackgroundColor(getColor(R.color.colorDefaultBackground))
 
         // Navigate back to MainActivity (by closing the current Edit Profile Activity)
         (toolbar_editProfile as Toolbar?)?.setNavigationOnClickListener {
