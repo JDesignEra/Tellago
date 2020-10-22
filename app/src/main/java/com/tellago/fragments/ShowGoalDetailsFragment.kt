@@ -2,6 +2,7 @@ package com.tellago.fragments
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,13 @@ import android.widget.LinearLayout
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
+import com.tellago.adapters.ShowJourneysRecyclerAdapter
 import com.tellago.models.Goal
+import com.tellago.models.Journey
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
@@ -26,6 +32,8 @@ class ShowGoalDetailsFragment : Fragment() {
 
     private var bundle: Bundle? = null
     private var goal = Goal()
+
+    private var adapter: ShowJourneysRecyclerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,18 +147,50 @@ class ShowGoalDetailsFragment : Fragment() {
             btn_CompleteGoal.text = "Completed"
         }
 
-        btn_Journey_View.setOnClickListener {
-            val showJourneysFragment = ShowJourneysFragment()
 
-            showJourneysFragment.arguments = Bundle().apply {
-                putParcelable(goal::class.java.name, goal)
+
+
+//        if (arrayListJourneyID.isNotEmpty()) {
+//            val query = FirebaseFirestore.getInstance().collection("journeys").whereIn(FieldPath.documentId(), arrayListJourneyID)
+//
+//            adapter = ShowJourneysRecyclerAdapter(
+//                FirestoreRecyclerOptions.Builder<Journey>()
+//                    .setQuery(query, Journey::class.java)
+//                    .build()
+//            )
+//        }
+
+        btn_Journey_View.setOnClickListener {
+
+            // to update query based on unique identifier for each journey (with reference to arrayListJourneyID)
+            val arrayListJourneyID = goal.jid
+            val journey = Journey()
+            var justJID = ""
+            if (arrayListJourneyID.count() != 0)
+            {
+                justJID = arrayListJourneyID[0]
+                Log.d("jid is: ", justJID)
             }
-            fragmentUtils.replace(
-                showJourneysFragment,
-                enter = R.anim.fragment_close_enter,
-                exit = R.anim.fragment_open_exit,
-                popEnter = R.anim.fragment_slide_right_enter,
-                popExit = R.anim.fragment_slide_right_exit)
+
+            val showJourneyPostsFragment = ShowJourneyPostsFragment()
+
+            // retrieve the entire Journey object based on jid then proceed with onComplete
+            Journey(jid = justJID).getByJid {
+
+                showJourneyPostsFragment.arguments = Bundle().apply {
+                    putParcelable(journey::class.java.name, it)
+                    putParcelable(goal::class.java.name, goal)
+                }
+                fragmentUtils.replace(
+                    showJourneyPostsFragment,
+                    enter = R.anim.fragment_close_enter,
+                    exit = R.anim.fragment_open_exit,
+                    popEnter = R.anim.fragment_slide_right_enter,
+                    popExit = R.anim.fragment_slide_right_exit)
+
+            }
+
+
         }
 
         btn_Bucket_List_View.setOnClickListener {

@@ -75,9 +75,10 @@ class CreateGoalFragment_3 : Fragment() {
             linear_layout_create_goal_3_bottom_back.isEnabled = false
             et_journeyTitle.setText(bundle.getString("journeyTitle"))
         }
-        else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
-            linear_layout_create_goal_3_bottom_back.isEnabled = false
-        }
+        // No more ShowJourneysFragment
+//        else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
+//            linear_layout_create_goal_3_bottom_back.isEnabled = false
+//        }
 
         text_view_note_create_goal_fragment_3.error = "."
         text_view_note_create_goal_fragment_3.setOnClickListener {
@@ -106,26 +107,36 @@ class CreateGoalFragment_3 : Fragment() {
                     Journey(jid = bundle.getString("jid"), uid = user?.uid, title = et_journeyTitle.text.toString(), pids = pids!!).updateByJid {
                         if (it != null) {
                             toast.success("Journey updated successfully")
+
+                            // Use intent, targetFragment & onActivityResult to ensure that updates
+                            // to Journey Title and Posts are displayed correctly following popBackStack()
+                            val intent = Intent(requireContext(), this::class.java).apply {
+                                putExtra(Journey::class.java.name, it)
+                            }
+                            targetFragment?.onActivityResult(0, Activity.RESULT_OK, intent)
                             fragmentUtils.popBackStack()
+
+
                         }
                         else toast.error("Failed to update Journey, please try again")
                     }
                 }
             }
-            else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
-                pids = adapter?.getPids() ?: ArrayList()
-
-                if (et_journeyTitle.text.toString().isBlank()) et_journeyTitle.error = "Field is required"
-                else {
-                    Journey(uid = user?.uid, title = et_journeyTitle.text.toString(), pids = pids!!).add {
-                        if (it != null) {
-                            toast.success("Journey added successfully")
-                            fragmentUtils.popBackStack()
-                        }
-                        else toast.error("Failed to add Journey, please try again")
-                    }
-                }
-            }
+                // No more ShowJourneysFragment
+//            else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
+//                pids = adapter?.getPids() ?: ArrayList()
+//
+//                if (et_journeyTitle.text.toString().isBlank()) et_journeyTitle.error = "Field is required"
+//                else {
+//                    Journey(uid = user?.uid, title = et_journeyTitle.text.toString(), pids = pids!!).add {
+//                        if (it != null) {
+//                            toast.success("Journey added successfully")
+//                            fragmentUtils.popBackStack()
+//                        }
+//                        else toast.error("Failed to add Journey, please try again")
+//                    }
+//                }
+//            }
             else {
                 goal.uid = user?.uid
 

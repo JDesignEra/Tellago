@@ -1,5 +1,7 @@
 package com.tellago.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,17 +15,22 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.adapters.NewPostRecyclerAdapter
 import com.tellago.models.Auth.Companion.user
+import com.tellago.models.Goal
 import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.models.UserPost
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_journey_posts.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ShowJourneyPostsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
     private lateinit var journey: Journey
     private lateinit var post: Post
+    private lateinit var goal: Goal
     private lateinit var adapter: NewPostRecyclerAdapter
 
     private var bundle: Bundle? = null
@@ -36,10 +43,13 @@ class ShowJourneyPostsFragment : Fragment() {
 
         journey = Journey()
         post = Post()
+        goal = Goal()
 
 
         if (this.arguments != null) bundle = requireArguments()
         if (bundle != null) journey = bundle!!.getParcelable(journey::class.java.name)!!
+        if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
+
 
 
         fragmentUtils = FragmentUtils(
@@ -54,30 +64,28 @@ class ShowJourneyPostsFragment : Fragment() {
         Log.d("journeyPostsList", journeyPostsList.toString())
 
 
-        if (journeyPostsList.isNullOrEmpty())
-        {
+        if (journeyPostsList.isNullOrEmpty()) {
             // Query if journeyPostsList is NullOrEmpty
             val query = FirebaseFirestore.getInstance().collection("posts").whereEqualTo(
                 "uid",
                 user?.uid
             )
 
-            Log.d("document", query.toString())
+            Log.d("document with uid", query.toString())
 
             adapter = NewPostRecyclerAdapter(
                 FirestoreRecyclerOptions.Builder<Post>()
                     .setQuery(query, Post::class.java)
                     .build()
             )
-        }
-        else {
+        } else {
             // Query if journeyPostsList is populated
             val query = FirebaseFirestore.getInstance().collection("posts").whereIn(
                 FieldPath.documentId(),
                 journeyPostsList
             )
 
-            Log.d("document", query.toString())
+            Log.d("document with jPosts", query.toString())
 
             adapter = NewPostRecyclerAdapter(
                 FirestoreRecyclerOptions.Builder<Post>()
@@ -101,24 +109,22 @@ class ShowJourneyPostsFragment : Fragment() {
 
         configureToolbar()
 
-        recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
+        recycler_view_show_journey_posts_fragment.layoutManager =
+            LinearLayoutManager(requireContext())
         recycler_view_show_journey_posts_fragment.adapter = adapter
 
         val journeyPostsList2 = journey.pids
-        if (journeyPostsList2.isNullOrEmpty())
-        {
+        if (journeyPostsList2.isNullOrEmpty()) {
             // Query if journeyPostsList is NullOrEmpty
             journeyPostsList2.add("-100")
             val query2 = FirebaseFirestore.getInstance().collection("posts").whereIn(
                 FieldPath.documentId(),
                 journeyPostsList2
             )
-            query2.get().addOnSuccessListener {
-                    it ->
+            query2.get().addOnSuccessListener { it ->
 
                 // prompt user to assign posts to journey if recycler view is empty
-                if (it.size() == 0)
-                {
+                if (it.size() == 0) {
                     tv_show_journey_posts_empty.visibility = View.VISIBLE
                     recycler_view_show_journey_posts_fragment.visibility = View.GONE
                 }
@@ -138,7 +144,7 @@ class ShowJourneyPostsFragment : Fragment() {
                 putString("jid", journey.jid)
             }
 
-            fragmentUtils.replace(createGoalFragment3)
+            fragmentUtils.replace(createGoalFragment3, setTargetFragment = this, requestCode = 0)
         }
 
         // TODO: Use a separate fragment instead in the future.
@@ -151,7 +157,7 @@ class ShowJourneyPostsFragment : Fragment() {
                 putString("jid", journey.jid)
             }
 
-            fragmentUtils.replace(createGoalFragment3)
+            fragmentUtils.replace(createGoalFragment3, setTargetFragment = this, requestCode = 0)
         }
     }
 
@@ -167,21 +173,31 @@ class ShowJourneyPostsFragment : Fragment() {
         adapter.stopListening()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+            data?.getParcelableExtra<Journey>(Journey::class.java.name).let {
+                journey = it!!
+                Log.d("updated Journey", journey.toString())
+            }
+        }
+    }
+
     private fun configureToolbar() {
         // It will not be possible to collapse toolbar & floating action button when scrolling as these elements belong to ShowJourneyPostsFragment
         // not within an Activity which contains a fragment_container for the recycler view
 
+        val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
-
-        text_view_journey_title.text = "Journey: ${journey.title}"
-//        text_view_journey_creation_date.text =
+        text_view_journey_title.text = journey.title
+        text_view_journey_creation_date.text = dateFormatter.format(goal.createDate)
 
         toolbar_view_journey_posts.setNavigationOnClickListener {
             // Allow user to return to previous fragment in the Stack
             fragmentUtils.popBackStack()
         }
     }
-
 
 
 }
