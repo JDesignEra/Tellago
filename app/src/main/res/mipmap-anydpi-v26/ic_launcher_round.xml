@@ -4,6 +4,6 @@
 <!--    <foreground android:drawable="@drawable/ic_launcher_foreground" />-->
 <!--    <background android:drawable="@drawable/tellsquarelogo2" />-->
 <!--    <foreground android:drawable="@drawable/tellsquarelogo2" />-->
-    <background android:drawable="@drawable/tellsquarelogo" />
-    <foreground android:drawable="@drawable/tellsquarelogo" />
+    <background android:drawable="@drawable/app_icon" />
+    <foreground android:drawable="@drawable/app_icon" />
 </adaptive-icon>
