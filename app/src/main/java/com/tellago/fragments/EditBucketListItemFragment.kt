@@ -53,7 +53,7 @@ class EditBucketListItemFragment : Fragment() {
             else completed_toggleGrp.check(R.id.in_progress_btn)
         }
 
-        btn_EditBucketListItem.setOnClickListener {
+        constraint_layout_edit_bucket_list_item.setOnClickListener {
             if (et_bucketListItemName.text.toString().isBlank()) {
                 et_bucketListItemName.error = "Field is required"
             }

@@ -40,7 +40,7 @@ class CreateBucketListItemFragment : Fragment() {
 
         et_bucketListItemName.text?.clear()
 
-        btn_AddBucketListItem.setOnClickListener {
+        constraint_layout_create_bucket_list_item.setOnClickListener {
             if (et_bucketListItemName.text.toString().isBlank()) {
                 et_bucketListItemName.error = "Field is required"
             }
