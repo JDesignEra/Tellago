@@ -11,6 +11,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.adapters.ShowGoalsRecyclerAdapter
 import com.tellago.models.Auth.Companion.user
@@ -32,10 +34,11 @@ class ShowGoalsFragment : Fragment() {
             R.id.fragment_container_goal_activity
         )
 
+
         adapter = ShowGoalsRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Goal>()
                 .setQuery(
-                    collection.whereEqualTo("uid", user?.uid),
+                    collection.whereEqualTo("uid", user?.uid).orderBy("createDate", Query.Direction.ASCENDING),
                     Goal::class.java
                 ).build()
         )
