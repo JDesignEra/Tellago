@@ -27,7 +27,52 @@
                 android:background="@color/colorWhiteBackground"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIcon="@drawable/toolbar_back_icon"
-                app:title="Create New Post" />
+                app:title="Create New Post">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraint_layout_create_post"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/image_view_create_post"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/toolbar_add_icon"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_create_post"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="Post"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toLeftOf="@id/image_view_create_post"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:textAllCaps="true" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -44,13 +89,27 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:letterSpacing="-0.02"
-                android:text="Attach Journeys To This Post"
-                android:textColor="@color/colorTextDarkGray"
-                android:textSize="18sp" />
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/header_background_rectangle">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="26dp"
+                    android:layout_marginVertical="4dp"
+                    android:text="Attach Journeys To This Post"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
 
             <TextView
@@ -58,9 +117,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_weight="2"
                 android:textColor="@color/colorTextBlack"
                 android:textSize="14sp"
-                android:layout_weight="2"
                 android:visibility="gone" />
 
             <TextView
@@ -68,16 +127,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_weight="2"
                 android:textColor="@color/colorTextBlack"
                 android:textSize="14sp"
                 android:textStyle="italic"
-                android:layout_weight="2"
                 android:visibility="gone" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_AddJourney"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="26dp"
                 android:layout_marginVertical="8dp"
                 android:layout_weight="1"
                 android:elevation="10dp"
@@ -90,14 +150,27 @@
                 app:icon="@drawable/ic_baseline_directions_walk_24" />
 
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:letterSpacing="-0.02"
-                android:text="Type of Post"
-                android:textColor="@color/colorTextDarkGray"
-                android:textSize="18sp" />
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/header_background_rectangle">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="26dp"
+                    android:layout_marginVertical="4dp"
+                    android:text="Type Of Post"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
 
             <LinearLayout
@@ -110,6 +183,7 @@
                     android:id="@+id/chipGrp_post_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
                     android:layout_marginTop="10dp"
                     app:selectionRequired="true"
                     app:singleSelection="true">
@@ -171,6 +245,7 @@
                 android:id="@+id/textinputlayout_messageBody"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_btn_gray"
                 android:hint="Write a message ..."
@@ -190,6 +265,7 @@
                 android:id="@+id/attach_post_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_android_photo"
@@ -199,6 +275,7 @@
                 android:id="@+id/textView_attachMedia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="16dp"
                 android:text="Add Image"
@@ -212,6 +289,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="12dp"
                 android:background="@drawable/rounded_btn_gray"
                 android:hint="Create a poll ..."
                 android:textAlignment="center"
@@ -231,6 +309,7 @@
                 android:id="@+id/btn_add_poll_option"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
                 android:text="Add Poll Option"
                 android:textColor="@color/colorTextBlack"
                 android:visibility="gone"
@@ -241,6 +320,7 @@
                 android:id="@+id/linear_layout_option_parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
                 android:layout_weight="5"
                 android:orientation="horizontal">
 
@@ -266,24 +346,8 @@
 
             </LinearLayout>
 
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_CreatePost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="60dp"
-                android:elevation="10dp"
-                android:letterSpacing="-0.02"
-                android:padding="10dp"
-                android:text="POST"
-                android:textAllCaps="true"
-                android:textSize="14sp"
-                app:backgroundTint="@color/colorPrimary"
-                app:cornerRadius="5dp" />
         </LinearLayout>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </FrameLayout>

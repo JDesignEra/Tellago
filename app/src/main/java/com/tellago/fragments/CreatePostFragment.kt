@@ -209,7 +209,7 @@ class CreatePostFragment : Fragment() {
         }
 
 
-        btn_CreatePost.setOnClickListener {
+        constraint_layout_create_post.setOnClickListener {
             Log.d("Creating post", "FIRED")
 
             post.uid = user?.uid
