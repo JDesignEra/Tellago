@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.view.children
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -215,6 +216,21 @@ class ShowGoalDetailsFragment : Fragment() {
                 popExit = R.anim.fragment_slide_right_exit
             )
         }
+
+        linear_layout_edit_currentAmt.setOnClickListener {
+            val currentAmt = tv_currentAmt.text
+            et_currentAmt.hint = currentAmt
+            et_currentAmt.visibility = View.VISIBLE
+            tv_currentAmt.visibility = View.GONE
+
+        }
+
+
+        et_currentAmt.addTextChangedListener {
+            constraint_layout_confirm_currentAmt_changes.visibility = View.VISIBLE
+            constraint_layout_edit_goal_details.visibility = View.GONE
+        }
+
 
         btn_DeleteGoal.setOnClickListener {
             Goal(gid = goal.gid).deleteByGid()

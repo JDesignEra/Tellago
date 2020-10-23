@@ -53,12 +53,12 @@ class EditGoalDetailsFragment : Fragment() {
         configureToolbar()
 
         textInput_title.setText(goal.title)
-//        textInput_targetAmt.setText(String.format("%.2f", goal.targetAmt))
-        textInput_currentAmt.setText(String.format("%.2f", goal.currentAmt))
+        textInput_targetAmt.setText(String.format("%.2f", goal.targetAmt))
+        //textInput_currentAmt.setText(String.format("%.2f", goal.currentAmt))
 
         if (goal.completed) {
-//            textInputLayout_targetAmt.visibility = View.GONE
-            linear_layout_current_amount_edit_goal_details.visibility = View.GONE
+            textInput_targetAmt.visibility = View.GONE
+      //      linear_layout_current_amount_edit_goal_details.visibility = View.GONE
             linear_layout_target_duration_edit_goal_details.visibility = View.GONE
             linear_layout_reminder_frequency_edit_goal_details.visibility = View.GONE
         }
@@ -76,8 +76,8 @@ class EditGoalDetailsFragment : Fragment() {
             val moneyRegex = Regex("\\d+?\\.\\d{3,}")
 
             textInput_title.error = null
-//            textInput_targetAmt.error = null
-            textInput_currentAmt.error = null
+            textInput_targetAmt.error = null
+//            textInput_currentAmt.error = null
 
             if (textInput_title.text.isNullOrBlank()) errors["title"] = "Field is required"
 //            when {
@@ -87,15 +87,17 @@ class EditGoalDetailsFragment : Fragment() {
 //                textInput_targetAmt.text.toString().toDouble() < textInput_currentAmt.text.toString().toDouble()-> errors["targetAmt"] = "Field has to more or same as Current Monetary Value"
 //            }
             when {
-                textInput_currentAmt.text.isNullOrBlank() -> errors["currentAmt"] = "Field is required"
-                moneyRegex.matches(textInput_currentAmt.text.toString()) -> errors["currentAmt"] = "Cents can't be more than 2 digits"
+                textInput_targetAmt.text.isNullOrBlank() -> errors["targetAmt"] = "Field is required"
+//                textInput_currentAmt.text.isNullOrBlank() -> errors["currentAmt"] = "Field is required"
+                moneyRegex.matches(textInput_targetAmt.text.toString()) -> errors["targetAmt"] = "Cents can't be more than 2 digits"
+//                moneyRegex.matches(textInput_currentAmt.text.toString()) -> errors["currentAmt"] = "Cents can't be more than 2 digits"
 //                textInput_currentAmt.text.toString().toDouble() > textInput_targetAmt.text.toString().toDouble() -> errors["currentAmt"] = "Field has to less or same as Target Monetary Value"
             }
 
             if (errors.isNotEmpty()) {
                 errors["title"].let { textInput_title.error = it }
-//                errors["targetAmt"].let { textInput_targetAmt.error = it }
-                errors["currentAmt"].let { textInput_currentAmt.error = it }
+                errors["targetAmt"].let { textInput_targetAmt.error = it }
+//                errors["currentAmt"].let { textInput_currentAmt.error = it }
             }
             else if (!goal.gid?.isBlank()!!) {
                 updateGoalModel()
@@ -148,8 +150,8 @@ class EditGoalDetailsFragment : Fragment() {
 
     private fun updateGoalModel() {
         goal.title = textInput_title.text.toString()
-//        goal.targetAmt = textInput_targetAmt.text.toString().toDouble()
-        goal.currentAmt = textInput_currentAmt.text.toString().toDouble()
+        goal.targetAmt = textInput_targetAmt.text.toString().toDouble()
+//        goal.currentAmt = textInput_currentAmt.text.toString().toDouble()
         goal.deadline = dateFormatter.parse(textView_deadline.text.toString())!!
         goal.reminderMonthsFreq = when {
             radioBtn_3MonthsReminder.isChecked -> 3
