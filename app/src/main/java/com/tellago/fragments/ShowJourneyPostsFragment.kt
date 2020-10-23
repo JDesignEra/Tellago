@@ -180,6 +180,19 @@ class ShowJourneyPostsFragment : Fragment() {
             data?.getParcelableExtra<Journey>(Journey::class.java.name).let {
                 journey = it!!
                 Log.d("updated Journey", journey.toString())
+
+                val journeyPostsList = journey.pids
+                val query = FirebaseFirestore.getInstance().collection("posts").whereIn(
+                    FieldPath.documentId(),
+                    journeyPostsList
+                )
+
+                adapter = NewPostRecyclerAdapter(
+                    FirestoreRecyclerOptions.Builder<Post>()
+                        .setQuery(query, Post::class.java)
+                        .build()
+                )
+
             }
         }
     }
