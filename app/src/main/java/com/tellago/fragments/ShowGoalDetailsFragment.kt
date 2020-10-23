@@ -33,7 +33,6 @@ class ShowGoalDetailsFragment : Fragment() {
     private var bundle: Bundle? = null
     private var goal = Goal()
 
-    private var adapter: ShowJourneysRecyclerAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -152,16 +151,6 @@ class ShowGoalDetailsFragment : Fragment() {
 
 
 
-
-//        if (arrayListJourneyID.isNotEmpty()) {
-//            val query = FirebaseFirestore.getInstance().collection("journeys").whereIn(FieldPath.documentId(), arrayListJourneyID)
-//
-//            adapter = ShowJourneysRecyclerAdapter(
-//                FirestoreRecyclerOptions.Builder<Journey>()
-//                    .setQuery(query, Journey::class.java)
-//                    .build()
-//            )
-//        }
 
         btn_Journey_View.setOnClickListener {
 
