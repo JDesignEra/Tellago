@@ -63,7 +63,7 @@
                     android:id="@+id/tv_gFullAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="4dp"
                     android:text="$0"
                     android:textSize="20sp"
                     android:textColor="@color/colorTextDarkGray" />
@@ -73,7 +73,7 @@
                     style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Determinate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="4dp"
                     android:background="@color/colorTransparent"
                     android:visibility="visible"
                     app:indicatorSize="7dp"
