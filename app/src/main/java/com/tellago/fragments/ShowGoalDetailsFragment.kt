@@ -109,6 +109,10 @@ class ShowGoalDetailsFragment : Fragment() {
                 }
             }
 
+//            setImageClickListener {
+//                toast.success("opening advertisement for ${heroI}")
+//            }
+
             pageCount = heroImagesId.size
         }
 
@@ -229,6 +233,33 @@ class ShowGoalDetailsFragment : Fragment() {
         et_currentAmt.addTextChangedListener {
             constraint_layout_confirm_currentAmt_changes.visibility = View.VISIBLE
             constraint_layout_edit_goal_details.visibility = View.GONE
+        }
+
+
+        // this click listener will update the record for the current Goal based on the new Current Amount
+        constraint_layout_confirm_currentAmt_changes.setOnClickListener {
+            if (!goal.gid?.isBlank()!!)
+            {
+                // reassign currentAmt of Goal Model
+                goal.currentAmt = et_currentAmt.text.toString().toDouble()
+
+                goal.setByGid {
+                    if (it != null) {
+                        toast.success("Current amount updated for Goal")
+
+                        // Change visibility of toolbar (top right)
+                        constraint_layout_confirm_currentAmt_changes.visibility = View.GONE
+                        constraint_layout_edit_goal_details.visibility = View.VISIBLE
+
+                        // Display updated goal.currentAmt in tv_currentAmt
+                        tv_currentAmt.text = DecimalFormat("$#,###").format(goal.currentAmt)
+                        et_currentAmt.visibility = View.GONE
+                        tv_currentAmt.visibility = View.VISIBLE
+                    }
+                    else toast.error("Please try again, there was an issue when updating the current amount.")
+
+                }
+            }
         }
 
 
