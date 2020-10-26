@@ -128,7 +128,7 @@ class ShowGoalDetailsFragment : Fragment() {
                                 msg = "You have clicked on View: $position",
                                 gravity = Gravity.CENTER
                             )
-                        } else if (position == 3) {
+                        } else if (position == 0) {
                             toast.success(
                                 msg = "You have clicked on View: $position",
                                 gravity = Gravity.CENTER
@@ -198,7 +198,7 @@ class ShowGoalDetailsFragment : Fragment() {
                 msg = "Replace this toast with redirect to relevant resource based on selected Categories",
                 gravity = Gravity.CENTER
             )
-            
+
         }
 
 
