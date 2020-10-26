@@ -3,7 +3,6 @@ package com.tellago.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.adapters.NewPostRecyclerAdapter
-import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
 import com.tellago.models.Journey
 import com.tellago.models.Post
+import com.tellago.models.Post.Companion.collection
 import com.tellago.models.UserPost
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_journey_posts.*
@@ -28,12 +26,13 @@ import kotlin.collections.ArrayList
 
 class ShowJourneyPostsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
+    private lateinit var goal: Goal
     private lateinit var journey: Journey
     private lateinit var post: Post
-    private lateinit var goal: Goal
-    private lateinit var adapter: NewPostRecyclerAdapter
 
+    private var adapter: NewPostRecyclerAdapter? = null
     private var bundle: Bundle? = null
+    var updatedTitle: String? = null
 
     private val userPostArrayList = ArrayList<UserPost>()
     private val newPostArrayList = ArrayList<Post>()
@@ -41,55 +40,18 @@ class ShowJourneyPostsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        goal = Goal()
         journey = Journey()
         post = Post()
-        goal = Goal()
 
         if (this.arguments != null) bundle = requireArguments()
-        if (bundle != null) journey = bundle!!.getParcelable(journey::class.java.name) ?: Journey()
         if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
+        if (bundle != null) journey = bundle!!.getParcelable(journey::class.java.name) ?: Journey()
 
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
             R.id.fragment_container_goal_activity
         )
-
-        // This recyclerview adapter should use data in 'Posts' collection on Firestore, but Post feature is not completed yet
-        // So, static data will be passed to the adapter for now
-        val journeyPostsList = journey.pids
-
-        Log.d("journeyPostsList", journeyPostsList.toString())
-
-
-        if (journeyPostsList.isNullOrEmpty()) {
-            // Query if journeyPostsList is NullOrEmpty
-            val query = FirebaseFirestore.getInstance().collection("posts").whereEqualTo(
-                "uid",
-                user?.uid
-            )
-
-            Log.d("document with uid", query.toString())
-
-            adapter = NewPostRecyclerAdapter(
-                FirestoreRecyclerOptions.Builder<Post>()
-                    .setQuery(query, Post::class.java)
-                    .build()
-            )
-        } else {
-            // Query if journeyPostsList is populated
-            val query = FirebaseFirestore.getInstance().collection("posts").whereIn(
-                FieldPath.documentId(),
-                journeyPostsList
-            )
-
-            Log.d("document with jPosts", query.toString())
-
-            adapter = NewPostRecyclerAdapter(
-                FirestoreRecyclerOptions.Builder<Post>()
-                    .setQuery(query, Post::class.java)
-                    .build()
-            )
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -102,31 +64,51 @@ class ShowJourneyPostsFragment : Fragment() {
 
         configureToolbar()
 
-        recycler_view_show_journey_posts_fragment.layoutManager =
-            LinearLayoutManager(requireContext())
-        recycler_view_show_journey_posts_fragment.adapter = adapter
-
-        val journeyPostsList2 = journey.pids
-        if (journeyPostsList2.isNullOrEmpty()) {
-            // Query if journeyPostsList is NullOrEmpty
-            journeyPostsList2.add("-100")
-            val query2 = FirebaseFirestore.getInstance().collection("posts").whereIn(
-                FieldPath.documentId(),
-                journeyPostsList2
+        if (journey.jid != null && journey.pids.isNotEmpty() && journey.title.isNotBlank()) {
+            adapter = NewPostRecyclerAdapter(
+                FirestoreRecyclerOptions.Builder<Post>()
+                    .setQuery(
+                        collection.whereIn(FieldPath.documentId(), journey.pids),
+                        Post::class.java
+                    ).build()
             )
-            query2.get().addOnSuccessListener { it ->
 
-                // prompt user to assign posts to journey if recycler view is empty
-                if (it.size() == 0) {
-                    tv_show_journey_posts_empty.visibility = View.VISIBLE
-                    recycler_view_show_journey_posts_fragment.visibility = View.GONE
+            recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
+            recycler_view_show_journey_posts_fragment.adapter = adapter
+
+            adapter?.startListening()
+
+            text_view_journey_title.text = journey.title
+        }
+        else if (adapter == null) {
+            if (goal.jid.isNotEmpty() && goal.jid[0].isNotBlank() ) {
+                Journey(goal.jid[0]).getByJid {
+                    journey = it ?: Journey()
+
+                    if (it != null) {
+                        adapter = NewPostRecyclerAdapter(
+                            FirestoreRecyclerOptions.Builder<Post>()
+                                .setQuery(
+                                    collection.whereIn(FieldPath.documentId(), it.pids),
+                                    Post::class.java
+                                ).build()
+                        )
+
+                        recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
+                        recycler_view_show_journey_posts_fragment.adapter = adapter
+
+                        adapter?.startListening()
+
+                        text_view_journey_title.text = it.title
+                    }
                 }
-
             }
         }
+        else {
+            recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
+            recycler_view_show_journey_posts_fragment.adapter = adapter
+        }
 
-        // Same functionality for both constraint_layout_show_journey_posts_add_post and btn_edit_journey_posts
-        // on click listeners
         constraint_layout_show_journey_posts_add_post.setOnClickListener {
             val editJourneyFragment = EditJourneyFragment()
             editJourneyFragment.arguments = Bundle().apply {
@@ -134,10 +116,13 @@ class ShowJourneyPostsFragment : Fragment() {
                 putParcelable(journey::class.java.name, journey)
             }
 
-            fragmentUtils.replace(editJourneyFragment)
+            fragmentUtils.replace(
+                editJourneyFragment,
+                setTargetFragment = this,
+                requestCode = 0
+            )
         }
 
-        // TODO: Use a separate fragment instead in the future.
         btn_edit_journey_posts.setOnClickListener {
             val editJourneyFragment = EditJourneyFragment()
             editJourneyFragment.arguments = Bundle().apply {
@@ -145,43 +130,31 @@ class ShowJourneyPostsFragment : Fragment() {
                 putParcelable(journey::class.java.name, journey)
             }
 
-            fragmentUtils.replace(editJourneyFragment)
+            fragmentUtils.replace(
+                editJourneyFragment,
+                setTargetFragment = this,
+                requestCode = 0
+            )
         }
     }
 
     override fun onStart() {
         // Adapter which is populated using Firestore data (through query) will require this function
         super.onStart()
-        adapter.startListening()
+        adapter?.startListening()
     }
 
     override fun onStop() {
         // Adapter which is populated using Firestore data (through query) will require this function
         super.onStop()
-        adapter.stopListening()
+        adapter?.stopListening()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
-            data?.getParcelableExtra<Journey>(Journey::class.java.name).let {
-                journey = it!!
-                Log.d("updated Journey", journey.toString())
-
-                val journeyPostsList = journey.pids
-                val query = FirebaseFirestore.getInstance().collection("posts").whereIn(
-                    FieldPath.documentId(),
-                    journeyPostsList
-                )
-
-                adapter = NewPostRecyclerAdapter(
-                    FirestoreRecyclerOptions.Builder<Post>()
-                        .setQuery(query, Post::class.java)
-                        .build()
-                )
-
-            }
+            journey = data?.getParcelableExtra<Journey>(journey::class.java.name) ?: Journey()
         }
     }
 

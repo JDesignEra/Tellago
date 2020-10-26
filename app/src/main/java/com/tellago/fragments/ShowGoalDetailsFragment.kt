@@ -208,46 +208,18 @@ class ShowGoalDetailsFragment : Fragment() {
         }
 
         btn_Journey_View.setOnClickListener {
-            // to update query based on unique identifier for each journey (with reference to arrayListJourneyID)
-            val arrayListJourneyID = goal.jid
-            val journey = Journey()
-            var justJID = ""
-            if (arrayListJourneyID.count() != 0) {
-                justJID = arrayListJourneyID[0]
-                Log.d("jid is: ", justJID)
-            }
-
             val showJourneyPostsFragment = ShowJourneyPostsFragment()
-
-            // retrieve the entire Journey object based on jid then proceed with onComplete
-            if (justJID.isNotBlank()) {
-                Journey(jid = justJID).getByJid {
-                    showJourneyPostsFragment.arguments = Bundle().apply {
-                        putParcelable(journey::class.java.name, it)
-                        putParcelable(goal::class.java.name, goal)
-                    }
-                    fragmentUtils.replace(
-                        showJourneyPostsFragment,
-                        enter = R.anim.fragment_close_enter,
-                        exit = R.anim.fragment_open_exit,
-                        popEnter = R.anim.fragment_slide_right_enter,
-                        popExit = R.anim.fragment_slide_right_exit
-                    )
-                }
+            showJourneyPostsFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
             }
-            else {
-                showJourneyPostsFragment.arguments = Bundle().apply {
-                    putParcelable(goal::class.java.name, goal)
-                }
 
-                fragmentUtils.replace(
-                    showJourneyPostsFragment,
-                    enter = R.anim.fragment_close_enter,
-                    exit = R.anim.fragment_open_exit,
-                    popEnter = R.anim.fragment_slide_right_enter,
-                    popExit = R.anim.fragment_slide_right_exit
-                )
-            }
+            fragmentUtils.replace(
+                showJourneyPostsFragment,
+                enter = R.anim.fragment_close_enter,
+                exit = R.anim.fragment_open_exit,
+                popEnter = R.anim.fragment_slide_right_enter,
+                popExit = R.anim.fragment_slide_right_exit
+            )
         }
 
         btn_Bucket_List_View.setOnClickListener {

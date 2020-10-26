@@ -29,7 +29,6 @@ import java.time.temporal.ChronoUnit
 class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
     FirestoreRecyclerAdapter<Post, NewPostRecyclerAdapter.NewPostViewHolder>(options) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewPostViewHolder {
         return NewPostViewHolder(
             // Layout inflator to inflate FROM layout_new_post_list_item
@@ -290,17 +289,5 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
 
         }
-
-//        init {
-//
-//
-        // insert onclicklisteners below
-        //
-        //
-//        }
-
-
     }
-
-
 }

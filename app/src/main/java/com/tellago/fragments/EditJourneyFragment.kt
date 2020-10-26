@@ -1,5 +1,7 @@
 package com.tellago.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -62,6 +64,8 @@ class EditJourneyFragment : Fragment() {
             fragmentUtils.popBackStack()
         }
 
+        Log.e(this::class.java.name, goal.jid.isNotEmpty().toString())
+        Log.e(this::class.java.name, goal.jid.size.toString())
         if (goal.jid.isNotEmpty()) {
             tv_edit_journey.text = "Update Journey"
             et_journeyTitle.setText(journey.title)
@@ -91,6 +95,12 @@ class EditJourneyFragment : Fragment() {
                                 goal.updateJidByGid { goal ->
                                     if (goal != null) {
                                         toast.success("Journey added successfully")
+
+                                        val intent = Intent(requireContext(), this::class.java)
+                                        intent.putExtra(journey::class.java.name, journey)
+
+                                        targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+
                                         fragmentUtils.popBackStack()
                                     } else toast.error("Please try again, fail to add Journey")
                                 }
@@ -110,6 +120,12 @@ class EditJourneyFragment : Fragment() {
                         ).updateByJid {
                             if (it != null) {
                                 toast.success("Journey updated")
+
+                                val intent = Intent(requireContext(), this::class.java)
+                                intent.putExtra(journey::class.java.name, it)
+
+                                targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)
+
                                 fragmentUtils.popBackStack()
                             } else toast.error("Fail to update Journey, please try again")
                         }
