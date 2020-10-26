@@ -256,8 +256,11 @@ class CreatePostFragment : Fragment() {
                 }
 
             } else if (post.postType == "multimedia") {
+                post.messageBody = et_PostMessage.text.toString()
+
                 post.add {
                     if (it != null) {
+
                         Log.d("added multimediaURI", post.multimediaURI.toString())
                         val multimediaURI = post.multimediaURI?.toUri()
 
@@ -286,8 +289,8 @@ class CreatePostFragment : Fragment() {
                         toast.success("Multimedia Post created")
                     } else toast.error("Please try again, there was an error creating your post")
                 }
-            }
 
+            }
 
         }
 
