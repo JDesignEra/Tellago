@@ -20,6 +20,10 @@
     <item android:title="Information">
         <menu>
             <item
+                android:id="@+id/contact_Financial_Consultant"
+                android:icon="@drawable/ic_baseline_phone_forwarded_24"
+                android:title="Contact Financial Consultant" />
+            <item
                 android:id="@+id/view_Who_Are_We"
                 android:icon="@drawable/ic_baseline_people_outline_24"
                 android:title="Who are we?" />

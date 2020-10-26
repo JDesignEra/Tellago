@@ -220,6 +220,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
 
+            R.id.contact_Financial_Consultant ->
+            {
+                toast.warning(
+                    msg = "Replace this toast with code to navigate to new Activity + Fragment",
+                    gravity =  Gravity.CENTER)
+
+            }
+
             R.id.logout_from_drawer -> Auth().signOut(this) {
                 val intent = Intent(this, SplashActivity::class.java)
                 startActivity(intent)
