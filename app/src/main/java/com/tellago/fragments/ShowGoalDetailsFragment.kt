@@ -14,9 +14,6 @@ import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.activities.CallToActionActivity
 import com.tellago.activities.EditProfileActivity
@@ -198,9 +195,7 @@ class ShowGoalDetailsFragment : Fragment() {
             btn_CompleteGoal.text = "Completed"
         }
 
-
         btn_Resources.setOnClickListener {
-
             toast.warning(
                 msg = "Replace this toast with redirect to relevant resource based on selected Categories",
                 gravity = Gravity.CENTER
@@ -212,9 +207,7 @@ class ShowGoalDetailsFragment : Fragment() {
 
         }
 
-
         btn_Journey_View.setOnClickListener {
-
             // to update query based on unique identifier for each journey (with reference to arrayListJourneyID)
             val arrayListJourneyID = goal.jid
             val journey = Journey()
@@ -227,12 +220,26 @@ class ShowGoalDetailsFragment : Fragment() {
             val showJourneyPostsFragment = ShowJourneyPostsFragment()
 
             // retrieve the entire Journey object based on jid then proceed with onComplete
-            Journey(jid = justJID).getByJid {
-
+            if (justJID.isNotBlank()) {
+                Journey(jid = justJID).getByJid {
+                    showJourneyPostsFragment.arguments = Bundle().apply {
+                        putParcelable(journey::class.java.name, it)
+                        putParcelable(goal::class.java.name, goal)
+                    }
+                    fragmentUtils.replace(
+                        showJourneyPostsFragment,
+                        enter = R.anim.fragment_close_enter,
+                        exit = R.anim.fragment_open_exit,
+                        popEnter = R.anim.fragment_slide_right_enter,
+                        popExit = R.anim.fragment_slide_right_exit
+                    )
+                }
+            }
+            else {
                 showJourneyPostsFragment.arguments = Bundle().apply {
-                    putParcelable(journey::class.java.name, it)
                     putParcelable(goal::class.java.name, goal)
                 }
+
                 fragmentUtils.replace(
                     showJourneyPostsFragment,
                     enter = R.anim.fragment_close_enter,
@@ -240,10 +247,7 @@ class ShowGoalDetailsFragment : Fragment() {
                     popEnter = R.anim.fragment_slide_right_enter,
                     popExit = R.anim.fragment_slide_right_exit
                 )
-
             }
-
-
         }
 
         btn_Bucket_List_View.setOnClickListener {
@@ -283,15 +287,12 @@ class ShowGoalDetailsFragment : Fragment() {
             et_currentAmt.hint = currentAmt
             et_currentAmt.visibility = View.VISIBLE
             tv_currentAmt.visibility = View.GONE
-
         }
-
 
         et_currentAmt.addTextChangedListener {
             constraint_layout_confirm_currentAmt_changes.visibility = View.VISIBLE
             constraint_layout_edit_goal_details.visibility = View.GONE
         }
-
 
         // this click listener will update the record for the current Goal based on the new Current Amount
         constraint_layout_confirm_currentAmt_changes.setOnClickListener {
@@ -316,7 +317,6 @@ class ShowGoalDetailsFragment : Fragment() {
                 }
             }
         }
-
 
         btn_DeleteGoal.setOnClickListener {
             Goal(gid = goal.gid).deleteByGid()

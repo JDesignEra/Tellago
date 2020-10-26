@@ -45,12 +45,9 @@ class ShowJourneyPostsFragment : Fragment() {
         post = Post()
         goal = Goal()
 
-
         if (this.arguments != null) bundle = requireArguments()
-        if (bundle != null) journey = bundle!!.getParcelable(journey::class.java.name)!!
+        if (bundle != null) journey = bundle!!.getParcelable(journey::class.java.name) ?: Journey()
         if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
-
-
 
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
@@ -149,15 +146,13 @@ class ShowJourneyPostsFragment : Fragment() {
 
         // TODO: Use a separate fragment instead in the future.
         btn_edit_journey_posts.setOnClickListener {
-            val createGoalFragment3 = CreateGoalFragment_3()
-            createGoalFragment3.arguments = Bundle().apply {
-                putBoolean(ShowJourneyPostsFragment::class.java.name, true)
-                putStringArrayList("pids", journey.pids)
-                putString("journeyTitle", journey.title)
-                putString("jid", journey.jid)
+            val editJourneyFragment = EditJourneyFragment()
+            editJourneyFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
+                putParcelable(journey::class.java.name, journey)
             }
 
-            fragmentUtils.replace(createGoalFragment3, setTargetFragment = this, requestCode = 0)
+            fragmentUtils.replace(editJourneyFragment)
         }
     }
 

@@ -25,6 +25,7 @@ data class Journey(
             jid = it.id
             onComplete?.invoke(this)
         }.addOnFailureListener {
+            Log.e(this::class.java.name, "Fail to add journey.")
             onComplete?.invoke(null)
         }
     }

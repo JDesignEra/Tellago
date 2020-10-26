@@ -103,6 +103,18 @@ data class Goal(
         else Log.e(this::class.java.name, "GID is required for updateCompleteByGid().")
     }
 
+    fun updateJidByGid(onComplete: ((goal: Goal?) -> Unit)? = null) {
+        if (!gid.isNullOrBlank()) {
+            collection.document(gid!!).update("jid", jid).addOnSuccessListener {
+                onComplete?.invoke(this)
+            }.addOnFailureListener {
+                Log.e(this::class.java.name, "Failed to update Goal's jid.")
+                onComplete?.invoke(null)
+            }
+        }
+        else Log.e(this::class.java.name, "GID is required for updateJidByGid().")
+    }
+
     fun deleteByGid() {
         if (gid != null) collection.document(gid!!).delete()
         else Log.e(this::class.java.name, "GID is required for deleteByGid().")

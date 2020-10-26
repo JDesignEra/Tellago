@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.activities.GoalsActivity
 import com.tellago.adapters.PostForCreateGoalRecyclerAdapter
@@ -45,7 +46,7 @@ class CreateGoalFragment_3 : Fragment() {
         adapter = PostForCreateGoalRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Post>()
                 .setQuery(
-                    collection.whereEqualTo("uid", user?.uid),
+                    collection.whereEqualTo("uid", user?.uid).orderBy("createDate", Query.Direction.ASCENDING),
                     Post::class.java
                 ).build()
         )
@@ -178,14 +179,6 @@ class CreateGoalFragment_3 : Fragment() {
     override fun onStop() {
         super.onStop()
         adapter?.stopListening()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == Activity.RESULT_OK && resultCode == -1) {
-
-        }
     }
 
     private fun addSuccessRedirect() {
