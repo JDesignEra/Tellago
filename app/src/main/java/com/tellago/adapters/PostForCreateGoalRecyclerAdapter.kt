@@ -68,16 +68,14 @@ class PostForCreateGoalRecyclerAdapter (options: FirestoreRecyclerOptions<Post>)
 
         if (!model.messageBody.isNullOrBlank()) holder.tvMsg.visibility = View.VISIBLE
 
-        holder.cardView.isChecked = pids.find { it == model.pid } != null
-
-        holder.cardView.setOnClickListener {
-            holder.cardView.toggle()
-        }
-
         model.displayPostMedia(holder.itemView, holder.ivImage) {
             holder.ivImage.visibility = it
         }
 
+        holder.cardView.isChecked = pids.find { it == model.pid } != null
+        holder.cardView.setOnClickListener {
+            holder.cardView.toggle()
+        }
         holder.cardView.setOnCheckedChangeListener { _, isChecked ->
             val btnClearSelection = (holder.itemView.context as AppCompatActivity).btn_clearSelection ?: null
 
