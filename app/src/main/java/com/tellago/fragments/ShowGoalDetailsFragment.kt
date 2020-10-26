@@ -3,6 +3,7 @@ package com.tellago.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,11 @@ class ShowGoalDetailsFragment : Fragment() {
         if (bundle != null) goal = bundle!!.getParcelable(goal::class.java.name)!!
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_show_goal_details, container, false)
     }
 
@@ -90,7 +95,12 @@ class ShowGoalDetailsFragment : Fragment() {
         heroHeader_carouselView.apply {
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) {}
-                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                }
 
                 override fun onPageSelected(position: Int) {
                     for ((i, v) in linearLayout_heroHeader_indicators.children.withIndex()) {
@@ -106,27 +116,54 @@ class ShowGoalDetailsFragment : Fragment() {
                 imageView.apply {
                     setImageResource(heroImagesId[position])
                     scaleType = ImageView.ScaleType.FIT_CENTER
+
+                    setOnClickListener {
+                        if (position == 1) {
+                            toast.warning(
+                                msg = "You have clicked on View: $position",
+                                gravity = Gravity.CENTER
+                            )
+                        } else if (position == 2) {
+                            toast.error(
+                                msg = "You have clicked on View: $position",
+                                gravity = Gravity.CENTER
+                            )
+                        } else if (position == 3) {
+                            toast.success(
+                                msg = "You have clicked on View: $position",
+                                gravity = Gravity.CENTER
+                            )
+                        }
+
+                    }
                 }
             }
 
-//            setImageClickListener {
-//                toast.success("opening advertisement for ${heroI}")
+            setImageClickListener {
+                toast.warning("opening advertisement for carouselView")
+            }
+
+//            setOnClickListener {
+//                toast.warning(
+//                    msg = "You have clicked on View: $it",
+//                    gravity =  Gravity.CENTER)
 //            }
+
 
             pageCount = heroImagesId.size
         }
 
+
         val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val monetaryPercent = (goal.currentAmt / goal.targetAmt * 100).roundToInt()
         val bucketListPercent = if (goal.bucketList.size > 0) {
-            (goal.bucketList.filter { it["completed"] as Boolean }.toMutableList().size.toDouble() / goal.bucketList.size.toDouble() * 100).roundToInt()
-        }
-        else 100
+            (goal.bucketList.filter { it["completed"] as Boolean }
+                .toMutableList().size.toDouble() / goal.bucketList.size.toDouble() * 100).roundToInt()
+        } else 100
 
         val overallPercent = if (goal.bucketList.size < 1) {
             monetaryPercent
-        }
-        else (monetaryPercent + bucketListPercent) / 2
+        } else (monetaryPercent + bucketListPercent) / 2
 
         tv_overallProgress.text = "$overallPercent%"
         tv_title.text = goal.title.toUpperCase()
@@ -163,8 +200,7 @@ class ShowGoalDetailsFragment : Fragment() {
             val arrayListJourneyID = goal.jid
             val journey = Journey()
             var justJID = ""
-            if (arrayListJourneyID.count() != 0)
-            {
+            if (arrayListJourneyID.count() != 0) {
                 justJID = arrayListJourneyID[0]
                 Log.d("jid is: ", justJID)
             }
@@ -183,7 +219,8 @@ class ShowGoalDetailsFragment : Fragment() {
                     enter = R.anim.fragment_close_enter,
                     exit = R.anim.fragment_open_exit,
                     popEnter = R.anim.fragment_slide_right_enter,
-                    popExit = R.anim.fragment_slide_right_exit)
+                    popExit = R.anim.fragment_slide_right_exit
+                )
 
             }
 
@@ -201,7 +238,8 @@ class ShowGoalDetailsFragment : Fragment() {
                 enter = R.anim.fragment_close_enter,
                 exit = R.anim.fragment_open_exit,
                 popEnter = R.anim.fragment_slide_right_enter,
-                popExit = R.anim.fragment_slide_right_exit)
+                popExit = R.anim.fragment_slide_right_exit
+            )
         }
 
 
@@ -238,8 +276,7 @@ class ShowGoalDetailsFragment : Fragment() {
 
         // this click listener will update the record for the current Goal based on the new Current Amount
         constraint_layout_confirm_currentAmt_changes.setOnClickListener {
-            if (!goal.gid?.isBlank()!!)
-            {
+            if (!goal.gid?.isBlank()!!) {
                 // reassign currentAmt of Goal Model
                 goal.currentAmt = et_currentAmt.text.toString().toDouble()
 
@@ -255,8 +292,7 @@ class ShowGoalDetailsFragment : Fragment() {
                         tv_currentAmt.text = DecimalFormat("$#,###").format(goal.currentAmt)
                         et_currentAmt.visibility = View.GONE
                         tv_currentAmt.visibility = View.VISIBLE
-                    }
-                    else toast.error("Please try again, there was an issue when updating the current amount.")
+                    } else toast.error("Please try again, there was an issue when updating the current amount.")
 
                 }
             }
@@ -273,18 +309,15 @@ class ShowGoalDetailsFragment : Fragment() {
 
             if (goal.currentAmt < goal.targetAmt) {
                 toast.error("Current Amount needs to be more than or equals to Targeted Amount")
-            }
-            else if (!bucketFilter.isNullOrEmpty()) {
+            } else if (!bucketFilter.isNullOrEmpty()) {
                 toast.error("Bucket List contains in progress item(s)")
-            }
-            else {
+            } else {
                 goal.completed = true
                 goal.updateCompleteByGid {
                     if (it != null) {
                         btn_CompleteGoal.isEnabled = false
                         toast.success("Goal completed successfully")
-                    }
-                    else toast.error("Please try again, there was an issue completing the goal")
+                    } else toast.error("Please try again, there was an issue completing the goal")
                 }
             }
         }
