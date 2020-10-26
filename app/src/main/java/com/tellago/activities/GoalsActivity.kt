@@ -3,6 +3,7 @@ package com.tellago.activities
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.ActionBar
@@ -40,6 +41,8 @@ class GoalsActivity : AppCompatActivity() {
         fragmentUtils = FragmentUtils(supportFragmentManager, R.id.fragment_container_goal_activity)
         intentFrom = intent.getStringExtra(HomeFragment::class.java.name)
 
+//        Log.d("IntentFrom is: ", intentFrom.toString())
+
         if (intentFrom == "add") {
             val createGoalFragment1: Fragment = CreateGoalFragment_1()
             createGoalFragment1.arguments = Bundle().apply {
@@ -48,7 +51,7 @@ class GoalsActivity : AppCompatActivity() {
 
             fragmentUtils.replace(createGoalFragment1, null, false)
         }
-        else {
+        else if (intentFrom == "show") {
             val showGoalsFragment: Fragment = ShowGoalsFragment()
             showGoalsFragment.arguments = Bundle().apply {
                 putString(HomeFragment::class.java.name, "show")
