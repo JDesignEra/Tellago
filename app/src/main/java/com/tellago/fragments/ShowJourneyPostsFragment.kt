@@ -92,17 +92,13 @@ class ShowJourneyPostsFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_show_journey_posts, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         configureToolbar()
 
@@ -129,19 +125,16 @@ class ShowJourneyPostsFragment : Fragment() {
             }
         }
 
-
         // Same functionality for both constraint_layout_show_journey_posts_add_post and btn_edit_journey_posts
         // on click listeners
         constraint_layout_show_journey_posts_add_post.setOnClickListener {
-            val createGoalFragment3 = CreateGoalFragment_3()
-            createGoalFragment3.arguments = Bundle().apply {
-                putBoolean(ShowJourneyPostsFragment::class.java.name, true)
-                putStringArrayList("pids", journey.pids)
-                putString("journeyTitle", journey.title)
-                putString("jid", journey.jid)
+            val editJourneyFragment = EditJourneyFragment()
+            editJourneyFragment.arguments = Bundle().apply {
+                putParcelable(goal::class.java.name, goal)
+                putParcelable(journey::class.java.name, journey)
             }
 
-            fragmentUtils.replace(createGoalFragment3, setTargetFragment = this, requestCode = 0)
+            fragmentUtils.replace(editJourneyFragment)
         }
 
         // TODO: Use a separate fragment instead in the future.
@@ -206,6 +199,4 @@ class ShowJourneyPostsFragment : Fragment() {
             fragmentUtils.popBackStack()
         }
     }
-
-
 }
