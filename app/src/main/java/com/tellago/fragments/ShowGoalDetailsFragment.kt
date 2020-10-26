@@ -192,6 +192,14 @@ class ShowGoalDetailsFragment : Fragment() {
         }
 
 
+        btn_Resources.setOnClickListener {
+
+            toast.warning(
+                msg = "Replace this toast with redirect to relevant resource based on selected Categories",
+                gravity = Gravity.CENTER
+            )
+            
+        }
 
 
         btn_Journey_View.setOnClickListener {

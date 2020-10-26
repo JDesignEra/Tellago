@@ -534,7 +534,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_DeleteGoal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="33dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="6.5dp"
@@ -550,7 +550,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_CompleteGoal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="33dp"
                     android:layout_marginStart="6.5dp"
                     android:layout_marginTop="8dp"
@@ -564,20 +564,49 @@
 
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_Journey_View"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="33dp"
-                android:layout_marginTop="8dp"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:letterSpacing=".05"
-                android:paddingHorizontal="29dp"
-                android:text="View Journey"
-                android:textSize="11sp"
-                app:strokeColor="@color/colorPrimary"
-                app:strokeWidth="2dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_Resources"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="6.5dp"
+                    android:layout_weight=".5"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:letterSpacing=".05"
+                    android:stateListAnimator="@null"
+                    android:text="Resources"
+                    android:textColor="@color/colorTextBlack"
+                    android:textSize="11sp"
+                    app:backgroundTint="@color/colorWhiteBackground" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_Journey_View"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_marginStart="6.5dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight=".5"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:letterSpacing=".05"
+                    android:text="View Journey"
+                    android:textSize="11sp"
+                    app:strokeColor="@color/colorPrimary"
+                    app:strokeWidth="2dp" />
+
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
