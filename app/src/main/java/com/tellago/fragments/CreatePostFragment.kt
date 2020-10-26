@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.get
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
@@ -197,7 +198,7 @@ class CreatePostFragment : Fragment() {
         }
 
 
-        btn_add_poll_option.setOnClickListener {
+        linear_layout_add_poll_option.setOnClickListener {
             Log.d("button for adding poll", "FIRED")
 
             linear_layout_poll_options.addView(createNewPollOptionEditText())
@@ -331,13 +332,13 @@ class CreatePostFragment : Fragment() {
             }
 
             // toggle layout accordingly
-            textinputlayout_messageBody.visibility = View.VISIBLE
-            textinputlayout_pollQuestion.visibility = View.GONE
-            btn_add_poll_option.visibility = View.GONE
-            linear_layout_poll_options.visibility = View.GONE
-            linear_layout_poll_remove_buttons.visibility = View.GONE
-            textView_attachMedia.visibility = View.GONE
-            attach_post_image.visibility = View.GONE
+            create_post_message_mcv.visibility = View.VISIBLE
+            // Normalise height of text box for message when message tab is selected
+            et_PostMessage.maxLines = 7
+            et_PostMessage.height = 180
+            linear_layout_poll_toggle.visibility = View.GONE
+            create_post_media_with_message_mcv.visibility = View.GONE
+
         } else if (chip_poll_radioToggle.isChecked) {
             chip_message_radioToggle.isChecked = false
             chip_multimedia_radioToggle.isChecked = false
@@ -380,13 +381,11 @@ class CreatePostFragment : Fragment() {
             }
 
             // toggle layout accordingly
-            textinputlayout_pollQuestion.visibility = View.VISIBLE
-            btn_add_poll_option.visibility = View.VISIBLE
-            linear_layout_poll_options.visibility = View.VISIBLE
-            linear_layout_poll_remove_buttons.visibility = View.VISIBLE
-            textinputlayout_messageBody.visibility = View.GONE
-            textView_attachMedia.visibility = View.GONE
-            attach_post_image.visibility = View.GONE
+
+            linear_layout_poll_toggle.visibility = View.VISIBLE
+            create_post_message_mcv.visibility = View.GONE
+            create_post_media_with_message_mcv.visibility = View.GONE
+
         } else if (chip_multimedia_radioToggle.isChecked) {
             chip_poll_radioToggle.isChecked = false
             chip_message_radioToggle.isChecked = false
@@ -410,12 +409,15 @@ class CreatePostFragment : Fragment() {
 
 
             // toggle layout accordingly
-            textView_attachMedia.visibility = View.VISIBLE
-            textinputlayout_messageBody.visibility = View.GONE
-            textinputlayout_pollQuestion.visibility = View.GONE
-            btn_add_poll_option.visibility = View.GONE
-            linear_layout_poll_options.visibility = View.GONE
-            linear_layout_poll_remove_buttons.visibility = View.GONE
+            create_post_media_with_message_mcv.visibility = View.VISIBLE
+
+            // Shorten height of text box for message when media tab is selected
+            et_PostMessage.maxLines = 3
+            et_PostMessage.height = 80
+            create_post_message_mcv.visibility = View.VISIBLE
+
+            linear_layout_poll_toggle.visibility = View.GONE
+
         }
     }
 
@@ -450,7 +452,10 @@ class CreatePostFragment : Fragment() {
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
         val editTextPollOption = EditText(requireContext())
-        editTextPollOption.setHint("Add option to your poll...")
+        editTextPollOption.setHint("Add option to poll...")
+
+        // Text size to coincide with provided space & accompanying text in surroundings
+        editTextPollOption.textSize = 16F
 
 
         editTextPollOption.layoutParams = lparams
@@ -481,7 +486,9 @@ class CreatePostFragment : Fragment() {
         )
         // button to remove corresponding edit text
         val btnRemoveET = Button(requireContext())
-        btnRemoveET.setBackgroundResource(R.drawable.ic_baseline_delete_outline_12)
+
+        // Use a 'minus' icon here
+        btnRemoveET.setBackgroundResource(R.drawable.toolbar_cancel_icon_white)
 
         btnRemoveET.setOnClickListener {
             Log.d("Clicked on", btnRemoveET.toString())

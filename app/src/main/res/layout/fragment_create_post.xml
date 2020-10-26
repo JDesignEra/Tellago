@@ -93,69 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/header_background_rectangle">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="26dp"
-                    android:layout_marginVertical="4dp"
-                    android:text="Attach Journeys To This Post"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorTextDarkGray"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/textView_jid_from_bundle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="2"
-                android:textColor="@color/colorTextBlack"
-                android:textSize="14sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/textView_journey_titles"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="2"
-                android:textColor="@color/colorTextBlack"
-                android:textSize="14sp"
-                android:textStyle="italic"
-                android:visibility="gone" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_AddJourney"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="26dp"
-                android:layout_marginVertical="8dp"
-                android:layout_weight="1"
-                android:elevation="10dp"
-                android:letterSpacing="0.03"
-                android:text="Attach Journey(s)"
-                android:textSize="14sp"
-                android:textStyle="italic"
-                app:backgroundTint="@color/colorPrimaryLight"
-                app:cornerRadius="5dp"
-                app:icon="@drawable/ic_baseline_directions_walk_24" />
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="4dp"
                 android:background="@drawable/header_background_rectangle">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -169,25 +107,21 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
-
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGrp_post_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="12dp"
                     app:selectionRequired="true"
                     app:singleSelection="true">
-
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_message_radioToggle"
@@ -238,113 +172,287 @@
 
                 </com.google.android.material.chip.ChipGroup>
 
-
             </LinearLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinputlayout_messageBody"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/create_post_media_with_message_mcv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_btn_gray"
-                android:hint="Write a message ..."
-                android:textAlignment="center"
-                android:visibility="visible"
-                app:boxBackgroundColor="@color/lightGray">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_PostMessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:maxLines="7" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/attach_post_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_android_photo"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/textView_attachMedia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="16dp"
-                android:text="Add Image"
-                android:textColor="@color/colorLinkBlue"
-                android:textSize="18sp"
-                android:visibility="gone" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinputlayout_pollQuestion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="12dp"
-                android:background="@drawable/rounded_btn_gray"
-                android:hint="Create a poll ..."
-                android:textAlignment="center"
+                android:layout_marginTop="4dp"
                 android:visibility="gone"
-                app:boxBackgroundColor="@color/lightGray">
+                app:cardBackgroundColor="@color/colorBackgroundTintGrey"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_PollQuestion"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:maxLines="8" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="16dp">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <ImageView
+                        android:id="@+id/attach_post_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="160dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginHorizontal="12dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_android_photo"
+                        android:visibility="visible" />
 
+                    <TextView
+                        android:id="@+id/textView_attachMedia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="26dp"
+                        android:layout_marginTop="12dp"
+                        android:text="Add Image"
+                        android:textColor="@color/colorLinkBlue"
+                        android:textSize="11sp"
+                        />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_add_poll_option"
-                android:layout_width="wrap_content"
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/create_post_message_mcv"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:text="Add Poll Option"
-                android:textColor="@color/colorTextBlack"
-                android:visibility="gone"
-                app:backgroundTint="@color/colorUnderlyingBackground" />
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="4dp"
+                app:cardBackgroundColor="@color/colorBackgroundTintGrey"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="26dp"
+                        android:layout_marginTop="16dp"
+                        android:letterSpacing="-0.02"
+                        android:text="Write A Message"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorTextLightGray"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textinputlayout_messageBody"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="26dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_btn_gray"
+                        android:hint="Message Body ..."
+                        android:textAlignment="center"
+                        android:visibility="visible"
+                        app:boxBackgroundColor="@color/colorWhiteBackground">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_PostMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp"
+                            android:maxLines="7" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/create_post_poll_mcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="4dp"
+                app:cardBackgroundColor="@color/colorBackgroundTintGrey"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_poll_toggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:paddingBottom="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="26dp"
+                        android:layout_marginTop="16dp"
+                        android:letterSpacing="-0.02"
+                        android:text="QUESTION"
+                        android:textColor="@color/colorTextLightGray"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textinputlayout_pollQuestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="26dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/rounded_btn_gray"
+                        android:hint="Create a poll ..."
+                        android:textAlignment="center"
+                        android:visibility="visible"
+                        app:boxBackgroundColor="@color/colorWhiteBackground">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_PollQuestion"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:maxLines="8" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/linear_layout_add_poll_option"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="26dp"
+                                android:layout_marginTop="8dp"
+                                android:letterSpacing="-0.02"
+                                android:text="OPTIONS"
+                                android:textColor="@color/colorTextLightGray"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/image_view_add_poll_option"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:src="@drawable/toolbar_add_icon" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_option_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="26dp"
+                        android:layout_marginVertical="4dp"
+                        android:layout_weight="6"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/linear_layout_poll_options"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
+                            android:layout_weight="5"
+                            android:background="@color/colorWhiteBackground"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linear_layout_poll_remove_buttons"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
 
             <LinearLayout
-                android:id="@+id/linear_layout_option_parent"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_weight="5"
-                android:orientation="horizontal">
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/header_background_rectangle">
 
-                <LinearLayout
-                    android:id="@+id/linear_layout_poll_options"
-                    android:layout_width="0dp"
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:layout_marginHorizontal="26dp"
+                    android:layout_marginVertical="4dp"
+                    android:text="Add To Journey (Optional)"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_layout_poll_remove_buttons"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                </LinearLayout>
 
             </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textView_jid_from_bundle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="2"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textView_journey_titles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="2"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_AddJourney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="26dp"
+                android:layout_weight="1"
+                android:elevation="10dp"
+                android:letterSpacing="0.03"
+                android:text="Attach Journey(s)"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:backgroundTint="@color/colorPrimaryLight"
+                app:cornerRadius="5dp"
+                app:icon="@drawable/ic_baseline_directions_walk_24" />
+
 
         </LinearLayout>
 
