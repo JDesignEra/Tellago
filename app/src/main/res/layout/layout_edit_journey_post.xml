@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/post_mvc"
@@ -10,14 +10,14 @@
         android:layout_height="wrap_content"
         android:checkable="true"
         android:clickable="true"
-        android:focusable="true"
         android:clipChildren="false"
+        android:focusable="true"
         app:cardBackgroundColor="@color/superlightgray"
         app:cardCornerRadius="5dp"
         app:cardElevation="4dp"
         app:cardUseCompatPadding="true"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -29,14 +29,16 @@
                 android:id="@+id/post_imageView"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
+                android:layout_marginStart="14dp"
+                android:background="@color/superlightgray"
                 android:minHeight="120dp"
-                android:scaleType="centerInside"
-                android:background="@color/superlightgray"/>
+                android:scaleType="centerInside" />
 
             <LinearLayout
+                android:id="@+id/linear_layout_post_message_edit_journey"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="21dp"
+                android:layout_marginHorizontal="14dp"
                 android:layout_marginVertical="7dp"
                 android:orientation="vertical">
 
@@ -48,6 +50,39 @@
                     android:text="Message..."
                     android:textSize="10sp" />
 
+                <LinearLayout
+                    android:id="@+id/linear_layout_post_poll_option_parent_edit_journey"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/new_post_pollOption">
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_post_poll_options_edit_journey"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_post_poll_progressbar_edit_journey"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
                 <TextView
                     android:id="@+id/createDate_textView"
                     android:layout_width="wrap_content"
@@ -55,9 +90,9 @@
 
                     android:layout_gravity="end"
                     android:text="31/12/2020"
-                    android:textSize="10sp"
                     android:textColor="@color/colorTextLightGray"
-                    android:textStyle="bold"/>
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
