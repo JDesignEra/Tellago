@@ -140,6 +140,8 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
             "multimedia" -> {
                 holder.post_image.visibility = View.VISIBLE
+                holder.post_title.visibility = View.VISIBLE
+                holder.post_title.text = model.messageBody
             }
         }
 
