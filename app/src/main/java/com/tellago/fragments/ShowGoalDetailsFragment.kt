@@ -203,7 +203,7 @@ class ShowGoalDetailsFragment : Fragment() {
 
             val intent = Intent(activity, CallToActionActivity::class.java)
             intent.putExtra("cta_type", "resources")
-            intent.putExtra("categories", goal.categories.toString())
+            intent.putStringArrayListExtra("categories", goal.categories)
 
             startActivity(intent)
 

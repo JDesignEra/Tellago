@@ -6,12 +6,11 @@ import android.util.Log
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import com.tellago.MainActivity
 import com.tellago.R
 import com.tellago.fragments.*
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_call_to_action.*
-import kotlinx.android.synthetic.main.activity_create_goal.*
+import kotlinx.android.synthetic.main.fragment_external_resources.*
 
 
 class CallToActionActivity : AppCompatActivity() {
@@ -33,9 +32,12 @@ class CallToActionActivity : AppCompatActivity() {
         if (intentFrom == "resources") {
             val externalResourcesFragment: Fragment = ExternalResourcesFragment()
 
+            val categoriesArray = intent.getStringArrayListExtra("categories") as ArrayList<String>
+            
+            externalResourcesFragment.arguments = Bundle().apply {
+                putStringArrayList("arrayListString", categoriesArray)
 
-            val categoriesArrayAsString = intent.getStringExtra("categories")
-            Log.d("Categories are: ", categoriesArrayAsString)
+            }
 
             fragmentUtils.replace(externalResourcesFragment, null, false)
         }
@@ -44,13 +46,13 @@ class CallToActionActivity : AppCompatActivity() {
         else if (intentFrom == "consultant") {
             val contactFinancialConsultantFragment: Fragment = ContactFinancialConsultantFragment()
 
-            
 
             fragmentUtils.replace(contactFinancialConsultantFragment, null, false)
         }
 
         configureToolbar()
     }
+
 
 
     private fun configureToolbar() {

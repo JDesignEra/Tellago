@@ -12,4 +12,12 @@
         android:text="This is fragment for External Resources"
         android:layout_marginHorizontal="100dp" />
 
+    <TextView
+        android:id="@+id/tv_external_resources_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginTop="300dp"
+        />
+
 </FrameLayout>
