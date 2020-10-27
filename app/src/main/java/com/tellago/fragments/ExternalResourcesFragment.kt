@@ -6,8 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import com.tellago.R
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_external_resources.*
@@ -47,9 +46,6 @@ class ExternalResourcesFragment : Fragment() {
 
         if (categoriesArrayList != null) {
             for (category in categoriesArrayList) {
-//                val previousText = tv_external_resources_categories.text
-//                tv_external_resources_categories.text =
-//                    String.format("$previousText ${System.lineSeparator()} $category")
 
                 if (category == "career") {
                     linear_layout_category_career.visibility = View.VISIBLE
@@ -62,61 +58,66 @@ class ExternalResourcesFragment : Fragment() {
         }
 
         // On click listeners will open external links
-        val resourcesWebViewFragment = ResourcesWebViewFragment()
+
         // For Category of Career
         tv_career_link_1.setOnClickListener {
+            val url = "https://www.forbes.com/sites/work-in-progress/2011/03/23/five-simple-tips-to-advance-your-career/#64b4db485473"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
 
-//            confirmEditProfileAlert()
-
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.forbes.com/sites/work-in-progress/2011/03/23/five-simple-tips-to-advance-your-career/#64b4db485473"
-            )
         }
         tv_career_link_1.text = "5 Simple Tips To Advance Your Career"
 
         tv_career_link_2.setOnClickListener {
 
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.skillsfuture.sg/skills-framework"
-            )
+            val url = "https://www.skillsfuture.sg/skills-framework"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
 
         }
         tv_career_link_2.text = "Skills Framework"
 
         tv_career_link_3.setOnClickListener {
 
-            openURLinWebView(resourcesWebViewFragment, "https://www.lli.sg/")
+            val url = "https://www.lli.sg/"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
         }
         tv_career_link_3.text = "Lifelong Learning Institute"
 
         tv_career_link_4.setOnClickListener {
 
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://psgsfts.enterprisejobskills.sg/Course_Internet/"
-            )
+            val url = "https://psgsfts.enterprisejobskills.sg/Course_Internet/"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
         }
         tv_career_link_4.text = "Enterprise Job Skills"
 
         tv_career_link_5.setOnClickListener {
 
-
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.skillsfuture.sg/psgtrainingsubsidy"
-            )
+            val url = "https://www.skillsfuture.sg/psgtrainingsubsidy"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
         }
         tv_career_link_5.text = "Productivity Solutions Grant Training Subsidy"
 
         tv_career_link_6.setOnClickListener {
 
-
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.cpf.gov.sg/eSvc/Web/Schemes/RetirementCalculator/CoverPage"
-            )
+            val url = "https://www.cpf.gov.sg/eSvc/Web/Schemes/RetirementCalculator/CoverPage"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
         }
         tv_career_link_6.text = "Retirement Calculator"
 
@@ -124,51 +125,54 @@ class ExternalResourcesFragment : Fragment() {
         // For Category of Family
         tv_family_link_1.setOnClickListener {
 
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.hdb.gov.sg/cs/infoweb/residential/buying-a-flat/new/eligibility"
-            )
+            val url = "https://www.hdb.gov.sg/cs/infoweb/residential/buying-a-flat/new/eligibility"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
         }
         tv_family_link_1.text = "HDB BTO Eligibility"
 
         tv_family_link_2.setOnClickListener {
 
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.rom.gov.sg/reg_info/rom_marriage_process.asp"
-            )
+            val url = "https://www.rom.gov.sg/reg_info/rom_marriage_process.asp"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
 
         }
         tv_family_link_2.text = "Registry Of Marriage Process"
 
         tv_family_link_3.setOnClickListener {
 
-
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.healthhub.sg/live-healthy/370/choosing_right_birth_control"
-            )
+            val url = "https://www.healthhub.sg/live-healthy/370/choosing_right_birth_control"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
 
         }
         tv_family_link_3.text = "Healthhub Singapore"
 
         tv_family_link_4.setOnClickListener {
 
-
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.ica.gov.sg/citizen/birth/citizen_birth_register"
-            )
+            val url = "https://www.ica.gov.sg/citizen/birth/citizen_birth_register"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
 
         }
         tv_family_link_4.text = "Citizen Birth Registration"
 
         tv_family_link_5.setOnClickListener {
 
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://cms.ecda.gov.sg/prweb/SubsidyCalculator/zGwoaxwY6Bz0rcpuMWgTMg%5B%5B*/!STANDARD"
-            )
+            val url = "https://cms.ecda.gov.sg/prweb/SubsidyCalculator/zGwoaxwY6Bz0rcpuMWgTMg%5B%5B*/!STANDARD"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
 
         }
         tv_family_link_5.text = "Citizen Subsidy Calculator"
@@ -176,67 +180,79 @@ class ExternalResourcesFragment : Fragment() {
         // For Category of Leisure
         tv_leisure_link_1.setOnClickListener {
 
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://tripzilla.sg/travel"
-            )
+            val url = "https://tripzilla.sg/travel"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
 
         }
         tv_leisure_link_1.text = "Tripzilla"
 
         tv_leisure_link_2.setOnClickListener {
 
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.visitsingapore.com/see-do-singapore/beyond-singapore/"
-            )
+            val url = "https://www.visitsingapore.com/see-do-singapore/beyond-singapore/"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
 
         }
         tv_leisure_link_2.text = "Visit Singapore"
 
         tv_leisure_link_3.setOnClickListener {
 
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.stb.gov.sg/content/stb/en/media-centre/media-releases/SingapoRediscovers-and-Expanded-Attractions-Guidelines.html"
-            )
+            val url = "https://www.stb.gov.sg/content/stb/en/media-centre/media-releases/SingapoRediscovers-and-Expanded-Attractions-Guidelines.html"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
         }
         tv_leisure_link_3.text = "Singapore Tourism Board"
 
         tv_leisure_link_4.setOnClickListener {
 
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.singaporeair.com/en_UK/sg/plan-travel/discover-your-sia/restaurant-a380-at-changi/"
-            )
+            val url = "https://www.singaporeair.com/en_UK/sg/plan-travel/discover-your-sia/restaurant-a380-at-changi/"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
         }
         tv_leisure_link_4.text = "Restaurant a380 At Changi"
 
         tv_leisure_link_5.setOnClickListener {
 
-            openURLinWebView(
-                resourcesWebViewFragment,
-                "https://www.rwsentosa.com/en/articles/hotels/guide-to-rws-hotels-and-best-staycation-packages"
-            )
+            val url = "https://www.rwsentosa.com/en/articles/hotels/guide-to-rws-hotels-and-best-staycation-packages"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
         }
         tv_leisure_link_5.text = "Resorts World Sentosa"
 
 
     }
 
-    private fun openURLinWebView(resourcesWebViewFragment: ResourcesWebViewFragment, url: String) {
-        resourcesWebViewFragment.arguments = Bundle().apply {
-            putString(
-                "URL",
-                url
-            )
-            fragmentUtils.replace(resourcesWebViewFragment)
-        }
+
+
+    private fun confirmOpenURLAlert(url: String) {
+        val newFragment = ConfirmOpenURLFragment(url)
+        newFragment.show(requireActivity().supportFragmentManager, "Open URL Confirmation")
     }
 
-    private fun confirmEditProfileAlert() {
-        val newFragment = ConfirmEditProfileFragment()
-        newFragment.show(requireActivity().supportFragmentManager, "Edit Profile Confirmation")
+
+    // The dialog fragment receives a reference to this Activity through the
+    // Fragment.onAttach() callback, which it uses to call the following methods
+    // defined by the ConfirmEditProfileFragment.NoticeDialogListener interface
+    fun onDialogPositiveClick(dialog: DialogFragment, inputURL: String) {
+        // User touched the dialog's positive button
+        Log.d("User press Positive FRG", "FIRED")
+
+    }
+
+    fun onDialogNegativeClick(dialog: DialogFragment) {
+        Log.d("User press Negative FRG", "FIRED")
+
     }
 
 
