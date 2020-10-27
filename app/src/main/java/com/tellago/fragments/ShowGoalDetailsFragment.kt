@@ -125,7 +125,7 @@ class ShowGoalDetailsFragment : Fragment() {
                             )
 
                             val intent = Intent(activity, CallToActionActivity::class.java)
-                            intent.putExtra(this::class.java.name, "consultant")
+                            intent.putExtra("cta_type", "consultant")
                             startActivity(intent)
                         } else if (position == 2) {
                             toast.error(
@@ -134,7 +134,7 @@ class ShowGoalDetailsFragment : Fragment() {
                             )
 
                             val intent = Intent(activity, CallToActionActivity::class.java)
-                            intent.putExtra(this::class.java.name, "consultant")
+                            intent.putExtra("cta_type", "consultant")
                             startActivity(intent)
                         } else if (position == 0) {
                             toast.success(
@@ -143,7 +143,7 @@ class ShowGoalDetailsFragment : Fragment() {
                             )
 
                             val intent = Intent(activity, CallToActionActivity::class.java)
-                            intent.putExtra(this::class.java.name, "consultant")
+                            intent.putExtra("cta_type", "consultant")
                             startActivity(intent)
                         }
                     }
@@ -202,7 +202,9 @@ class ShowGoalDetailsFragment : Fragment() {
             )
 
             val intent = Intent(activity, CallToActionActivity::class.java)
-            intent.putExtra(this::class.java.name, "resources")
+            intent.putExtra("cta_type", "resources")
+            intent.putExtra("categories", goal.categories.toString())
+
             startActivity(intent)
 
         }

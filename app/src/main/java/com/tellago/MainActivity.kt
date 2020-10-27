@@ -223,11 +223,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.contact_Financial_Consultant ->
             {
-//                toast.warning(
-//                    msg = "Replace this toast with code to navigate to new Activity + Fragment",
-//                    gravity =  Gravity.CENTER)
+
                 val intent = Intent(this, CallToActionActivity::class.java)
-                intent.putExtra(this::class.java.name, "consultant")
+                intent.putExtra("cta_type", "consultant")
                 startActivity(intent).apply {
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 }

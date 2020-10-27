@@ -24,28 +24,27 @@ class CallToActionActivity : AppCompatActivity() {
 
         fragmentUtils =
             FragmentUtils(supportFragmentManager, R.id.fragment_container_call_to_action_activity)
-        intentFrom = intent.getStringExtra(ShowGoalDetailsFragment::class.java.name)
-
+        intentFrom = intent.getStringExtra("cta_type")
+        Log.d("intent is: ", intentFrom)
 
         setContentView(R.layout.activity_call_to_action)
 
         // intentFrom = "resources"
         if (intentFrom == "resources") {
             val externalResourcesFragment: Fragment = ExternalResourcesFragment()
-//            externalResourcesFragment.arguments = Bundle().apply {
-//                putString(ShowGoalDetailsFragment::class.java.name, "resources")
-//            }
+
+
+            val categoriesArrayAsString = intent.getStringExtra("categories")
+            Log.d("Categories are: ", categoriesArrayAsString)
 
             fragmentUtils.replace(externalResourcesFragment, null, false)
         }
 
         // intentFrom = "consultant"
-//        else if (intentFrom == "consultant")
-        else {
+        else if (intentFrom == "consultant") {
             val contactFinancialConsultantFragment: Fragment = ContactFinancialConsultantFragment()
-//            contactFinancialConsultantFragment.arguments = Bundle().apply {
-//                putString(ShowGoalDetailsFragment::class.java.name, "consultant")
-//            }
+
+            
 
             fragmentUtils.replace(contactFinancialConsultantFragment, null, false)
         }
