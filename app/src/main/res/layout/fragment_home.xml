@@ -23,7 +23,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorWhiteBackground"
-                app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIcon="@drawable/ic_menu"
                 app:title="Home" />
         </com.google.android.material.appbar.AppBarLayout>
