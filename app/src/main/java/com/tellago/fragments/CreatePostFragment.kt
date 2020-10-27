@@ -125,6 +125,8 @@ class CreatePostFragment : Fragment() {
                     if (journeyTitle != null) {
                         journeyTitleList.add(journeyTitle)
                         Log.d("journey list is: ", journeyTitleList.toString())
+                        create_post_journey_titles_mcv.visibility = View.VISIBLE
+                        text_view_selected_journey_titles.visibility = View.VISIBLE
                         textView_journey_titles.visibility = View.VISIBLE
                         val previousTitle = textView_journey_titles.text
                         // set new title(s)
@@ -137,6 +139,13 @@ class CreatePostFragment : Fragment() {
                             textView_journey_titles.text = "$previousTitle, $journeyTitle"
                         }
 
+                    }
+
+                    else
+                    {
+                        create_post_journey_titles_mcv.visibility = View.GONE
+                        text_view_selected_journey_titles.visibility = View.GONE
+                        textView_journey_titles.visibility = View.GONE
                     }
 
 
@@ -336,11 +345,9 @@ class CreatePostFragment : Fragment() {
 
             // toggle layout accordingly
             create_post_message_mcv.visibility = View.VISIBLE
-            // Normalise height of text box for message when message tab is selected
-            et_PostMessage.maxLines = 7
-            et_PostMessage.height = 180
             linear_layout_poll_toggle.visibility = View.GONE
             create_post_media_with_message_mcv.visibility = View.GONE
+            create_post_message_for_media_mcv.visibility = View.GONE
 
         } else if (chip_poll_radioToggle.isChecked) {
             chip_message_radioToggle.isChecked = false
@@ -388,6 +395,7 @@ class CreatePostFragment : Fragment() {
             linear_layout_poll_toggle.visibility = View.VISIBLE
             create_post_message_mcv.visibility = View.GONE
             create_post_media_with_message_mcv.visibility = View.GONE
+            create_post_message_for_media_mcv.visibility = View.GONE
 
         } else if (chip_multimedia_radioToggle.isChecked) {
             chip_poll_radioToggle.isChecked = false
@@ -413,13 +421,12 @@ class CreatePostFragment : Fragment() {
 
             // toggle layout accordingly
             create_post_media_with_message_mcv.visibility = View.VISIBLE
-
-            // Shorten height of text box for message when media tab is selected
-            et_PostMessage.maxLines = 3
-            et_PostMessage.height = 80
-            create_post_message_mcv.visibility = View.VISIBLE
-
+            create_post_message_mcv.visibility = View.GONE
             linear_layout_poll_toggle.visibility = View.GONE
+
+            // Display alternative text box for message when media tab is selected
+            create_post_message_for_media_mcv.visibility = View.VISIBLE
+
 
         }
     }
