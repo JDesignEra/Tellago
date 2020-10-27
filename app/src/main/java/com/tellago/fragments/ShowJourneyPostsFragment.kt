@@ -10,13 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.adapters.NewPostRecyclerAdapter
-import com.tellago.models.Goal
-import com.tellago.models.Journey
-import com.tellago.models.Post
+import com.tellago.models.*
 import com.tellago.models.Post.Companion.collection
-import com.tellago.models.UserPost
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_journey_posts.*
 import java.text.SimpleDateFormat
@@ -65,10 +64,13 @@ class ShowJourneyPostsFragment : Fragment() {
         configureToolbar()
 
         if (journey.jid != null && journey.pids.isNotEmpty() && journey.title.isNotBlank()) {
+            // Rule of thumb: When displaying an 'Ongoing' Journey, then sort in DESCENDING order --> top post is most recent
+            // When displaying a 'Completed' Journey, then sort in ASCENDING order --> top post is earliest
+            // This query will sort results by 'createDate' in DESCENDING order
             adapter = NewPostRecyclerAdapter(
                 FirestoreRecyclerOptions.Builder<Post>()
                     .setQuery(
-                        collection.whereIn(FieldPath.documentId(), journey.pids),
+                        collection.whereIn(FieldPath.documentId(), journey.pids).orderBy("createDate", Query.Direction.DESCENDING),
                         Post::class.java
                     ).build()
             )
@@ -86,10 +88,13 @@ class ShowJourneyPostsFragment : Fragment() {
                     journey = it ?: Journey()
 
                     if (it != null) {
+                        // Rule of thumb: When displaying an 'Ongoing' Journey, then sort in DESCENDING order --> top post is most recent
+                        // When displaying a 'Completed' Journey, then sort in ASCENDING order --> top post is earliest
+                        // This query will sort results by 'createDate' in DESCENDING order
                         adapter = NewPostRecyclerAdapter(
                             FirestoreRecyclerOptions.Builder<Post>()
                                 .setQuery(
-                                    collection.whereIn(FieldPath.documentId(), it.pids),
+                                    collection.whereIn(FieldPath.documentId(), it.pids).orderBy("createDate", Query.Direction.DESCENDING),
                                     Post::class.java
                                 ).build()
                         )

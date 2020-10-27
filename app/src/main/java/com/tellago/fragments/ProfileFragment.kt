@@ -34,7 +34,7 @@ class ProfileFragment : Fragment() {
 
         post = Post()
 
-        // Testing Firestore query
+        // This query will sort results by 'createDate' in DESCENDING order
         val query = FirebaseFirestore.getInstance().collection("posts").whereEqualTo("uid", user?.uid).orderBy("createDate", Query.Direction.DESCENDING)
 
 
@@ -45,8 +45,6 @@ class ProfileFragment : Fragment() {
                     Post::class.java
                 ).build()
         )
-
-//        adapter = PostForCreateGoal
 
     }
 

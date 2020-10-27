@@ -43,6 +43,7 @@ class CreateGoalFragment_3 : Fragment() {
             R.id.fragment_container_goal_activity
         )
 
+        // This query will sort results by 'createDate' in ASCENDING order
         adapter = PostForCreateGoalRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Post>()
                 .setQuery(
