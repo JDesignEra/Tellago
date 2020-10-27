@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.fragments.*
@@ -13,9 +14,10 @@ import kotlinx.android.synthetic.main.activity_call_to_action.*
 import kotlinx.android.synthetic.main.fragment_external_resources.*
 
 
-class CallToActionActivity : AppCompatActivity() {
+class CallToActionActivity : AppCompatActivity(), ConfirmOpenURLFragment.NoticeDialogListener {
     private lateinit var fragmentUtils: FragmentUtils
     private var intentFrom: String? = null
+    private var url : String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +73,41 @@ class CallToActionActivity : AppCompatActivity() {
 //            else {
 //                fragmentUtils.popBackStack()
 //            }
+        }
+    }
+
+
+    private fun confirmOpenURLAlert(url : String) {
+        val newFragment = ConfirmOpenURLFragment(url)
+        newFragment.show(supportFragmentManager, "Open URL Confirmation")
+    }
+
+
+    // The dialog fragment receives a reference to this Activity through the
+    // Fragment.onAttach() callback, which it uses to call the following methods
+    // defined by the ConfirmOpenURLFragment.NoticeDialogListener interface
+    override fun onDialogPositiveClick(dialog: DialogFragment, inputURL : String) {
+        // User touched the dialog's positive button
+        Log.d("User pressed Positive", "FIRED")
+
+        val resourcesWebViewFragment = ResourcesWebViewFragment()
+        openURLinWebView(resourcesWebViewFragment, inputURL)
+
+    }
+
+    override fun onDialogNegativeClick(dialog: DialogFragment) {
+        // User touched the dialog's negative button, so close the ConfirmOpenURLFragment()
+        supportFragmentManager.beginTransaction().remove(ConfirmOpenURLFragment(url)).commit()
+
+    }
+
+    private fun openURLinWebView(resourcesWebViewFragment: ResourcesWebViewFragment, url: String) {
+        resourcesWebViewFragment.arguments = Bundle().apply {
+            putString(
+                "URL",
+                url
+            )
+            fragmentUtils.replace(resourcesWebViewFragment)
         }
     }
 
