@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.tellago.R
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_external_resources.*
@@ -63,178 +65,179 @@ class ExternalResourcesFragment : Fragment() {
         val resourcesWebViewFragment = ResourcesWebViewFragment()
         // For Category of Career
         tv_career_link_1.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.forbes.com/sites/work-in-progress/2011/03/23/five-simple-tips-to-advance-your-career/#64b4db485473"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+//            confirmEditProfileAlert()
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.forbes.com/sites/work-in-progress/2011/03/23/five-simple-tips-to-advance-your-career/#64b4db485473"
+            )
         }
         tv_career_link_1.text = "5 Simple Tips To Advance Your Career"
 
         tv_career_link_2.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString("URL", "https://www.skillsfuture.sg/skills-framework")
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.skillsfuture.sg/skills-framework"
+            )
+
         }
         tv_career_link_2.text = "Skills Framework"
 
         tv_career_link_3.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.lli.sg/"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(resourcesWebViewFragment, "https://www.lli.sg/")
         }
         tv_career_link_3.text = "Lifelong Learning Institute"
 
         tv_career_link_4.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString("URL", "https://psgsfts.enterprisejobskills.sg/Course_Internet/")
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://psgsfts.enterprisejobskills.sg/Course_Internet/"
+            )
         }
         tv_career_link_4.text = "Enterprise Job Skills"
 
         tv_career_link_5.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.skillsfuture.sg/psgtrainingsubsidy"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.skillsfuture.sg/psgtrainingsubsidy"
+            )
         }
         tv_career_link_5.text = "Productivity Solutions Grant Training Subsidy"
 
         tv_career_link_6.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.cpf.gov.sg/eSvc/Web/Schemes/RetirementCalculator/CoverPage"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.cpf.gov.sg/eSvc/Web/Schemes/RetirementCalculator/CoverPage"
+            )
         }
         tv_career_link_6.text = "Retirement Calculator"
 
 
         // For Category of Family
         tv_family_link_1.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.hdb.gov.sg/cs/infoweb/residential/buying-a-flat/new/eligibility"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.hdb.gov.sg/cs/infoweb/residential/buying-a-flat/new/eligibility"
+            )
         }
         tv_family_link_1.text = "HDB BTO Eligibility"
 
         tv_family_link_2.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.rom.gov.sg/reg_info/rom_marriage_process.asp"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.rom.gov.sg/reg_info/rom_marriage_process.asp"
+            )
+
         }
         tv_family_link_2.text = "Registry Of Marriage Process"
 
         tv_family_link_3.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.healthhub.sg/live-healthy/370/choosing_right_birth_control"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.healthhub.sg/live-healthy/370/choosing_right_birth_control"
+            )
+
         }
         tv_family_link_3.text = "Healthhub Singapore"
 
         tv_family_link_4.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.ica.gov.sg/citizen/birth/citizen_birth_register"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.ica.gov.sg/citizen/birth/citizen_birth_register"
+            )
+
         }
         tv_family_link_4.text = "Citizen Birth Registration"
 
         tv_family_link_5.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://cms.ecda.gov.sg/prweb/SubsidyCalculator/zGwoaxwY6Bz0rcpuMWgTMg%5B%5B*/!STANDARD"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://cms.ecda.gov.sg/prweb/SubsidyCalculator/zGwoaxwY6Bz0rcpuMWgTMg%5B%5B*/!STANDARD"
+            )
+
         }
         tv_family_link_5.text = "Citizen Subsidy Calculator"
 
         // For Category of Leisure
         tv_leisure_link_1.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://tripzilla.sg/travel"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://tripzilla.sg/travel"
+            )
+
         }
         tv_leisure_link_1.text = "Tripzilla"
 
         tv_leisure_link_2.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.visitsingapore.com/see-do-singapore/beyond-singapore/"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.visitsingapore.com/see-do-singapore/beyond-singapore/"
+            )
+
         }
         tv_leisure_link_2.text = "Visit Singapore"
 
         tv_leisure_link_3.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.stb.gov.sg/content/stb/en/media-centre/media-releases/SingapoRediscovers-and-Expanded-Attractions-Guidelines.html"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.stb.gov.sg/content/stb/en/media-centre/media-releases/SingapoRediscovers-and-Expanded-Attractions-Guidelines.html"
+            )
         }
         tv_leisure_link_3.text = "Singapore Tourism Board"
 
         tv_leisure_link_4.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.singaporeair.com/en_UK/sg/plan-travel/discover-your-sia/restaurant-a380-at-changi/"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.singaporeair.com/en_UK/sg/plan-travel/discover-your-sia/restaurant-a380-at-changi/"
+            )
         }
         tv_leisure_link_4.text = "Restaurant a380 At Changi"
 
         tv_leisure_link_5.setOnClickListener {
-            resourcesWebViewFragment.arguments = Bundle().apply {
-                putString(
-                    "URL",
-                    "https://www.rwsentosa.com/en/articles/hotels/guide-to-rws-hotels-and-best-staycation-packages"
-                )
-                fragmentUtils.replace(resourcesWebViewFragment)
-            }
+
+            openURLinWebView(
+                resourcesWebViewFragment,
+                "https://www.rwsentosa.com/en/articles/hotels/guide-to-rws-hotels-and-best-staycation-packages"
+            )
         }
         tv_leisure_link_5.text = "Resorts World Sentosa"
 
 
     }
+
+    private fun openURLinWebView(resourcesWebViewFragment: ResourcesWebViewFragment, url: String) {
+        resourcesWebViewFragment.arguments = Bundle().apply {
+            putString(
+                "URL",
+                url
+            )
+            fragmentUtils.replace(resourcesWebViewFragment)
+        }
+    }
+
+    private fun confirmEditProfileAlert() {
+        val newFragment = ConfirmEditProfileFragment()
+        newFragment.show(requireActivity().supportFragmentManager, "Edit Profile Confirmation")
+    }
+
+
 }
