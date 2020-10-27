@@ -35,13 +35,34 @@ class ExternalResourcesFragment : Fragment() {
 
         val categoriesArrayList = bundle?.getStringArrayList("arrayListString")
 
-        tv_external_resources_categories.text = "Relevant categories to display: "
         if (categoriesArrayList != null) {
             for (category in categoriesArrayList) {
-                val previousText = tv_external_resources_categories.text
-                tv_external_resources_categories.text = String.format("$previousText ${System.lineSeparator()} $category")
+//                val previousText = tv_external_resources_categories.text
+//                tv_external_resources_categories.text =
+//                    String.format("$previousText ${System.lineSeparator()} $category")
+
+                if (category == "career") {
+                    linear_layout_category_career.visibility = View.VISIBLE
+                } else if (category == "family") {
+                    linear_layout_category_family.visibility = View.VISIBLE
+                } else if (category == "leisure") {
+                    linear_layout_category_leisure.visibility = View.VISIBLE
+                }
             }
         }
+
+        // On click listeners will open external links
+        // For Category of Career
+        tv_career_link_1.setOnClickListener {
+            
+        }
+
+        // For Category of Family
+
+
+        // For Category of Leisure
+
+
 
     }
 }

@@ -33,7 +33,7 @@ class CallToActionActivity : AppCompatActivity() {
             val externalResourcesFragment: Fragment = ExternalResourcesFragment()
 
             val categoriesArray = intent.getStringArrayListExtra("categories") as ArrayList<String>
-            
+
             externalResourcesFragment.arguments = Bundle().apply {
                 putStringArrayList("arrayListString", categoriesArray)
 

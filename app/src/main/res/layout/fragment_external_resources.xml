@@ -5,19 +5,238 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ExternalResourcesFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:text="This is fragment for External Resources"
-        android:layout_marginHorizontal="100dp" />
 
-    <TextView
-        android:id="@+id/tv_external_resources_categories"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="80dp"
-        android:layout_marginTop="300dp"
-        />
+        android:layout_marginTop="60dp"
+        android:layout_marginHorizontal="12dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout_category_career"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:orientation="vertical"
+            android:paddingVertical="16dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/header_background_rectangle">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="26dp"
+                    android:layout_marginVertical="4dp"
+                    android:text="Career Resources"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_career_link_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 1"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_career_link_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 2"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_career_link_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 3"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_career_link_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 4"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_career_link_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 5"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_career_link_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 6"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_category_family"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:orientation="vertical"
+            android:paddingVertical="16dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/header_background_rectangle">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="26dp"
+                    android:layout_marginVertical="4dp"
+                    android:text="Family Resources"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_family_link_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 1"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_family_link_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 2"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_family_link_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 3"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_family_link_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 4"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_family_link_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 5"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_category_leisure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:orientation="vertical"
+            android:paddingVertical="16dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/header_background_rectangle">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="26dp"
+                    android:layout_marginVertical="4dp"
+                    android:text="Leisure Resources"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_leisure_link_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 1"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_leisure_link_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 2"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_leisure_link_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 3"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_leisure_link_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 4"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_leisure_link_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:text="Link 5"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 
 </FrameLayout>
