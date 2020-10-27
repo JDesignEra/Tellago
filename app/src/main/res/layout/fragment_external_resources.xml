@@ -47,49 +47,55 @@
                 android:id="@+id/tv_career_link_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 1"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_career_link_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 2"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_career_link_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 3"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_career_link_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 4"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_career_link_5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 5"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_career_link_6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 6"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -126,41 +132,46 @@
                 android:id="@+id/tv_family_link_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 1"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_family_link_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 2"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_family_link_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 3"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_family_link_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 4"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_family_link_5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 5"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -197,41 +208,46 @@
                 android:id="@+id/tv_leisure_link_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 1"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_leisure_link_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 2"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_leisure_link_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 3"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_leisure_link_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 4"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_leisure_link_5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
+                android:layout_marginVertical="6dp"
+                android:textColor="@color/colorTextBlack"
                 android:text="Link 5"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 

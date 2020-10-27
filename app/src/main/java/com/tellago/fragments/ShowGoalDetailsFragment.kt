@@ -150,10 +150,6 @@ class ShowGoalDetailsFragment : Fragment() {
                 }
             }
 
-//            setImageClickListener {
-//                toast.warning("opening advertisement for carouselView")
-//            }
-
             pageCount = heroImagesId.size
         }
 
@@ -196,10 +192,6 @@ class ShowGoalDetailsFragment : Fragment() {
         }
 
         btn_Resources.setOnClickListener {
-            toast.warning(
-                msg = "Replace this toast with redirect to relevant resource based on selected Categories",
-                gravity = Gravity.CENTER
-            )
 
             val intent = Intent(activity, CallToActionActivity::class.java)
             intent.putExtra("cta_type", "resources")
