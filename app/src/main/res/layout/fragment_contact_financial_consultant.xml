@@ -129,6 +129,7 @@
 relevant consultants and organization, and financial products may be recommend to me." />
 
                 <Button
+                    android:id="@+id/btn_contact_financial_consultant"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="14dp"
