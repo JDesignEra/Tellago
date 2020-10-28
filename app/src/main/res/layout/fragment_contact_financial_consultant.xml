@@ -124,8 +124,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="14dp"
                     android:layout_marginBottom="32dp"
-                    android:text="I agree that the information I provided may be shared with
-relevant consultants and organization. For the purpose of recommending financial products to me" />
+                    android:paddingHorizontal="16dp"
+                    android:text="I consent that the information I provide may be shared with
+relevant consultants and organization, and financial products may be recommend to me." />
 
                 <Button
                     android:layout_width="wrap_content"
