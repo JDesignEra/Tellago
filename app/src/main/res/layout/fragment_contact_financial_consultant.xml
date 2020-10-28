@@ -56,8 +56,12 @@
                     android:layout_marginHorizontal="14dp"
                     android:paddingHorizontal="19dp"
                     android:paddingVertical="4dp"
-                    android:background="@drawable/header_background_rectangle"
-                    android:text="First Name" />
+                    android:text="Name"
+                    android:textSize="11sp"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:background="@drawable/header_background_rectangle" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/firstName_et"
@@ -79,8 +83,12 @@
                     android:layout_marginHorizontal="14dp"
                     android:paddingHorizontal="19dp"
                     android:paddingVertical="4dp"
-                    android:background="@drawable/header_background_rectangle"
-                    android:text="Email" />
+                    android:text="Email"
+                    android:textSize="11sp"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:background="@drawable/header_background_rectangle" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email_et"
@@ -103,7 +111,11 @@
                     android:paddingHorizontal="19dp"
                     android:paddingVertical="4dp"
                     android:background="@drawable/header_background_rectangle"
-                    android:text="Contact Number" />
+                    android:text="Contact Number"
+                    android:textSize="11sp"
+                    android:textColor="@color/colorTextDarkGray"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"  />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contact_et"
