@@ -16,10 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.tellago.R
 import com.tellago.activities.CallToActionActivity
-import com.tellago.activities.EditProfileActivity
-import com.tellago.adapters.ShowJourneysRecyclerAdapter
 import com.tellago.models.Goal
-import com.tellago.models.Journey
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
@@ -61,6 +58,7 @@ class ShowGoalDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         configureToolbar()
+
 
         // We could actually use this for call to action
         // do a little compute based on the Category (and sub categories) of the Goal
@@ -153,7 +151,6 @@ class ShowGoalDetailsFragment : Fragment() {
             pageCount = heroImagesId.size
         }
 
-
         val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val monetaryPercent = (goal.currentAmt / goal.targetAmt * 100).roundToInt()
         val bucketListPercent = if (goal.bucketList.size > 0) {
@@ -171,20 +168,53 @@ class ShowGoalDetailsFragment : Fragment() {
 
         Handler().post {
             progressIndicator_overallProgress.progress = overallPercent
+
+            // reset navigation button on right side of toolbar
+            constraint_layout_confirm_currentAmt_changes.visibility = View.GONE
+            constraint_layout_edit_goal_details.visibility = View.VISIBLE
+
+            val categoryStrToBtn = mapOf<String, Int>(
+                "career" to btn_career.id,
+                "family" to btn_family.id,
+                "leisure" to btn_leisure.id
+            )
+
+            // uncheck all toggleGrp buttons
+            categoryStrToBtn["career"]?.let { id ->
+                categories_toggleGrp_show_goal_details.uncheck(id)
+            }
+            categoryStrToBtn["family"]?.let { id ->
+                categories_toggleGrp_show_goal_details.uncheck(id)
+            }
+            categoryStrToBtn["leisure"]?.let { id ->
+                categories_toggleGrp_show_goal_details.uncheck(id)
+            }
+
+
+            // hide all buttons in toggle group
+            btn_career.visibility = View.GONE
+            btn_family.visibility = View.GONE
+            btn_leisure.visibility = View.GONE
+
+
+            // check toggleGrp buttons based on goal.categories
+            goal.categories.forEach {
+                categoryStrToBtn[it]?.let { id ->
+                    categories_toggleGrp_show_goal_details.check(id)
+                }
+            }
+
+            // unhide all buttons in toggle group
+            btn_career.visibility = View.VISIBLE
+            btn_family.visibility = View.VISIBLE
+            btn_leisure.visibility = View.VISIBLE
+
+
         }
 
         tv_goalAmt.text = DecimalFormat("$#,###").format(goal.targetAmt)
         tv_currentAmt.text = DecimalFormat("$#,###").format(goal.currentAmt)
 
-        val categoryStrToBtn = mapOf<String, Int>(
-            "career" to btn_career.id,
-            "family" to btn_family.id,
-            "leisure" to btn_leisure.id
-        )
-
-        goal.categories.forEach {
-            categoryStrToBtn[it]?.let { id -> categories_toggleGrp.check(id) }
-        }
 
         if (goal.completed) {
             btn_CompleteGoal.isEnabled = false

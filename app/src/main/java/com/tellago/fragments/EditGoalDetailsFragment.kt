@@ -168,7 +168,6 @@ class EditGoalDetailsFragment : Fragment() {
         val toggleGrpButtonCount = categories_toggleGrp_editGoalDetails.childCount
         for (index in 0 .. (toggleGrpButtonCount - 1))
         {
-            Log.d("Unique ID", (categories_toggleGrp_editGoalDetails[index].id).toString())
             uniqueBtnIDList.add(categories_toggleGrp_editGoalDetails[index].id)
         }
 
@@ -183,6 +182,9 @@ class EditGoalDetailsFragment : Fragment() {
             if (btnId == categories_toggleGrp_editGoalDetails[2].id) categories.add("leisure")
         }
 
+
+        // reassign updated categories to goal.categories
+        goal.categories = categories
 
 
     }

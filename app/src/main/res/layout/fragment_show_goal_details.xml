@@ -458,7 +458,7 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.button.MaterialButtonToggleGroup
-                        android:id="@+id/categories_toggleGrp"
+                        android:id="@+id/categories_toggleGrp_show_goal_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/colorTransparent"
