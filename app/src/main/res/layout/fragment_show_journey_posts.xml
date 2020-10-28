@@ -41,40 +41,6 @@
                         android:layout_height="240dp"
                         android:background="@color/colorTransparent">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/constraint_layout_show_journey_posts_add_post"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/image_view_show_journey_posts"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:src="@drawable/toolbar_add_icon"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintRight_toRightOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/text_view_show_journey_posts"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:text="Add Post"
-                                android:textColor="@color/colorWhiteBackground"
-                                android:textSize="13sp"
-                                android:textStyle="bold"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintRight_toLeftOf="@id/image_view_show_journey_posts"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:textAllCaps="true" />
-
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
@@ -150,13 +116,6 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
-
-            <!--            <com.google.android.material.textview.MaterialTextView-->
-            <!--                android:id="@+id/text_view_date_on_display"-->
-            <!--                android:layout_marginTop="20dp"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="Date On Display" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_show_journey_posts_fragment"

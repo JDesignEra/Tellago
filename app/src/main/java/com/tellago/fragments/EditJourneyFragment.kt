@@ -68,7 +68,7 @@ class EditJourneyFragment : Fragment() {
         Log.e(this::class.java.name, goal.jid.size.toString())
         if (goal.jid.isNotEmpty()) {
             tv_edit_journey.text = "Update Journey"
-            et_journeyTitle.setText(journey.title)
+            et_journeyTitle_edit_journey.setText(journey.title)
             if (journey.pids.isNotEmpty()) adapter?.setPids(journey.pids)
         }
 
@@ -80,11 +80,11 @@ class EditJourneyFragment : Fragment() {
 
             if (goal.jid.isNullOrEmpty()) {
                 when {
-                    et_journeyTitle.text.isNullOrBlank() -> et_journeyTitle.error = "Journey Name is required"
+                    et_journeyTitle_edit_journey.text.isNullOrBlank() -> et_journeyTitle_edit_journey.error = "Journey Name is required"
                     adapter!!.getPids().isNotEmpty() -> {
                         Journey(
                             uid = user?.uid,
-                            title = et_journeyTitle.text.toString(),
+                            title = et_journeyTitle_edit_journey.text.toString(),
                             pids = adapter!!.getPids()
                         ).add { journey ->
                             Log.e(this::class.java.name, journey?.jid.toString())
@@ -111,11 +111,11 @@ class EditJourneyFragment : Fragment() {
                 }
             }
             else {
-                if (et_journeyTitle.text!!.isNotBlank()) {
+                if (et_journeyTitle_edit_journey.text!!.isNotBlank()) {
                     adapter?.getPids()?.let { pids ->
                         Journey(
                             journey.jid,
-                            title = et_journeyTitle.text.toString(),
+                            title = et_journeyTitle_edit_journey.text.toString(),
                             pids = pids
                         ).updateByJid {
                             if (it != null) {
@@ -131,7 +131,7 @@ class EditJourneyFragment : Fragment() {
                         }
                     }
                 }
-                else et_journeyTitle.error = "Journey Name is required"
+                else et_journeyTitle_edit_journey.error = "Journey Name is required"
             }
         }
     }

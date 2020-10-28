@@ -116,19 +116,6 @@ class ShowJourneyPostsFragment : Fragment() {
             recycler_view_show_journey_posts_fragment.adapter = adapter
         }
 
-        constraint_layout_show_journey_posts_add_post.setOnClickListener {
-            val editJourneyFragment = EditJourneyFragment()
-            editJourneyFragment.arguments = Bundle().apply {
-                putParcelable(goal::class.java.name, goal)
-                putParcelable(journey::class.java.name, journey)
-            }
-
-            fragmentUtils.replace(
-                editJourneyFragment,
-                setTargetFragment = this,
-                requestCode = 0
-            )
-        }
 
         btn_edit_journey_posts.setOnClickListener {
             val editJourneyFragment = EditJourneyFragment()
