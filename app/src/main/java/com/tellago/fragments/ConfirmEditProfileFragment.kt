@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import com.tellago.R
 
 

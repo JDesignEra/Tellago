@@ -3,7 +3,6 @@ package com.tellago.activities
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.ActionBar

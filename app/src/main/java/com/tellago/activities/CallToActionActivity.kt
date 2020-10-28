@@ -1,17 +1,19 @@
 package com.tellago.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.tellago.R
-import com.tellago.fragments.*
+import com.tellago.fragments.ConfirmOpenURLFragment
+import com.tellago.fragments.ContactFinancialConsultantFragment
+import com.tellago.fragments.ExternalResourcesFragment
+import com.tellago.fragments.ResourcesWebViewFragment
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_call_to_action.*
-import kotlinx.android.synthetic.main.fragment_external_resources.*
 
 
 class CallToActionActivity : AppCompatActivity(), ConfirmOpenURLFragment.NoticeDialogListener {

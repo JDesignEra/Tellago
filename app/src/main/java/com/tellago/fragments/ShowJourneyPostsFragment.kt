@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.adapters.NewPostRecyclerAdapter
-import com.tellago.models.*
+import com.tellago.models.Goal
+import com.tellago.models.Journey
+import com.tellago.models.Post
 import com.tellago.models.Post.Companion.collection
+import com.tellago.models.UserPost
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_journey_posts.*
 import java.text.SimpleDateFormat
