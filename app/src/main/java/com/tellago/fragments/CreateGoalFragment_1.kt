@@ -67,25 +67,25 @@ class CreateGoalFragment_1 : Fragment() {
             val categories = ArrayList<String>()
 
             val uniqueBtnIDList : java.util.ArrayList<Int> = java.util.ArrayList()
-            val toggleGrpButtonCount = categories_toggleGrp.childCount
-            Log.d("childCount", categories_toggleGrp.childCount.toString())
+            val toggleGrpButtonCount = categories_toggleGrp_create_goal_1.childCount
+            Log.d("childCount", categories_toggleGrp_create_goal_1.childCount.toString())
             for (index in 0 .. (toggleGrpButtonCount - 1))
             {
-                Log.d("Unique ID", (categories_toggleGrp[index].id).toString())
-                uniqueBtnIDList.add(categories_toggleGrp[index].id)
+                Log.d("Unique ID", (categories_toggleGrp_create_goal_1[index].id).toString())
+                uniqueBtnIDList.add(categories_toggleGrp_create_goal_1[index].id)
             }
 
 
-            for (btnId in categories_toggleGrp.checkedButtonIds)
+            for (btnId in categories_toggleGrp_create_goal_1.checkedButtonIds)
             {
                 // use r.id_int instead of unique ID for the buttons
-                if (btnId == categories_toggleGrp[0].id) categories.add("career")
-                if (btnId == categories_toggleGrp[1].id) categories.add("family")
-                if (btnId == categories_toggleGrp[2].id) categories.add("leisure")
+                if (btnId == categories_toggleGrp_create_goal_1[0].id) categories.add("career")
+                if (btnId == categories_toggleGrp_create_goal_1[1].id) categories.add("family")
+                if (btnId == categories_toggleGrp_create_goal_1[2].id) categories.add("leisure")
             }
 
 
-            Log.d("checkedButtonIds", categories_toggleGrp.checkedButtonIds.toString())
+            Log.d("checkedButtonIds", categories_toggleGrp_create_goal_1.checkedButtonIds.toString())
 
             Log.d("Printing categories", categories.toString())
 

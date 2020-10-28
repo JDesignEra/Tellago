@@ -285,7 +285,7 @@
 
 
                     <com.google.android.material.button.MaterialButtonToggleGroup
-                        android:id="@+id/categories_toggleGrp"
+                        android:id="@+id/categories_toggleGrp_create_goal_1"
                         android:layout_width="wrap_content"
                         android:layout_height="55dp"
                         android:layout_marginStart="12dp"
