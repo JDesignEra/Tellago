@@ -18,7 +18,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.get
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
@@ -131,18 +130,13 @@ class CreatePostFragment : Fragment() {
                         val previousTitle = textView_journey_titles.text
                         // set new title(s)
 
-                        if (previousTitle == "")
-                        {
+                        if (previousTitle == "") {
                             textView_journey_titles.text = "$journeyTitle"
-                        } else
-                        {
+                        } else {
                             textView_journey_titles.text = "$previousTitle, $journeyTitle"
                         }
 
-                    }
-
-                    else
-                    {
+                    } else {
                         create_post_journey_titles_mcv.visibility = View.GONE
                         text_view_selected_journey_titles.visibility = View.GONE
                         textView_journey_titles.visibility = View.GONE
@@ -168,6 +162,15 @@ class CreatePostFragment : Fragment() {
         db.collection("goals").whereEqualTo("uid", user?.uid)
             .get()
             .addOnSuccessListener { it ->
+                Log.d("it is: ", it.toString())
+                if (it.isEmpty)
+                {
+                    linear_layout_journey_selection_create_post.visibility = View.GONE
+                }
+                else {
+                    linear_layout_journey_selection_create_post.visibility = View.VISIBLE
+                }
+
                 for (document in it.documents) {
                     jidsFromGoal = document["jid"] as ArrayList<String>
                     Log.d("jidsFromGoal is", jidsFromGoal.toString())
@@ -177,6 +180,12 @@ class CreatePostFragment : Fragment() {
                     Log.d("availableJourneys", availableJourneysArrayList.toString())
                 }
             }
+            .addOnFailureListener {
+                linear_layout_journey_selection_create_post.visibility = View.GONE
+            }
+
+
+
 
         btn_AddJourney.setOnClickListener {
             Log.d("Button for journey", "FIRED")
@@ -361,17 +370,14 @@ class CreatePostFragment : Fragment() {
             }
 
             // poll = [{3=[], haha=[], fou=[]}]
-            if (post.poll.isNotEmpty())
-            {
+            if (post.poll.isNotEmpty()) {
                 // to store element values
-                val pollElementsList : ArrayList<String> = ArrayList()
+                val pollElementsList: ArrayList<String> = ArrayList()
                 // iterating
-                for (stuffLayer1 in post.poll)
-                {
+                for (stuffLayer1 in post.poll) {
                     Log.d("printing Pt1: ", stuffLayer1.toString())
 
-                    for (Layer2 in stuffLayer1)
-                    {
+                    for (Layer2 in stuffLayer1) {
                         Log.d("printing Pt2: ", Layer2.toString())
                         val splitElements = Layer2.toString().split("=")
                         pollElementsList.add(splitElements[0].toString())
@@ -381,8 +387,7 @@ class CreatePostFragment : Fragment() {
                 Log.d("print elements", pollElementsList.toString())
 
                 // Iterate through elements in pollElementsList to dynamically populate linear_layout_poll_options
-                for (element in pollElementsList)
-                {
+                for (element in pollElementsList) {
                     linear_layout_poll_options.addView(populateNewPollOptionEditText(element))
                     linear_layout_poll_remove_buttons.addView(createNewPollOptionDeleteButton())
                     Log.d("new layout created", "FIRED")
@@ -473,7 +478,7 @@ class CreatePostFragment : Fragment() {
         return editTextPollOption
     }
 
-    private fun populateNewPollOptionEditText(userOptionInput : String): EditText {
+    private fun populateNewPollOptionEditText(userOptionInput: String): EditText {
 
         val lparams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
