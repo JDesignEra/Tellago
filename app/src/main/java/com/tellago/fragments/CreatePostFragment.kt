@@ -265,7 +265,7 @@ class CreatePostFragment : Fragment() {
                 }
 
             } else if (post.postType == "multimedia") {
-                post.messageBody = et_PostMessage.text.toString()
+                post.messageBody = et_PostMessage_for_media.text.toString()
 
                 post.add {
                     if (it != null) {
