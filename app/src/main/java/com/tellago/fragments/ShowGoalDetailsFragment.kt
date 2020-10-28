@@ -3,6 +3,7 @@ package com.tellago.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -59,7 +60,6 @@ class ShowGoalDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         configureToolbar()
-
 
         // We could actually use this for call to action
         // do a little compute based on the Category (and sub categories) of the Goal
@@ -153,22 +153,11 @@ class ShowGoalDetailsFragment : Fragment() {
         }
 
         val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val monetaryPercent = (goal.currentAmt / goal.targetAmt * 100).roundToInt()
-        val bucketListPercent = if (goal.bucketList.size > 0) {
-            (goal.bucketList.filter { it["completed"] as Boolean }
-                .toMutableList().size.toDouble() / goal.bucketList.size.toDouble() * 100).roundToInt()
-        } else 100
 
-        val overallPercent = if (goal.bucketList.size < 1) {
-            monetaryPercent
-        } else (monetaryPercent + bucketListPercent) / 2
-
-        tv_overallProgress.text = "$overallPercent%"
         tv_title.text = goal.title.toUpperCase()
         tv_deadline.text = "by ${dateFormatter.format(goal.deadline)}"
 
         Handler().post {
-            progressIndicator_overallProgress.progress = overallPercent
 
             // reset navigation button on right side of toolbar
             constraint_layout_confirm_currentAmt_changes.visibility = View.GONE
@@ -210,6 +199,8 @@ class ShowGoalDetailsFragment : Fragment() {
             btn_family.visibility = View.VISIBLE
             btn_leisure.visibility = View.VISIBLE
 
+
+            computeAndDisplayProgress()
 
         }
 
@@ -318,7 +309,7 @@ class ShowGoalDetailsFragment : Fragment() {
 
                     goal.setByGid {
                         if (it != null) {
-                            toast.success("Current amount updated for Goal")
+//                            toast.success("Current amount updated for Goal")
 
                             // Change visibility of toolbar (top right)
                             constraint_layout_confirm_currentAmt_changes.visibility = View.GONE
@@ -328,6 +319,7 @@ class ShowGoalDetailsFragment : Fragment() {
                             tv_currentAmt.text = DecimalFormat("$#,###").format(goal.currentAmt)
                             et_currentAmt.visibility = View.GONE
                             tv_currentAmt.visibility = View.VISIBLE
+                            computeAndDisplayProgress()
                         } else toast.error("Please try again, there was an issue when updating the current amount.")
                     }
                 }
@@ -356,6 +348,24 @@ class ShowGoalDetailsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun computeAndDisplayProgress() {
+        val monetaryPercent = (goal.currentAmt / goal.targetAmt * 100).roundToInt()
+
+
+        val bucketListPercent = if (goal.bucketList.size > 0) {
+            (goal.bucketList.filter { it["completed"] as Boolean }
+                .toMutableList().size.toDouble() / goal.bucketList.size.toDouble() * 100).roundToInt()
+        } else 100
+
+        val overallPercent = if (goal.bucketList.size < 1) {
+            monetaryPercent
+        } else (monetaryPercent + bucketListPercent) / 2
+
+
+        tv_overallProgress.text = "$overallPercent%"
+        progressIndicator_overallProgress.progress = overallPercent
     }
 
     private fun configureToolbar() {
