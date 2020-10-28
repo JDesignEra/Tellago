@@ -385,7 +385,6 @@
                         android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:id="@+id/linear_layout_add_poll_option"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -402,12 +401,6 @@
                                 android:textSize="11sp"
                                 android:textStyle="bold" />
 
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/image_view_add_poll_option"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:src="@drawable/toolbar_add_icon" />
 
                         </LinearLayout>
 
@@ -446,6 +439,23 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_add_poll_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/image_view_add_poll_option"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:src="@drawable/toolbar_add_icon" />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
