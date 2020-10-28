@@ -18,7 +18,9 @@ import com.tellago.activities.CallToActionActivity
 import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
+import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
+import kotlinx.android.synthetic.main.fragment_show_goal_details.constraint_layout_edit_goal_details
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -292,23 +294,42 @@ class ShowGoalDetailsFragment : Fragment() {
         // this click listener will update the record for the current Goal based on the new Current Amount
         constraint_layout_confirm_currentAmt_changes.setOnClickListener {
             if (!goal.gid?.isBlank()!!) {
-                // reassign currentAmt of Goal Model
-                goal.currentAmt = et_currentAmt.text.toString().toDouble()
 
-                goal.setByGid {
-                    if (it != null) {
-                        toast.success("Current amount updated for Goal")
+                // first check that currentAmount does not exceed targetAmount
+                val errors = mutableMapOf<String, String>()
+                val moneyRegex = Regex("\\d+?\\.\\d{3,}")
 
-                        // Change visibility of toolbar (top right)
-                        constraint_layout_confirm_currentAmt_changes.visibility = View.GONE
-                        constraint_layout_edit_goal_details.visibility = View.VISIBLE
+                et_currentAmt.error = null
 
-                        // Display updated goal.currentAmt in tv_currentAmt
-                        tv_currentAmt.text = DecimalFormat("$#,###").format(goal.currentAmt)
-                        et_currentAmt.visibility = View.GONE
-                        tv_currentAmt.visibility = View.VISIBLE
-                    } else toast.error("Please try again, there was an issue when updating the current amount.")
+                when {
+                    moneyRegex.matches(et_currentAmt.text.toString()) -> errors["currentAmt"] =
+                        "Cents can't be more than 2 digits"
+                    et_currentAmt.text.toString()
+                        .toDouble() > goal.targetAmt -> errors["currentAmt"] =
+                        "Please enter an amount less than or equal to the Target Amount"
+                }
 
+                if (errors.isNotEmpty()) {
+                    errors["currentAmt"].let { et_currentAmt.error = it }
+                } else {
+
+                    // reassign currentAmt of Goal Model if there are no errors in Edit Text CurrentAMt
+                    goal.currentAmt = et_currentAmt.text.toString().toDouble()
+
+                    goal.setByGid {
+                        if (it != null) {
+                            toast.success("Current amount updated for Goal")
+
+                            // Change visibility of toolbar (top right)
+                            constraint_layout_confirm_currentAmt_changes.visibility = View.GONE
+                            constraint_layout_edit_goal_details.visibility = View.VISIBLE
+
+                            // Display updated goal.currentAmt in tv_currentAmt
+                            tv_currentAmt.text = DecimalFormat("$#,###").format(goal.currentAmt)
+                            et_currentAmt.visibility = View.GONE
+                            tv_currentAmt.visibility = View.VISIBLE
+                        } else toast.error("Please try again, there was an issue when updating the current amount.")
+                    }
                 }
             }
         }
