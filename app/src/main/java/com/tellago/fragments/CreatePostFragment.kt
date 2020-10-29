@@ -233,6 +233,8 @@ class CreatePostFragment : Fragment() {
 
             post.uid = user?.uid
 
+            // hide the keyboard before attempting to Create Post
+            it.hideKeyboard()
 
             // conditional based on type of post
             if (post.postType == "text post") {
@@ -310,6 +312,7 @@ class CreatePostFragment : Fragment() {
 
             }
 
+
         }
 
     }
@@ -338,6 +341,7 @@ class CreatePostFragment : Fragment() {
         pollArrayList.add(map)
         post.poll = pollArrayList
     }
+
 
     private fun resetLayoutUsingChipRadioToggle() {
         if (chip_message_radioToggle.isChecked) {
@@ -630,6 +634,7 @@ class CreatePostFragment : Fragment() {
             .load(uri)
             .into(attach_post_image)
     }
+
 
     fun View.hideKeyboard() {
         val inputManager =
