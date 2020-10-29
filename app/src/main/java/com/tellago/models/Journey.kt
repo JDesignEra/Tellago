@@ -2,6 +2,7 @@ package com.tellago.models
 
 import android.os.Parcelable
 import android.util.Log
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -88,5 +89,9 @@ data class Journey(
     fun deleteByJid() {
         if (jid != null) collection.document(jid!!).delete()
         else Log.e(this::class.java.name, "JID is required for deleteByJid().")
+    }
+
+    companion object {
+        val collection: CollectionReference = Journey().collection
     }
 }

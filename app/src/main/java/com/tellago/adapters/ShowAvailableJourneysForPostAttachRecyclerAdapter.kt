@@ -20,9 +20,22 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
     FirestoreRecyclerAdapter<Journey, ShowAvailableJourneysForPostAttachRecyclerAdapter.AvailableJourneyViewHolder>(
         options
     ) {
+    class AvailableJourneyViewHolder constructor(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        var model: Journey? = null
+        val tvJourneyTitle = itemView.tv_availableJourneyTitle
+        val journeyCardView = itemView.cardview_availableJourney_list_item
+    }
+
+    private var selectedJourneyTitles: ArrayList<String> = ArrayList()
+    private var selectedJids: ArrayList<String> = ArrayList()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AvailableJourneyViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_available_journey_item_for_post_attach, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(
+            R.layout.layout_available_journey_item_for_post_attach,
+            parent,
+            false
+        )
 
         return AvailableJourneyViewHolder(view)
     }
@@ -31,49 +44,38 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
         holder.model = model
         holder.tvJourneyTitle.text = model.title
 
+        if (selectedJids.contains(model.jid)) holder.journeyCardView.isChecked = true
+
         holder.journeyCardView.setOnClickListener {
             holder.journeyCardView.toggle()
         }
 
-        holder.journeyCardView.setOnCheckedChangeListener { card, isChecked ->
+        holder.journeyCardView.setOnCheckedChangeListener { card, _ ->
             if (card.isChecked) {
-                Log.d("Adding jid", "FIRED")
-                // use LocalBroadcast to send JID (Add) to ShowJourneyPostsFragment.kt
-                model.jid?.let { jid -> broadcastAddJID(card.context, jid) }
-
+                model.jid?.let {
+                    selectedJids.add(it)
+                    selectedJourneyTitles.add(model.title)
+                }
             }
             else {
-                Log.d("Removing jid", "FIRED")
-                // use LocalBroadcast to send JID (Remove) to ShowJourneyPostsFragment.kt
-                model.jid?.let { jid -> broadcastRemoveJID(card.context, jid) }
+                model.jid?.let {
+                    selectedJids.remove(it)
+                    selectedJourneyTitles.remove(model.title)
+                }
             }
         }
     }
 
-    private fun broadcastRemoveJID(context: Context, jid: String) {
-        val intent = Intent("chooseJourney")
-        intent.putExtra("journey remove", jid)
-        LocalBroadcastManager.getInstance(context)
-            .sendBroadcast(intent)
-        Log.d("Broadcast Sent", "FIRED")
+    fun setSelectedJids (selectedJids : ArrayList<String>) {
+        this.selectedJids = selectedJids
+        notifyDataSetChanged()
     }
 
-    private fun broadcastAddJID(context: Context, jid: String) {
-        val intent = Intent("chooseJourney")
-        intent.putExtra("journey add", jid)
-        LocalBroadcastManager.getInstance(context)
-            .sendBroadcast(intent)
-        Log.d("Broadcast Sent", "FIRED")
+    fun getSelectedJids(): ArrayList<String> {
+        return this.selectedJids
     }
 
-    class AvailableJourneyViewHolder constructor(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
-        var model: Journey? = null
-        val tvJourneyTitle = itemView.tv_availableJourneyTitle
-        val journeyCardView = itemView.cardview_availableJourney_list_item
-
-        init {
-            val activity: AppCompatActivity = itemView.context as AppCompatActivity
-        }
+    fun getSelectedJourneyTitles(): ArrayList<String> {
+        return this.selectedJourneyTitles
     }
 }

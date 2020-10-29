@@ -50,7 +50,8 @@ class CreatePostFragment : Fragment() {
 
     private var post = Post()
     private var journey = Journey()
-    private var bundle: Bundle? = null
+    private var selectedJourneyTitles: ArrayList<String> = ArrayList()
+    private var selectedJids: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +61,6 @@ class CreatePostFragment : Fragment() {
             requireActivity().supportFragmentManager,
             R.id.fragment_container
         )
-
-        if (this.arguments != null) bundle = requireArguments()
-        if (bundle != null) post = bundle!!.getParcelable(post::class.java.name)!!
     }
 
     override fun onCreateView(
@@ -78,8 +76,6 @@ class CreatePostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         configureToolbar()
-
-        val availableJourneysArrayList = ArrayList<String>()
 
         when (post.postType) {
             "multimedia" -> chip_multimedia_radioToggle.isChecked = true
@@ -127,7 +123,6 @@ class CreatePostFragment : Fragment() {
 
             val textInputEditText = TextInputEditText(requireContext()).apply {
                 width = LinearLayout.LayoutParams.MATCH_PARENT
-                height = LinearLayout.LayoutParams.WRAP_CONTENT
                 setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorTransparent))
             }
 
@@ -136,13 +131,33 @@ class CreatePostFragment : Fragment() {
         }
 
         attach_journey_iv.setOnClickListener {
-//            val attachPostToJourneysFragment = AttachPostToJourneysFragment()
-//
-//            attachPostToJourneysFragment.arguments = bundle?.apply {
-//                putParcelable(post::class.java.name, post)
-//            }
-//
-//            fragmentUtils.replace(attachPostToJourneysFragment)
+            val attachPostToJourneysFragment = AttachPostToJourneysFragment()
+
+            attachPostToJourneysFragment.arguments = Bundle().apply {
+                putParcelable(post::class.java.name, post)
+                putStringArrayList("selectedJids", selectedJids)
+            }
+
+            fragmentUtils.replace(
+                attachPostToJourneysFragment,
+                setTargetFragment = this,
+                requestCode = -1
+            )
+        }
+
+        if (selectedJourneyTitles.isNotEmpty()) {
+            linearLayout_selected_journey_titles.removeAllViews()
+
+            for (title in selectedJourneyTitles) {
+                val textView = TextView(requireContext()).apply {
+                    text = title
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
+                    setTypeface(null, Typeface.BOLD)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextDarkGray))
+                }
+
+                linearLayout_selected_journey_titles.addView(textView)
+            }
         }
 
 //        // Display initial layout depending on chip radio toggles
@@ -374,30 +389,30 @@ class CreatePostFragment : Fragment() {
 
     }
 
-    private fun updateAndStorePollOptions() {
-        // Assign options to the poll below (start off with Int = 0 for each poll option)
-        val pollOptions = mutableListOf<String>()
-
-        for (optionNo in 1..linear_layout_poll_options.childCount) {
-            val editText: EditText = linear_layout_poll_options[optionNo - 1] as EditText
-            Log.d("edit text: ", editText.text.toString())
-
-            pollOptions.add(editText.text.toString())
-
-        }
-
-        val map = mutableMapOf<String, ArrayList<String>>()
-        val pollArrayList = ArrayList<MutableMap<String, ArrayList<String>>>()
-
-        for (optionNo in 1..pollOptions.size) {
-            // pollOptions[optionNo] is the option String
-            // assign map[String] = 0 because each option starts off with 0 votes/likes
-            map[pollOptions[optionNo - 1]] = ArrayList<String>()
-        }
-
-        pollArrayList.add(map)
-        post.poll = pollArrayList
-    }
+//    private fun updateAndStorePollOptions() {
+//        // Assign options to the poll below (start off with Int = 0 for each poll option)
+//        val pollOptions = mutableListOf<String>()
+//
+//        for (optionNo in 1..linear_layout_poll_options.childCount) {
+//            val editText: EditText = linear_layout_poll_options[optionNo - 1] as EditText
+//            Log.d("edit text: ", editText.text.toString())
+//
+//            pollOptions.add(editText.text.toString())
+//
+//        }
+//
+//        val map = mutableMapOf<String, ArrayList<String>>()
+//        val pollArrayList = ArrayList<MutableMap<String, ArrayList<String>>>()
+//
+//        for (optionNo in 1..pollOptions.size) {
+//            // pollOptions[optionNo] is the option String
+//            // assign map[String] = 0 because each option starts off with 0 votes/likes
+//            map[pollOptions[optionNo - 1]] = ArrayList<String>()
+//        }
+//
+//        pollArrayList.add(map)
+//        post.poll = pollArrayList
+//    }
 
 
 //    private fun resetLayoutUsingChipRadioToggle() {
@@ -497,21 +512,22 @@ class CreatePostFragment : Fragment() {
 //        }
 //    }
 
-    private fun updateJourneyPIDS(availableJID: java.util.ArrayList<String>) {
-        for (jid in availableJID) {
-
-            Journey(jid = jid).getByJid {
-                val pids = it?.pids
-                Log.d("before PIDS", "$pids")
-                post.pid?.let { pids?.add(it) }
-                if (pids != null) {
-                    it.updateByJid(pids)
-                }
-                Log.d("after PIDS", "$pids")
-            }
-
-        }
-    }
+//    private fun updateJourneyPIDS(availableJID: java.util.ArrayList<String>) {
+//        for (jid in availableJID) {
+//
+//            Journey(jid = jid).getByJid {
+//                val pids = it?.pids
+//                Log.d("before PIDS", "$pids")
+//                post.pid?.let { pids?.add(it) }
+//                if (pids != null) {
+//                    it.updateByJid(pids)
+//                }
+//                Log.d("after PIDS", "$pids")
+//            }
+//
+//        }
+//    }
+//
 
     private fun configureToolbar() {
         toolbar_create_post.setNavigationOnClickListener {
@@ -520,78 +536,78 @@ class CreatePostFragment : Fragment() {
     }
 
 
-    private fun createNewPollOptionEditText(): EditText {
+//    private fun createNewPollOptionEditText(): EditText {
+//
+//        val lparams = LinearLayout.LayoutParams(
+//            LinearLayout.LayoutParams.MATCH_PARENT,
+//            LinearLayout.LayoutParams.WRAP_CONTENT
+//        )
+//        val editTextPollOption = EditText(requireContext())
+//        editTextPollOption.setHint("Add option to poll...")
+//
+//        // Text size to coincide with provided space & accompanying text in surroundings
+//        editTextPollOption.textSize = 16F
+//
+//
+//        editTextPollOption.layoutParams = lparams
+//
+//        return editTextPollOption
+//    }
 
-        val lparams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-        val editTextPollOption = EditText(requireContext())
-        editTextPollOption.setHint("Add option to poll...")
+//    private fun populateNewPollOptionEditText(userOptionInput: String): EditText {
+//
+//        val lparams = LinearLayout.LayoutParams(
+//            LinearLayout.LayoutParams.MATCH_PARENT,
+//            LinearLayout.LayoutParams.WRAP_CONTENT
+//        )
+//        val editTextPollOption = EditText(requireContext())
+//        editTextPollOption.setText(userOptionInput)
+//
+//
+//        editTextPollOption.layoutParams = lparams
+//
+//        return editTextPollOption
+//    }
 
-        // Text size to coincide with provided space & accompanying text in surroundings
-        editTextPollOption.textSize = 16F
-
-
-        editTextPollOption.layoutParams = lparams
-
-        return editTextPollOption
-    }
-
-    private fun populateNewPollOptionEditText(userOptionInput: String): EditText {
-
-        val lparams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-        val editTextPollOption = EditText(requireContext())
-        editTextPollOption.setText(userOptionInput)
-
-
-        editTextPollOption.layoutParams = lparams
-
-        return editTextPollOption
-    }
-
-    private fun createNewPollOptionDeleteButton(): Button {
-
-        val lparams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-        // button to remove corresponding edit text
-        val btnRemoveET = Button(requireContext())
-
-        // Use a 'minus' icon here
-        btnRemoveET.setBackgroundResource(R.drawable.toolbar_cancel_icon_white)
-
-        btnRemoveET.setOnClickListener {
-            Log.d("Clicked on", btnRemoveET.toString())
-
-            // linearParent will refer to Linear Layout with Horizontal Orientation & Weight of 5
-            val linearParent = it.parent.parent as LinearLayout
-
-            // linearSibling will refer to Linear Layout with Vertical Orientation & contains editText
-            val linearSibling = linearParent[0] as LinearLayout
-
-            val linearChild = it.parent as LinearLayout
-
-            val indexOfCurrentButton = linearChild.indexOfChild(it)
-            Log.d("current Child index: ", indexOfCurrentButton.toString())
-
-            linearSibling.removeView(linearSibling[indexOfCurrentButton])
-            linearChild.removeView(linearChild[indexOfCurrentButton])
-
-
-            updateAndStorePollOptions()
-            Log.d("Assign poll option REM", post.poll.toString())
-
-        }
-
-        btnRemoveET.layoutParams = lparams
-
-        return btnRemoveET
-    }
+//    private fun createNewPollOptionDeleteButton(): Button {
+//
+//        val lparams = LinearLayout.LayoutParams(
+//            LinearLayout.LayoutParams.MATCH_PARENT,
+//            LinearLayout.LayoutParams.WRAP_CONTENT
+//        )
+//        // button to remove corresponding edit text
+//        val btnRemoveET = Button(requireContext())
+//
+//        // Use a 'minus' icon here
+//        btnRemoveET.setBackgroundResource(R.drawable.toolbar_cancel_icon_white)
+//
+//        btnRemoveET.setOnClickListener {
+//            Log.d("Clicked on", btnRemoveET.toString())
+//
+//            // linearParent will refer to Linear Layout with Horizontal Orientation & Weight of 5
+//            val linearParent = it.parent.parent as LinearLayout
+//
+//            // linearSibling will refer to Linear Layout with Vertical Orientation & contains editText
+//            val linearSibling = linearParent[0] as LinearLayout
+//
+//            val linearChild = it.parent as LinearLayout
+//
+//            val indexOfCurrentButton = linearChild.indexOfChild(it)
+//            Log.d("current Child index: ", indexOfCurrentButton.toString())
+//
+//            linearSibling.removeView(linearSibling[indexOfCurrentButton])
+//            linearChild.removeView(linearChild[indexOfCurrentButton])
+//
+//
+//            updateAndStorePollOptions()
+//            Log.d("Assign poll option REM", post.poll.toString())
+//
+//        }
+//
+//        btnRemoveET.layoutParams = lparams
+//
+//        return btnRemoveET
+//    }
 
 
     private fun pickImageIntent() {
@@ -599,8 +615,6 @@ class CreatePostFragment : Fragment() {
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
         intent.action = Intent.ACTION_GET_CONTENT
-
-        Log.d("pickImageIntent", "FIRED")
 
         context?.let {
             CropImage.activity().start(it, this)
@@ -610,19 +624,22 @@ class CreatePostFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        Log.d("requestCode", requestCode.toString())
+        if (resultCode == Activity.RESULT_OK) {
+            when(requestCode) {
+                CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE -> {
+                    val imageUri = CropImage.getPickImageResultUri(requireContext(), data)
 
-        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            // pick single image
-            val imageUri = CropImage.getPickImageResultUri(requireContext(), data)
-            Log.d("imageUri", imageUri.toString())
-
-            if (CropImage.isReadExternalStoragePermissionsRequired(requireContext(), imageUri)) {
-                //uri = imageUri
-                requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 0)
-            } else {
-                Log.d("begin cropping", "FIRED")
-                startCrop(imageUri)
+                    if (CropImage.isReadExternalStoragePermissionsRequired(requireContext(), imageUri)) {
+                        requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 0)
+                    }
+                    else {
+                        startCrop(imageUri)
+                    }
+                }
+                -1 -> {
+                    selectedJourneyTitles = data?.getStringArrayListExtra("selectedJourneyTitles") ?: ArrayList()
+                    selectedJids = data?.getStringArrayListExtra("selectedJids") ?: ArrayList()
+                }
             }
         }
 
@@ -633,32 +650,31 @@ class CreatePostFragment : Fragment() {
                 result.uri.let {
                     setImage(it)
                     textView_attachMedia.text = "Change Image"
-                    updatePostModelMultimediaURI(it)
                 }
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            }
+            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 val error = result.error
-                Log.e("TAG", "Crop Error: ${result.error}")
             }
         }
     }
 
-    private fun updatePostModelPartial() {
-        // post.jid is meant to be used for Posts which post entire Journey (late game feature)
-        // can use post.jid to store previously-selected Journeys as short-term feature --> still uncompleted
-//        post.jid = textView_jid_from_bundle.text.toString()
-//        post.messageBody = et_PostMessage.text.toString()
-//        post.pollQuestion = et_PollQuestion.text.toString()
-        post.uid = user?.uid
-    }
+//    private fun updatePostModelPartial() {
+//        // post.jid is meant to be used for Posts which post entire Journey (late game feature)
+//        // can use post.jid to store previously-selected Journeys as short-term feature --> still uncompleted
+////        post.jid = textView_jid_from_bundle.text.toString()
+////        post.messageBody = et_PostMessage.text.toString()
+////        post.pollQuestion = et_PollQuestion.text.toString()
+//        post.uid = user?.uid
+//    }
 
 
-    private fun updatePostModelMultimediaURI(uri: Uri) {
-        post.multimediaURI = uri.toString()
-    }
+//    private fun updatePostModelMultimediaURI(uri: Uri) {
+//        post.multimediaURI = uri.toString()
+//    }
 
-    private fun clearPostModelMultimediaURI() {
-        post.multimediaURI = null
-    }
+//    private fun clearPostModelMultimediaURI() {
+//        post.multimediaURI = null
+//    }
 
     private fun startCrop(imageUri: Uri) {
         CropImage.activity(imageUri)
