@@ -31,14 +31,15 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    app:layout_scrollFlags="scroll|enterAlways"
                     >
 
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_journey_image"
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
-                    android:src="@color/colorPrimary"
+                    android:layout_height="222dp"
+                    android:src="@color/colorDefaultBackground"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +60,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="240dp"
+                        android:layout_height="222dp"
                         android:background="@color/fui_transparent">
 
                         <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,13 +1,33 @@
 package com.tellago.models
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Parcelable
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.Transformation
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import com.tellago.GlideApp
+import com.tellago.R
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
+import java.io.File
+import java.net.URI
 
 @Parcelize
 data class Journey(
@@ -21,6 +41,11 @@ data class Journey(
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     @IgnoredOnParcel
     private val collection = db.collection("journeys")
+    @IgnoredOnParcel
+    private val storage = FirebaseStorage.getInstance("gs://tellago.appspot.com")
+    @IgnoredOnParcel
+    private val storageRef = storage.reference
+
 
     fun add(onComplete: ((journey: Journey?) -> Unit)? = null) {
         collection.add(this).addOnSuccessListener {
@@ -84,6 +109,38 @@ data class Journey(
             }
         }
         else Log.e(this::class.java.name, "JID is required for updateByJid().")
+    }
+
+    fun displayJourneyImage(
+        context: Context,
+        imageView: ImageView,
+        vararg transforms: Transformation<Bitmap>
+    ) {
+        GlideApp.with(context)
+            .load(storageRef.child("uploads/journeyImages/$jid"))
+            .apply {
+                if (transforms.isNotEmpty()) transform(*transforms)
+                else transform(CenterInside())
+
+                error(R.drawable.ic_android_photo)
+                diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            }.into(imageView)
+    }
+
+
+    fun updateJourneyImage(jid: String?, uri: String)
+    {
+        if (!jid.isNullOrBlank())
+        {
+            collection.document(jid).update("journeyImageURI", uri)
+        }
+    }
+
+
+    fun uploadJourneyImage(uri: Uri): UploadTask {
+        val file = Uri.fromFile((File(URI.create(uri.toString()))))
+
+        return storageRef.child("uploads/journeyImages/$jid").putFile(file)
     }
 
     fun deleteByJid() {

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Query
@@ -24,6 +26,7 @@ import com.tellago.models.Post
 import com.tellago.models.Post.Companion.collection
 import com.tellago.models.UserPost
 import com.tellago.utilities.FragmentUtils
+import kotlinx.android.synthetic.main.fragment_edit_journey.*
 import kotlinx.android.synthetic.main.fragment_show_journey_posts.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -96,9 +99,14 @@ class ShowJourneyPostsFragment : Fragment() {
 
             adapter?.startListening()
 
-            text_view_journey_title.text = journey.title
-            // assign journeyImage to variable
-            refreshImageViewInToolbar()
+            Handler().post {
+                text_view_journey_title.text = journey.title
+                // assign journeyImage to variable
+//                refreshImageViewInToolbar()
+//                Log.d("Refreshing Image View", "FIRED")
+                journey.journeyImageURI?.toUri()?.let { setImage(it) }
+            }
+
 
         } else if (adapter == null) {
             if (goal.jid.isNotEmpty() && goal.jid[0].isNotBlank()) {
@@ -159,14 +167,18 @@ class ShowJourneyPostsFragment : Fragment() {
     }
 
     private fun refreshImageViewInToolbar() {
-        // assign journeyImage to variable
-        val journeyImage = journey.journeyImageURI?.toUri()
-        if (journeyImage != null) {
-
-            Log.d("journeyImage URI: ", journeyImage.toString())
-
-            setImage(journeyImage)
+        activity?.application?.baseContext?.let {
+            journey.displayJourneyImage(
+                context = it,
+                imageView = iv_journey_image
+            )
         }
+    }
+
+    private fun setImage(uri: Uri) {
+        GlideApp.with(this)
+            .load(uri)
+            .into(iv_journey_image)
     }
 
     override fun onStart() {
@@ -186,15 +198,11 @@ class ShowJourneyPostsFragment : Fragment() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
             journey = data?.getParcelableExtra<Journey>(journey::class.java.name) ?: Journey()
+
         }
+
     }
 
-    private fun setImage(uri: Uri) {
-        GlideApp.with(this)
-            .load(uri).apply {
-                transform(CenterInside())
-            }.into(iv_journey_image)
-    }
 
     private fun configureToolbar() {
         // It will not be possible to collapse toolbar & floating action button when scrolling as these elements belong to ShowJourneyPostsFragment
