@@ -13,6 +13,7 @@ data class Journey(
     @DocumentId var jid: String? = null,
     val uid: String? = null,
     var title: String = "My Journey",
+    var journeyImageURI: String? = "file:///data/user/0/com.tellago/cache/cropped2493534851697307437.jpg",
     var pids: ArrayList<String> = ArrayList()
 ) : Parcelable {
     @IgnoredOnParcel

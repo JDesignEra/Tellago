@@ -25,27 +25,47 @@
                 android:id="@+id/appBarLayout_view_journey_posts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorTextDarkGray"
+                android:background="@color/colorGradientEnd"
                 app:elevation="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_journey_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:src="@color/colorPrimary"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar_view_journey_posts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorTextDarkGray"
                     app:layout_scrollFlags="scroll|enterAlways"
-                    app:navigationIcon="@drawable/toolbar_back_icon">
+                    app:navigationIcon="@drawable/toolbar_back_icon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="240dp"
-                        android:background="@color/colorTransparent">
-
+                        android:background="@color/fui_transparent">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/colorTransparent"
+                            android:background="@color/fui_transparent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent">
 
@@ -112,7 +132,12 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
                 </androidx.appcompat.widget.Toolbar>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
 
@@ -232,11 +257,11 @@
                 android:id="@+id/current_month_show_journey_posts"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:text="November"
                 android:textAlignment="center"
                 android:textColor="@color/colorTextDarkGray"
                 android:textSize="15sp"
-                android:maxLines="1"
                 android:textStyle="bold" />
 
             <TextView

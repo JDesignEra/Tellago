@@ -2,15 +2,20 @@ package com.tellago.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Query
+import com.tellago.GlideApp
 import com.tellago.R
 import com.tellago.adapters.NewPostRecyclerAdapter
 import com.tellago.models.Goal
@@ -55,7 +60,11 @@ class ShowJourneyPostsFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_show_journey_posts, container, false)
     }
@@ -72,20 +81,27 @@ class ShowJourneyPostsFragment : Fragment() {
             adapter = NewPostRecyclerAdapter(
                 FirestoreRecyclerOptions.Builder<Post>()
                     .setQuery(
-                        collection.whereIn(FieldPath.documentId(), journey.pids).orderBy("createDate", Query.Direction.DESCENDING),
+                        collection.whereIn(FieldPath.documentId(), journey.pids).orderBy(
+                            "createDate",
+                            Query.Direction.DESCENDING
+                        ),
                         Post::class.java
                     ).build()
             )
 
-            recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
+            recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(
+                requireContext()
+            )
             recycler_view_show_journey_posts_fragment.adapter = adapter
 
             adapter?.startListening()
 
             text_view_journey_title.text = journey.title
-        }
-        else if (adapter == null) {
-            if (goal.jid.isNotEmpty() && goal.jid[0].isNotBlank() ) {
+            // assign journeyImage to variable
+            refreshImageViewInToolbar()
+
+        } else if (adapter == null) {
+            if (goal.jid.isNotEmpty() && goal.jid[0].isNotBlank()) {
                 Journey(goal.jid[0]).getByJid {
                     journey = it ?: Journey()
 
@@ -96,23 +112,33 @@ class ShowJourneyPostsFragment : Fragment() {
                         adapter = NewPostRecyclerAdapter(
                             FirestoreRecyclerOptions.Builder<Post>()
                                 .setQuery(
-                                    collection.whereIn(FieldPath.documentId(), it.pids).orderBy("createDate", Query.Direction.DESCENDING),
+                                    collection.whereIn(FieldPath.documentId(), it.pids).orderBy(
+                                        "createDate",
+                                        Query.Direction.DESCENDING
+                                    ),
                                     Post::class.java
                                 ).build()
                         )
 
-                        recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
+                        recycler_view_show_journey_posts_fragment.layoutManager =
+                            LinearLayoutManager(
+                                requireContext()
+                            )
                         recycler_view_show_journey_posts_fragment.adapter = adapter
 
                         adapter?.startListening()
 
                         text_view_journey_title.text = it.title
+                        // assign journeyImage to variable
+                        refreshImageViewInToolbar()
+
                     }
                 }
             }
-        }
-        else {
-            recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
+        } else {
+            recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(
+                requireContext()
+            )
             recycler_view_show_journey_posts_fragment.adapter = adapter
         }
 
@@ -129,6 +155,17 @@ class ShowJourneyPostsFragment : Fragment() {
                 setTargetFragment = this,
                 requestCode = 0
             )
+        }
+    }
+
+    private fun refreshImageViewInToolbar() {
+        // assign journeyImage to variable
+        val journeyImage = journey.journeyImageURI?.toUri()
+        if (journeyImage != null) {
+
+            Log.d("journeyImage URI: ", journeyImage.toString())
+
+            setImage(journeyImage)
         }
     }
 
@@ -150,6 +187,13 @@ class ShowJourneyPostsFragment : Fragment() {
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
             journey = data?.getParcelableExtra<Journey>(journey::class.java.name) ?: Journey()
         }
+    }
+
+    private fun setImage(uri: Uri) {
+        GlideApp.with(this)
+            .load(uri).apply {
+                transform(CenterInside())
+            }.into(iv_journey_image)
     }
 
     private fun configureToolbar() {
