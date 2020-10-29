@@ -38,7 +38,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_journey_image"
                     android:layout_width="match_parent"
-                    android:layout_height="222dp"
+                    android:layout_height="221dp"
                     android:src="@color/colorDefaultBackground"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +60,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="222dp"
+                        android:layout_height="221dp"
                         android:background="@color/fui_transparent">
 
                         <androidx.constraintlayout.widget.ConstraintLayout

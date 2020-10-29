@@ -42,7 +42,7 @@
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_journey_image_edit_journey"
                         android:layout_width="match_parent"
-                        android:layout_height="222dp"
+                        android:layout_height="221dp"
                         android:src="@color/colorDefaultBackground"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
