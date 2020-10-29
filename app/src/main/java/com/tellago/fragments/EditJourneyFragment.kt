@@ -84,7 +84,6 @@ class EditJourneyFragment : Fragment() {
 
         refreshImageViewInToolbar()
         iv_journey_image_edit_journey.setOnClickListener {
-            Log.d("Tapping on Image", "FIRED")
             pickImageIntent()
         }
 
