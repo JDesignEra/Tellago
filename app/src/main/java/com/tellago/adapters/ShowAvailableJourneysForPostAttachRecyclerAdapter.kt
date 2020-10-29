@@ -44,8 +44,6 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
         holder.model = model
         holder.tvJourneyTitle.text = model.title
 
-        if (selectedJids.contains(model.jid)) holder.journeyCardView.isChecked = true
-
         holder.journeyCardView.setOnClickListener {
             holder.journeyCardView.toggle()
         }
@@ -64,6 +62,8 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
                 }
             }
         }
+
+        if (selectedJids.contains(model.jid)) holder.journeyCardView.isChecked = true
     }
 
     fun setSelectedJids (selectedJids : ArrayList<String>) {
