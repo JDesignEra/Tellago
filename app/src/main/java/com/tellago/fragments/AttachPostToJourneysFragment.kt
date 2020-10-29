@@ -31,12 +31,9 @@ class AttachPostToJourneysFragment : Fragment() {
     private lateinit var post: Post
     private lateinit var adapter: ShowAvailableJourneysForPostAttachRecyclerAdapter
 
-
     private var bundle: Bundle? = null
-
     //  broadcastMsgArrayListString declared to be persistent
     private var broadcastMsgArrayListString: ArrayList<String> = ArrayList()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,14 +47,11 @@ class AttachPostToJourneysFragment : Fragment() {
             R.id.fragment_container
         )
 
-
         if (this.arguments != null) bundle = requireArguments()
-        val availableJourneysArrayList =
-            bundle?.getStringArrayList("availableJourneysArrayList") as ArrayList<String>
+        val availableJourneysArrayList = bundle?.getStringArrayList("availableJourneysArrayList") as ArrayList<String>
 
         if (bundle != null) post = bundle!!.getParcelable(post::class.java.name)!!
         Log.d("Retrieved bundle", bundle.toString())
-
 
         val query = FirebaseFirestore.getInstance().collection("journeys").whereIn(
             FieldPath.documentId(), availableJourneysArrayList
@@ -70,8 +64,6 @@ class AttachPostToJourneysFragment : Fragment() {
                 .setQuery(query, Journey::class.java)
                 .build()
         )
-
-
     }
 
 
@@ -100,18 +92,14 @@ class AttachPostToJourneysFragment : Fragment() {
 //
 //        }
 
-
-
         // Store values in text views with VISIBILITY = GONE
         tv_store_uid.text = post.uid
         tv_store_postType.text = post.postType
-
 
         recycler_view_show_availableJourney_posts_fragment.layoutManager =
             LinearLayoutManager(requireContext())
 
         recycler_view_show_availableJourney_posts_fragment.adapter = adapter
-
 
         // Register to receive messages.
         // We are registering an observer (mMessageReceiver) to receive Intents
@@ -119,9 +107,6 @@ class AttachPostToJourneysFragment : Fragment() {
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
             mMessageReceiver, IntentFilter("chooseJourney")
         )
-
-
-
 
         btn_confirm_journey_selection.setOnClickListener {
 
@@ -133,11 +118,9 @@ class AttachPostToJourneysFragment : Fragment() {
                 putStringArrayList("arrayListString", broadcastMsgArrayListString)
                 Log.d("Passed String ArrayList", "FIRED")
             }
+
             fragmentUtils.replace(createPostFragment)
-
         }
-
-
     }
 
 
@@ -155,7 +138,6 @@ class AttachPostToJourneysFragment : Fragment() {
         adapter.stopListening()
     }
 
-
     private fun configureToolbar() {
         toolbar_view_availableJourney_posts.setNavigationIcon(R.drawable.toolbar_back_icon)
         toolbar_view_availableJourney_posts.setNavigationOnClickListener {
@@ -167,8 +149,6 @@ class AttachPostToJourneysFragment : Fragment() {
     // with an action named "chooseJourney" is broadcasted.
     val mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-
-
             val journeyIntent = intent.action
 
             if (journeyIntent == "chooseJourney") {
@@ -180,7 +160,8 @@ class AttachPostToJourneysFragment : Fragment() {
 
                     }
 
-                } else if (intent.getStringExtra("journey remove") != null) {
+                }
+                else if (intent.getStringExtra("journey remove") != null) {
 
                     val jidToRemove = intent.getStringExtra("journey remove") as String
                     // here, there is a JID to remove
@@ -190,10 +171,6 @@ class AttachPostToJourneysFragment : Fragment() {
                 }
 
             }
-
-
         }
     }
-
-
 }
