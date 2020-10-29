@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private val homeFragment = HomeFragment()
     private val feedFragment = FeedFragment()
     private val profileFragment = ProfileFragment()
-    private val createPostFragment = CreatePostFragment()
+
 
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -143,8 +143,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         fab_main.setOnClickListener {
 
+            // using a brand new CreatePostFragment instance here
             fragmentUtils.replace(
-                createPostFragment,
+                CreatePostFragment(),
                 "addPostStack",
                 false
             )
