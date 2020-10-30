@@ -8,19 +8,19 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import com.tellago.R
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community.*
 
 
 class CommunityFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
+    private lateinit var fragmentUtils: FragmentUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        fragmentUtils = FragmentUtils(
+            requireActivity().supportFragmentManager,
+            R.id.fragment_container
+        )
         //configureToolbar()
     }
 
@@ -41,8 +41,14 @@ class CommunityFragment : Fragment() {
             // hasFocus means searchView is selected
             if (hasFocus)
             {
-                // changing layout weights
-                displaySearchText()
+//                displaySearchText()
+                community.visibility = View.GONE
+                fragmentUtils.replace(
+                    CommunitySearchFragment(),
+                    null,
+                    enter = R.anim.fragment_slide_left_enter_slow,
+                    exit = R.anim.fragment_slide_left_exit_slow
+                )
 
             }
             else
@@ -55,7 +61,13 @@ class CommunityFragment : Fragment() {
         }
 
         search_bar_community.setOnSearchClickListener {
-            displaySearchText()
+//            displaySearchText()
+            fragmentUtils.replace(
+                CommunitySearchFragment(),
+                null,
+                enter = R.anim.fragment_slide_left_enter_slow,
+                exit = R.anim.fragment_slide_left_exit_slow
+            )
         }
         
     }

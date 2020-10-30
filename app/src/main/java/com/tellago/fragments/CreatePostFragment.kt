@@ -96,14 +96,17 @@ class CreatePostFragment : Fragment() {
         }
 
         attach_post_image.setOnClickListener {
+            it.hideKeyboard()
             pickImageIntent()
         }
 
         textView_attachMedia.setOnClickListener {
+            it.hideKeyboard()
             pickImageIntent()
         }
 
         add_poll_iv.setOnClickListener {
+            it.hideKeyboard()
             pollPlaceholder_tv.visibility = View.GONE
 
             val textInputLayout = TextInputLayout(requireContext()).apply {
@@ -114,6 +117,7 @@ class CreatePostFragment : Fragment() {
                 )
             }
             textInputLayout.setEndIconOnClickListener {
+                it.hideKeyboard()
                 linear_layout_poll_options.removeView(it.parent.parent.parent.parent as View)
 
                 if (linear_layout_poll_options.childCount < 2) {
@@ -132,6 +136,7 @@ class CreatePostFragment : Fragment() {
 
         attach_journey_iv.setOnClickListener {
             val attachPostToJourneysFragment = AttachPostToJourneysFragment()
+            it.hideKeyboard()
 
             attachPostToJourneysFragment.arguments = Bundle().apply {
                 putParcelable(post::class.java.name, post)
@@ -146,6 +151,7 @@ class CreatePostFragment : Fragment() {
         }
 
         if (selectedJourneyTitles.isNotEmpty()) {
+
             linearLayout_selected_journey_titles.removeAllViews()
 
             for (title in selectedJourneyTitles) {
@@ -531,6 +537,7 @@ class CreatePostFragment : Fragment() {
 
     private fun configureToolbar() {
         toolbar_create_post.setNavigationOnClickListener {
+            it.hideKeyboard()
             fragmentUtils.popBackStack("addPostStack")
         }
     }

@@ -21,57 +21,30 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_community"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:background="@color/colorDefaultBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    >
 
-                    <com.google.android.material.imageview.ShapeableImageView
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/search_bar_community"
                         android:layout_width="match_parent"
-                        android:layout_height="16dp"
-                        android:src="@color/colorTransparent" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-
-                        <androidx.appcompat.widget.SearchView
-                            android:id="@+id/search_bar_community"
-                            android:layout_width="0dp"
-                            android:layout_height="120px"
-                            android:layout_weight="0.97"
-                            android:background="@color/colorSearchBarBackground"
-                            android:clickable="true"
-                            android:focusable="true"
-                            app:iconifiedByDefault="false"
-                            app:queryHint="Search Community" />
-
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_community_search"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.25"
-                            android:paddingTop="6dp"
-                            android:text="Search"
-                            android:textAlignment="center"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            app:textAllCaps="true" />
-
-
-                    </LinearLayout>
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorSearchBarBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:iconifiedByDefault="false"
+                        app:queryBackground="@null"
+                        app:queryHint="Search Community" />
 
 
                 </LinearLayout>
-
 
             </androidx.appcompat.widget.Toolbar>
 
