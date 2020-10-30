@@ -5,15 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.load.resource.bitmap.CenterInside
-import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Query
@@ -24,13 +23,10 @@ import com.tellago.models.Goal
 import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.models.Post.Companion.collection
-import com.tellago.models.UserPost
 import com.tellago.utilities.FragmentUtils
-import kotlinx.android.synthetic.main.fragment_edit_journey.*
 import kotlinx.android.synthetic.main.fragment_show_journey_posts.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ShowJourneyPostsFragment : Fragment() {
@@ -43,8 +39,6 @@ class ShowJourneyPostsFragment : Fragment() {
     private var bundle: Bundle? = null
     var updatedTitle: String? = null
 
-    private val userPostArrayList = ArrayList<UserPost>()
-    private val newPostArrayList = ArrayList<Post>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +71,10 @@ class ShowJourneyPostsFragment : Fragment() {
 
         configureToolbar()
 
+        // invalidate the memory cache.
+        Glide.get(requireContext()).clearMemory()
+
+
         if (journey.jid != null && journey.pids.isNotEmpty() && journey.title.isNotBlank()) {
             // Rule of thumb: When displaying an 'Ongoing' Journey, then sort in DESCENDING order --> top post is most recent
             // When displaying a 'Completed' Journey, then sort in ASCENDING order --> top post is earliest
@@ -99,12 +97,12 @@ class ShowJourneyPostsFragment : Fragment() {
 
             adapter?.startListening()
 
+
             Handler().post {
                 text_view_journey_title.text = journey.title
-                // assign journeyImage to variable
-//                refreshImageViewInToolbar()
-//                Log.d("Refreshing Image View", "FIRED")
+
                 journey.journeyImageURI?.toUri()?.let { setImage(it) }
+
             }
 
 
@@ -137,8 +135,10 @@ class ShowJourneyPostsFragment : Fragment() {
                         adapter?.startListening()
 
                         text_view_journey_title.text = it.title
-                        // assign journeyImage to variable
-                        refreshImageViewInToolbar()
+
+                        journey.journeyImageURI?.toUri()?.let { setImage(it) }
+
+
 
                     }
                 }
@@ -175,11 +175,7 @@ class ShowJourneyPostsFragment : Fragment() {
         }
     }
 
-    private fun setImage(uri: Uri) {
-        GlideApp.with(this)
-            .load(uri)
-            .into(iv_journey_image)
-    }
+
 
     override fun onStart() {
         // Adapter which is populated using Firestore data (through query) will require this function
@@ -218,4 +214,20 @@ class ShowJourneyPostsFragment : Fragment() {
             fragmentUtils.popBackStack()
         }
     }
+
+
+    private fun setImage(uri: Uri) {
+        GlideApp.with(this)
+            .load(uri)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .into(iv_journey_image)
+    }
+
+//    suspend fun invalidateCache() {
+//        // invalidate the disk cache.
+//        //This method should always be called on a background thread
+//        Glide.get(requireContext()).clearDiskCache()
+//    }
+
 }

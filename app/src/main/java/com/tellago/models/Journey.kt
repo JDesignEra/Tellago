@@ -122,9 +122,11 @@ data class Journey(
                 if (transforms.isNotEmpty()) transform(*transforms)
                 else transform(CenterInside())
 
-                error(R.drawable.ic_android_photo)
-                diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-            }.into(imageView)
+                error(R.drawable.tellsquarelogo2)
+                skipMemoryCache(true)
+                diskCacheStrategy(DiskCacheStrategy.NONE)
+            }
+            .into(imageView)
     }
 
 

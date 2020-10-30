@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.Query
@@ -82,7 +84,8 @@ class EditJourneyFragment : Fragment() {
             fragmentUtils.popBackStack()
         }
 
-        refreshImageViewInToolbar()
+        journey.journeyImageURI?.toUri()?.let { setImage(it) }
+
         iv_journey_image_edit_journey.setOnClickListener {
             pickImageIntent()
         }
@@ -191,13 +194,16 @@ class EditJourneyFragment : Fragment() {
                 context = it,
                 imageView = iv_journey_image_edit_journey
             )
-
         }
     }
 
+
     private fun setImage(uri: Uri) {
+        // This method updates the displayed Image after user has selected a new Journey Image
         GlideApp.with(this)
             .load(uri)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .into(iv_journey_image_edit_journey)
     }
 
