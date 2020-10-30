@@ -118,28 +118,28 @@ class ShowGoalDetailsFragment : Fragment() {
 
                     setOnClickListener {
                         if (position == 1) {
-                            toast.warning(
-                                msg = "You have clicked on View: $position",
-                                gravity = Gravity.CENTER
-                            )
+//                            toast.warning(
+//                                msg = "You have clicked on View: $position",
+//                                gravity = Gravity.CENTER
+//                            )
 
                             val intent = Intent(activity, CallToActionActivity::class.java)
                             intent.putExtra("cta_type", "consultant")
                             startActivity(intent)
                         } else if (position == 2) {
-                            toast.error(
-                                msg = "You have clicked on View: $position",
-                                gravity = Gravity.CENTER
-                            )
+//                            toast.error(
+//                                msg = "You have clicked on View: $position",
+//                                gravity = Gravity.CENTER
+//                            )
 
                             val intent = Intent(activity, CallToActionActivity::class.java)
                             intent.putExtra("cta_type", "consultant")
                             startActivity(intent)
                         } else if (position == 0) {
-                            toast.success(
-                                msg = "You have clicked on View: $position",
-                                gravity = Gravity.CENTER
-                            )
+//                            toast.success(
+//                                msg = "You have clicked on View: $position",
+//                                gravity = Gravity.CENTER
+//                            )
 
                             val intent = Intent(activity, CallToActionActivity::class.java)
                             intent.putExtra("cta_type", "consultant")
