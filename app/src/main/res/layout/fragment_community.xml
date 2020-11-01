@@ -28,14 +28,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.SearchView
                         android:id="@+id/search_bar_community"
                         android:layout_width="match_parent"
-                        android:layout_marginHorizontal="16dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
                         android:background="@color/colorSearchBarBackground"
                         android:clickable="true"
                         android:focusable="true"
@@ -48,7 +47,17 @@
 
             </androidx.appcompat.widget.Toolbar>
 
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/search_toolbar_community_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorSearchBarBackground"
+                app:collapseIcon="@drawable/toolbar_back_icon"
+                app:titleTextColor="@color/colorTextBlack" />
+
+
         </com.google.android.material.appbar.AppBarLayout>
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
