@@ -13,7 +13,6 @@ import com.tellago.models.UserPost
 import kotlinx.android.synthetic.main.layout_user_post_list_item.view.*
 
 class ProfilePostRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     private var items: List<UserPost> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

@@ -30,21 +30,18 @@ class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         post = Post()
-
-        // This query will sort results by 'createDate' in DESCENDING order
-        val query = FirebaseFirestore.getInstance().collection("posts").whereEqualTo("uid", user?.uid).orderBy("createDate", Query.Direction.DESCENDING)
-
 
         adapter = NewPostRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Post>()
                 .setQuery(
-                    query,
+                    Post.collection.let {
+                        it.whereEqualTo("uid", user?.uid)
+                        it.orderBy("createDate", Query.Direction.DESCENDING)
+                    },
                     Post::class.java
                 ).build()
         )
-
     }
 
     override fun onCreateView(
@@ -62,7 +59,6 @@ class ProfileFragment : Fragment() {
 
         recycler_view_profile_fragment.layoutManager = LinearLayoutManager(requireContext())
         recycler_view_profile_fragment.adapter = adapter
-
 
         button_edit_profile.setOnClickListener {
             startActivity(Intent(activity, EditProfileActivity::class.java))
