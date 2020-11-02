@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,10 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -65,6 +68,8 @@ class CreatePostFragment : Fragment() {
         when (post.postType) {
             "multimedia" -> {
                 chip_multimedia_radioToggle.isChecked = true
+                post_msg_mcv.visibility = View.GONE
+                poll_mcv.visibility = View.GONE
                 media_mcv.visibility = View.VISIBLE
 
                 imageUri?.let {setImage(it) }
@@ -72,6 +77,7 @@ class CreatePostFragment : Fragment() {
             "poll" -> {
                 chip_poll_radioToggle.isChecked = true
                 post_msg_mcv.visibility = View.GONE
+                media_mcv.visibility = View.GONE
                 poll_mcv.visibility = View.VISIBLE
 
                 if (post.poll.isNotEmpty()) {
@@ -83,7 +89,7 @@ class CreatePostFragment : Fragment() {
             else -> chip_message_radioToggle.isChecked = false
         }
 
-        chipGrp_post_type.setOnCheckedChangeListener { group, checkedId ->
+        chipGrp_post_type.setOnCheckedChangeListener { _, checkedId ->
             post_msg_mcv.visibility = View.GONE
             media_mcv.visibility = View.GONE
             poll_mcv.visibility = View.GONE
@@ -232,10 +238,10 @@ class CreatePostFragment : Fragment() {
 
                 for (v in linear_layout_poll_options.children) {
                     if (v is TextInputLayout) {
-                        val textInputEditText = (v.children.elementAt(0) as FrameLayout).children.elementAt(0)
-
-                        if (textInputEditText is TextInputEditText) {
-                            pollOptions[textInputEditText.text.toString()] = ArrayList()
+                        for (view in (v[0] as ViewGroup).children) {
+                            if (view is TextInputEditText) {
+                                pollOptions[view.text.toString()] = ArrayList()
+                            }
                         }
                     }
                 }

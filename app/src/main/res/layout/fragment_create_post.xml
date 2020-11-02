@@ -291,7 +291,8 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/media_mcv"
             app:layout_constraintBottom_toTopOf="@+id/journey_mcv"
-            app:layout_constraintHeight_max="315dp">
+            app:layout_constraintHeight_max="315dp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"

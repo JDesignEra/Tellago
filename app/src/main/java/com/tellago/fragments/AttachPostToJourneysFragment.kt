@@ -1,31 +1,22 @@
 package com.tellago.fragments
 
 import android.app.Activity
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.FirebaseFirestore
 import com.tellago.R
 import com.tellago.adapters.ShowAvailableJourneysForPostAttachRecyclerAdapter
-import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
-import com.tellago.models.Goal
 import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_attach_post_to_journeys.*
-
 
 class AttachPostToJourneysFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
@@ -43,7 +34,8 @@ class AttachPostToJourneysFragment : Fragment() {
         )
 
         if (this.arguments != null) bundle = requireArguments()
-        if (bundle != null) post = bundle?.getParcelable(post::class.java.name) ?: Post()
+        post = bundle?.getParcelable(post::class.java.name) ?: Post()
+        Log.e(this::class.java.name, post.poll.size.toString())
 
         adapter = ShowAvailableJourneysForPostAttachRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Journey>()
@@ -65,11 +57,13 @@ class AttachPostToJourneysFragment : Fragment() {
 
         recycler_view_show_availableJourney_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
         recycler_view_show_availableJourney_posts_fragment.adapter = adapter.apply {
-            if (bundle != null && !bundle!!.getStringArrayList("selectedJids").isNullOrEmpty()) {
-                bundle!!.getStringArrayList("selectedJids")?.let {
-                    setSelectedJids(it)
-                }
+            bundle?.getStringArrayList("selectedJids")?.let {
+                setSelectedJids(it)
             }
+        }
+
+        for (s in post.poll) {
+            Log.e(this::class.java.name, s.key.toString())
         }
 
         btn_confirm_journey_selection.setOnClickListener {
