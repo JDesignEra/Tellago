@@ -29,23 +29,22 @@ import kotlinx.android.synthetic.main.fragment_attach_post_to_journeys.*
 
 class AttachPostToJourneysFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
-    private lateinit var goal: Goal
-    private lateinit var journey: Journey
     private lateinit var adapter: ShowAvailableJourneysForPostAttachRecyclerAdapter
 
     private var bundle: Bundle? = null
+    private var post = Post()
+    private var journey = Journey()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        goal = Goal()
-        journey = Journey()
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
             R.id.fragment_container
         )
 
         if (this.arguments != null) bundle = requireArguments()
+        if (bundle != null) post = bundle?.getParcelable(post::class.java.name) ?: Post()
 
         adapter = ShowAvailableJourneysForPostAttachRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Journey>()
@@ -82,6 +81,7 @@ class AttachPostToJourneysFragment : Fragment() {
             val intent = Intent(requireContext(), this::class.java).apply {
                 putExtra("selectedJourneyTitles", adapter.getSelectedJourneyTitles())
                 putExtra("selectedJids", adapter.getSelectedJids())
+                putExtra(post::class.java.name, post)
             }
 
             targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)

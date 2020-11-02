@@ -54,7 +54,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
             "poll" -> {
                 holder.post_title.visibility = View.VISIBLE
-                val pollQn = model.pollQuestion
+                val pollQn = model.messageBody
                 holder.post_title.text = "Poll Question: $pollQn"
                 holder.post_pollOption.visibility = View.VISIBLE
 //                holder.post_pollOption.text = model.poll.toString()
@@ -69,40 +69,15 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
                     val pollVotesList: ArrayList<Int> = ArrayList()
                     var totalVoteCount = 0
                     // iterating
-                    for (stuffLayer1 in model.poll) {
-                        Log.d("printing Pt1: ", stuffLayer1.toString())
-
-                        for (Layer2 in stuffLayer1) {
-                            Log.d("printing Pt2: ", Layer2.toString())
-                            val splitElements = Layer2.toString().split("=")
-                            pollElementsList.add(splitElements[0])
-                            Log.d("index 1: ", splitElements[1])
-                            if (splitElements[1] == "[]") {
-                                pollVotesList.add(0)
-                            } else {
-
-                                val splitUserVotes = splitElements[1].split(",")
-                                Log.d("splitUserVotes is: ", splitUserVotes.toString())
-                                var noOfUserID = 0
-                                for (userID in splitUserVotes) {
-                                    noOfUserID += 1
-                                    Log.d("userID is: ", userID)
-                                }
-                                pollVotesList.add(noOfUserID)
-                                totalVoteCount += noOfUserID
-                            }
-                            Log.d("totalVoteCount: ", totalVoteCount.toString())
-                            Log.d("printing splitEle: ", splitElements.toString())
-                        }
-
+                    for (m in model.poll) {
+                        totalVoteCount += m.value.size
+                        pollVotesList.add(m.value.size)
                     }
                     Log.d("print elements", pollElementsList.toString())
-
 
                     var iterateVal = 0
                     // Iterate through elements in pollElementsList to dynamically populate linear_layout_poll_options
                     for (element in pollElementsList) {
-
                         holder.layout_poll_options.addView(
                             populateNewPollOptionTextView(
                                 holder.itemView.context,
@@ -131,7 +106,6 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
                         }
 
                         iterateVal += 1
-
                         Log.d("new layout created", "FIRED")
                     }
                 }
@@ -176,7 +150,6 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         }
 
         holder.post_duration.text = durationStr
-
         holder.likes.text = model.likes.size.toString()
         // need to display comments individually instead of as an entire ArrayList<String>
         holder.comments.text = model.comment.toString()

@@ -41,8 +41,7 @@ data class Post(
     var postType: String? = null,
     var multimediaURI: String? = null,
     var jid: String? = null,
-    var poll: ArrayList<MutableMap<String, ArrayList<String>>> = ArrayList(),
-    var pollQuestion: String? = null,
+    var poll: MutableMap<String, ArrayList<String>> = mutableMapOf(),
     var comment: ArrayList<MutableMap<String, String>> = ArrayList(),
     var likes: ArrayList<String> = ArrayList()
 ) : Parcelable {
