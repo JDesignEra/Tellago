@@ -76,6 +76,15 @@ class CommunityFragment : Fragment() {
                 toolbar_community.visibility = View.GONE
         }
 
+
+        cardview_leisure_communities.setOnClickListener {
+            Log.d("Leisure CardView", "FIRED")
+        }
+
+        cardview_family_communities.setOnClickListener {
+            Log.d("Family CardView", "FIRED")
+        }
+
     }
 
 //    public fun configureSearchToolbar() {
