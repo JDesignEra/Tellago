@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.tellago.GlideApp
 import com.tellago.R
 import com.tellago.models.Auth.Companion.user
+import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
@@ -67,8 +67,7 @@ class CreatePostFragment : Fragment() {
                 chip_multimedia_radioToggle.isChecked = true
                 media_mcv.visibility = View.VISIBLE
 
-                Log.e(this::class.java.name, imageUri.toString())
-                imageUri?.let { setImage(it) }
+                imageUri?.let {setImage(it) }
             }
             "poll" -> {
                 chip_poll_radioToggle.isChecked = true
@@ -142,6 +141,22 @@ class CreatePostFragment : Fragment() {
                 requestCode = -1
             )
         }
+
+        constraint_layout_create_post.setOnClickListener {
+            setPostModel()
+            post.add {
+                if (it != null) {
+                    if (selectedJids.isNotEmpty()) {
+                        for ((i, jid) in selectedJids.withIndex()) {
+                            it.pid?.let { pid -> Journey(jid).addPidByJid(pid) }
+
+                            if (i >= selectedJids.size - 1) toast.success("Post created successfully")
+                        }
+                    }
+                }
+                else toast.error("Fail to create post, please try again")
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -177,7 +192,6 @@ class CreatePostFragment : Fragment() {
                 result.uri.let {
                     imageUri = it
                     setImage(it)
-                    media_textView.text = "Change Image"
                 }
             }
             else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -288,6 +302,8 @@ class CreatePostFragment : Fragment() {
                 CenterInside(),
                 RoundedCorners((8 * resources.displayMetrics.density).roundToInt())
             ).into(media_imageView)
+
+        media_textView.text = "Change Image"
     }
 
     private fun View.hideKeyboard() {

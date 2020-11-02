@@ -2,6 +2,7 @@ package com.tellago.fragments
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -36,7 +37,7 @@ class ShowGoalsFragment : Fragment() {
         adapter = ShowGoalsRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Goal>()
                 .setQuery(
-                    collection.whereEqualTo("uid", user?.uid).orderBy("createDate", Query.Direction.ASCENDING),
+                    collection.whereEqualTo("uid", user?.uid),
                     Goal::class.java
                 ).build()
         )
@@ -64,7 +65,6 @@ class ShowGoalsFragment : Fragment() {
     }
 
     override fun onStart() {
-        // Adapter which is populated using Firestore data (through query) will require this function
         super.onStart()
         adapter?.startListening()
     }

@@ -214,7 +214,6 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         val textViewPollOption = TextView(context)
         textViewPollOption.text = "$optionVote out of $totalVoteCount votes"
 
-
         textViewPollOption.layoutParams = lparams
 
         return textViewPollOption
@@ -241,28 +240,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
 
         fun bind(post: Post) {
-            // use Glide to set image to post_image
-            val requestOptions = RequestOptions()
-                .placeholder(drawable.ic_launcher_background)
-                .error(drawable.ic_launcher_background)
-
-
-            val imageURI = model?.multimediaURI?.toUri()
-            // allow glide to LOAD (image URI from Firebase Storage) INTO post_image
-            if (imageURI == null) {
-                Log.d("No multimedia display", "FIRED")
-                post_image.maxHeight = 0;
-                post_image.maxWidth = 0;
-                GlideApp.with(activity.application.baseContext)
-                    .applyDefaultRequestOptions(requestOptions)
-                    .load(drawable.ic_launcher_background)
-                    .into(post_image)
-
-            }
-            // Display image of post
-            post.displayPostMedia(activity.application.baseContext, post_image)
-
-
+            if (post.postType == "multimedia") post.displayPostMedia(activity.application.baseContext, post_image)
         }
     }
 }

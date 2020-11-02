@@ -16,7 +16,6 @@ import com.tellago.activities.GoalsActivity
 import com.tellago.adapters.PostForCreateGoalRecyclerAdapter
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Goal
-import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.models.Post.Companion.collection
 import com.tellago.utilities.CustomToast
@@ -30,7 +29,7 @@ class CreateGoalFragment_3 : Fragment() {
 
     private var goal = Goal()
     private var adapter: PostForCreateGoalRecyclerAdapter? = null
-    private var pids: ArrayList<String>? = null
+    private var pids: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +51,7 @@ class CreateGoalFragment_3 : Fragment() {
                 ).build()
         )
 
-        pids = bundle.getStringArrayList("pids")
+        pids = bundle.getStringArrayList("pids") ?: ArrayList()
     }
 
     override fun onCreateView(
@@ -70,17 +69,12 @@ class CreateGoalFragment_3 : Fragment() {
 
         recycler_view_create_goal_show_posts.layoutManager = LinearLayoutManager(requireContext())
         recycler_view_create_goal_show_posts.adapter = adapter
-
-        if (pids != null) adapter?.setPids(pids!!)
+        adapter?.setPids(pids)
 
         if (bundle.getBoolean(ShowJourneyPostsFragment::class.java.name, false)) {
             linear_layout_create_goal_3_bottom_back.isEnabled = false
             et_journeyTitle.setText(bundle.getString("journeyTitle"))
         }
-        // No more ShowJourneysFragment
-//        else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
-//            linear_layout_create_goal_3_bottom_back.isEnabled = false
-//        }
 
         text_view_note_create_goal_fragment_3.error = "."
         text_view_note_create_goal_fragment_3.setOnClickListener {
@@ -101,72 +95,17 @@ class CreateGoalFragment_3 : Fragment() {
         }
 
         linear_layout_create_goal_3_bottom_finish.setOnClickListener {
-            if (bundle.getBoolean(ShowJourneyPostsFragment::class.java.name, false)) {
-                pids = adapter?.getPids() ?: ArrayList()
-
-                if (et_journeyTitle.text.toString().isBlank()) et_journeyTitle.error = "Field is required"
-                else {
-                    Journey(jid = bundle.getString("jid"), uid = user?.uid, title = et_journeyTitle.text.toString(), pids = pids!!).updateByJid {
-                        if (it != null) {
-                            toast.success("Journey updated successfully")
-
-                            // Use intent, targetFragment & onActivityResult to ensure that updates
-                            // to Journey Title and Posts are displayed correctly following popBackStack()
-                            val intent = Intent(requireContext(), this::class.java).apply {
-                                putExtra(Journey::class.java.name, it)
-                            }
-                            targetFragment?.onActivityResult(0, Activity.RESULT_OK, intent)
-                            fragmentUtils.popBackStack()
-
-
-                        }
-                        else toast.error("Failed to update Journey, please try again")
-                    }
-                }
+            if (et_journeyTitle.text.toString().isBlank()) {
+                et_journeyTitle.error = "Field is required"
+                et_journeyTitle.requestFocus()
             }
-                // No more ShowJourneysFragment
-//            else if (bundle.getBoolean(ShowJourneysFragment::class.java.name, false)) {
-//                pids = adapter?.getPids() ?: ArrayList()
-//
-//                if (et_journeyTitle.text.toString().isBlank()) et_journeyTitle.error = "Field is required"
-//                else {
-//                    Journey(uid = user?.uid, title = et_journeyTitle.text.toString(), pids = pids!!).add {
-//                        if (it != null) {
-//                            toast.success("Journey added successfully")
-//                            fragmentUtils.popBackStack()
-//                        }
-//                        else toast.error("Failed to add Journey, please try again")
-//                    }
-//                }
-//            }
             else {
                 goal.uid = user?.uid
-
-                pids = if (adapter != null && adapter!!.getPids().isNotEmpty()) {
-                    adapter!!.getPids()
-                }
-                else null
-
-                if (pids != null) {
-                    if (et_journeyTitle.text.toString().isBlank()) {
-                        et_journeyTitle.error = "Field is required when you have selected posts"
+                goal.addWithJid(et_journeyTitle.text.toString(), pids) {
+                    if (it != null) {
+                        addSuccessRedirect()
                     }
-                    else {
-                        goal.addWithJid(et_journeyTitle.text.toString(), pids!!) {
-                            if (it != null) {
-                                addSuccessRedirect()
-                            }
-                            else toast.error("Please try again, there was an error creating your goal")
-                        }
-                    }
-                }
-                else {
-                    goal.add {
-                        if (it != null) {
-                            addSuccessRedirect()
-                        }
-                        else toast.error("Please try again, there was an error creating your goal")
-                    }
+                    else toast.error("Please try again, there was an error creating your goal")
                 }
             }
         }

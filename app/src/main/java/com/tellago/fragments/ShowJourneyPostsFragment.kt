@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Query
@@ -37,8 +38,6 @@ class ShowJourneyPostsFragment : Fragment() {
 
     private var adapter: NewPostRecyclerAdapter? = null
     private var bundle: Bundle? = null
-    var updatedTitle: String? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,12 +56,7 @@ class ShowJourneyPostsFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_show_journey_posts, container, false)
     }
 
@@ -71,85 +65,32 @@ class ShowJourneyPostsFragment : Fragment() {
 
         configureToolbar()
 
-        // invalidate the memory cache.
-        Glide.get(requireContext()).clearMemory()
+        Journey(goal.jid[0]).getByJid { journey ->
+            if (journey != null) {
+                journey.displayJourneyImage(requireContext(), iv_journey_image)
 
+                this.journey = journey
+                journey.title.let { text_view_journey_title.text = it }
 
-        if (journey.jid != null && journey.pids.isNotEmpty() && journey.title.isNotBlank()) {
-            // Rule of thumb: When displaying an 'Ongoing' Journey, then sort in DESCENDING order --> top post is most recent
-            // When displaying a 'Completed' Journey, then sort in ASCENDING order --> top post is earliest
-            // This query will sort results by 'createDate' in DESCENDING order
-            adapter = NewPostRecyclerAdapter(
-                FirestoreRecyclerOptions.Builder<Post>()
-                    .setQuery(
-                        collection.whereIn(FieldPath.documentId(), journey.pids).orderBy(
-                            "createDate",
-                            Query.Direction.DESCENDING
-                        ),
-                        Post::class.java
-                    ).build()
-            )
+                if (journey.pids.isNotEmpty()) {
+                    adapter = NewPostRecyclerAdapter(
+                        FirestoreRecyclerOptions.Builder<Post>()
+                            .setQuery(
+                                collection.whereIn(FieldPath.documentId(), this.journey.pids).orderBy(
+                                    "createDate",
+                                    Query.Direction.DESCENDING
+                                ),
+                                Post::class.java
+                            ).build()
+                    )
 
-            recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(
-                requireContext()
-            )
-            recycler_view_show_journey_posts_fragment.adapter = adapter
+                    recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
+                    recycler_view_show_journey_posts_fragment.adapter = adapter
 
-            adapter?.startListening()
-
-
-            Handler().post {
-                text_view_journey_title.text = journey.title
-
-                journey.journeyImageURI?.toUri()?.let { setImage(it) }
-
-            }
-
-
-        } else if (adapter == null) {
-            if (goal.jid.isNotEmpty() && goal.jid[0].isNotBlank()) {
-                Journey(goal.jid[0]).getByJid {
-                    journey = it ?: Journey()
-
-                    if (it != null) {
-                        // Rule of thumb: When displaying an 'Ongoing' Journey, then sort in DESCENDING order --> top post is most recent
-                        // When displaying a 'Completed' Journey, then sort in ASCENDING order --> top post is earliest
-                        // This query will sort results by 'createDate' in DESCENDING order
-                        adapter = NewPostRecyclerAdapter(
-                            FirestoreRecyclerOptions.Builder<Post>()
-                                .setQuery(
-                                    collection.whereIn(FieldPath.documentId(), it.pids).orderBy(
-                                        "createDate",
-                                        Query.Direction.DESCENDING
-                                    ),
-                                    Post::class.java
-                                ).build()
-                        )
-
-                        recycler_view_show_journey_posts_fragment.layoutManager =
-                            LinearLayoutManager(
-                                requireContext()
-                            )
-                        recycler_view_show_journey_posts_fragment.adapter = adapter
-
-                        adapter?.startListening()
-
-                        text_view_journey_title.text = it.title
-
-                        journey.journeyImageURI?.toUri()?.let { setImage(it) }
-
-
-
-                    }
+                    adapter?.startListening()
                 }
             }
-        } else {
-            recycler_view_show_journey_posts_fragment.layoutManager = LinearLayoutManager(
-                requireContext()
-            )
-            recycler_view_show_journey_posts_fragment.adapter = adapter
         }
-
 
         btn_edit_journey_posts.setOnClickListener {
             val editJourneyFragment = EditJourneyFragment()
@@ -175,8 +116,6 @@ class ShowJourneyPostsFragment : Fragment() {
         }
     }
 
-
-
     override fun onStart() {
         // Adapter which is populated using Firestore data (through query) will require this function
         super.onStart()
@@ -194,16 +133,12 @@ class ShowJourneyPostsFragment : Fragment() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
             journey = data?.getParcelableExtra<Journey>(journey::class.java.name) ?: Journey()
-
         }
-
     }
-
 
     private fun configureToolbar() {
         // It will not be possible to collapse toolbar & floating action button when scrolling as these elements belong to ShowJourneyPostsFragment
         // not within an Activity which contains a fragment_container for the recycler view
-
         val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
         text_view_journey_title.text = journey.title
@@ -215,7 +150,6 @@ class ShowJourneyPostsFragment : Fragment() {
         }
     }
 
-
     private fun setImage(uri: Uri) {
         GlideApp.with(this)
             .load(uri)
@@ -223,11 +157,4 @@ class ShowJourneyPostsFragment : Fragment() {
             .skipMemoryCache(true)
             .into(iv_journey_image)
     }
-
-//    suspend fun invalidateCache() {
-//        // invalidate the disk cache.
-//        //This method should always be called on a background thread
-//        Glide.get(requireContext()).clearDiskCache()
-//    }
-
 }

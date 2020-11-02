@@ -34,7 +34,6 @@ data class Journey(
     @DocumentId var jid: String? = null,
     val uid: String? = null,
     var title: String = "My Journey",
-    var journeyImageURI: String? = "file:///data/user/0/com.tellago/cache/cropped2493534851697307437.jpg",
     var pids: ArrayList<String> = ArrayList()
 ) : Parcelable {
     @IgnoredOnParcel
@@ -85,7 +84,7 @@ data class Journey(
         else Log.e(this::class.java.name, "JID is required for updateByJid().")
     }
 
-    fun updateByJid(addOnList: List<String>, onComplete: ((journey: Journey?) -> Unit)? = null) {
+    fun addPidsByJid(addOnList: List<String>, onComplete: ((journey: Journey?) -> Unit)? = null) {
         if (jid != null) {
             collection.document(jid!!).get().addOnSuccessListener {
                 if (it != null) {
@@ -111,33 +110,45 @@ data class Journey(
         else Log.e(this::class.java.name, "JID is required for updateByJid().")
     }
 
-    fun displayJourneyImage(
-        context: Context,
-        imageView: ImageView,
-        vararg transforms: Transformation<Bitmap>
-    ) {
+    fun addPidByJid(addPid: String, onComplete: ((journey: Journey?) -> Unit)? = null) {
+        if (jid != null) {
+            collection.document(jid!!).get().addOnSuccessListener {
+                if (it != null) {
+                    var pids = it.toObject<Journey>()?.pids?.toMutableList()
+
+                    if (pids.isNullOrEmpty()) {
+                        pids?.add(addPid)
+                        pids?.distinct()?.toList()
+                    }
+                    else {
+                        pids = mutableListOf(addPid)
+                    }
+
+                    collection.document(jid!!).update("pids", pids).addOnSuccessListener {
+                        onComplete?.invoke(this)
+                    }.addOnFailureListener {
+                        Log.e(this::class.java.name, "Failed to update Journey")
+                        onComplete?.invoke(null)
+                    }
+                }
+            }
+        }
+        else Log.e(this::class.java.name, "JID is required for updateByJid().")
+    }
+
+    fun displayJourneyImage(context: Context, imageView: ImageView, vararg transforms: Transformation<Bitmap>) {
         GlideApp.with(context)
             .load(storageRef.child("uploads/journeyImages/$jid"))
             .apply {
                 if (transforms.isNotEmpty()) transform(*transforms)
                 else transform(CenterInside())
 
-                error(R.drawable.tellsquarelogo2)
-                skipMemoryCache(true)
                 diskCacheStrategy(DiskCacheStrategy.NONE)
+                skipMemoryCache(true)
+                error(R.drawable.tellsquarelogo2)
             }
             .into(imageView)
     }
-
-
-    fun updateJourneyImage(jid: String?, uri: String)
-    {
-        if (!jid.isNullOrBlank())
-        {
-            collection.document(jid).update("journeyImageURI", uri)
-        }
-    }
-
 
     fun uploadJourneyImage(uri: Uri): UploadTask {
         val file = Uri.fromFile((File(URI.create(uri.toString()))))

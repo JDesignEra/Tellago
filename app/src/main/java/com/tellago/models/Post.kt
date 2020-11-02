@@ -39,7 +39,6 @@ data class Post(
     var messageBody: String? = null,
     val createDate: Date = todayCalendar.time,
     var postType: String? = null,
-    var multimediaURI: String? = null,
     var jid: String? = null,
     var poll: MutableMap<String, ArrayList<String>> = mutableMapOf(),
     var comment: ArrayList<MutableMap<String, String>> = ArrayList(),
