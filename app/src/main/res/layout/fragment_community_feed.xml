@@ -1,14 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="8dp"
+    android:background="@color/colorDefaultBackground"
     tools:context=".fragments.CommunityFeedFragment">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="FEED FRAGMENT" />
+        android:layout_height="match_parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView_post_community_feed_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorDefaultBackground"
+            android:checkable="false"
+            android:clickable="false"
+            android:focusable="false"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundTintGrey"
+                android:padding="4dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_post_profile_picture_1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ic_account_circle_36"
+                    android:src="@drawable/ic_android_photo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:text="James Hong"
+                    android:textColor="@color/colorTextLightGray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/iv_post_profile_picture_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="2hrs ago"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/tv_msg_post_community_feed_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="How I managed to save 20K this year!"
+                    app:layout_constraintBottom_toTopOf="@+id/iv_image"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_post_profile_picture_1"
+                    app:layout_goneMarginTop="0dp" />
+
+                <ImageView
+                    android:id="@+id/iv_post_image_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:maxHeight="200dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/saving20k_unsplash"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_msg_post_community_feed_1" />
+
+                <LinearLayout
+                    android:id="@+id/icon_container_1"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_post_image_1">
+
+                    <ImageView
+                        android:id="@+id/like_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_favorite_24"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/user_post_image" />
+
+
+                    <ImageView
+                        android:id="@+id/comment_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_mode_comment_24"
+                        app:layout_constraintLeft_toRightOf="@id/like_btn"
+                        app:layout_constraintTop_toBottomOf="@id/user_post_image" />
+
+                    <ImageView
+                        android:id="@+id/share_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_share_24"
+                        app:layout_constraintLeft_toRightOf="@id/comment_btn"
+                        app:layout_constraintTop_toBottomOf="@id/user_post_image" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/icon_display_container_1"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/icon_container_1">
+
+                    <TextView
+                        android:id="@+id/likes"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="193"
+                        android:textAlignment="center"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/comments"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="86"
+                        android:textAlignment="center"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView_post_community_feed_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorDefaultBackground"
+            android:checkable="false"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardView_post_community_feed_1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundTintGrey"
+                android:padding="4dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_post_profile_picture_2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ic_account_circle_36"
+                    android:src="@drawable/ic_android_photo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Tyler Moore"
+                    android:textColor="@color/colorTextLightGray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/iv_post_profile_picture_2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="5hrs ago"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/tv_msg_post_community_feed_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="How do I save money as an 18 year old student?"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_post_profile_picture_2"
+                    app:layout_goneMarginTop="0dp" />
+
+                <LinearLayout
+                    android:id="@+id/icon_container_2"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_msg_post_community_feed_2">
+
+                    <ImageView
+                        android:id="@+id/like_btn_2"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_favorite_24"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/user_post_image" />
+
+
+                    <ImageView
+                        android:id="@+id/comment_btn_2"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_mode_comment_24"
+                        app:layout_constraintLeft_toRightOf="@id/like_btn"
+                        app:layout_constraintTop_toBottomOf="@id/user_post_image" />
+
+                    <ImageView
+                        android:id="@+id/share_btn_2"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_share_24"
+                        app:layout_constraintLeft_toRightOf="@id/comment_btn"
+                        app:layout_constraintTop_toBottomOf="@id/user_post_image" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/icon_display_container_2"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/icon_container_2">
+
+                    <TextView
+                        android:id="@+id/likes_2"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="249"
+                        android:textAlignment="center"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/comments_2"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="113"
+                        android:textAlignment="center"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </FrameLayout>
