@@ -33,7 +33,6 @@ class AttachPostToJourneysFragment : Fragment() {
 
     private var bundle: Bundle? = null
     private var post = Post()
-    private var journey = Journey()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,11 +54,7 @@ class AttachPostToJourneysFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_attach_post_to_journeys, container, false)
     }
 
@@ -82,6 +77,9 @@ class AttachPostToJourneysFragment : Fragment() {
                 putExtra("selectedJourneyTitles", adapter.getSelectedJourneyTitles())
                 putExtra("selectedJids", adapter.getSelectedJids())
                 putExtra(post::class.java.name, post)
+                bundle?.getString("imageUri").let {
+                    if (!it.isNullOrBlank()) putExtra("imageUri", it)
+                }
             }
 
             targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, intent)

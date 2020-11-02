@@ -26,14 +26,12 @@ import com.google.android.material.textfield.TextInputLayout
 import com.tellago.GlideApp
 import com.tellago.R
 import com.tellago.models.Auth.Companion.user
-import com.tellago.models.Journey
 import com.tellago.models.Post
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_create_post.*
-import kotlinx.android.synthetic.main.layout_edit_journey_post.*
 import kotlin.math.roundToInt
 
 class CreatePostFragment : Fragment() {
@@ -41,9 +39,9 @@ class CreatePostFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
 
     private var post = Post()
-    private var journey = Journey()
     private var selectedJourneyTitles: ArrayList<String> = ArrayList()
     private var selectedJids: ArrayList<String> = ArrayList()
+    private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +63,13 @@ class CreatePostFragment : Fragment() {
         configureToolbar()
 
         when (post.postType) {
-            "multimedia" -> chip_multimedia_radioToggle.isChecked = true
+            "multimedia" -> {
+                chip_multimedia_radioToggle.isChecked = true
+                media_mcv.visibility = View.VISIBLE
+
+                Log.e(this::class.java.name, imageUri.toString())
+                imageUri?.let { setImage(it) }
+            }
             "poll" -> {
                 chip_poll_radioToggle.isChecked = true
                 poll_mcv.visibility = View.VISIBLE
@@ -106,12 +110,12 @@ class CreatePostFragment : Fragment() {
             }
         }
 
-        attach_post_image.setOnClickListener {
+        media_imageView.setOnClickListener {
             it.hideKeyboard()
             pickImageIntent()
         }
 
-        textView_attachMedia.setOnClickListener {
+        media_textView.setOnClickListener {
             it.hideKeyboard()
             pickImageIntent()
         }
@@ -129,6 +133,7 @@ class CreatePostFragment : Fragment() {
             attachPostToJourneysFragment.arguments = Bundle().apply {
                 putParcelable(post::class.java.name, post)
                 putStringArrayList("selectedJids", selectedJids)
+                if (post.postType == "multimedia") putString("imageUri", imageUri.toString())
             }
 
             fragmentUtils.replace(
@@ -158,6 +163,9 @@ class CreatePostFragment : Fragment() {
                     selectedJourneyTitles = data?.getStringArrayListExtra("selectedJourneyTitles") ?: ArrayList()
                     selectedJids = data?.getStringArrayListExtra("selectedJids") ?: ArrayList()
                     post = data?.getParcelableExtra(post::class.java.name) ?: Post()
+                    data?.getStringExtra("imageUri").let {
+                        if (it != null) Uri.parse(it)
+                    }
                 }
             }
         }
@@ -167,8 +175,9 @@ class CreatePostFragment : Fragment() {
 
             if (resultCode == AppCompatActivity.RESULT_OK) {
                 result.uri.let {
+                    imageUri = it
                     setImage(it)
-                    textView_attachMedia.text = "Change Image"
+                    media_textView.text = "Change Image"
                 }
             }
             else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -189,14 +198,14 @@ class CreatePostFragment : Fragment() {
             chip_message_radioToggle.isChecked -> {
                 post = Post(
                     uid = user?.uid,
-                    messageBody = message_textView.text.toString(),
+                    messageBody = msg_et.text.toString(),
                     postType = "text post"
                 )
             }
             chip_multimedia_radioToggle.isChecked -> {
                 post = Post(
                     uid = user?.uid,
-                    messageBody = message_textView.text.toString(),
+                    messageBody = mediaMsg_et.text.toString(),
                     postType = "multimedia"
                 )
             }
@@ -215,7 +224,7 @@ class CreatePostFragment : Fragment() {
 
                 post = Post(
                     uid = user?.uid,
-                    messageBody = et_PostMessage_for_media.text.toString(),
+                    messageBody = pollMsg_et.text.toString(),
                     poll = pollOptions,
                     postType = "poll"
                 )
@@ -276,9 +285,9 @@ class CreatePostFragment : Fragment() {
         GlideApp.with(this)
             .load(uri)
             .transform(
-                RoundedCorners((8 * resources.displayMetrics.density).roundToInt()),
-                CenterInside()
-            ).into(attach_post_image)
+                CenterInside(),
+                RoundedCorners((8 * resources.displayMetrics.density).roundToInt())
+            ).into(media_imageView)
     }
 
     private fun View.hideKeyboard() {
