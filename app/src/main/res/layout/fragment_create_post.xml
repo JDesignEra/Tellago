@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorDefaultBackground"
     tools:context=".fragments.CreatePostFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorDefaultBackground">
-
+        android:layout_marginBottom="72dp">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout_create_post"
@@ -25,7 +25,7 @@
                 android:id="@+id/toolbar_create_post"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorWhiteBackground"
+                android:background="@color/colorDefaultBackground"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIcon="@drawable/toolbar_back_icon"
                 app:title="Create New Post">
@@ -94,9 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="14dp"
-                android:paddingTop="14dp"
-                android:paddingBottom="21dp">
+                android:padding="14dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -292,14 +290,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/media_mcv"
-            android:visibility="gone">
+            app:layout_constraintBottom_toTopOf="@+id/journey_mcv"
+            app:layout_constraintHeight_max="315dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="14dp"
-                android:paddingBottom="21dp">
+                android:paddingTop="14dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -361,13 +359,14 @@
 
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/linear_layout_poll_options"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="14dp"
+                        android:paddingBottom="21dp"
                         android:orientation="vertical">
 
                         <TextView
@@ -389,7 +388,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/create_poll_mcv"
+            android:id="@+id/journey_mcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
@@ -398,19 +397,19 @@
             app:cardBackgroundColor="@color/colorBackgroundTintGrey"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/poll_mcv">
+            app:layout_constraintTop_toBottomOf="@+id/poll_mcv"
+            app:layout_constraintHeight_max="200dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="14dp"
-            android:paddingBottom="21dp"
-            android:paddingHorizontal="14dp">
+            android:paddingTop="14dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="14dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -437,501 +436,36 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout_selected_journey_titles"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:orientation="vertical">
+                android:paddingBottom="21dp"
+                android:paddingHorizontal="14dp"
+                android:clipToPadding="false">
 
-                <TextView
-                    android:id="@+id/journeyPlaceholder_tv"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/linearLayout_selected_journey_titles"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add this post to your Journey?"
-                    android:textSize="16sp"
-                    android:textStyle="italic"
-                    android:textColor="@color/colorTextLightGray" />
+                    android:layout_marginTop="14dp"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/journeyPlaceholder_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add this post to your Journey?"
+                        android:textSize="16sp"
+                        android:textStyle="italic"
+                        android:textColor="@color/colorTextLightGray" />
+
+                </LinearLayout>
+
+            </ScrollView>
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="12dp"-->
-<!--                android:layout_marginBottom="4dp"-->
-<!--                android:background="@drawable/header_background_rectangle">-->
-
-<!--                <com.google.android.material.textview.MaterialTextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginHorizontal="26dp"-->
-<!--                    android:layout_marginVertical="4dp"-->
-<!--                    android:text="Type Of Post"-->
-<!--                    android:textAllCaps="true"-->
-<!--                    android:textColor="@color/colorTextDarkGray"-->
-<!--                    android:textSize="12sp"-->
-<!--                    android:textStyle="bold" />-->
-
-<!--            </LinearLayout>-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal">-->
-
-<!--                <com.google.android.material.chip.ChipGroup-->
-<!--                    android:id="@+id/chipGrp_post_type"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="12dp"-->
-<!--                    android:layout_marginBottom="12dp"-->
-<!--                    app:selectionRequired="true"-->
-<!--                    app:singleSelection="true">-->
-
-<!--                    <com.google.android.material.chip.Chip-->
-<!--                        android:id="@+id/chip_message_radioToggle"-->
-<!--                        style="@style/Widget.MaterialComponents.Chip.Choice"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Message"-->
-<!--                        app:checkedIcon="@drawable/ic_baseline_textsms_24"-->
-<!--                        app:checkedIconTint="@color/colorPrimary"-->
-<!--                        app:checkedIconVisible="true"-->
-<!--                        app:chipBackgroundColor="@color/chip_background_color"-->
-<!--                        app:chipIcon="@drawable/ic_baseline_textsms_24"-->
-<!--                        app:chipIconVisible="true"-->
-<!--                        app:iconEndPadding="-1dp"-->
-<!--                        app:iconStartPadding="1dp" />-->
-
-<!--                    <com.google.android.material.chip.Chip-->
-<!--                        android:id="@+id/chip_multimedia_radioToggle"-->
-<!--                        style="@style/Widget.MaterialComponents.Chip.Choice"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Image"-->
-<!--                        app:checkedIcon="@drawable/ic_baseline_image_24"-->
-<!--                        app:checkedIconTint="@color/colorPrimary"-->
-<!--                        app:checkedIconVisible="true"-->
-<!--                        app:chipBackgroundColor="@color/chip_background_color"-->
-<!--                        app:chipIcon="@drawable/ic_baseline_image_24"-->
-<!--                        app:chipIconVisible="true"-->
-<!--                        app:iconEndPadding="-1dp"-->
-<!--                        app:iconStartPadding="1dp" />-->
-
-
-<!--                    <com.google.android.material.chip.Chip-->
-<!--                        android:id="@+id/chip_poll_radioToggle"-->
-<!--                        style="@style/Widget.MaterialComponents.Chip.Choice"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Poll"-->
-<!--                        app:checkedIcon="@drawable/ic_baseline_poll_24"-->
-<!--                        app:checkedIconTint="@color/colorPrimary"-->
-<!--                        app:checkedIconVisible="true"-->
-<!--                        app:chipBackgroundColor="@color/chip_background_color"-->
-<!--                        app:chipIcon="@drawable/ic_baseline_poll_24"-->
-<!--                        app:chipIconVisible="true"-->
-<!--                        app:iconEndPadding="-1dp"-->
-<!--                        app:iconStartPadding="1dp" />-->
-
-
-<!--                </com.google.android.material.chip.ChipGroup>-->
-
-<!--            </LinearLayout>-->
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/create_post_media_with_message_mcv"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginHorizontal="12dp"-->
-<!--                android:layout_marginTop="4dp"-->
-<!--                android:visibility="gone"-->
-<!--                app:cardBackgroundColor="@color/colorBackgroundTintGrey"-->
-<!--                app:cardCornerRadius="5dp"-->
-<!--                app:cardElevation="0dp">-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:paddingBottom="16dp">-->
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/attach_post_image"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginHorizontal="12dp"-->
-<!--                        android:layout_marginTop="12dp"-->
-<!--                        android:adjustViewBounds="true"-->
-<!--                        android:maxHeight="160dp"-->
-<!--                        android:scaleType="centerInside"-->
-<!--                        android:src="@drawable/ic_android_photo"-->
-<!--                        android:visibility="visible" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/textView_attachMedia"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="26dp"-->
-<!--                        android:layout_marginTop="12dp"-->
-<!--                        android:text="Add Image"-->
-<!--                        android:textColor="@color/colorLinkBlue"-->
-<!--                        android:textSize="11sp" />-->
-
-<!--                </LinearLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/create_post_message_mcv"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginHorizontal="12dp"-->
-<!--                android:layout_marginTop="4dp"-->
-<!--                app:cardBackgroundColor="@color/colorBackgroundTintGrey"-->
-<!--                app:cardCornerRadius="5dp"-->
-<!--                app:cardElevation="0dp">-->
-
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/linear_layout_message_body"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="240dp"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:paddingBottom="16dp">-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="26dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:letterSpacing="-0.02"-->
-<!--                        android:text="Write A Message"-->
-<!--                        android:textAllCaps="true"-->
-<!--                        android:textColor="@color/colorTextLightGray"-->
-<!--                        android:textSize="11sp"-->
-<!--                        android:textStyle="bold" />-->
-
-<!--                    <com.google.android.material.textfield.TextInputLayout-->
-<!--                        android:id="@+id/textinputlayout_messageBody"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="180dp"-->
-<!--                        android:layout_marginHorizontal="26dp"-->
-<!--                        android:layout_marginTop="10dp"-->
-<!--                        android:background="@drawable/rounded_btn_gray"-->
-<!--                        android:hint="Message Body ..."-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:visibility="visible"-->
-<!--                        app:boxBackgroundColor="@color/colorWhiteBackground">-->
-
-<!--                        <com.google.android.material.textfield.TextInputEditText-->
-<!--                            android:id="@+id/et_PostMessage"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="180dp"-->
-<!--                            android:maxLines="7" />-->
-
-<!--                    </com.google.android.material.textfield.TextInputLayout>-->
-
-
-<!--                </LinearLayout>-->
-
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/create_post_message_for_media_mcv"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginHorizontal="12dp"-->
-<!--                android:layout_marginTop="4dp"-->
-<!--                android:visibility="gone"-->
-<!--                app:cardBackgroundColor="@color/colorBackgroundTintGrey"-->
-<!--                app:cardCornerRadius="5dp"-->
-<!--                app:cardElevation="0dp">-->
-
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/linear_layout_message_body_for_media"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="160dp"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:paddingBottom="16dp">-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="26dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:letterSpacing="-0.02"-->
-<!--                        android:text="Write A Message"-->
-<!--                        android:textAllCaps="true"-->
-<!--                        android:textColor="@color/colorTextLightGray"-->
-<!--                        android:textSize="11sp"-->
-<!--                        android:textStyle="bold" />-->
-
-<!--                    <com.google.android.material.textfield.TextInputLayout-->
-<!--                        android:id="@+id/textinputlayout_messageBody_for_media"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="100dp"-->
-<!--                        android:layout_marginHorizontal="26dp"-->
-<!--                        android:layout_marginTop="10dp"-->
-<!--                        android:background="@drawable/rounded_btn_gray"-->
-<!--                        android:hint="Message Body ..."-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:visibility="visible"-->
-<!--                        app:boxBackgroundColor="@color/colorWhiteBackground">-->
-
-<!--                        <com.google.android.material.textfield.TextInputEditText-->
-<!--                            android:id="@+id/et_PostMessage_for_media"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="100dp"-->
-<!--                            android:maxLines="3" />-->
-
-<!--                    </com.google.android.material.textfield.TextInputLayout>-->
-
-
-<!--                </LinearLayout>-->
-
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:id="@+id/create_post_poll_mcv"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginHorizontal="12dp"-->
-<!--                android:layout_marginTop="4dp"-->
-<!--                app:cardBackgroundColor="@color/colorBackgroundTintGrey"-->
-<!--                app:cardCornerRadius="5dp"-->
-<!--                app:cardElevation="0dp">-->
-
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/linear_layout_poll_toggle"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:paddingBottom="12dp"-->
-<!--                    android:visibility="gone">-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="26dp"-->
-<!--                        android:layout_marginTop="16dp"-->
-<!--                        android:letterSpacing="-0.02"-->
-<!--                        android:text="QUESTION"-->
-<!--                        android:textColor="@color/colorTextLightGray"-->
-<!--                        android:textSize="11sp"-->
-<!--                        android:textStyle="bold" />-->
-
-<!--                    <com.google.android.material.textfield.TextInputLayout-->
-<!--                        android:id="@+id/textinputlayout_pollQuestion"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginHorizontal="26dp"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:background="@drawable/rounded_btn_gray"-->
-<!--                        android:hint="Create a poll ..."-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:visibility="visible"-->
-<!--                        app:boxBackgroundColor="@color/colorWhiteBackground">-->
-
-<!--                        <com.google.android.material.textfield.TextInputEditText-->
-<!--                            android:id="@+id/et_PollQuestion"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="80dp"-->
-<!--                            android:maxLines="8" />-->
-
-<!--                    </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content">-->
-
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="8dp"-->
-<!--                            android:orientation="horizontal">-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginStart="26dp"-->
-<!--                                android:layout_marginTop="8dp"-->
-<!--                                android:letterSpacing="-0.02"-->
-<!--                                android:text="OPTIONS"-->
-<!--                                android:textColor="@color/colorTextLightGray"-->
-<!--                                android:textSize="11sp"-->
-<!--                                android:textStyle="bold" />-->
-
-
-<!--                        </LinearLayout>-->
-
-<!--                    </LinearLayout>-->
-
-
-<!--                    <LinearLayout-->
-<!--                        android:id="@+id/linear_layout_option_parent"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginHorizontal="26dp"-->
-<!--                        android:layout_marginVertical="4dp"-->
-<!--                        android:layout_weight="6"-->
-<!--                        android:orientation="horizontal">-->
-
-<!--                        <LinearLayout-->
-<!--                            android:id="@+id/linear_layout_poll_options"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginBottom="6dp"-->
-<!--                            android:layout_weight="5"-->
-<!--                            android:background="@color/colorWhiteBackground"-->
-<!--                            android:orientation="vertical"-->
-<!--                            android:visibility="visible">-->
-
-<!--                        </LinearLayout>-->
-
-<!--                        <LinearLayout-->
-<!--                            android:id="@+id/linear_layout_poll_remove_buttons"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:orientation="vertical"-->
-<!--                            android:visibility="visible">-->
-
-<!--                        </LinearLayout>-->
-
-<!--                    </LinearLayout>-->
-
-<!--                    <LinearLayout-->
-<!--                        android:id="@+id/linear_layout_add_poll_option"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="4dp"-->
-<!--                        android:orientation="horizontal">-->
-
-<!--                        <com.google.android.material.imageview.ShapeableImageView-->
-<!--                            android:id="@+id/image_view_add_poll_option"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginStart="20dp"-->
-<!--                            android:src="@drawable/toolbar_add_icon" />-->
-
-<!--                    </LinearLayout>-->
-
-
-<!--                </LinearLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/linear_layout_journey_selection_create_post"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:visibility="invisible"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="12dp"-->
-<!--                    android:layout_marginTop="12dp"-->
-<!--                    android:layout_marginBottom="8dp"-->
-<!--                    android:background="@drawable/header_background_rectangle">-->
-
-<!--                    <com.google.android.material.textview.MaterialTextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginHorizontal="26dp"-->
-<!--                        android:layout_marginVertical="4dp"-->
-<!--                        android:text="Add To Journey (Optional)"-->
-<!--                        android:textAllCaps="true"-->
-<!--                        android:textColor="@color/colorTextDarkGray"-->
-<!--                        android:textSize="12sp"-->
-<!--                        android:textStyle="bold" />-->
-
-
-<!--                </LinearLayout>-->
-
-
-<!--                <com.google.android.material.card.MaterialCardView-->
-<!--                    android:id="@+id/create_post_journey_titles_mcv"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginHorizontal="12dp"-->
-<!--                    android:layout_marginTop="4dp"-->
-<!--                    android:visibility="gone"-->
-<!--                    app:cardBackgroundColor="@color/colorBackgroundTintGrey"-->
-<!--                    app:cardCornerRadius="5dp"-->
-<!--                    app:cardElevation="0dp">-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical"-->
-<!--                        android:paddingBottom="16dp">-->
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/text_view_selected_journey_titles"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginStart="26dp"-->
-<!--                            android:layout_marginTop="16dp"-->
-<!--                            android:letterSpacing="-0.02"-->
-<!--                            android:text="Selected Titles"-->
-<!--                            android:textAllCaps="true"-->
-<!--                            android:textColor="@color/colorTextLightGray"-->
-<!--                            android:textSize="11sp"-->
-<!--                            android:textStyle="bold" />-->
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/textView_jid_from_bundle"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="10dp"-->
-<!--                            android:layout_weight="2"-->
-<!--                            android:textColor="@color/colorTextBlack"-->
-<!--                            android:textSize="14sp"-->
-<!--                            android:visibility="gone" />-->
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/textView_journey_titles"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginHorizontal="26dp"-->
-<!--                            android:layout_marginTop="10dp"-->
-<!--                            android:layout_weight="2"-->
-<!--                            android:textColor="@color/colorTextBlack"-->
-<!--                            android:textSize="14sp"-->
-<!--                            android:textStyle="italic"-->
-<!--                            android:visibility="gone" />-->
-
-<!--                    </LinearLayout>-->
-
-<!--                </com.google.android.material.card.MaterialCardView>-->
-
-<!--                <com.google.android.material.button.MaterialButton-->
-<!--                    android:id="@+id/btn_AddJourney"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginHorizontal="26dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:elevation="10dp"-->
-<!--                    android:letterSpacing="0.03"-->
-<!--                    android:text="Attach Journey(s)"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:textStyle="italic"-->
-<!--                    app:backgroundTint="@color/colorPrimaryLight"-->
-<!--                    app:cornerRadius="5dp"-->
-<!--                    app:icon="@drawable/ic_baseline_directions_walk_24" />-->
-
-<!--            </LinearLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

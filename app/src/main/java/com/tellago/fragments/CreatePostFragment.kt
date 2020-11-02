@@ -71,6 +71,7 @@ class CreatePostFragment : Fragment() {
             }
             "poll" -> {
                 chip_poll_radioToggle.isChecked = true
+                post_msg_mcv.visibility = View.GONE
                 poll_mcv.visibility = View.VISIBLE
 
                 if (post.poll.isNotEmpty()) {
@@ -150,7 +151,10 @@ class CreatePostFragment : Fragment() {
                         for ((i, jid) in selectedJids.withIndex()) {
                             it.pid?.let { pid -> Journey(jid).addPidByJid(pid) }
 
-                            if (i >= selectedJids.size - 1) toast.success("Post created successfully")
+                            if (i >= selectedJids.size - 1) {
+                                toast.success("Post created successfully")
+                                fragmentUtils.popBackStack()
+                            }
                         }
                     }
                 }
