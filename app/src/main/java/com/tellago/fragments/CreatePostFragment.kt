@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -187,10 +186,8 @@ class CreatePostFragment : Fragment() {
                         }
                         else {
                             toast.success("Post created successfully")
-
+                            fragmentUtils.popBackStack()
                         }
-
-                        fragmentUtils.popBackStack()
                     }
                     else toast.error("Fail to create post, please try again")
                 }
