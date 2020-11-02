@@ -228,7 +228,7 @@ class CommunityFragment : Fragment() {
                 ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0.0F, width.toFloat())
 //                ViewAnimationUtils.createCircularReveal(myView, cx, cy, width.toFloat(), 0.0F)
 
-        anim.duration = 900
+        anim.duration = 800
 
         // Change View to Invisible after animation has completed
         anim.addListener {
@@ -251,7 +251,7 @@ class CommunityFragment : Fragment() {
                     null,
                     animate = false
                 )
-            }, 700
+            }, 550
 
         )
 
