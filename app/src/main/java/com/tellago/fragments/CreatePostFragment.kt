@@ -92,9 +92,20 @@ class CreatePostFragment : Fragment() {
             poll_mcv.visibility = View.GONE
 
             when (checkedId) {
-                chip_multimedia_radioToggle.id -> media_mcv.visibility = View.VISIBLE
-                chip_poll_radioToggle.id -> poll_mcv.visibility = View.VISIBLE
-                else -> post_msg_mcv.visibility = View.VISIBLE
+                chip_multimedia_radioToggle.id -> {
+                    media_mcv.visibility = View.VISIBLE
+                    view.hideKeyboard()
+                }
+
+                chip_poll_radioToggle.id -> {
+                    poll_mcv.visibility = View.VISIBLE
+                    view.hideKeyboard()
+                }
+
+                else -> {
+                    post_msg_mcv.visibility = View.VISIBLE
+                    view.hideKeyboard()
+                }
             }
         }
 
@@ -149,6 +160,7 @@ class CreatePostFragment : Fragment() {
         constraint_layout_create_post.setOnClickListener {
             it.hideKeyboard()
             setPostModel()
+            it.hideKeyboard()
 
             val errors: MutableMap<String, String> = mutableMapOf()
 
@@ -192,6 +204,9 @@ class CreatePostFragment : Fragment() {
                     else toast.error("Fail to create post, please try again")
                 }
             }
+
+            fragmentUtils.replace(ProfileFragment(), null, enter = R.anim.fragment_slide_right_enter, exit = R.anim.fragment_slide_right_exit)
+
         }
     }
 
