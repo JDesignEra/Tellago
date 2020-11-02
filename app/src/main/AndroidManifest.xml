@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CallToActionActivity"></activity>
+        <activity android:name=".activities.DisplayCommunityActivity"></activity>
+        <activity android:name=".activities.CallToActionActivity" />
         <activity android:name=".activities.ShowGoalDetailsActivity" />
         <activity android:name=".activities.GoalsActivity" />
 

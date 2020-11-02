@@ -224,7 +224,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.contact_Financial_Consultant ->
             {
-
                 val intent = Intent(this, CallToActionActivity::class.java)
                 intent.putExtra("cta_type", "consultant")
                 startActivity(intent).apply {

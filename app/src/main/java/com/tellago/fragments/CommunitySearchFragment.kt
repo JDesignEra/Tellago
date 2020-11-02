@@ -2,10 +2,10 @@ package com.tellago.fragments
 
 import android.animation.Animator
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +15,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.core.animation.addListener
 import com.tellago.R
+import com.tellago.activities.CallToActionActivity
+import com.tellago.activities.DisplayCommunityActivity
 import com.tellago.utilities.FragmentUtils
-import kotlinx.android.synthetic.main.fragment_community.*
 import kotlinx.android.synthetic.main.fragment_community_search.*
 
 
@@ -49,6 +50,7 @@ class CommunitySearchFragment : Fragment() {
 //        search_bar_communitySearch.isFocusedByDefault = true
 
         // if search bar is in focus, then show 'SEARCH' text (adjust layout weights)
+
         search_bar_communitySearch.setOnQueryTextFocusChangeListener { _, hasFocus ->
             // hasFocus means searchView is selected
             if (hasFocus) {
@@ -90,6 +92,17 @@ class CommunitySearchFragment : Fragment() {
             // Launch search when this button is pressed
             text_view_communitySearch.visibility = View.VISIBLE
             text_view_communitySearch.text = search_bar_communitySearch.query.toString()
+
+        }
+
+        cardview_career_communities_1.setOnClickListener {
+
+
+            // Display selected Community in new Activity
+            val intent = Intent(requireContext(), DisplayCommunityActivity::class.java)
+            // use intent.putExtra to pass the community ID to be displayed
+//            intent.putExtra("communityID", "communityID")
+            startActivity(intent)
 
         }
 
