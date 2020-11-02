@@ -16,7 +16,9 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout_community"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorDefaultBackground"
+            >
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_community"
@@ -46,14 +48,6 @@
                 </LinearLayout>
 
             </androidx.appcompat.widget.Toolbar>
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/search_toolbar_community_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorSearchBarBackground"
-                app:collapseIcon="@drawable/toolbar_back_icon"
-                app:titleTextColor="@color/colorTextBlack" />
 
 
         </com.google.android.material.appbar.AppBarLayout>

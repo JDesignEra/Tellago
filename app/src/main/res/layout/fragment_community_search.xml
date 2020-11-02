@@ -16,7 +16,9 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout_communitySearch"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/colorDefaultBackground"
+            >
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_communitySearch"
@@ -32,26 +34,32 @@
                         android:orientation="horizontal"
                         >
 
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/iv_fragment_community_search_back"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:paddingTop="12dp"
+                            android:src="@drawable/toolbar_back_icon"
+                            />
+
                         <androidx.appcompat.widget.SearchView
                             android:id="@+id/search_bar_communitySearch"
-                            android:layout_width="260dp"
-                            android:layout_marginHorizontal="16dp"
+                            android:layout_width="240dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
                             android:background="@color/colorSearchBarBackground"
                             android:clickable="true"
                             android:focusable="true"
-                            android:inputType=""
+                            android:inputType="textShortMessage|textCapWords"
                             app:iconifiedByDefault="false"
                             app:queryBackground="@null"
                             app:queryHint="Search Community" />
-
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/tv_communitySearch_search"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingTop="12dp"
-                            android:paddingHorizontal="4dp"
                             android:text="Search"
                             android:textAlignment="center"
                             android:textColor="@color/colorPrimary"
