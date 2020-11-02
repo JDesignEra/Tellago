@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -14,8 +13,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.core.animation.addListener
+import androidx.fragment.app.Fragment
 import com.tellago.R
-import com.tellago.activities.CallToActionActivity
 import com.tellago.activities.DisplayCommunityActivity
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community_search.*

@@ -3,8 +3,6 @@ package com.tellago.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +17,7 @@ import com.tellago.activities.CallToActionActivity
 import com.tellago.models.Goal
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
-import kotlinx.android.synthetic.main.fragment_edit_goal_details.*
 import kotlinx.android.synthetic.main.fragment_show_goal_details.*
-import kotlinx.android.synthetic.main.fragment_show_goal_details.constraint_layout_edit_goal_details
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*

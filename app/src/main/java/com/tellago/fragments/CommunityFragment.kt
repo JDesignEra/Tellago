@@ -1,19 +1,20 @@
 package com.tellago.fragments
 
 import android.animation.Animator
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
 import com.tellago.R
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community.*
-import java.lang.reflect.Field
 
 
 class CommunityFragment : Fragment() {

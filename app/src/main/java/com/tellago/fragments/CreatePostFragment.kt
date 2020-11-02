@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -147,20 +148,33 @@ class CreatePostFragment : Fragment() {
         }
 
         constraint_layout_create_post.setOnClickListener {
+            it.hideKeyboard()
             setPostModel()
 
-            if (chip_message_radioToggle.isChecked && msg_et.text.isNullOrBlank()) msg_et.error = "Field is required"
+            val errors: MutableMap<String, String> = mutableMapOf()
+
+            if (chip_message_radioToggle.isChecked && msg_et.text.isNullOrBlank()) errors["msg"] = "Field is required"
             else if (chip_multimedia_radioToggle.isChecked) {
-                if (mediaMsg_et.text.toString().isNullOrBlank()) mediaMsg_et.error = "Field is required"
-                if (imageUri == null) toast.error("You have not picked an image for your post.")
+                if (mediaMsg_et.text.toString().isNullOrBlank()) errors["mediaMsg"] = "Field is required"
+                if (imageUri == null) errors["mediaImage"] = "You have not picked an image for your post."
             }
             else if (chip_poll_radioToggle.isChecked) {
-                if (pollMsg_et.text.isNullOrBlank()) pollMsg_et.error = "Field is reuired"
-                if (post.poll.isNullOrEmpty()) toast.error("You need at least 1 poll option")
+                if (pollMsg_et.text.isNullOrBlank()) errors["pollMsg"] = "Field is required"
+                if (post.poll.isNullOrEmpty()) errors["pollOptions"] = "You need at least 1 poll option"
+            }
+
+            if (errors.isNotEmpty()) {
+                errors["msg"]?.let { msg_et.error = it }
+                errors["mediaMsg"]?.let { mediaMsg_et.error = it }
+                errors["mediaImage"]?.let { if (it.isNotBlank()) toast.error(it) }
+                errors["pollMsg]"]?.let { pollMsg_et.error = it }
+                errors["pollOptions"]?.let { if (it.isNotBlank()) toast.error(it) }
             }
             else {
                 post.add {
                     if (it != null) {
+                        if (it.postType == "multimedia") imageUri?.let { uri -> it.uploadPostMedia(uri) }
+
                         if (selectedJids.isNotEmpty()) {
                             for ((i, jid) in selectedJids.withIndex()) {
                                 it.pid?.let { pid -> Journey(jid).addPidByJid(pid) }
@@ -171,8 +185,12 @@ class CreatePostFragment : Fragment() {
                                 }
                             }
                         }
+                        else {
+                            toast.success("Post created successfully")
 
-                        if (it.postType == "multimedia") imageUri?.let { uri -> it.uploadPostMedia(uri) }
+                        }
+
+                        fragmentUtils.popBackStack()
                     }
                     else toast.error("Fail to create post, please try again")
                 }

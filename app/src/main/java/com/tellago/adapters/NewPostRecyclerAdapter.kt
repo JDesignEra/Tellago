@@ -11,13 +11,11 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.request.RequestOptions
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.tellago.GlideApp
-import com.tellago.R.*
+import com.tellago.R.color
+import com.tellago.R.layout
 import com.tellago.models.Post
 import kotlinx.android.synthetic.main.layout_new_post_list_item.view.*
 import java.time.Instant

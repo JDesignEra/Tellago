@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.tellago.R
-import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_contact_financial_consultant.*
 
 class ContactFinancialConsultantFragment : Fragment() {
