@@ -61,7 +61,7 @@ class CommunityTabsFragment : Fragment() {
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         viewPager2.adapter =
             ViewPagerBucketListItemsFragmentStateAdapter(this.requireActivity(), fragmentList)
-        viewPager2.isUserInputEnabled = false
+        viewPager2.isUserInputEnabled = true
 
         val tabLayout = tab_layout_community_fragment
 

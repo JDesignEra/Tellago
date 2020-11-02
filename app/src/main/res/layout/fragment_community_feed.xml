@@ -30,8 +30,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorBackgroundTintGrey"
-                android:padding="4dp">
+                android:background="@color/colorDefaultBackground"
+                android:padding="8dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_post_profile_picture_1"
@@ -48,7 +48,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:text="James Hong"
-                    android:textColor="@color/colorTextLightGray"
+                    android:textColor="@color/colorTextDarkGray"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/iv_post_profile_picture_1"
@@ -59,6 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
+                    android:layout_marginTop="16dp"
                     android:text="2hrs ago"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12dp"
@@ -83,8 +84,8 @@
                     android:id="@+id/iv_post_image_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:maxHeight="200dp"
+                    android:layout_marginTop="4dp"
+                    android:maxHeight="160dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/saving20k_unsplash"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -96,6 +97,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_post_image_1">
 
@@ -164,7 +166,7 @@
             android:checkable="false"
             android:clickable="false"
             android:focusable="false"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             app:cardCornerRadius="6dp"
             app:cardElevation="4dp"
             app:cardUseCompatPadding="true"
@@ -175,8 +177,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorBackgroundTintGrey"
-                android:padding="4dp">
+                android:background="@color/colorDefaultBackground"
+                android:padding="8dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_post_profile_picture_2"
@@ -193,7 +195,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:text="Tyler Moore"
-                    android:textColor="@color/colorTextLightGray"
+                    android:textColor="@color/colorTextDarkGray"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/iv_post_profile_picture_2"
@@ -204,6 +206,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
+                    android:layout_marginTop="16dp"
                     android:text="5hrs ago"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12dp"
@@ -228,7 +231,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_msg_post_community_feed_2">
 
