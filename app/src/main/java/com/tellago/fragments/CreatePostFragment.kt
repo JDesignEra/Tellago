@@ -154,7 +154,7 @@ class CreatePostFragment : Fragment() {
 
             if (chip_message_radioToggle.isChecked && msg_et.text.isNullOrBlank()) errors["msg"] = "Field is required"
             else if (chip_multimedia_radioToggle.isChecked) {
-                if (mediaMsg_et.text.toString().isNullOrBlank()) errors["mediaMsg"] = "Field is required"
+                if (mediaMsg_et.text.isNullOrBlank()) errors["mediaMsg"] = "Field is required"
                 if (imageUri == null) errors["mediaImage"] = "You have not picked an image for your post."
             }
             else if (chip_poll_radioToggle.isChecked) {
