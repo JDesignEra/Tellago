@@ -163,6 +163,8 @@ class CreatePostFragment : Fragment() {
                             }
                         }
                     }
+
+                    if (it.postType == "multimedia") imageUri?.let { uri -> it.uploadPostMedia(uri) }
                 }
                 else toast.error("Fail to create post, please try again")
             }

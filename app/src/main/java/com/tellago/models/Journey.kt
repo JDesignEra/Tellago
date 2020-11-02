@@ -116,7 +116,7 @@ data class Journey(
                 if (it != null) {
                     var pids = it.toObject<Journey>()?.pids?.toMutableList()
 
-                    if (pids.isNullOrEmpty()) {
+                    if (!pids.isNullOrEmpty()) {
                         pids?.add(addPid)
                         pids?.distinct()?.toList()
                     }
