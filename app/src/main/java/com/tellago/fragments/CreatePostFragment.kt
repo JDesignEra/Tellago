@@ -6,17 +6,14 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.get
@@ -151,22 +148,34 @@ class CreatePostFragment : Fragment() {
 
         constraint_layout_create_post.setOnClickListener {
             setPostModel()
-            post.add {
-                if (it != null) {
-                    if (selectedJids.isNotEmpty()) {
-                        for ((i, jid) in selectedJids.withIndex()) {
-                            it.pid?.let { pid -> Journey(jid).addPidByJid(pid) }
 
-                            if (i >= selectedJids.size - 1) {
-                                toast.success("Post created successfully")
-                                fragmentUtils.popBackStack()
+            if (chip_message_radioToggle.isChecked && msg_et.text.isNullOrBlank()) msg_et.error = "Field is required"
+            else if (chip_multimedia_radioToggle.isChecked) {
+                if (mediaMsg_et.text.toString().isNullOrBlank()) mediaMsg_et.error = "Field is required"
+                if (imageUri == null) toast.error("You have not picked an image for your post.")
+            }
+            else if (chip_poll_radioToggle.isChecked) {
+                if (pollMsg_et.text.isNullOrBlank()) pollMsg_et.error = "Field is reuired"
+                if (post.poll.isNullOrEmpty()) toast.error("You need at least 1 poll option")
+            }
+            else {
+                post.add {
+                    if (it != null) {
+                        if (selectedJids.isNotEmpty()) {
+                            for ((i, jid) in selectedJids.withIndex()) {
+                                it.pid?.let { pid -> Journey(jid).addPidByJid(pid) }
+
+                                if (i >= selectedJids.size - 1) {
+                                    toast.success("Post created successfully")
+                                    fragmentUtils.popBackStack()
+                                }
                             }
                         }
-                    }
 
-                    if (it.postType == "multimedia") imageUri?.let { uri -> it.uploadPostMedia(uri) }
+                        if (it.postType == "multimedia") imageUri?.let { uri -> it.uploadPostMedia(uri) }
+                    }
+                    else toast.error("Fail to create post, please try again")
                 }
-                else toast.error("Fail to create post, please try again")
             }
         }
     }
