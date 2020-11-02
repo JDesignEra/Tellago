@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.activities.EditProfileActivity
@@ -35,10 +34,9 @@ class ProfileFragment : Fragment() {
         adapter = NewPostRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Post>()
                 .setQuery(
-                    Post.collection.let {
-                        it.whereEqualTo("uid", user?.uid)
-                        it.orderBy("createDate", Query.Direction.DESCENDING)
-                    },
+                    Post.collection
+                        .orderBy("createDate", Query.Direction.DESCENDING)
+                        .whereEqualTo("uid", user?.uid),
                     Post::class.java
                 ).build()
         )

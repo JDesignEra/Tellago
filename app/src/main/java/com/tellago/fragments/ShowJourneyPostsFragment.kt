@@ -72,10 +72,9 @@ class ShowJourneyPostsFragment : Fragment() {
                     adapter = NewPostRecyclerAdapter(
                         FirestoreRecyclerOptions.Builder<Post>()
                             .setQuery(
-                                collection.let {
-                                    it.whereIn(FieldPath.documentId(), this.journey.pids)
-                                    it.orderBy("createDate", Query.Direction.DESCENDING)
-                                },
+                                collection
+                                    .whereIn(FieldPath.documentId(), this.journey.pids)
+                                    .orderBy("createDate", Query.Direction.DESCENDING),
                                 Post::class.java
                             ).build()
                     )

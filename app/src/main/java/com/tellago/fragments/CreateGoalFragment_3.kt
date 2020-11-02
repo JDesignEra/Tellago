@@ -46,10 +46,9 @@ class CreateGoalFragment_3 : Fragment() {
         adapter = PostForCreateGoalRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Post>()
                 .setQuery(
-                    collection.let {
-                        it.whereEqualTo("uid", user?.uid)
-                        it.orderBy("createDate", Query.Direction.DESCENDING)
-                    },
+                    collection
+                        .orderBy("createDate", Query.Direction.DESCENDING)
+                        .whereEqualTo("uid", user?.uid),
                     Post::class.java
                 ).build()
         )

@@ -54,10 +54,9 @@ class EditJourneyFragment : Fragment() {
         adapter = EditJourneyRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Post>()
                 .setQuery(
-                    collection.let {
-                        it.whereEqualTo("uid", user?.uid)
-                        it.orderBy("createDate", Query.Direction.ASCENDING)
-                    },
+                    collection
+                        .whereEqualTo("uid", user?.uid)
+                        .orderBy("createDate", Query.Direction.ASCENDING),
                     Post::class.java
                 ).build()
         )
