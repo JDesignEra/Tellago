@@ -58,6 +58,25 @@ class ExternalResourcesFragment : Fragment() {
         }
 
         // On click listeners will open external links
+        // For Insurance Policy Education Resources
+        tv_lia_link_1.setOnClickListener {
+            val url = "https://www.lia.org.sg/tools-and-resources/consumer-guides/2020/your-guide-to-life-insurance/"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
+        }
+        tv_lia_link_1.text = "Your Guide To Life Insurance (PDF)"
+
+        tv_lia_link_2.setOnClickListener {
+            val url = "https://www.lia.org.sg/media/2522/ygthi_english_may-2020_low-res.pdf"
+            confirmOpenURLAlert(url)
+            bundle?.apply {
+                putString("openURL", url)
+            }
+        }
+        tv_lia_link_2.text = "Your Guide To Health Insurance (PDF)"
+
 
         // For Category of Career
         tv_career_link_1.setOnClickListener {

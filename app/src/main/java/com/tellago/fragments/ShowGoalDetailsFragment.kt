@@ -1,11 +1,13 @@
 package com.tellago.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.view.children
@@ -300,7 +302,10 @@ class ShowGoalDetailsFragment : Fragment() {
                     errors["currentAmt"].let { et_currentAmt.error = it }
                 } else {
 
-                    // reassign currentAmt of Goal Model if there are no errors in Edit Text CurrentAMt
+                    // Hide keyboard after user successfully updates 'CurrentAmt'
+                    view.hideKeyboard()
+                    
+                    // reassign currentAmt of Goal Model if there are no errors in Edit Text CurrentAmt
                     goal.currentAmt = et_currentAmt.text.toString().toDouble()
 
                     goal.setByGid {
@@ -371,4 +376,10 @@ class ShowGoalDetailsFragment : Fragment() {
             fragmentUtils.popBackStack()
         }
     }
+
+    private fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
+    }
+
 }
