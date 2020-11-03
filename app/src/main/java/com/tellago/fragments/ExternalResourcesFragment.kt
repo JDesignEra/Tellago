@@ -1,5 +1,7 @@
 package com.tellago.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -70,10 +72,12 @@ class ExternalResourcesFragment : Fragment() {
 
         tv_lia_link_2.setOnClickListener {
             val url = "https://www.lia.org.sg/media/2522/ygthi_english_may-2020_low-res.pdf"
-            confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
+            // The following is to open a PDF link directly
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
+
         }
         tv_lia_link_2.text = "Your Guide To Health Insurance (PDF)"
 

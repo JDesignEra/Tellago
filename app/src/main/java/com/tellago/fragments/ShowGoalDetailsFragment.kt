@@ -304,7 +304,7 @@ class ShowGoalDetailsFragment : Fragment() {
 
                     // Hide keyboard after user successfully updates 'CurrentAmt'
                     view.hideKeyboard()
-                    
+
                     // reassign currentAmt of Goal Model if there are no errors in Edit Text CurrentAmt
                     goal.currentAmt = et_currentAmt.text.toString().toDouble()
 

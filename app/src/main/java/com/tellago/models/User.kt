@@ -51,7 +51,8 @@ data class User(
                 else transform(CircleCrop(), CenterInside())
 
                 error(R.drawable.ic_android_photo)
-                diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                diskCacheStrategy(DiskCacheStrategy.NONE)
+                skipMemoryCache(true)
             }.into(imageView)
     }
 
