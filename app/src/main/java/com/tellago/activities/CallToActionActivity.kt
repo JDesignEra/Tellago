@@ -1,5 +1,7 @@
 package com.tellago.activities
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.ActionBar
@@ -11,7 +13,6 @@ import com.tellago.R
 import com.tellago.fragments.ConfirmOpenURLFragment
 import com.tellago.fragments.ContactFinancialConsultantFragment
 import com.tellago.fragments.ExternalResourcesFragment
-import com.tellago.fragments.ResourcesWebViewFragment
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_call_to_action.*
 
@@ -92,8 +93,12 @@ class CallToActionActivity : AppCompatActivity(), ConfirmOpenURLFragment.NoticeD
         // User touched the dialog's positive button
         Log.d("User pressed Positive", "FIRED")
 
-        val resourcesWebViewFragment = ResourcesWebViewFragment()
-        openURLinWebView(resourcesWebViewFragment, inputURL)
+//        val resourcesWebViewFragment = ResourcesWebViewFragment()
+//        openURLinWebView(resourcesWebViewFragment, inputURL)
+
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(inputURL)
+        startActivity(intent)
 
     }
 
@@ -103,15 +108,16 @@ class CallToActionActivity : AppCompatActivity(), ConfirmOpenURLFragment.NoticeD
 
     }
 
-    private fun openURLinWebView(resourcesWebViewFragment: ResourcesWebViewFragment, url: String) {
-        resourcesWebViewFragment.arguments = Bundle().apply {
-            putString(
-                "URL",
-                url
-            )
-            fragmentUtils.replace(resourcesWebViewFragment)
-        }
-    }
+
+//    private fun openURLinWebView(resourcesWebViewFragment: ResourcesWebViewFragment, url: String) {
+//        resourcesWebViewFragment.arguments = Bundle().apply {
+//            putString(
+//                "URL",
+//                url
+//            )
+//            fragmentUtils.replace(resourcesWebViewFragment)
+//        }
+//    }
 
 
 }

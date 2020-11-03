@@ -63,20 +63,19 @@ class ExternalResourcesFragment : Fragment() {
         // For Insurance Policy Education Resources
         tv_lia_link_1.setOnClickListener {
             val url = "https://www.lia.org.sg/tools-and-resources/consumer-guides/2020/your-guide-to-life-insurance/"
+
+
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
+
         }
-        tv_lia_link_1.text = "Your Guide To Life Insurance (PDF)"
+        tv_lia_link_1.text = "Your Guide To Life Insurance"
 
         tv_lia_link_2.setOnClickListener {
             val url = "https://www.lia.org.sg/media/2522/ygthi_english_may-2020_low-res.pdf"
 
             // The following is to open a PDF link directly
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(url)
-            startActivity(intent)
+            confirmOpenURLAlert(url)
 
         }
         tv_lia_link_2.text = "Your Guide To Health Insurance (PDF)"
@@ -86,9 +85,7 @@ class ExternalResourcesFragment : Fragment() {
         tv_career_link_1.setOnClickListener {
             val url = "https://www.forbes.com/sites/work-in-progress/2011/03/23/five-simple-tips-to-advance-your-career/#64b4db485473"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
 
         }
         tv_career_link_1.text = "5 Simple Tips To Advance Your Career"
@@ -97,9 +94,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.skillsfuture.sg/skills-framework"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
 
         }
         tv_career_link_2.text = "Skills Framework"
@@ -108,9 +103,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.lli.sg/"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
         }
         tv_career_link_3.text = "Lifelong Learning Institute"
 
@@ -118,9 +111,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://psgsfts.enterprisejobskills.sg/Course_Internet/"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
         }
         tv_career_link_4.text = "Enterprise Job Skills"
 
@@ -128,9 +119,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.skillsfuture.sg/psgtrainingsubsidy"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
         }
         tv_career_link_5.text = "Productivity Solutions Grant Training Subsidy"
 
@@ -138,9 +127,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.cpf.gov.sg/eSvc/Web/Schemes/RetirementCalculator/CoverPage"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
         }
         tv_career_link_6.text = "Retirement Calculator"
 
@@ -150,9 +137,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.hdb.gov.sg/cs/infoweb/residential/buying-a-flat/new/eligibility"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
         }
         tv_family_link_1.text = "HDB BTO Eligibility"
 
@@ -160,9 +145,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.rom.gov.sg/reg_info/rom_marriage_process.asp"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
 
         }
         tv_family_link_2.text = "Registry Of Marriage Process"
@@ -171,9 +154,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.healthhub.sg/live-healthy/370/choosing_right_birth_control"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
 
         }
         tv_family_link_3.text = "Healthhub Singapore"
@@ -182,9 +163,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.ica.gov.sg/citizen/birth/citizen_birth_register"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
 
         }
         tv_family_link_4.text = "Citizen Birth Registration"
@@ -193,9 +172,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://cms.ecda.gov.sg/prweb/SubsidyCalculator/zGwoaxwY6Bz0rcpuMWgTMg%5B%5B*/!STANDARD"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
 
         }
         tv_family_link_5.text = "Citizen Subsidy Calculator"
@@ -205,9 +182,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://tripzilla.sg/travel"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
 
         }
         tv_leisure_link_1.text = "Tripzilla"
@@ -216,9 +191,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.visitsingapore.com/see-do-singapore/beyond-singapore/"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
 
         }
         tv_leisure_link_2.text = "Visit Singapore"
@@ -227,9 +200,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.stb.gov.sg/content/stb/en/media-centre/media-releases/SingapoRediscovers-and-Expanded-Attractions-Guidelines.html"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
         }
         tv_leisure_link_3.text = "Singapore Tourism Board"
 
@@ -237,9 +208,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.singaporeair.com/en_UK/sg/plan-travel/discover-your-sia/restaurant-a380-at-changi/"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
         }
         tv_leisure_link_4.text = "Restaurant a380 At Changi"
 
@@ -247,9 +216,7 @@ class ExternalResourcesFragment : Fragment() {
 
             val url = "https://www.rwsentosa.com/en/articles/hotels/guide-to-rws-hotels-and-best-staycation-packages"
             confirmOpenURLAlert(url)
-            bundle?.apply {
-                putString("openURL", url)
-            }
+
         }
         tv_leisure_link_5.text = "Resorts World Sentosa"
 
@@ -259,6 +226,8 @@ class ExternalResourcesFragment : Fragment() {
 
 
     private fun confirmOpenURLAlert(url: String) {
+        // This function opens an alert dialog box.
+        // On PositiveClick, route to CallToActionActivity's onDialogPositiveClick function
         val newFragment = ConfirmOpenURLFragment(url)
         newFragment.show(requireActivity().supportFragmentManager, "Open URL Confirmation")
     }

@@ -39,6 +39,27 @@ class ConfirmOpenURLFragment(url : String) : DialogFragment() {
                 AlertDialog.Builder(this.requireContext())
             }
 
+            if (inputURL.contains(".pdf"))
+            {
+                // render PDF
+                builder?.setMessage("Do you wish to open the following PDF resource? ${System.lineSeparator()} ${System.lineSeparator()}$inputURL")
+                    ?.setTitle("Confirm Open URL")
+                    ?.apply{
+                        // Setting positive & negative buttons
+                        setPositiveButton("Open",
+                            DialogInterface.OnClickListener { dialog, which ->
+                                // Send the positive button event back to the host activity
+                                listener.onDialogPositiveClick(this@ConfirmOpenURLFragment, inputURL)
+                            })
+                        setNegativeButton(R.string.cancel,
+                            DialogInterface.OnClickListener { dialog, which ->
+                                // Send the negative button event back to the host activity
+                                listener.onDialogNegativeClick(this@ConfirmOpenURLFragment)
+                            })
+                    }
+            }
+            else {
+                // use external browser to open a web page
             builder?.setMessage("You will be redirected to the following external resource: ${System.lineSeparator()} ${System.lineSeparator()}$inputURL")
                 ?.setTitle("Confirm Open URL")
                 ?.apply{
@@ -54,6 +75,7 @@ class ConfirmOpenURLFragment(url : String) : DialogFragment() {
                             listener.onDialogNegativeClick(this@ConfirmOpenURLFragment)
                         })
                 }
+            }
 
             // Create the AlertDialog
             builder?.create()
