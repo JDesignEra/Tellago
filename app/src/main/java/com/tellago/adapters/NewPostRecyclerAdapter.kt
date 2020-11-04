@@ -160,7 +160,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         holder.post_duration.text = durationStr
         holder.likes.text = model.likes.size.toString()
         // need to display comments individually instead of as an entire ArrayList<String>
-        holder.comments.text = model.comment.toString()
+        holder.comments.text = model.comment.size.toString()
 
         // use this function to display images using Glide (one for profile pic of poster & one for any multimedia belonging to Post)
         holder.bind(model)
