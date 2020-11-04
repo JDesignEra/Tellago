@@ -24,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout_mcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -41,7 +42,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <TextView
                 android:id="@+id/new_post_title"
                 android:layout_width="match_parent"
@@ -53,76 +53,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/new_post_duration" />
 
-            <!--        <ImageView-->
-            <!--            android:id="@+id/new_post_profile_pic"-->
-            <!--            android:layout_width="45dp"-->
-            <!--            android:layout_height="45dp"-->
-            <!--            android:layout_marginLeft="15dp"-->
-            <!--            android:adjustViewBounds="true"-->
-            <!--            android:background="@drawable/profile_picture_shape"-->
-            <!--            android:scaleType="centerInside"-->
-            <!--            android:src="@drawable/ic_android_photo"-->
-            <!--            app:layout_constraintStart_toStartOf="parent"-->
-            <!--            app:layout_constraintTop_toTopOf="parent"></ImageView>-->
-
-
-            <!--        <TextView-->
-            <!--            android:id="@+id/new_post_author"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginStart="10dp"-->
-            <!--            android:layout_marginTop="14dp"-->
-            <!--            android:text="Android McAndroid"-->
-            <!--            android:textStyle="bold"-->
-            <!--            app:layout_constraintStart_toEndOf="@id/new_post_profile_pic"-->
-            <!--            app:layout_constraintTop_toTopOf="parent"></TextView>-->
-
-
-            <TextView
-                android:id="@+id/new_post_pollOption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="12dp"
-                android:textColor="@color/colorTextBlack"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/new_post_title" />
-
-
-
             <LinearLayout
-                android:id="@+id/linear_layout_post_poll_option_parent"
+                android:id="@+id/linearLayout_pollOptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:orientation="horizontal"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/new_post_pollOption">
-
-                <LinearLayout
-                    android:id="@+id/linear_layout_post_poll_options"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_layout_post_poll_progressbar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                </LinearLayout>
-
-            </LinearLayout>
-
+                app:layout_constraintTop_toBottomOf="@id/new_post_title"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/new_post_image"
@@ -136,10 +77,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linear_layout_post_poll_option_parent">
-
-            </ImageView>
-
+                app:layout_constraintTop_toBottomOf="@id/linearLayout_pollOptions"/>
 
             <VideoView
                 android:id="@+id/new_post_video"
@@ -151,7 +89,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/new_post_image" />
-
 
             <ImageView
                 android:id="@+id/new_option_menu"

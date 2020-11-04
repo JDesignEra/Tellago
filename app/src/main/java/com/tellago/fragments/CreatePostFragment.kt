@@ -290,7 +290,6 @@ class CreatePostFragment : Fragment() {
                 post = Post(
                     uid = user?.uid,
                     messageBody = pollMsg_et.text.toString(),
-                    poll = pollOptions,
                     postType = "poll"
                 )
             }

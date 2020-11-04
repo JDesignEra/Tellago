@@ -3,6 +3,8 @@ package com.tellago.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +13,14 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.progressindicator.ProgressIndicator
 import com.tellago.R.color
 import com.tellago.R.layout
 import com.tellago.models.Post
@@ -22,6 +29,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
+import kotlin.math.roundToInt
 
 
 class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
@@ -37,78 +45,81 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         )
     }
 
+    override fun onViewAttachedToWindow(holder: NewPostViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        for (v in holder.linearLayoutPollOptions.children) {
+            if (v is LinearLayout) {
+                for (l in v.children) {
+                    if (l is ProgressIndicator) l.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
     override fun onBindViewHolder(holder: NewPostViewHolder, position: Int, model: Post) {
         holder.model = model
-
-//        holder.bind(items[position])
-
         // Use NewPostRecyclerAdapter to handle conditional for displaying Posts based on PostType
         when (model.postType) {
             "text post" -> {
                 holder.post_title.visibility = View.VISIBLE
                 holder.post_title.text = model.messageBody
             }
-
             "poll" -> {
                 holder.post_title.visibility = View.VISIBLE
                 val pollQn = model.messageBody
-                holder.post_title.text = "Poll Question: $pollQn"
-                holder.post_pollOption.visibility = View.VISIBLE
-//                holder.post_pollOption.text = model.poll.toString()
-                holder.post_pollOption.text = ""
-                holder.layout_poll_options.visibility = View.VISIBLE
-                holder.layout_poll_option_progressbar.visibility = View.VISIBLE
+                holder.post_title.text = "$pollQn"
+                holder.linearLayoutPollOptions.visibility = View.VISIBLE
 
-                // check model.poll for number of elements
                 if (model.poll.isNotEmpty()) {
-                    // to store element values
-                    val pollElementsList: ArrayList<String> = ArrayList()
-                    val pollVotesList: ArrayList<Int> = ArrayList()
-                    var totalVoteCount = 0
-                    // iterating
-                    for (m in model.poll) {
-                        totalVoteCount += m.value.size
-                        pollVotesList.add(m.value.size)
-                    }
-                    Log.d("print elements", pollElementsList.toString())
+                    val totalVotes = model.poll.toMutableMap().flatMap { it.value }.count()
 
-                    var iterateVal = 0
-                    // Iterate through elements in pollElementsList to dynamically populate linear_layout_poll_options
-                    for (element in pollElementsList) {
-                        holder.layout_poll_options.addView(
-                            populateNewPollOptionTextView(
-                                holder.itemView.context,
-                                element
-                            )
-                        )
-                        
-                        if (totalVoteCount == 0)
-                        {
-                            holder.layout_poll_option_progressbar.addView(
-                                populateNewPollVotesAsText(
-                                    holder.itemView.context,
-                                    pollVotesList[iterateVal],
-                                    totalVoteCount
-                                )
-                            )
-                        } else
-                        {
-                            holder.layout_poll_option_progressbar.addView(
-                                populateNewPollVotesProgressBar(
-                                    holder.itemView.context,
-                                    pollVotesList[iterateVal],
-                                    totalVoteCount
-                                )
-                            )
+                    for ((k, v) in model.poll) {
+                        val pollOptionTextView = TextView(holder.itemView.context).apply {
+                            text = "$k"
+                            textSize = 16 * TypedValue.COMPLEX_UNIT_DIP.toFloat()
+                            setTextColor(ContextCompat.getColor(holder.itemView.context, color.colorTextDarkGray))
                         }
 
-                        iterateVal += 1
-                        Log.d("new layout created", "FIRED")
+                        val pollOptionHorizontalLinearLayout = LinearLayout(holder.itemView.context).apply {
+                            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                                setMargins(0, 0, 0, 24 * TypedValue.COMPLEX_UNIT_DIP)
+                                gravity = Gravity.CENTER_VERTICAL
+                            }
+
+                            orientation = LinearLayout.HORIZONTAL
+                        }
+
+                        val progressIndicator = ProgressIndicator(holder.itemView.context).apply {
+                            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT).apply {
+                                gravity = Gravity.CENTER_VERTICAL
+                            }
+                            isIndeterminate = false
+                            progress = if (v.size > 0) (v.size.toDouble() / totalVotes.toDouble() * 100).roundToInt() else 0
+                            indicatorSize = 24 * TypedValue.COMPLEX_UNIT_DIP
+                            indicatorCornerRadius = 24 * TypedValue.COMPLEX_UNIT_DIP
+                            trackColor = ContextCompat.getColor(holder.itemView.context, color.colorDefaultBackground)
+                            indicatorColors = intArrayOf(ContextCompat.getColor(holder.itemView.context, color.colorPrimary))
+                            visibility = View.VISIBLE
+                            setBackgroundColor(ContextCompat.getColor(holder.itemView.context, color.colorTransparent))
+                        }
+
+                        val percentTextView = TextView(holder.itemView.context).apply {
+                            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                                setMargins(0, 0, 24 * TypedValue.COMPLEX_UNIT_DIP, 0)
+                            }
+                            text = "${ if (v.size > 0) (v.size.toDouble() / totalVotes.toDouble() * 100).roundToInt() else 0 }%"
+                            textSize = 16 * TypedValue.COMPLEX_UNIT_DIP.toFloat()
+                            setTextColor(ContextCompat.getColor(holder.itemView.context, color.colorTextLightGray))
+                        }
+
+                        pollOptionHorizontalLinearLayout.addView(percentTextView)
+                        pollOptionHorizontalLinearLayout.addView(progressIndicator)
+
+                        holder.linearLayoutPollOptions.addView(pollOptionTextView)
+                        holder.linearLayoutPollOptions.addView(pollOptionHorizontalLinearLayout)
                     }
                 }
-
             }
-
             "multimedia" -> {
                 holder.post_image.visibility = View.VISIBLE
                 holder.post_title.visibility = View.VISIBLE
@@ -158,7 +169,6 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
 
     private fun populateNewPollOptionTextView(context: Context, userOptionInput: String): TextView {
-
         val lparams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             50
@@ -186,13 +196,10 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         val progressBarOptionVote =
             ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal)
         progressBarOptionVote.setBackgroundResource(color.colorWhiteBackground)
-//        progressBarOptionVote.setBackgroundColor(color.colorWarning)
-//        progressBarOptionVote.background = drawable.gradient_background.toDrawable()
         progressBarOptionVote.isIndeterminate = false
         progressBarOptionVote.scaleY = 1.toFloat()
         progressBarOptionVote.max = totalVoteCount
         progressBarOptionVote.progress = optionVote
-
         progressBarOptionVote.layoutParams = lparams
 
         return progressBarOptionVote
@@ -225,16 +232,12 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         // Setting properties to the View (reference to layout_new_post_list_item item ID)
         val post_image: ImageView = itemView.new_post_image
         val post_title: TextView = itemView.new_post_title
-        val post_pollOption: TextView = itemView.new_post_pollOption
         val post_duration: TextView = itemView.new_post_duration
-        val layout_poll_options = itemView.linear_layout_post_poll_options
-        val layout_poll_option_progressbar = itemView.linear_layout_post_poll_progressbar
         val likes: TextView = itemView.new_post_likes
         val comments: TextView = itemView.new_post_comments
-
+        val linearLayoutPollOptions: LinearLayout = itemView.linearLayout_pollOptions
 
         val activity: AppCompatActivity = itemView.context as AppCompatActivity
-
 
         fun bind(post: Post) {
             if (post.postType == "multimedia") post.displayPostMedia(activity.application.baseContext, post_image)
