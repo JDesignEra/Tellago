@@ -59,8 +59,8 @@
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="160dp"
                         android:layout_height="140dp"
-                        android:layout_marginVertical="10dp"
-                        android:src="@drawable/sgflag_mbs" />
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/robert_koorenny_publish_unsplash" />
 
                     <LinearLayout
                         android:id="@+id/linear_layout_community_search_cardview_1"
@@ -72,7 +72,7 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="SingaporeUnited"
+                            android:text="Self-publishers SG"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -85,7 +85,7 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="~ A SG Financial Community that shares various financial tidbits and advice. All are welcome!"
+                            android:text="~ A Community formed around publishing creative works. All are welcome!"
                             android:textSize="14sp" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout

@@ -94,8 +94,18 @@ class CommunitySearchFragment : Fragment() {
 
         }
 
-        cardview_career_communities_1.setOnClickListener {
+//        cardview_career_communities_1.setOnClickListener {
+//
+//
+//            // Display selected Community in new Activity
+//            val intent = Intent(requireContext(), DisplayCommunityActivity::class.java)
+//            // use intent.putExtra to pass the community ID to be displayed
+////            intent.putExtra("communityID", "communityID")
+//            startActivity(intent)
+//
+//        }
 
+        cardview_career_communities_3.setOnClickListener {
 
             // Display selected Community in new Activity
             val intent = Intent(requireContext(), DisplayCommunityActivity::class.java)
@@ -104,6 +114,7 @@ class CommunitySearchFragment : Fragment() {
             startActivity(intent)
 
         }
+
 
     }
 

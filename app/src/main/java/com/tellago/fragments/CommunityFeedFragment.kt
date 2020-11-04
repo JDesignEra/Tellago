@@ -38,7 +38,7 @@ class CommunityFeedFragment : Fragment() {
 
         // The following code is meant to enhance static data when displaying Layout only
         // Shift it to the relevant adapter during future development
-        val uri_uri = requireContext().resourceUri(R.drawable.james_example)
+        val uri_uri = requireContext().resourceUri(R.drawable.james_example_2)
         setImage((uri_uri))
 
     }

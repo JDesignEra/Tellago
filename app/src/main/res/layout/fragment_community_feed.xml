@@ -41,7 +41,7 @@
                     android:adjustViewBounds="true"
                     android:background="@drawable/profile_picture_shape"
                     android:scaleType="centerInside"
-                    android:src="@drawable/james_example"
+                    android:src="@drawable/james_example_2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:elevation="4dp" />
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="How I managed to save 20K this year!"
+                    android:text="The publisher has accepted my novel manuscript!"
                     app:layout_constraintBottom_toTopOf="@+id/iv_image"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -91,10 +91,11 @@
                     android:layout_marginTop="4dp"
                     android:maxHeight="160dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/saving20k_unsplash"
+                    android:src="@drawable/jason_leung_celebrate_unsplash"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_msg_post_community_feed_1" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_msg_post_community_feed_1"
+                    />
 
                 <LinearLayout
                     android:id="@+id/icon_container_1"
@@ -162,6 +163,156 @@
         </com.google.android.material.card.MaterialCardView>
 
 
+<!--        <com.google.android.material.card.MaterialCardView-->
+<!--            android:id="@+id/cardView_post_community_feed_1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/colorDefaultBackground"-->
+<!--            android:checkable="false"-->
+<!--            android:clickable="false"-->
+<!--            android:focusable="false"-->
+<!--            app:cardCornerRadius="6dp"-->
+<!--            app:cardElevation="4dp"-->
+<!--            app:cardUseCompatPadding="true"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent">-->
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@color/colorDefaultBackground"-->
+<!--                android:padding="8dp">-->
+
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/iv_post_profile_picture_1"-->
+<!--                    android:layout_width="50dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    android:background="@drawable/profile_picture_shape"-->
+<!--                    android:scaleType="centerInside"-->
+<!--                    android:src="@drawable/james_example_2"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    android:elevation="4dp" />-->
+
+<!--                <com.google.android.material.textview.MaterialTextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="24dp"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:text="James Hong"-->
+<!--                    android:textColor="@color/colorTextDarkGray"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/iv_post_profile_picture_1"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--                <com.google.android.material.textview.MaterialTextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="24dp"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:text="2hrs ago"-->
+<!--                    android:textColor="@color/colorPrimary"-->
+<!--                    android:textSize="12dp"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_msg_post_community_feed_1"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="16dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:text="How I managed to save 20K this year!"-->
+<!--                    app:layout_constraintBottom_toTopOf="@+id/iv_image"-->
+<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                    app:layout_constraintRight_toRightOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/iv_post_profile_picture_1"-->
+<!--                    app:layout_goneMarginTop="0dp" />-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/iv_post_image_1"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="4dp"-->
+<!--                    android:maxHeight="160dp"-->
+<!--                    android:scaleType="centerInside"-->
+<!--                    android:src="@drawable/saving20k_unsplash"-->
+<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                    app:layout_constraintRight_toRightOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/tv_msg_post_community_feed_1" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/icon_container_1"-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/iv_post_image_1">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/like_btn"-->
+<!--                        android:layout_width="50dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:src="@drawable/ic_baseline_favorite_24"-->
+<!--                        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/user_post_image" />-->
+
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/comment_btn"-->
+<!--                        android:layout_width="50dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:src="@drawable/ic_baseline_mode_comment_24"-->
+<!--                        app:layout_constraintLeft_toRightOf="@id/like_btn"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/user_post_image" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/share_btn"-->
+<!--                        android:layout_width="50dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:src="@drawable/ic_baseline_share_24"-->
+<!--                        app:layout_constraintLeft_toRightOf="@id/comment_btn"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/user_post_image" />-->
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/icon_display_container_1"-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/icon_container_1">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/likes"-->
+<!--                        android:layout_width="50dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="193"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textSize="11sp" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/comments"-->
+<!--                        android:layout_width="50dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="86"-->
+<!--                        android:textAlignment="center"-->
+<!--                        android:textSize="11sp" />-->
+<!--                </LinearLayout>-->
+
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--        </com.google.android.material.card.MaterialCardView>-->
+
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView_post_community_feed_2"
             android:layout_width="match_parent"
@@ -224,7 +375,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:text="How do I save money as an 18 year old student?"
+                    android:text="How should I organise my book ideas?"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_post_profile_picture_2"
