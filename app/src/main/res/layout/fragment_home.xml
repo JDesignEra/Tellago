@@ -44,19 +44,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorUnderlyingBackground"
-            >
+            android:background="@drawable/home_goal_card_bg">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Goals"
+                android:textColor="@color/colorWhiteBackground"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="8dp"
-                android:textSize="24sp"
-                />
+                android:textSize="24sp"/>
 
             <Button
                 android:id="@+id/btn_AddGoal"
