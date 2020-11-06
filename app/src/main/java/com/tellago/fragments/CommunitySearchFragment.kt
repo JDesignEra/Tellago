@@ -104,7 +104,40 @@ class CommunitySearchFragment : Fragment() {
 
         }
 
-//        cardview_career_communities_1.setOnClickListener {
+
+        // Testing query to populate card
+        val Communities = Communities()
+//        FirestoreRecyclerOptions.Builder<Communities>()
+
+
+        Communities.getAll {
+            if (it != null) {
+                Log.d("size of collection: ", it.size.toString())
+
+                // Assign first card view with values
+                tv_communitySearch_cardview_3_title.text = it.get(0).name
+                val countTotalMembers = it.get(0).uids.count()
+                tv_communitySearch_cardview_3_memberCount.text =
+                    String.format("$countTotalMembers members")
+                val subStringOfSummary = it.get(0).summary?.subSequence(0, 50)
+
+                if (subStringOfSummary != null) {
+
+                    // Check the length of 'summary' value for this community
+                    if (it.get(0).summary!!.length > 50) {
+                        tv_communitySearch_cardview_3_summary.text = String.format("$subStringOfSummary ......")
+                    }
+                    else
+                    {
+                        tv_communitySearch_cardview_3_summary.text = subStringOfSummary
+                    }
+                }
+
+            }
+        }
+
+
+        //        cardview_career_communities_1.setOnClickListener {
 //
 //
 //            // Display selected Community in new Activity
@@ -120,32 +153,14 @@ class CommunitySearchFragment : Fragment() {
             // Display selected Community in new Activity
             val intent = Intent(requireContext(), DisplayCommunityActivity::class.java)
             // use intent.putExtra to pass the community ID to be displayed
-//            intent.putExtra("communityID", "communityID")
-            startActivity(intent)
+            Communities.getAll {
+                if (it != null) {
+                    val communityID_community_3 = it.get(0).cid
 
-        }
-
-
-
-        // Testing query to populate card
-        val Communities = Communities()
-//        FirestoreRecyclerOptions.Builder<Communities>()
-
-
-        Communities.getAll {
-            if (it != null) {
-                Log.d("size of collection: ", it.size.toString())
-
-                // Assign first name
-                tv_communitySearch_cardview_5_title.text = it.get(0).name
-                val countTotalMembers = it.get(0).uids.count()
-                tv_communitySearch_cardview_5_totalMembers.text = String.format("$countTotalMembers members")
+                    intent.putExtra("communityID", "$communityID_community_3")
+                    startActivity(intent)
+                }
             }
-        }
-
-        cardview_career_communities_5.setOnClickListener {
-
-            toast.success("toast for Community: $tv_communitySearch_cardview_5_title")
         }
 
 

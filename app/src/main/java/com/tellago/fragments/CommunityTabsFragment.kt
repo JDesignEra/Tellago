@@ -1,6 +1,8 @@
 package com.tellago.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_community_tabs.*
 
 class CommunityTabsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
+    private var communityID_received: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +26,9 @@ class CommunityTabsFragment : Fragment() {
             requireActivity().supportFragmentManager,
             R.id.display_community_fragment_container
         )
+
+        communityID_received =  requireActivity().intent.getStringExtra("communityID")
+        Log.d("CID is: ", communityID_received)
 
     }
 
