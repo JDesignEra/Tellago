@@ -36,6 +36,7 @@ private val todayCalendar = Calendar.getInstance()
 data class Post(
     @DocumentId var pid: String? = null,
     var uid: String? = null,
+    var cid: String? = null,
     var messageBody: String? = null,
     val createDate: Date = todayCalendar.time,
     var postType: String? = null,
@@ -52,20 +53,7 @@ data class Post(
     private val storage = FirebaseStorage.getInstance("gs://tellago.appspot.com")
     @IgnoredOnParcel
     private val storageRef = storage.reference
-
-    fun getByPid(onComplete: ((post : Post?) -> Unit)? = null) {
-        if (pid != null) {
-            collection.document(pid!!).get().addOnSuccessListener {
-                onComplete?.invoke(it.toObject<Post>())
-            }.addOnFailureListener {
-                Log.e(this::class.java.name, "Failed to get Post by PID.")
-                onComplete?.invoke(null)
-            }
-        }
-        else Log.e(this::class.java.name, "PID is required for getByPid().")
-    }
-
-
+    
     fun add(onComplete: ((post : Post?) -> Unit)? = null) {
         collection.add(this).addOnSuccessListener {
             pid = it.id
@@ -74,11 +62,6 @@ data class Post(
             Log.e(this::class.java.name, "Failed to add Post.")
             onComplete?.invoke(null)
         }
-    }
-
-    fun deleteByPid() {
-        if (pid != null) collection.document(pid!!).delete()
-        else Log.e(this::class.java.name, "PID is required for deleteByPid().")
     }
 
     fun displayPostMedia(
