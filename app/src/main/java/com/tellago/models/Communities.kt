@@ -21,6 +21,8 @@ import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.io.File
 import java.net.URI
+import java.util.*
+import kotlin.collections.ArrayList
 
 @Parcelize
 data class Communities(
@@ -29,7 +31,8 @@ data class Communities(
     var summary: String? = null,
     var category: ArrayList<String> = ArrayList(),
     // Key as uid, and value as type [admin, user]
-    var uids: MutableMap<String, String> = mutableMapOf()
+    var uids: MutableMap<String, String> = mutableMapOf(),
+    var createDate: Date = Calendar.getInstance().time
 ) : Parcelable {
     @IgnoredOnParcel
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
