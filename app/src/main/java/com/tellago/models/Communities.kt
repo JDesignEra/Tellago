@@ -58,6 +58,7 @@ data class Communities(
             onComplete?.invoke(ArrayList(it.toObjects()))
         }.addOnFailureListener {
             Log.e(this::class.java.name, it.message.toString())
+            onComplete?.invoke(null)
         }
     }
 
@@ -69,7 +70,22 @@ data class Communities(
                 Log.e(this::class.java.name, it.message.toString())
                 onComplete?.invoke(null)
             }
-        } else Log.e(this::class.java.name, "CID is reqquired for getByCid().")
+        } else Log.e(this::class.java.name, "CID is required for getByCid().")
+    }
+
+    fun getCategories(onComplete: ((categories: ArrayList<String>?) -> Unit)? = null) {
+        getAll {
+            if (it != null) {
+                val categories = it.filter { it.category.isNotEmpty() }.flatMap { it.category }.distinct()
+                categories.distinct()
+
+                onComplete?.invoke(ArrayList(categories))
+            }
+            else {
+                Log.e(this::class.java.name, "Failed to get categories.")
+                onComplete?.invoke(null)
+            }
+        }
     }
 
     fun searchByName(searchString: String, onComplete: ((communities: ArrayList<Communities>?) -> Unit)? = null) {

@@ -12,13 +12,17 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.tellago.R
+import com.tellago.adapters.CommunitiesCategoryAdapter
+import com.tellago.models.Communities
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community.*
 
 
 class CommunityFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
+    private lateinit var adapter: CommunitiesCategoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,16 +30,9 @@ class CommunityFragment : Fragment() {
             requireActivity().supportFragmentManager,
             R.id.fragment_container
         )
-        //configureToolbar()
-//        configureSearchToolbar()
-
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_community, container, false)
     }
@@ -63,29 +60,21 @@ class CommunityFragment : Fragment() {
             } else {
                 // changing layout weights
                 hideSearchText()
-
             }
-
         }
 
         search_bar_community.setOnSearchClickListener {
-
             Log.d("toolbar anim 2", "FIRED")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                circleReveal(toolbar_community, 1, true, false)
-            else
-                toolbar_community.visibility = View.GONE
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) circleReveal(toolbar_community, 1, true, false)
+            else toolbar_community.visibility = View.GONE
         }
 
+        Communities().getCategories {
+            adapter = CommunitiesCategoryAdapter(it ?: ArrayList())
 
-        cardview_leisure_communities.setOnClickListener {
-            Log.d("Leisure CardView", "FIRED")
+            communitiesCategories_recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+            communitiesCategories_recyclerView.adapter = adapter
         }
-
-        cardview_family_communities.setOnClickListener {
-            Log.d("Family CardView", "FIRED")
-        }
-
     }
 
 //    public fun configureSearchToolbar() {
