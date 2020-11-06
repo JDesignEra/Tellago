@@ -1,14 +1,18 @@
 package com.tellago.fragments
 
-import android.content.Intent
+
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.google.android.material.tabs.TabLayoutMediator
+import com.tellago.GlideApp
 import com.tellago.R
 import com.tellago.adapters.ViewPagerBucketListItemsFragmentStateAdapter
 import com.tellago.models.Communities
@@ -55,8 +59,9 @@ class CommunityTabsFragment : Fragment() {
                 val countTotalMembers = it.uids.count()
                 community_tabs_toolbar_membersCount.text = "$countTotalMembers members"
                 community_tabs_toolbar_summary.text = it.summary
-            }
+                it.displayImageByCid(context = requireContext(), imageView = iv_toolbar_community_tab)
 
+            }
         }
 
     }
@@ -97,6 +102,14 @@ class CommunityTabsFragment : Fragment() {
             }
         }.attach()
     }
+
+
+//    private fun setImage(uri: Uri){
+//        GlideApp.with(this)
+//            .load(uri).apply {
+//                transform(CenterInside())
+//            }.into(iv_toolbar_community_tab)
+//    }
 
 
 }

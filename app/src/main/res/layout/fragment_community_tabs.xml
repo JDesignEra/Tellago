@@ -57,10 +57,10 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_toolbar_community_tab"
                         android:layout_width="160dp"
                         android:layout_height="140dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/robert_koorenny_publish_unsplash" />
+                        android:layout_marginBottom="10dp" />
 
                     <LinearLayout
                         android:id="@+id/linear_layout_community_search_cardview_1"

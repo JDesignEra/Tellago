@@ -100,7 +100,8 @@ data class Communities(
     fun uploadImageByCid(uri: Uri): UploadTask {
         val file = Uri.fromFile((File(URI.create(uri.toString()))))
 
-        return storageRef.child("uploads/dp/$cid").putFile(file)
+//        return storageRef.child("uploads/dp/$cid").putFile(file)
+        return storageRef.child("uploads/communityImages/$cid").putFile(file)
     }
 
     fun displayImageByCid(
@@ -109,15 +110,17 @@ data class Communities(
         vararg transforms: Transformation<Bitmap>
     ) {
         GlideApp.with(context)
-            .load(storageRef.child("uploads/communities/$cid"))
+            .load(storageRef.child("uploads/communityImages/${cid}.jpg"))
             .apply {
                 if (transforms.isNotEmpty()) transform(*transforms)
                 else transform(CenterInside())
 
-                error(R.drawable.ic_android_photo)
-                diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                diskCacheStrategy(DiskCacheStrategy.NONE)
+                skipMemoryCache(true)
+                error(R.drawable.tellsquarelogo2)
             }.into(imageView)
     }
+
 
     companion object {
         val collection = Communities().collection
