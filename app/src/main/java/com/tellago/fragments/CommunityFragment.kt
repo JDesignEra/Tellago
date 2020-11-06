@@ -37,7 +37,6 @@ class CommunityFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_community, container, false)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -45,13 +44,10 @@ class CommunityFragment : Fragment() {
         search_bar_community.setOnQueryTextFocusChangeListener { _, hasFocus ->
             // hasFocus means searchView is selected
             if (hasFocus) {
-
                 Log.d("toolbar anim 1", "FIRED")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Log.d("toolbar anim 1a", "FIRED")
                     circleReveal(toolbar_community, 1, true, false)
-                    community.visibility = View.GONE
-
                 } else {
                     Log.d("toolbar anim 1b", "FIRED")
 
