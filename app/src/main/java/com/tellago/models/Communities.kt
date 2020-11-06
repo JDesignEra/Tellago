@@ -37,7 +37,7 @@ data class Communities(
     @IgnoredOnParcel
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     @IgnoredOnParcel
-    private val collection = db.collection("Communities")
+    private val collection = db.collection("communities")
     @IgnoredOnParcel
     private val storage = FirebaseStorage.getInstance("gs://tellago.appspot.com")
     @IgnoredOnParcel
