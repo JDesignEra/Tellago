@@ -99,4 +99,8 @@ data class Communities(
                 diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             }.into(imageView)
     }
+
+    companion object {
+        val collection = Communities().collection
+    }
 }

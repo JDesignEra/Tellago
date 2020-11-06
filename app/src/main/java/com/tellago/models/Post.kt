@@ -53,7 +53,7 @@ data class Post(
     private val storage = FirebaseStorage.getInstance("gs://tellago.appspot.com")
     @IgnoredOnParcel
     private val storageRef = storage.reference
-    
+
     fun add(onComplete: ((post : Post?) -> Unit)? = null) {
         collection.add(this).addOnSuccessListener {
             pid = it.id
