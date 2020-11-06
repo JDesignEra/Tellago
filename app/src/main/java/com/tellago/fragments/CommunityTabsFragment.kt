@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.tellago.R
 import com.tellago.adapters.ViewPagerBucketListItemsFragmentStateAdapter
+import com.tellago.models.Communities
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community_tabs.*
 
@@ -43,9 +44,20 @@ class CommunityTabsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         configureToolbar()
         setUpTabs()
+
+
+        //Populate toolbar based on values obtained through Firestore query
+        Communities(cid = communityID_received).getByCid {
+            if (it != null) {
+                community_tabs_toolbar_name.text = it.name
+                val countTotalMembers = it.uids.count()
+                community_tabs_toolbar_membersCount.text = "$countTotalMembers members"
+                community_tabs_toolbar_summary.text = it.summary
+            }
+
+        }
 
     }
 
