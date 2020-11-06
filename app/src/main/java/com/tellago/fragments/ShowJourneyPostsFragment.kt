@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,8 @@ import com.tellago.models.Post.Companion.collection
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_show_journey_posts.*
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -60,6 +63,18 @@ class ShowJourneyPostsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         configureToolbar()
+
+        // adjust year slider according to the relevant dates of the Goal
+        val yearFormatter = SimpleDateFormat("yyyy", Locale.getDefault())
+        val createDateYear = yearFormatter.format(goal.createDate)
+        val deadlineYear = yearFormatter.format(goal.deadline)
+        val today = LocalDateTime.now()
+        
+        tv_slider_create_date_year.text = createDateYear
+        tv_slider_deadline_year.text = deadlineYear
+        current_month_show_journey_posts.text = today.month.toString().toLowerCase().capitalize()
+        current_year_show_journey_posts.text = today.year.toString()
+
 
         Journey(goal.jid[0]).getByJid { journey ->
             if (journey != null) {

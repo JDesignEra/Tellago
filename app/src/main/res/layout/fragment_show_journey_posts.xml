@@ -277,6 +277,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_slider_deadline_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="26dp"
@@ -306,6 +307,7 @@
 
 
             <TextView
+                android:id="@+id/tv_slider_create_date_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="26dp"
