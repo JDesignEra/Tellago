@@ -69,7 +69,7 @@ class ShowJourneyPostsFragment : Fragment() {
         val createDateYear = yearFormatter.format(goal.createDate)
         val deadlineYear = yearFormatter.format(goal.deadline)
         val today = LocalDateTime.now()
-        
+
         tv_slider_create_date_year.text = createDateYear
         tv_slider_deadline_year.text = deadlineYear
         current_month_show_journey_posts.text = today.month.toString().toLowerCase().capitalize()

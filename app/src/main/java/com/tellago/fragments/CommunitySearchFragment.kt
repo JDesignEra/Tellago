@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -14,14 +15,21 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.activities.DisplayCommunityActivity
+import com.tellago.adapters.NewPostRecyclerAdapter
+import com.tellago.models.Communities
+import com.tellago.models.Post
+import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community_search.*
 
 
 class CommunitySearchFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
+    private lateinit var toast: CustomToast
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +37,8 @@ class CommunitySearchFragment : Fragment() {
             requireActivity().supportFragmentManager,
             R.id.fragment_container
         )
+
+        toast = CustomToast(requireContext())
 
     }
 
@@ -116,6 +126,29 @@ class CommunitySearchFragment : Fragment() {
         }
 
 
+
+        // Testing query to populate card
+        val Communities = Communities()
+//        FirestoreRecyclerOptions.Builder<Communities>()
+
+
+        Communities.getAll {
+            if (it != null) {
+                Log.d("size of collection: ", it.size.toString())
+
+                // Assign first name
+                tv_communitySearch_cardview_5_title.text = it.get(0).name
+                val countTotalMembers = it.get(0).uids.count()
+                tv_communitySearch_cardview_5_totalMembers.text = String.format("$countTotalMembers members")
+            }
+        }
+
+        cardview_career_communities_5.setOnClickListener {
+
+            toast.success("toast for Community: $tv_communitySearch_cardview_5_title")
+        }
+
+
     }
 
     public fun circleReveal(
@@ -179,7 +212,8 @@ class CommunitySearchFragment : Fragment() {
     }
 
     fun View.hideKeyboard() {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 

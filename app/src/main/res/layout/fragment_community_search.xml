@@ -465,6 +465,91 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_career_communities_5"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginHorizontal="12dp"
+                app:cardBackgroundColor="@color/colorTransparent"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="140dp"
+                        android:layout_height="120dp"
+                        android:layout_marginVertical="20dp"
+                        android:src="@drawable/designecologist_publish_unsplash" />
+
+                    <LinearLayout
+                        android:id="@+id/linear_layout_community_search_cardview_5"
+                        android:layout_width="220dp"
+                        android:layout_height="120dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_communitySearch_cardview_5_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Default Title"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_communitySearch_cardview_5_totalMembers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3,801 members"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_communitySearch_cardview_5_summary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="~ A Community of digital content ......"
+                            android:textSize="14sp" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:id="@+id/linear_layout_join_community_search_5"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="24dp"
+                                android:background="@drawable/header_primary_background_rectangle"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="24dp"
+                                    android:layout_marginVertical="4dp"
+                                    android:text="JOIN"
+                                    android:textAlignment="center"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/colorWhiteBackground"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
