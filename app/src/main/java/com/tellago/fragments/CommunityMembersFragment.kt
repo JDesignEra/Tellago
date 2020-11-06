@@ -6,30 +6,33 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.tellago.GlideApp
 import com.tellago.R
-import com.tellago.activities.DisplayCommunityActivity
 import com.tellago.activities.DisplayOtherUserActivity
+import com.tellago.adapters.ShowCommunityMembersRecyclerAdapter
+import com.tellago.adapters.UserPostRecyclerAdapter
 import com.tellago.models.Communities
 import com.tellago.models.User
 import com.tellago.utilities.CustomToast
-import kotlinx.android.synthetic.main.fragment_community_feed.*
+import kotlinx.android.synthetic.main.fragment_attach_post_to_journeys.*
 import kotlinx.android.synthetic.main.fragment_community_members.*
-import kotlinx.android.synthetic.main.fragment_community_tabs.*
 
 
 class CommunityMembersFragment : Fragment() {
 
     private var communityID_received: String? = null
     private lateinit var toast: CustomToast
+    private lateinit var showCommunityMembersAdapter: ShowCommunityMembersRecyclerAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,30 +65,110 @@ class CommunityMembersFragment : Fragment() {
                 val allMemberUIDS = it.uids
 
                 // obtain uid of the member with index 0
-                var iterator = 0
+//                var iterator = 0
                 var uidAsKey = ""
-                for (key in allMemberUIDS.keys)
+                val listOfAdminUID = ArrayList<String>()
+                val listOfUserUID = ArrayList<String>()
+
+                for (uid in allMemberUIDS)
                 {
-                    if (iterator == 0)
+                    if (uid.value == "admin")
                     {
-                        uidAsKey = key
+                        listOfAdminUID.add(uid.key)
                     }
-                    iterator += 1
+
+                    else if (uid.value == "user")
+                    {
+                        listOfUserUID.add(uid.key)
+                    }
                 }
 
-                User(uid = uidAsKey).getUserWithUid {
-                    if (it != null) {
-                        tv_member_name_1.text = it.displayName
-                        tv_member_followers_1.text = "${it.uid} has followers"
+                Log.d("listOfAdminUID: ", listOfAdminUID.toString())
+                Log.d("listOfUserUID: ", listOfUserUID.toString())
+
+//                for (key in allMemberUIDS.keys)
+//                {
+//                    if (iterator == 0)
+//                    {
+//                        uidAsKey = key
+//                    }
+////                    iterator += 1
+//                }
+
+//                User(uid = uidAsKey).getUserWithUid {
+//                    if (it != null) {
+//                        tv_member_name_1.text = it.displayName
+//                        tv_member_followers_1.text = "${it.uid} has followers"
+//                    }
+//
+//                    val userBio = it?.bio
+//
+//                    cardView_member_community_feed_1.setOnClickListener {
+//                        toast.warning("User Bio: $userBio")
+//                    }
+//
+//                }
+
+
+                // convert each uid in arrayList to a full User Object
+                val listOfUsers_Admin = ArrayList<User>()
+                for (uid in listOfAdminUID)
+                {
+                    Log.d("The UID is: ", uid)
+                    User(uid = uid).getUserWithUid {
+                        if (it != null) {
+                            val newUser : User = it
+                            Log.d("the newAdmin is: ", newUser.toString())
+
+                            listOfUsers_Admin.add(newUser)
+                            Log.d("this user name is: ", it.displayName.toString())
+                        }
                     }
-
-                    val userBio = it?.bio
-
-                    cardView_member_community_feed_1.setOnClickListener {
-                        toast.warning("User Bio: $userBio")
-                    }
-
                 }
+
+
+                // convert each uid in arrayList to a full User Object
+                val listOfUsers_User = ArrayList<User>()
+                for (uid in listOfUserUID)
+                {
+                    User(uid = uid).getUserWithUid {
+                        if (it != null) {
+
+                            val newUser : User = it
+                            Log.d("the newUser is: ", newUser.toString())
+
+                            listOfUsers_User.add(newUser)
+                            Log.d("this user name is: ", it.displayName.toString())
+
+                        }
+                    }
+                }
+
+                // Delay before handling the following code:
+                Handler().postDelayed({
+
+                    Log.d("List Of Admin: ", listOfUsers_Admin.toString())
+
+                    // Pass list of Community Admins (User Objects) to adapter...
+                    showCommunityMembersAdapter =
+                        ShowCommunityMembersRecyclerAdapter(listOfUsers_Admin)
+
+                    recycler_view_community_admin.layoutManager =
+                        LinearLayoutManager(requireContext())
+                    recycler_view_community_admin.adapter = showCommunityMembersAdapter
+
+
+                    // Pass list of Community Members (User Objects) to adapter...
+                    showCommunityMembersAdapter =
+                        ShowCommunityMembersRecyclerAdapter(listOfUsers_User)
+
+
+                    recycler_view_community_followers.layoutManager =
+                        LinearLayoutManager(requireContext())
+                    recycler_view_community_followers.adapter = showCommunityMembersAdapter
+
+                }, 500)
+
 
             }
         }
@@ -96,37 +179,47 @@ class CommunityMembersFragment : Fragment() {
 
         // The following code is meant to enhance static data when displaying Layout only
         // Shift it to the relevant adapter during future development
-        val uri_uri_1 = requireContext().resourceUri(R.drawable.user1_example_profile_pic)
-        setImage(uri_uri_1, iv_member_profile_picture_3)
-
-        cardView_member_community_feed_3.setOnClickListener {
-            // Display selected User Profile in new Activity
-            val intent = Intent(requireContext(), DisplayOtherUserActivity::class.java)
-            // use intent.putExtra to pass the unique user ID to be displayed
-            val intendedUserID = "MMMG6532K3SVViSCmASEOmcpBQH2"
-            intent.putExtra("userID", intendedUserID)
-            startActivity(intent)
-
-        }
-
-
-        val uri_uri = requireContext().resourceUri(R.drawable.james_example_2)
-        setImage(uri_uri, iv_member_profile_picture_4)
-
-        cardView_member_community_feed_4.setOnClickListener {
-            // Display selected User Profile in new Activity
-            val intent = Intent(requireContext(), DisplayOtherUserActivity::class.java)
-            // use intent.putExtra to pass the unique user ID to be displayed
-            val intendedUserID = "nS1lzldixjYhi7vNvtpgDa0bCux2"
-            intent.putExtra("userID", intendedUserID)
-            startActivity(intent)
-
-        }
+//        val uri_uri_1 = requireContext().resourceUri(R.drawable.user1_example_profile_pic)
+//        setImage(uri_uri_1, iv_member_profile_picture_3)
+//
+//        cardView_member_community_feed_3.setOnClickListener {
+//            // Display selected User Profile in new Activity
+//            val intent = Intent(requireContext(), DisplayOtherUserActivity::class.java)
+//            // use intent.putExtra to pass the unique user ID to be displayed
+//            val intendedUserID = "MMMG6532K3SVViSCmASEOmcpBQH2"
+//            intent.putExtra("userID", intendedUserID)
+//            startActivity(intent)
+//
+//        }
 
 
+//        val uri_uri = requireContext().resourceUri(R.drawable.james_example_2)
+//        setImage(uri_uri, iv_member_profile_picture_4)
+//
+//        cardView_member_community_feed_4.setOnClickListener {
+//            // Display selected User Profile in new Activity
+//            val intent = Intent(requireContext(), DisplayOtherUserActivity::class.java)
+//            // use intent.putExtra to pass the unique user ID to be displayed
+//            val intendedUserID = "nS1lzldixjYhi7vNvtpgDa0bCux2"
+//            intent.putExtra("userID", intendedUserID)
+//            startActivity(intent)
+//
+//        }
 
 
 
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+//        adapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+//        adapter.stopListening()
     }
 
     fun Context.resourceUri(resourceId: Int): Uri = with(resources) {
