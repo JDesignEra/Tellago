@@ -1,6 +1,6 @@
 package com.tellago.adapters
 
-import android.util.Log
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,21 +20,9 @@ class CommunitiesCategoryAdapter(
     class CategoriesViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
+        val cardView: MaterialCardView = itemView.communityCategory_mcv
         val categoryTextView: TextView = itemView.category_tv
         val categoryImageView: ImageView = itemView.category_iv
-
-        init {
-            val activity: AppCompatActivity = itemView.context as AppCompatActivity
-
-            itemView.communityCategory_mcv.setOnClickListener {
-                FragmentUtils(
-                    activity.supportFragmentManager,
-                    R.id.coord_layout_community
-                ).replace(
-                    CommunitySearchFragment()
-                )
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder {
@@ -50,6 +38,19 @@ class CommunitiesCategoryAdapter(
             "career" -> holder.categoryImageView.setImageResource(R.drawable.job_invisi_bg)
             "leisure" -> holder.categoryImageView.setImageResource(R.drawable.travel_invisi_bg)
             "family" -> holder.categoryImageView.setImageResource(R.drawable.family_invisi_bg)
+        }
+
+        val activity: AppCompatActivity = holder.itemView.context as AppCompatActivity
+        val communitySearchFragment = CommunitySearchFragment()
+        communitySearchFragment.arguments = Bundle().apply {
+            putString("category", categories[position])
+        }
+
+        holder.cardView.setOnClickListener {
+            FragmentUtils(
+                activity.supportFragmentManager,
+                R.id.coord_layout_community
+            ).replace(communitySearchFragment)
         }
     }
 

@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -25,6 +26,8 @@ import kotlinx.android.synthetic.main.fragment_community_search.*
 class CommunitySearchFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
     private lateinit var toast: CustomToast
+
+    private var bundle: Bundle? = null
     private var adapter: CommunitySearchAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,12 +39,27 @@ class CommunitySearchFragment : Fragment() {
         )
 
         toast = CustomToast(requireContext())
-        adapter = CommunitySearchAdapter(
-            FirestoreRecyclerOptions.Builder<Communities>().setQuery(
-                Communities.collection.orderBy("memberCount", Query.Direction.DESCENDING),
-                Communities::class.java
-            ).build()
-        )
+        bundle = arguments
+        if (bundle != null && bundle!!.getString("category") != null) {
+            adapter = CommunitySearchAdapter(
+                FirestoreRecyclerOptions.Builder<Communities>().setQuery(
+                    Communities.collection
+                        .whereArrayContains("category", bundle!!.getString("category") as String)
+                        .orderBy("memberCount", Query.Direction.DESCENDING),
+                    Communities::class.java
+                ).build()
+            )
+
+            Log.e(this::class.java.name, bundle!!.getString("category").toString())
+        }
+        else {
+            adapter = CommunitySearchAdapter(
+                FirestoreRecyclerOptions.Builder<Communities>().setQuery(
+                    Communities.collection.orderBy("memberCount", Query.Direction.DESCENDING),
+                    Communities::class.java
+                ).build()
+            )
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
