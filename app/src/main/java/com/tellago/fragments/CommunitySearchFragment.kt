@@ -58,8 +58,6 @@ class CommunitySearchFragment : Fragment() {
                     Communities::class.java
                 ).build()
             )
-
-            Log.e(this::class.java.name, bundle!!.getString("category").toString())
         }
         else {
             adapter = CommunitySearchAdapter(

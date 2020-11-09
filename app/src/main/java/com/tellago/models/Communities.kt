@@ -119,6 +119,8 @@ data class Communities(
                         uids?.set(uid, "user")
                     }
 
+                    if (uids != null) this.uids = uids
+
                     collection.document(cid!!).update("uids", uids).addOnSuccessListener {
                         onComplete?.invoke(this)
                     }.addOnFailureListener {

@@ -55,6 +55,8 @@ class CommunityTabsFragment : Fragment() {
                 community_tabs_toolbar_membersCount.text = "$countTotalMembers members"
                 community_tabs_toolbar_summary.text = it.summary
                 it.displayImageByCid(context = requireContext(), imageView = iv_toolbar_community_tab)
+
+                updateJoinBtn(it.uids.containsKey(user?.uid))
             }
         }
 
@@ -70,13 +72,11 @@ class CommunityTabsFragment : Fragment() {
                 user?.uid?.let { uid ->
                     Communities(cid = communityID_received).followByCid(uid) {
                         if (it != null) {
-                            toast.success("Community joined successfully")
-
-                            linear_layout_leave_community_search_1.visibility = View.VISIBLE
-                            linear_layout_join_community_search_1.visibility = View.GONE
+                            toast.success("Community ${if (it.uids.containsKey(user?.uid!!)) "join" else "leave"} successfully")
+                            updateJoinBtn(it.uids.containsKey(user?.uid!!))
                         }
                         else {
-                            toast.success("Please try again, failed to join community")
+                            toast.success("Please try again")
                         }
                     }
                 }
@@ -90,44 +90,41 @@ class CommunityTabsFragment : Fragment() {
         }
     }
 
-
     private fun setUpTabs() {
         val viewPager2 = view_pager_community_search_tabs
         val fragmentList = arrayListOf<Fragment>()
         fragmentList.add(CommunityFeedFragment())
         fragmentList.add(CommunityMembersFragment())
 
-
         // set Orientation in ViewPager2
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        viewPager2.adapter =
-            ViewPagerBucketListItemsFragmentStateAdapter(this.requireActivity(), fragmentList)
+        viewPager2.adapter = ViewPagerBucketListItemsFragmentStateAdapter(this.requireActivity(), fragmentList)
         viewPager2.isUserInputEnabled = true
 
         val tabLayout = tab_layout_community_fragment
-
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {
                 0 -> {
                     tab.text = "FEED"
-
                 }
                 1 -> {
                     tab.text = "MEMBERS"
-
                 }
             }
         }.attach()
     }
 
-
-//    private fun setImage(uri: Uri){
-//        GlideApp.with(this)
-//            .load(uri).apply {
-//                transform(CenterInside())
-//            }.into(iv_toolbar_community_tab)
-//    }
-
-
+    private fun updateJoinBtn(inCommunity: Boolean) {
+        if (inCommunity) {
+            linear_layout_join_community_search_1.setBackgroundResource(R.drawable.header_white_background_rectangle_8dp)
+            join_tv.text = "LEAVE"
+            join_tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+        }
+        else {
+            linear_layout_join_community_search_1.setBackgroundResource(R.drawable.header_primary_background_rectangle_8dp)
+            join_tv.text = "JOIN"
+            join_tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorWhiteBackground))
+        }
+    }
 }
