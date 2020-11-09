@@ -16,8 +16,7 @@ tools:context=".fragments.PrivacyPolicyScrollingFragment">
 <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="12dp"
-    android:layout_marginBottom="85dp">
+    android:layout_marginHorizontal="12dp">
 
     <TextView
         android:layout_width="wrap_content"
