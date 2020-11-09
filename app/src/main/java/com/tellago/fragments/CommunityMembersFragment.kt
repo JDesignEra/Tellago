@@ -21,6 +21,7 @@ import com.tellago.R
 import com.tellago.activities.DisplayOtherUserActivity
 import com.tellago.adapters.ShowCommunityMembersRecyclerAdapter
 import com.tellago.adapters.UserPostRecyclerAdapter
+import com.tellago.models.Auth
 import com.tellago.models.Communities
 import com.tellago.models.User
 import com.tellago.utilities.CustomToast
@@ -31,6 +32,7 @@ import kotlinx.android.synthetic.main.fragment_community_members.*
 class CommunityMembersFragment : Fragment() {
 
     private var communityID_received: String? = null
+    private var currenUserID: String = Auth.user!!.uid
     private lateinit var toast: CustomToast
     private lateinit var showCommunityMembersAdapter: ShowCommunityMembersRecyclerAdapter
 
@@ -125,7 +127,7 @@ class CommunityMembersFragment : Fragment() {
 
                     // Pass list of Community Admins (User Objects) to adapter...
                     showCommunityMembersAdapter =
-                        ShowCommunityMembersRecyclerAdapter(listOfUsers_Admin)
+                        ShowCommunityMembersRecyclerAdapter(currenUserID, listOfUsers_Admin)
 
                     recycler_view_community_admin.layoutManager =
                         LinearLayoutManager(requireContext())
@@ -134,7 +136,7 @@ class CommunityMembersFragment : Fragment() {
 
                     // Pass list of Community Members (User Objects) to adapter...
                     showCommunityMembersAdapter =
-                        ShowCommunityMembersRecyclerAdapter(listOfUsers_User)
+                        ShowCommunityMembersRecyclerAdapter(currenUserID, listOfUsers_User)
 
 
                     recycler_view_community_followers.layoutManager =
