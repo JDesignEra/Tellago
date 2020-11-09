@@ -1,20 +1,17 @@
 package com.tellago.fragments
 
 
-import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.google.android.material.tabs.TabLayoutMediator
-import com.tellago.GlideApp
 import com.tellago.R
 import com.tellago.adapters.ViewPagerBucketListItemsFragmentStateAdapter
+import com.tellago.models.Auth
 import com.tellago.models.Communities
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community_tabs.*
@@ -63,6 +60,44 @@ class CommunityTabsFragment : Fragment() {
 
             }
         }
+
+        linear_layout_join_community_search_1.setOnClickListener {
+            Auth.user?.uid?.let { uid ->
+                Communities(cid = communityID_received).followByCid(uid) {
+                    if (it != null) {
+                        //success
+                    }
+                    else {
+                        // failed
+                    }
+                }
+            }
+
+            // Change visibility of 'Join' button & 'Leave' button
+            linear_layout_leave_community_search_1.visibility = View.VISIBLE
+            linear_layout_join_community_search_1.visibility = View.GONE
+        }
+
+
+        linear_layout_leave_community_search_1.setOnClickListener {
+            Auth.user?.uid?.let { uid ->
+                Communities(cid = communityID_received).followByCid(uid) {
+                    if (it != null) {
+                        //success
+                    }
+                    else {
+                        // failed
+                    }
+                }
+            }
+
+            // Change visibility of 'Leave' button & 'Join' button
+            linear_layout_join_community_search_1.visibility = View.VISIBLE
+            linear_layout_leave_community_search_1.visibility = View.GONE
+        }
+
+
+
 
     }
 

@@ -2,8 +2,6 @@ package com.tellago.fragments
 
 import android.animation.Animator
 import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -11,7 +9,6 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
@@ -19,9 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.Query
 import com.tellago.R
-import com.tellago.activities.DisplayCommunityActivity
 import com.tellago.adapters.CommunitySearchAdapter
-import com.tellago.adapters.NewPostRecyclerAdapter
 import com.tellago.models.Communities
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils

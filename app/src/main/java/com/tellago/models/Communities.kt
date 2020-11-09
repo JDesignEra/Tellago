@@ -106,6 +106,31 @@ data class Communities(
         return storageRef.child("uploads/communityImages/$cid").putFile(file)
     }
 
+    fun followByCid(uid: String, onComplete: ((community: Communities?) -> Unit)? = null) {
+        if (cid != null) {
+            collection.document(cid!!).get().addOnSuccessListener {
+                if (it != null) {
+                    var uids = it.toObject<Communities>()?.uids?.toMutableMap()
+
+                    if (uids?.containsKey(uid) ?: false) {
+                        uids?.remove(uid)
+                    }
+                    else {
+                        uids?.set(uid, "user")
+                    }
+
+                    collection.document(cid!!).update("uids", uids).addOnSuccessListener {
+                        onComplete?.invoke(this)
+                    }.addOnFailureListener {
+                        Log.e(this::class.java.name, "Failed to update Community")
+                        onComplete?.invoke(null)
+                    }
+                }
+            }
+        }
+        else Log.e(this::class.java.name, "CID is required for followByCid().")
+    }
+
     fun displayImageByCid(
         context: Context,
         imageView: ImageView,

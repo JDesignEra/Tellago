@@ -125,6 +125,34 @@
 
                             </LinearLayout>
 
+
+                            <LinearLayout
+                                android:id="@+id/linear_layout_leave_community_search_1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="16dp"
+                                android:visibility="gone"
+                                android:background="@drawable/header_white_background_rectangle_8dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="24dp"
+                                    android:layout_marginVertical="4dp"
+                                    android:text="LEAVE"
+                                    android:textAlignment="center"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </LinearLayout>
