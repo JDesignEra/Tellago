@@ -43,7 +43,7 @@ class CommunitySearchFragment : Fragment() {
         toast = CustomToast(requireContext())
         adapter = CommunitySearchAdapter(
             FirestoreRecyclerOptions.Builder<Communities>().setQuery(
-                Communities.collection,
+                Communities.collection.orderBy("memberCount", Query.Direction.DESCENDING),
                 Communities::class.java
             ).build()
         )

@@ -48,7 +48,8 @@ class CommunityFragment : Fragment() {
 
                 fragmentUtils.replace(
                     communitySearchFragment,
-                    animate = false
+                    enter = R.anim.fade_in,
+                    exit = R.anim.fade_out
                 )
             }
         }
