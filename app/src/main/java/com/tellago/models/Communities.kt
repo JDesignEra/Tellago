@@ -5,10 +5,12 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Parcelable
 import android.util.Log
+import android.util.TypedValue
 import android.widget.ImageView
 import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterInside
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -113,10 +115,9 @@ data class Communities(
             .load(storageRef.child("uploads/communityImages/${cid}.jpg"))
             .apply {
                 if (transforms.isNotEmpty()) transform(*transforms)
-                else transform(CenterInside())
+                else transform(CenterInside(), RoundedCorners(5 * TypedValue.COMPLEX_UNIT_DIP))
 
-                diskCacheStrategy(DiskCacheStrategy.NONE)
-                skipMemoryCache(true)
+                diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 error(R.drawable.tellsquarelogo2)
             }.into(imageView)
     }

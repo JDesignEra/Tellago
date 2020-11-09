@@ -12,44 +12,67 @@ import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.SearchView
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.activities.DisplayCommunityActivity
+import com.tellago.adapters.CommunitySearchAdapter
+import com.tellago.adapters.NewPostRecyclerAdapter
 import com.tellago.models.Communities
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community_search.*
 
-
 class CommunitySearchFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
     private lateinit var toast: CustomToast
+    private var adapter: CommunitySearchAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
             R.id.fragment_container
         )
 
         toast = CustomToast(requireContext())
+        adapter = CommunitySearchAdapter(
+            FirestoreRecyclerOptions.Builder<Communities>().setQuery(
+                Communities.collection,
+                Communities::class.java
+            ).build()
+        )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_community_search, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        communities_recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        communities_recyclerView.adapter = adapter
+
+        search_bar_communitySearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null && newText.isNotBlank()) adapter?.search(newText)
+                else adapter?.resetSearch()
+                return true
+            }
+        })
+
         // Make search bar focused as soon as this fragment is brought up
-        search_bar_communitySearch.isIconified = false
+//        search_bar_communitySearch.isIconified = false
 //        search_bar_communitySearch.isFocusedByDefault = true
 
         // if search bar is in focus, then show 'SEARCH' text (adjust layout weights)
@@ -83,14 +106,8 @@ class CommunitySearchFragment : Fragment() {
 //            }
         }
 
-        tv_communitySearch_search.setOnClickListener {
-            // Launch search when this button is pressed
-            text_view_communitySearch.visibility = View.VISIBLE
-            text_view_communitySearch.text = search_bar_communitySearch.query.toString()
-        }
-
         // Testing query to populate card
-        val Communities = Communities()
+//        val Communities = Communities()
 //        FirestoreRecyclerOptions.Builder<Communities>()
 
 //        Communities.getAll {
@@ -130,35 +147,29 @@ class CommunitySearchFragment : Fragment() {
 //
 //        }
 
-        cardview_career_communities_3.setOnClickListener {
-            // Display selected Community in new Activity
-            val intent = Intent(requireContext(), DisplayCommunityActivity::class.java)
-            // use intent.putExtra to pass the community ID to be displayed
-            Communities.getAll {
-                if (it != null) {
-                    val communityID_community_3 = "DoTDiLBZVLQU8nVVkCd4"
-
-                    intent.putExtra("communityID", "$communityID_community_3")
-                    startActivity(intent)
-                }
-            }
-        }
-
-//        cardview_career_communities_4.setOnClickListener {
+//        cardview_career_communities_3.setOnClickListener {
 //            // Display selected Community in new Activity
 //            val intent = Intent(requireContext(), DisplayCommunityActivity::class.java)
 //            // use intent.putExtra to pass the community ID to be displayed
 //            Communities.getAll {
 //                if (it != null) {
-//                    val communityID_community_4 = it.get(2).cid
-//                    Log.d("the CID is: ", communityID_community_4.toString())
+//                    val communityID_community_3 = it.get(0).cid
 //
-//                    intent.putExtra("communityID", "$communityID_community_4")
+//                    intent.putExtra("communityID", "$communityID_community_3")
 //                    startActivity(intent)
 //                }
 //            }
 //        }
+    }
 
+    override fun onStart() {
+        super.onStart()
+        adapter?.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter?.stopListening()
     }
 
     fun circleReveal(

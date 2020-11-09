@@ -1,5 +1,6 @@
 package com.tellago.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,14 +20,13 @@ class CommunitiesCategoryAdapter(
     class CategoriesViewHolder(
         itemView: View
     ) : RecyclerView.ViewHolder(itemView) {
-        val cardView: MaterialCardView = itemView.communityCategory_mcv
         val categoryTextView: TextView = itemView.category_tv
         val categoryImageView: ImageView = itemView.category_iv
 
         init {
             val activity: AppCompatActivity = itemView.context as AppCompatActivity
 
-            cardView.setOnClickListener {
+            itemView.communityCategory_mcv.setOnClickListener {
                 FragmentUtils(
                     activity.supportFragmentManager,
                     R.id.coord_layout_community

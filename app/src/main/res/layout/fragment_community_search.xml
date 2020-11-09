@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorDefaultBackground"
     tools:context=".fragments.CommunitySearchFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coord_layout_communitySearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:background="@color/colorDefaultBackground"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -20,35 +19,33 @@
             android:layout_height="wrap_content"
             android:background="@color/colorDefaultBackground"
             android:paddingTop="12dp"
-            android:paddingBottom="16dp"
             app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_communitySearch"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:background="@color/colorDefaultBackground">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/iv_fragment_community_search_back"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:paddingTop="12dp"
                         android:src="@drawable/toolbar_back_icon" />
 
                     <androidx.appcompat.widget.SearchView
                         android:id="@+id/search_bar_communitySearch"
-                        android:layout_width="240dp"
+                        android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginHorizontal="12dp"
-                        android:background="@color/colorSearchBarBackground"
+                        android:background="@drawable/searchbar_background"
                         android:clickable="true"
                         android:focusable="true"
                         android:inputType="textShortMessage|textCapWords"
@@ -56,21 +53,7 @@
                         app:queryBackground="@null"
                         app:queryHint="Search Community" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_communitySearch_search"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="6dp"
-                        android:text="Search"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:textAllCaps="true" />
-
-
                 </LinearLayout>
-
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -78,34 +61,240 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="4dp"
-        android:layout_marginTop="60dp"
-        android:background="@color/colorDefaultBackground"
+        android:layout_marginTop="70dp"
         android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
+        <TextView
+            android:id="@+id/result_tv"
             android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="20dp"
-            android:text="Results (2)"
-            android:textAlignment="center"
-            android:textColor="@color/colorTextLightGray"
-            android:textSize="18sp" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginHorizontal="21dp"
+            android:layout_marginTop="21dp"
+            android:text="Results (0)"
+            android:textSize="14sp"
+            android:textColor="@color/colorTextDarkGray"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/communities_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="72dp"
+            android:clipToPadding="false"/>
+
+    </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginHorizontal="4dp"-->
+<!--        android:layout_marginTop="60dp"-->
+<!--        android:background="@color/colorDefaultBackground"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="32dp"-->
+<!--            android:layout_marginStart="12dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:text="Results (2)"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textColor="@color/colorTextLightGray"-->
+<!--            android:textSize="18sp" />-->
+
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+
+<!--&lt;!&ndash;            <androidx.cardview.widget.CardView&ndash;&gt;-->
+<!--&lt;!&ndash;                android:id="@+id/cardview_career_communities_1"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="160dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_marginHorizontal="12dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                app:cardBackgroundColor="@color/colorTransparent"&ndash;&gt;-->
+<!--&lt;!&ndash;                app:cardElevation="0dp">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:orientation="horizontal">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    <com.google.android.material.imageview.ShapeableImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_width="140dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_height="120dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginVertical="20dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:src="@drawable/sgflag_mbs" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:id="@+id/linear_layout_community_search_cardview_1"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_width="220dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_height="120dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginStart="12dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginTop="30dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:orientation="vertical">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:text="SingaporeUnited"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textSize="18sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textStyle="bold" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:text="8,860 members"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textSize="12sp" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:text="~ A SG Financial Community that shares ......"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textSize="14sp" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        <androidx.constraintlayout.widget.ConstraintLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="wrap_content">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:id="@+id/linear_layout_join_community_search_1"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_width="80dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_marginEnd="24dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:background="@drawable/header_primary_background_rectangle"&ndash;&gt;-->
+<!--&lt;!&ndash;                                app:layout_constraintBottom_toBottomOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                                app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                                app:layout_constraintTop_toTopOf="parent">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginHorizontal="24dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginVertical="4dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:text="JOIN"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textAlignment="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textAllCaps="true"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textColor="@color/colorWhiteBackground"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textSize="12sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textStyle="bold" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            </LinearLayout>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        </androidx.constraintlayout.widget.ConstraintLayout>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    </LinearLayout>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                </LinearLayout>&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;            </androidx.cardview.widget.CardView>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                android:id="@+id/divider_1_fragment_community_search"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_marginHorizontal="12dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_marginBottom="12dp">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                <View&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="1dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:background="@color/colorIconGrey" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;            </LinearLayout>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <androidx.cardview.widget.CardView&ndash;&gt;-->
+<!--&lt;!&ndash;                android:id="@+id/cardview_career_communities_2"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="160dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_marginHorizontal="12dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                app:cardBackgroundColor="@color/colorTransparent"&ndash;&gt;-->
+<!--&lt;!&ndash;                app:cardElevation="0dp">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:orientation="horizontal">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    <com.google.android.material.imageview.ShapeableImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_width="140dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_height="120dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginVertical="20dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:src="@drawable/sgstats_unsplash" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:id="@+id/linear_layout_community_search_cardview_2"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_width="220dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_height="120dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginStart="12dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginTop="30dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:orientation="vertical">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:text="SingStat"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textSize="18sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textStyle="bold" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:text="3,801 members"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textSize="12sp" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:text="~ A SG Financial Community that shares ......"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textSize="14sp" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        <androidx.constraintlayout.widget.ConstraintLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="wrap_content">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:id="@+id/linear_layout_join_community_search_2"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_width="80dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_marginEnd="24dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:background="@drawable/header_primary_background_rectangle"&ndash;&gt;-->
+<!--&lt;!&ndash;                                app:layout_constraintBottom_toBottomOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                                app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                                app:layout_constraintTop_toTopOf="parent">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginHorizontal="24dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginVertical="4dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:text="JOIN"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textAlignment="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textAllCaps="true"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textColor="@color/colorWhiteBackground"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textSize="12sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textStyle="bold" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            </LinearLayout>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        </androidx.constraintlayout.widget.ConstraintLayout>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    </LinearLayout>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                </LinearLayout>&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;            </androidx.cardview.widget.CardView>&ndash;&gt;-->
 
 
 <!--            <androidx.cardview.widget.CardView-->
-<!--                android:id="@+id/cardview_career_communities_1"-->
+<!--                android:id="@+id/cardview_career_communities_3"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="160dp"-->
 <!--                android:layout_marginHorizontal="12dp"-->
@@ -121,10 +310,10 @@
 <!--                        android:layout_width="140dp"-->
 <!--                        android:layout_height="120dp"-->
 <!--                        android:layout_marginVertical="20dp"-->
-<!--                        android:src="@drawable/sgflag_mbs" />-->
+<!--                        android:src="@drawable/robert_koorenny_publish_unsplash" />-->
 
 <!--                    <LinearLayout-->
-<!--                        android:id="@+id/linear_layout_community_search_cardview_1"-->
+<!--                        android:id="@+id/linear_layout_community_search_cardview_3"-->
 <!--                        android:layout_width="220dp"-->
 <!--                        android:layout_height="120dp"-->
 <!--                        android:layout_marginStart="12dp"-->
@@ -132,22 +321,25 @@
 <!--                        android:orientation="vertical">-->
 
 <!--                        <com.google.android.material.textview.MaterialTextView-->
+<!--                            android:id="@+id/tv_communitySearch_cardview_3_title"-->
 <!--                            android:layout_width="wrap_content"-->
 <!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="SingaporeUnited"-->
+<!--                            android:text="Self-publishers SG"-->
 <!--                            android:textSize="18sp"-->
 <!--                            android:textStyle="bold" />-->
 
 <!--                        <com.google.android.material.textview.MaterialTextView-->
+<!--                            android:id="@+id/tv_communitySearch_cardview_3_memberCount"-->
 <!--                            android:layout_width="wrap_content"-->
 <!--                            android:layout_height="wrap_content"-->
 <!--                            android:text="8,860 members"-->
 <!--                            android:textSize="12sp" />-->
 
 <!--                        <com.google.android.material.textview.MaterialTextView-->
+<!--                            android:id="@+id/tv_communitySearch_cardview_3_summary"-->
 <!--                            android:layout_width="wrap_content"-->
 <!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="~ A SG Financial Community that shares ......"-->
+<!--                            android:text="~ A Community formed around publishing ......"-->
 <!--                            android:textSize="14sp" />-->
 
 <!--                        <androidx.constraintlayout.widget.ConstraintLayout-->
@@ -155,7 +347,7 @@
 <!--                            android:layout_height="wrap_content">-->
 
 <!--                            <LinearLayout-->
-<!--                                android:id="@+id/linear_layout_join_community_search_1"-->
+<!--                                android:id="@+id/linear_layout_join_community_search_3"-->
 <!--                                android:layout_width="80dp"-->
 <!--                                android:layout_height="wrap_content"-->
 <!--                                android:layout_marginEnd="24dp"-->
@@ -183,8 +375,7 @@
 <!--                    </LinearLayout>-->
 
 <!--                </LinearLayout>-->
-
-
+<!--                -->
 <!--            </androidx.cardview.widget.CardView>-->
 
 <!--            <LinearLayout-->
@@ -202,7 +393,7 @@
 <!--            </LinearLayout>-->
 
 <!--            <androidx.cardview.widget.CardView-->
-<!--                android:id="@+id/cardview_career_communities_2"-->
+<!--                android:id="@+id/cardview_career_communities_4"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="160dp"-->
 <!--                android:layout_marginHorizontal="12dp"-->
@@ -218,10 +409,10 @@
 <!--                        android:layout_width="140dp"-->
 <!--                        android:layout_height="120dp"-->
 <!--                        android:layout_marginVertical="20dp"-->
-<!--                        android:src="@drawable/sgstats_unsplash" />-->
+<!--                        android:src="@drawable/designecologist_publish_unsplash" />-->
 
 <!--                    <LinearLayout-->
-<!--                        android:id="@+id/linear_layout_community_search_cardview_2"-->
+<!--                        android:id="@+id/linear_layout_community_search_cardview_4"-->
 <!--                        android:layout_width="220dp"-->
 <!--                        android:layout_height="120dp"-->
 <!--                        android:layout_marginStart="12dp"-->
@@ -231,7 +422,7 @@
 <!--                        <com.google.android.material.textview.MaterialTextView-->
 <!--                            android:layout_width="wrap_content"-->
 <!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="SingStat"-->
+<!--                            android:text="Digital Publishing SG"-->
 <!--                            android:textSize="18sp"-->
 <!--                            android:textStyle="bold" />-->
 
@@ -244,7 +435,7 @@
 <!--                        <com.google.android.material.textview.MaterialTextView-->
 <!--                            android:layout_width="wrap_content"-->
 <!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="~ A SG Financial Community that shares ......"-->
+<!--                            android:text="~ A Community of digital content ......"-->
 <!--                            android:textSize="14sp" />-->
 
 <!--                        <androidx.constraintlayout.widget.ConstraintLayout-->
@@ -252,7 +443,7 @@
 <!--                            android:layout_height="wrap_content">-->
 
 <!--                            <LinearLayout-->
-<!--                                android:id="@+id/linear_layout_join_community_search_2"-->
+<!--                                android:id="@+id/linear_layout_join_community_search_4"-->
 <!--                                android:layout_width="80dp"-->
 <!--                                android:layout_height="wrap_content"-->
 <!--                                android:layout_marginEnd="24dp"-->
@@ -285,193 +476,10 @@
 <!--            </androidx.cardview.widget.CardView>-->
 
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardview_career_communities_3"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_marginHorizontal="12dp"
-                app:cardBackgroundColor="@color/colorTransparent"
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="140dp"
-                        android:layout_height="120dp"
-                        android:layout_marginVertical="20dp"
-                        android:src="@drawable/robert_koorenny_publish_unsplash" />
-
-                    <LinearLayout
-                        android:id="@+id/linear_layout_community_search_cardview_3"
-                        android:layout_width="220dp"
-                        android:layout_height="120dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_communitySearch_cardview_3_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Self-publishers SG"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_communitySearch_cardview_3_memberCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="8,860 members"
-                            android:textSize="12sp" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_communitySearch_cardview_3_summary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="~ A Community formed around publishing ......"
-                            android:textSize="14sp" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <LinearLayout
-                                android:id="@+id/linear_layout_join_community_search_3"
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="24dp"
-                                android:background="@drawable/header_primary_background_rectangle"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="24dp"
-                                    android:layout_marginVertical="4dp"
-                                    android:text="JOIN"
-                                    android:textAlignment="center"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/colorWhiteBackground"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-                
-            </androidx.cardview.widget.CardView>
-
-            <LinearLayout
-                android:id="@+id/divider_1_fragment_community_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginBottom="12dp">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorIconGrey" />
-
-            </LinearLayout>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardview_career_communities_4"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_marginHorizontal="12dp"
-                app:cardBackgroundColor="@color/colorTransparent"
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="140dp"
-                        android:layout_height="120dp"
-                        android:layout_marginVertical="20dp"
-                        android:src="@drawable/designecologist_publish_unsplash" />
-
-                    <LinearLayout
-                        android:id="@+id/linear_layout_community_search_cardview_4"
-                        android:layout_width="220dp"
-                        android:layout_height="120dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="30dp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Digital Publishing SG"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3,801 members"
-                            android:textSize="12sp" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="~ A Community of digital content ......"
-                            android:textSize="14sp" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <LinearLayout
-                                android:id="@+id/linear_layout_join_community_search_4"
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="24dp"
-                                android:background="@drawable/header_primary_background_rectangle"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="24dp"
-                                    android:layout_marginVertical="4dp"
-                                    android:text="JOIN"
-                                    android:textAlignment="center"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/colorWhiteBackground"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
+<!--        </LinearLayout>-->
 
 
-            </androidx.cardview.widget.CardView>
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 
     <TextView
