@@ -69,6 +69,10 @@ class CommunitySearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (bundle!!.getString("category").isNullOrBlank()) {
+            search_bar_communitySearch.requestFocus()
+        }
+
         communities_recyclerView.layoutManager = LinearLayoutManager(requireContext())
         communities_recyclerView.adapter = adapter
 
