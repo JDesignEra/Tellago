@@ -141,13 +141,29 @@ class CommunitySearchFragment : Fragment() {
             // use intent.putExtra to pass the community ID to be displayed
             Communities.getAll {
                 if (it != null) {
-                    val communityID_community_3 = it.get(0).cid
+                    val communityID_community_3 = "DoTDiLBZVLQU8nVVkCd4"
 
                     intent.putExtra("communityID", "$communityID_community_3")
                     startActivity(intent)
                 }
             }
         }
+
+//        cardview_career_communities_4.setOnClickListener {
+//            // Display selected Community in new Activity
+//            val intent = Intent(requireContext(), DisplayCommunityActivity::class.java)
+//            // use intent.putExtra to pass the community ID to be displayed
+//            Communities.getAll {
+//                if (it != null) {
+//                    val communityID_community_4 = it.get(2).cid
+//                    Log.d("the CID is: ", communityID_community_4.toString())
+//
+//                    intent.putExtra("communityID", "$communityID_community_4")
+//                    startActivity(intent)
+//                }
+//            }
+//        }
+
     }
 
     fun circleReveal(

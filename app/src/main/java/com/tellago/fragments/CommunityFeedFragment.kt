@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.adapters.UserPostCommunityRecyclerAdapter
@@ -73,7 +74,6 @@ class CommunityFeedFragment : Fragment() {
 
         adapter.startListening()
 
-
         // Code to view query result in Logcat
 //        val db = FirebaseFirestore.getInstance()
 //        val posts = db.collection("posts")
@@ -87,14 +87,5 @@ class CommunityFeedFragment : Fragment() {
 
     }
 
-
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onStop() {
-        // Adapter which is populated using Firestore data (through query) will require this function
-        super.onStop()
-    }
 
 }
