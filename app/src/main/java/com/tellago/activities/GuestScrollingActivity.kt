@@ -15,19 +15,24 @@ import com.tellago.DataSource
 import com.tellago.R
 import com.tellago.TopSpacingItemDecoration
 import com.tellago.adapters.UserPostRecyclerAdapter
+import com.tellago.fragments.CommunityFragment
 import com.tellago.models.UserPost
 import com.tellago.services.ExitService
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.bottom_guest_to_sign_in_up.*
 
 
 class GuestScrollingActivity : AppCompatActivity() {
 
     private lateinit var userPostAdapter: UserPostRecyclerAdapter
+    private lateinit var fragmentUtils: FragmentUtils
+
     private var handler: Handler? = null
     private var handlerTask: Runnable? = null
 
     override fun onStart() {
         super.onStart()
+
         startService(Intent(this, ExitService::class.java))
     }
 
@@ -38,6 +43,10 @@ class GuestScrollingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        fragmentUtils = FragmentUtils(supportFragmentManager, R.id.guest_view_container)
+        fragmentUtils.replace(CommunityFragment())
+
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
 
@@ -50,7 +59,7 @@ class GuestScrollingActivity : AppCompatActivity() {
 
         setContentView(R.layout.bottom_guest_to_sign_in_up)
 
-        initRecyclerView()
+//        initRecyclerView()
         //addDataSet()
 
         StartTimer()
@@ -93,41 +102,39 @@ class GuestScrollingActivity : AppCompatActivity() {
         Log.d("addDataSet()", "FIRED")
     }
 
-    private fun initRecyclerView() {
-        Log.d("initRecyclerView()", "FIRED")
-        // recyclerview from bottom_guest_to_sign_in_up.xml
-        linear_layout_recycler_view_post_create_goal_item.apply {
-
-            // Step 1: set layoutManager for recyclerview
-            layoutManager = LinearLayoutManager(this@GuestScrollingActivity)
-
-            // Step 2: Adding padding decoration for spacing between viewholders (defined in TopSpacingItemDecoration.kt)
-            val topSpacingDecoration = TopSpacingItemDecoration(30)
-            addItemDecoration(topSpacingDecoration)
-
-            // Step 3: Initialise the lateinit variable userPostAdapter
-
-            // static data since no connection to Firestore
-            val userPostArrayList = ArrayList<UserPost>()
-
-            for (index in 1..5) {
-                val newUserPostObj = UserPost(
-                    title = "Post Title #:$index",
-                    image = R.drawable.ic_email_round_96.toString(),
-                    displayName = "Test Poster",
-                    profilePic = R.drawable.ic_android_photo.toString(),
-                    duration = "3 days ago",
-                    likes = "1288",
-                    comments = "417"
-                )
-                userPostArrayList.add(newUserPostObj)
-            }
-
-            adapter = UserPostRecyclerAdapter(userPostArrayList)
-        }
-
-
-    }
+//    private fun initRecyclerView() {
+//        Log.d("initRecyclerView()", "FIRED")
+//        // recyclerview from bottom_guest_to_sign_in_up.xml
+//        linear_layout_recycler_view_post_create_goal_item.apply {
+//
+//            // Step 1: set layoutManager for recyclerview
+//            layoutManager = LinearLayoutManager(this@GuestScrollingActivity)
+//
+//            // Step 2: Adding padding decoration for spacing between viewholders (defined in TopSpacingItemDecoration.kt)
+//            val topSpacingDecoration = TopSpacingItemDecoration(30)
+//            addItemDecoration(topSpacingDecoration)
+//
+//            // Step 3: Initialise the lateinit variable userPostAdapter
+//
+//            // static data since no connection to Firestore
+//            val userPostArrayList = ArrayList<UserPost>()
+//
+//            for (index in 1..5) {
+//                val newUserPostObj = UserPost(
+//                    title = "Post Title #:$index",
+//                    image = R.drawable.ic_email_round_96.toString(),
+//                    displayName = "Test Poster",
+//                    profilePic = R.drawable.ic_android_photo.toString(),
+//                    duration = "3 days ago",
+//                    likes = "1288",
+//                    comments = "417"
+//                )
+//                userPostArrayList.add(newUserPostObj)
+//            }
+//
+//            adapter = UserPostRecyclerAdapter(userPostArrayList)
+//        }
+//    }
 
     private fun StartTimer() {
         handler = Handler()
@@ -147,5 +154,4 @@ class GuestScrollingActivity : AppCompatActivity() {
                         View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         }
     }
-
 }

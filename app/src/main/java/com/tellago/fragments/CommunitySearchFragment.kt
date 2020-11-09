@@ -18,6 +18,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.adapters.CommunitySearchAdapter
+import com.tellago.models.Auth
 import com.tellago.models.Communities
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
@@ -33,10 +34,17 @@ class CommunitySearchFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fragmentUtils = FragmentUtils(
-            requireActivity().supportFragmentManager,
-            R.id.fragment_container
-        )
+        fragmentUtils = if (Auth.user?.isAnonymous!!) {
+            FragmentUtils(
+                requireActivity().supportFragmentManager,
+                R.id.guest_view_container
+            )
+        } else {
+            FragmentUtils(
+                requireActivity().supportFragmentManager,
+                R.id.fragment_container
+            )
+        }
 
         toast = CustomToast(requireContext())
         bundle = arguments
