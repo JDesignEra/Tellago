@@ -1,13 +1,20 @@
 package com.tellago.adapters
 
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.progressindicator.ProgressIndicator
 import com.tellago.GlideApp
 import com.tellago.GlideApp.init
 import com.tellago.R
@@ -19,6 +26,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
+import kotlin.math.roundToInt
 
 class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
     FirestoreRecyclerAdapter<Post, UserPostCommunityRecyclerAdapter.CommunityPostViewHolder>(options) {
@@ -37,15 +45,94 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
     }
 
 
+    override fun onViewAttachedToWindow(holder: CommunityPostViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        for (v in holder.linearLayoutPollOptions.children) {
+            if (v is LinearLayout) {
+                for (l in v.children) {
+                    if (l is ProgressIndicator) l.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+
     override fun onBindViewHolder(holder: CommunityPostViewHolder, position: Int, model: Post) {
 
         holder.model = model
-        holder.post_title.text = model.messageBody
         holder.like_count.text = model.likes.size.toString()
         holder.comment_count.text = model.comment.size.toString()
 
         // use this function to display images using Glide (one for profile pic of poster & one for any multimedia belonging to Post)
         holder.bind(model)
+
+        // change display layout based on post type
+        holder.post_title.text = model.messageBody
+
+        when (model.postType)
+        {
+            // nothing special when postType = "text post"
+            "poll" -> {
+                holder.linearLayoutPollOptions.visibility = View.VISIBLE
+
+                if (model.poll.isNotEmpty()) {
+                    val totalVotes = model.poll.toMutableMap().flatMap { it.value }.count()
+
+                    for ((k, v) in model.poll) {
+                        val pollOptionTextView = TextView(holder.itemView.context).apply {
+                            text = "$k"
+                            textSize = 16 * TypedValue.COMPLEX_UNIT_DIP.toFloat()
+                            setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorTextDarkGray))
+                        }
+
+                        val pollOptionHorizontalLinearLayout = LinearLayout(holder.itemView.context).apply {
+                            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                                setMargins(0, 0, 0, 24 * TypedValue.COMPLEX_UNIT_DIP)
+                                gravity = Gravity.CENTER_VERTICAL
+                            }
+
+                            orientation = LinearLayout.HORIZONTAL
+                        }
+
+                        val progressIndicator = ProgressIndicator(holder.itemView.context).apply {
+                            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT).apply {
+                                gravity = Gravity.CENTER_VERTICAL
+                            }
+                            isIndeterminate = false
+                            progress = if (v.size > 0) (v.size.toDouble() / totalVotes.toDouble() * 100).roundToInt() else 0
+                            indicatorSize = 24 * TypedValue.COMPLEX_UNIT_DIP
+                            indicatorCornerRadius = 24 * TypedValue.COMPLEX_UNIT_DIP
+                            trackColor = ContextCompat.getColor(holder.itemView.context, R.color.colorDefaultBackground)
+                            indicatorColors = intArrayOf(ContextCompat.getColor(holder.itemView.context, R.color.colorPrimary))
+                            visibility = View.VISIBLE
+                            setBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.colorTransparent))
+                        }
+
+                        val percentTextView = TextView(holder.itemView.context).apply {
+                            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                                setMargins(0, 0, 24 * TypedValue.COMPLEX_UNIT_DIP, 0)
+                            }
+                            text = "${ if (v.size > 0) (v.size.toDouble() / totalVotes.toDouble() * 100).roundToInt() else 0 }%"
+                            textSize = 16 * TypedValue.COMPLEX_UNIT_DIP.toFloat()
+                            setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.colorTextLightGray))
+                        }
+
+                        pollOptionHorizontalLinearLayout.addView(percentTextView)
+                        pollOptionHorizontalLinearLayout.addView(progressIndicator)
+
+                        holder.linearLayoutPollOptions.addView(pollOptionTextView)
+                        holder.linearLayoutPollOptions.addView(pollOptionHorizontalLinearLayout)
+                    }
+                }
+
+            }
+
+            "multimedia" -> {
+                holder.post_image.visibility = View.VISIBLE
+            }
+
+        }
+
 
     }
 
@@ -64,6 +151,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         val post_options = itemView.post_option_menu
         val like_count = itemView.likes
         val comment_count = itemView.comments
+        val linearLayoutPollOptions = itemView.linearLayout_pollOptions_community
 
 
         val activity: AppCompatActivity = itemView.context as AppCompatActivity

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -15,13 +14,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.activities.DisplayCommunityActivity
-import com.tellago.adapters.NewPostRecyclerAdapter
 import com.tellago.models.Communities
-import com.tellago.models.Post
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community_search.*
