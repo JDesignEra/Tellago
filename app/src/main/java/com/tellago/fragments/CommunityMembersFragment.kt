@@ -56,7 +56,6 @@ class CommunityMembersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Testing the CommunityID which was received......
 
         // Populate card views (not yet in adapter) using values obtained from Firestore query
         Communities(cid = communityID_received).getByCid {
@@ -64,9 +63,6 @@ class CommunityMembersFragment : Fragment() {
 
                 val allMemberUIDS = it.uids
 
-                // obtain uid of the member with index 0
-//                var iterator = 0
-                var uidAsKey = ""
                 val listOfAdminUID = ArrayList<String>()
                 val listOfUserUID = ArrayList<String>()
 
@@ -86,28 +82,6 @@ class CommunityMembersFragment : Fragment() {
                 Log.d("listOfAdminUID: ", listOfAdminUID.toString())
                 Log.d("listOfUserUID: ", listOfUserUID.toString())
 
-//                for (key in allMemberUIDS.keys)
-//                {
-//                    if (iterator == 0)
-//                    {
-//                        uidAsKey = key
-//                    }
-////                    iterator += 1
-//                }
-
-//                User(uid = uidAsKey).getUserWithUid {
-//                    if (it != null) {
-//                        tv_member_name_1.text = it.displayName
-//                        tv_member_followers_1.text = "${it.uid} has followers"
-//                    }
-//
-//                    val userBio = it?.bio
-//
-//                    cardView_member_community_feed_1.setOnClickListener {
-//                        toast.warning("User Bio: $userBio")
-//                    }
-//
-//                }
 
 
                 // convert each uid in arrayList to a full User Object
@@ -172,41 +146,6 @@ class CommunityMembersFragment : Fragment() {
 
             }
         }
-
-
-
-
-
-        // The following code is meant to enhance static data when displaying Layout only
-        // Shift it to the relevant adapter during future development
-//        val uri_uri_1 = requireContext().resourceUri(R.drawable.user1_example_profile_pic)
-//        setImage(uri_uri_1, iv_member_profile_picture_3)
-//
-//        cardView_member_community_feed_3.setOnClickListener {
-//            // Display selected User Profile in new Activity
-//            val intent = Intent(requireContext(), DisplayOtherUserActivity::class.java)
-//            // use intent.putExtra to pass the unique user ID to be displayed
-//            val intendedUserID = "MMMG6532K3SVViSCmASEOmcpBQH2"
-//            intent.putExtra("userID", intendedUserID)
-//            startActivity(intent)
-//
-//        }
-
-
-//        val uri_uri = requireContext().resourceUri(R.drawable.james_example_2)
-//        setImage(uri_uri, iv_member_profile_picture_4)
-//
-//        cardView_member_community_feed_4.setOnClickListener {
-//            // Display selected User Profile in new Activity
-//            val intent = Intent(requireContext(), DisplayOtherUserActivity::class.java)
-//            // use intent.putExtra to pass the unique user ID to be displayed
-//            val intendedUserID = "nS1lzldixjYhi7vNvtpgDa0bCux2"
-//            intent.putExtra("userID", intendedUserID)
-//            startActivity(intent)
-//
-//        }
-
-
 
 
 

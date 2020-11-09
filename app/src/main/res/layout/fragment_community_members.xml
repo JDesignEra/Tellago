@@ -33,6 +33,7 @@
                 android:id="@+id/recycler_view_community_admin"
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 />
 
 <!--            <com.google.android.material.card.MaterialCardView-->
@@ -485,6 +486,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
                 android:layout_marginBottom="12dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 />
 
 

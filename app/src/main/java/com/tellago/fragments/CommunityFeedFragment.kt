@@ -1,34 +1,37 @@
 package com.tellago.fragments
 
-import android.content.ContentResolver
-import android.content.Context
-import android.net.Uri
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.load.resource.bitmap.CenterInside
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.tellago.GlideApp
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.Query
 import com.tellago.R
+import com.tellago.adapters.UserPostCommunityRecyclerAdapter
 import com.tellago.models.Communities
-import kotlinx.android.synthetic.main.activity_edit_profile.*
+import com.tellago.models.Post
 import kotlinx.android.synthetic.main.fragment_community_feed.*
-import kotlinx.android.synthetic.main.fragment_community_members.*
 
 
 class CommunityFeedFragment : Fragment() {
 
+    private lateinit var adapter: UserPostCommunityRecyclerAdapter
     private var communityID_received: String? = null
+
+    private var bundle: Bundle? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        communityID_received =  requireActivity().intent.getStringExtra("communityID")
+        communityID_received = requireActivity().intent.getStringExtra("communityID")
         Log.d("CID in CommFeed is: ", communityID_received)
+
+        if (this.arguments != null) bundle = requireArguments()
 
     }
 
@@ -52,28 +55,46 @@ class CommunityFeedFragment : Fragment() {
         }
 
 
-                // The following code is meant to enhance static data when displaying Layout only
-        // Shift it to the relevant adapter during future development
-        val uri_uri = requireContext().resourceUri(R.drawable.james_example_2)
-        setImage((uri_uri))
+        // Query from Firestore to be passed to Adapter
+        adapter = UserPostCommunityRecyclerAdapter(
+            FirestoreRecyclerOptions.Builder<Post>()
+                .setQuery(
+                    Post.collection
+                        .whereEqualTo("cid", communityID_received)
+                        .orderBy("createDate", Query.Direction.DESCENDING)
+                    ,
+                    Post::class.java
+                ).build()
+        )
+
+
+        recycler_view_community_feed.layoutManager = LinearLayoutManager(requireContext())
+        recycler_view_community_feed.adapter = adapter
+
+        adapter.startListening()
+
+
+        // Code to view query result in Logcat
+//        val db = FirebaseFirestore.getInstance()
+//        val posts = db.collection("posts")
+//
+//        posts.whereEqualTo("cid", communityID_received).get().addOnSuccessListener {
+//            Log.d("QuerySnap: ", it.toString())
+//            Log.d("Documents: ", it.documents.toString())
+//            Log.d("Document Count: ", it.documents.size.toString())
+//        }
+
 
     }
 
 
-    fun Context.resourceUri(resourceId: Int): Uri = with(resources) {
-        Uri.Builder()
-            .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-            .authority(getResourcePackageName(resourceId))
-            .appendPath(getResourceTypeName(resourceId))
-            .appendPath(getResourceEntryName(resourceId))
-            .build()
+    override fun onStart() {
+        super.onStart()
     }
 
-    private fun setImage(uri: Uri){
-        GlideApp.with(this)
-            .load(uri).apply {
-                transform(CenterInside(), CircleCrop())
-            }.into(iv_post_profile_picture_1)
+    override fun onStop() {
+        // Adapter which is populated using Firestore data (through query) will require this function
+        super.onStop()
     }
 
 }
