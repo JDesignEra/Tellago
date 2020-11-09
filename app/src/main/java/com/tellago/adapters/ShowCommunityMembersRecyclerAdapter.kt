@@ -1,6 +1,7 @@
 package com.tellago.adapters
 
 import android.content.Intent
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -91,12 +92,28 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
                 user.userFollowUser(currentUid, user_uid.text.toString())
                 unfollow_layout.visibility = View.VISIBLE
                 follow_layout.visibility = View.GONE
+
+                user.update()
+                Handler().postDelayed(
+                    {
+                        // Update follower count (force client-facing layout to update manually)
+                        user_total_followers.text = "${user.followerUids.size + 1} followers"
+                    }, 500
+                )
             }
 
             unfollow_layout.setOnClickListener {
                 user.userFollowUser(currentUid, user_uid.text.toString())
                 follow_layout.visibility = View.VISIBLE
                 unfollow_layout.visibility = View.GONE
+
+                user.update()
+                Handler().postDelayed(
+                    {
+                        // Update follower count (force client-facing layout to update manually)
+                        user_total_followers.text = "${user.followerUids.size - 1} followers"
+                    }, 500
+                )
             }
 
 

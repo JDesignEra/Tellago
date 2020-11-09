@@ -1,6 +1,7 @@
 package com.tellago.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_profile.profile_image
 
 class DisplayOtherUserFragment : Fragment() {
     private lateinit var bundle: Bundle
-    private lateinit var intendedUserID : String
+    private lateinit var intendedUserID: String
 
     private lateinit var adapter: NewPostRecyclerAdapter
     private lateinit var post: Post
@@ -80,7 +81,8 @@ class DisplayOtherUserFragment : Fragment() {
 
             }
 
-            recycler_view_display_other_user_profile_fragment.layoutManager = LinearLayoutManager(requireContext())
+            recycler_view_display_other_user_profile_fragment.layoutManager =
+                LinearLayoutManager(requireContext())
             recycler_view_display_other_user_profile_fragment.adapter = adapter
 
         }
@@ -91,13 +93,41 @@ class DisplayOtherUserFragment : Fragment() {
         }
 
 
+        // Initial layout for 'Follow' & 'YetToFollow' based on whether intendedUser's UID is
+        // contained within currentUser's followingUids
+
+        val currentUser = Auth.user?.uid?.let { User(uid = it) }
+
+        currentUser!!.getUserWithUid {
+            if (it != null) {
+                if (intendedUserID in it.followingUids) {
+
+                    linear_layout_follow_other_user_yetToFollow.visibility = View.GONE
+                    linear_layout_follow_other_user_followed.visibility = View.VISIBLE
+                }
+                else
+                {
+
+                    linear_layout_follow_other_user_followed.visibility = View.GONE
+                    linear_layout_follow_other_user_yetToFollow.visibility = View.VISIBLE
+                }
+
+            }
+        }
+
+
         // simple layout change to toggle the 'Following' status of the current profile
         linear_layout_follow_other_user_yetToFollow.setOnClickListener {
+            // Function to 'Follow' intended User
+//            it.userFollowUser(it.uid, intendedUserID)
+            user.userFollowUser(currentUser.uid, intendedUserID)
             linear_layout_follow_other_user_yetToFollow.visibility = View.GONE
             linear_layout_follow_other_user_followed.visibility = View.VISIBLE
         }
 
         linear_layout_follow_other_user_followed.setOnClickListener {
+            // Function to 'Unfollow' intended User
+            user.userFollowUser(currentUser.uid, intendedUserID)
             linear_layout_follow_other_user_followed.visibility = View.GONE
             linear_layout_follow_other_user_yetToFollow.visibility = View.VISIBLE
 
@@ -105,7 +135,7 @@ class DisplayOtherUserFragment : Fragment() {
 
     }
 
-    fun loadOtherUserProfilePic(uid : String) {
+    fun loadOtherUserProfilePic(uid: String) {
 
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         val storage = FirebaseStorage.getInstance("gs://tellago.appspot.com")

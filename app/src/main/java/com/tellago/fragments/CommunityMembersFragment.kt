@@ -18,14 +18,10 @@ import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.tellago.GlideApp
 import com.tellago.R
-import com.tellago.activities.DisplayOtherUserActivity
 import com.tellago.adapters.ShowCommunityMembersRecyclerAdapter
-import com.tellago.adapters.UserPostRecyclerAdapter
 import com.tellago.models.Auth
 import com.tellago.models.Communities
 import com.tellago.models.User
-import com.tellago.utilities.CustomToast
-import kotlinx.android.synthetic.main.fragment_attach_post_to_journeys.*
 import kotlinx.android.synthetic.main.fragment_community_members.*
 
 
@@ -33,7 +29,6 @@ class CommunityMembersFragment : Fragment() {
 
     private var communityID_received: String? = null
     private var currenUserID: String = Auth.user!!.uid
-    private lateinit var toast: CustomToast
     private lateinit var showCommunityMembersAdapter: ShowCommunityMembersRecyclerAdapter
 
 
@@ -41,9 +36,6 @@ class CommunityMembersFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         communityID_received =  requireActivity().intent.getStringExtra("communityID")
-
-
-        toast = CustomToast(requireContext())
 
     }
 
@@ -60,6 +52,13 @@ class CommunityMembersFragment : Fragment() {
 
 
         // Populate card views (not yet in adapter) using values obtained from Firestore query
+        queryDataForCommunityMembers()
+
+
+
+    }
+
+    private fun queryDataForCommunityMembers() {
         Communities(cid = communityID_received).getByCid {
             if (it != null) {
 
@@ -68,15 +67,10 @@ class CommunityMembersFragment : Fragment() {
                 val listOfAdminUID = ArrayList<String>()
                 val listOfUserUID = ArrayList<String>()
 
-                for (uid in allMemberUIDS)
-                {
-                    if (uid.value == "admin")
-                    {
+                for (uid in allMemberUIDS) {
+                    if (uid.value == "admin") {
                         listOfAdminUID.add(uid.key)
-                    }
-
-                    else if (uid.value == "user")
-                    {
+                    } else if (uid.value == "user") {
                         listOfUserUID.add(uid.key)
                     }
                 }
@@ -85,15 +79,13 @@ class CommunityMembersFragment : Fragment() {
                 Log.d("listOfUserUID: ", listOfUserUID.toString())
 
 
-
                 // convert each uid in arrayList to a full User Object
                 val listOfUsers_Admin = ArrayList<User>()
-                for (uid in listOfAdminUID)
-                {
+                for (uid in listOfAdminUID) {
                     Log.d("The UID is: ", uid)
                     User(uid = uid).getUserWithUid {
                         if (it != null) {
-                            val newUser : User = it
+                            val newUser: User = it
                             Log.d("the newAdmin is: ", newUser.toString())
 
                             listOfUsers_Admin.add(newUser)
@@ -105,12 +97,11 @@ class CommunityMembersFragment : Fragment() {
 
                 // convert each uid in arrayList to a full User Object
                 val listOfUsers_User = ArrayList<User>()
-                for (uid in listOfUserUID)
-                {
+                for (uid in listOfUserUID) {
                     User(uid = uid).getUserWithUid {
                         if (it != null) {
 
-                            val newUser : User = it
+                            val newUser: User = it
                             Log.d("the newUser is: ", newUser.toString())
 
                             listOfUsers_User.add(newUser)
@@ -148,9 +139,22 @@ class CommunityMembersFragment : Fragment() {
 
             }
         }
+    }
 
 
+    override fun onResume() {
+        super.onResume()
+        // Code to fetch updated recycler view information
+        // Assume that current user has followed a member of the community
 
+        queryDataForCommunityMembers()
+
+        Log.d("RESUMED", "FIRED")
+
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 
     override fun onStart() {
