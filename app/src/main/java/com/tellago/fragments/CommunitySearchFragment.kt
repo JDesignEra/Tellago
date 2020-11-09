@@ -19,6 +19,7 @@ import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.adapters.CommunitySearchAdapter
 import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Communities
 import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
@@ -34,7 +35,7 @@ class CommunitySearchFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fragmentUtils = if (Auth.user?.isAnonymous!!) {
+        fragmentUtils = if (user?.isAnonymous!!) {
             FragmentUtils(
                 requireActivity().supportFragmentManager,
                 R.id.guest_view_container

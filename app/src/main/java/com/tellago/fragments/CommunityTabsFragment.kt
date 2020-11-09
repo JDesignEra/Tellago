@@ -6,39 +6,38 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.tellago.R
 import com.tellago.adapters.ViewPagerBucketListItemsFragmentStateAdapter
 import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Communities
+import com.tellago.utilities.CustomToast
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community_tabs.*
 
 
 class CommunityTabsFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
+    lateinit var toast: CustomToast
     private var communityID_received: String? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         fragmentUtils = FragmentUtils(
             requireActivity().supportFragmentManager,
             R.id.display_community_fragment_container
         )
-
+        toast = CustomToast(requireContext())
         communityID_received =  requireActivity().intent.getStringExtra("communityID")
         Log.d("CID is: ", communityID_received)
-
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_community_tabs, container, false)
     }
 
@@ -48,7 +47,6 @@ class CommunityTabsFragment : Fragment() {
         configureToolbar()
         setUpTabs()
 
-
         //Populate toolbar based on values obtained through Firestore query
         Communities(cid = communityID_received).getByCid {
             if (it != null) {
@@ -57,48 +55,33 @@ class CommunityTabsFragment : Fragment() {
                 community_tabs_toolbar_membersCount.text = "$countTotalMembers members"
                 community_tabs_toolbar_summary.text = it.summary
                 it.displayImageByCid(context = requireContext(), imageView = iv_toolbar_community_tab)
-
             }
         }
 
-        linear_layout_join_community_search_1.setOnClickListener {
-            Auth.user?.uid?.let { uid ->
-                Communities(cid = communityID_received).followByCid(uid) {
-                    if (it != null) {
-                        //success
-                    }
-                    else {
-                        // failed
+        if (user?.isAnonymous!!) {
+            linear_layout_join_community_search_1.setBackgroundResource(R.drawable.searchbar_background)
+            join_tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextDarkGray))
+            linear_layout_join_community_search_1.setOnClickListener {
+                toast.warning("Please sign in or register to join the community")
+            }
+        }
+        else {
+            linear_layout_join_community_search_1.setOnClickListener {
+                user?.uid?.let { uid ->
+                    Communities(cid = communityID_received).followByCid(uid) {
+                        if (it != null) {
+                            toast.success("Community joined successfully")
+
+                            linear_layout_leave_community_search_1.visibility = View.VISIBLE
+                            linear_layout_join_community_search_1.visibility = View.GONE
+                        }
+                        else {
+                            toast.success("Please try again, failed to join community")
+                        }
                     }
                 }
             }
-
-            // Change visibility of 'Join' button & 'Leave' button
-            linear_layout_leave_community_search_1.visibility = View.VISIBLE
-            linear_layout_join_community_search_1.visibility = View.GONE
         }
-
-
-        linear_layout_leave_community_search_1.setOnClickListener {
-            Auth.user?.uid?.let { uid ->
-                Communities(cid = communityID_received).followByCid(uid) {
-                    if (it != null) {
-                        //success
-                    }
-                    else {
-                        // failed
-                    }
-                }
-            }
-
-            // Change visibility of 'Leave' button & 'Join' button
-            linear_layout_join_community_search_1.visibility = View.VISIBLE
-            linear_layout_leave_community_search_1.visibility = View.GONE
-        }
-
-
-
-
     }
 
     private fun configureToolbar() {

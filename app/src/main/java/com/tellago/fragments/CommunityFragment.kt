@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.tellago.R
 import com.tellago.adapters.CommunitiesCategoryAdapter
 import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Communities
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community.*
@@ -26,7 +27,7 @@ class CommunityFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentUtils = if (Auth.user?.isAnonymous!!) {
+        fragmentUtils = if (user?.isAnonymous!!) {
             FragmentUtils(
                 requireActivity().supportFragmentManager,
                 R.id.guest_view_container
