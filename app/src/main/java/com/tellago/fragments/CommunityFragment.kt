@@ -19,10 +19,9 @@ import com.tellago.models.Communities
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.fragment_community.*
 
-
 class CommunityFragment : Fragment() {
     private lateinit var fragmentUtils: FragmentUtils
-    private lateinit var adapter: CommunitiesCategoryAdapter
+    private var adapter: CommunitiesCategoryAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,29 +39,18 @@ class CommunityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // if search bar is in focus, then show 'SEARCH' text (adjust layout weights)
         search_bar_community.setOnQueryTextFocusChangeListener { _, hasFocus ->
-            // hasFocus means searchView is selected
             if (hasFocus) {
-                Log.d("toolbar anim 1", "FIRED")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Log.d("toolbar anim 1a", "FIRED")
-                    circleReveal(toolbar_community, 1, true, false)
-                } else {
-                    Log.d("toolbar anim 1b", "FIRED")
-
-                    toolbar_community.visibility = View.GONE
+                val communitySearchFragment = CommunitySearchFragment()
+                communitySearchFragment.arguments = Bundle().apply {
+                    putBoolean("searchState", true)
                 }
-            } else {
-                // changing layout weights
-                hideSearchText()
-            }
-        }
 
-        search_bar_community.setOnSearchClickListener {
-            Log.d("toolbar anim 2", "FIRED")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) circleReveal(toolbar_community, 1, true, false)
-            else toolbar_community.visibility = View.GONE
+                fragmentUtils.replace(
+                    communitySearchFragment,
+                    animate = false
+                )
+            }
         }
 
         Communities().getCategories {
@@ -71,6 +59,30 @@ class CommunityFragment : Fragment() {
             communitiesCategories_recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
             communitiesCategories_recyclerView.adapter = adapter
         }
+
+        // if search bar is in focus, then show 'SEARCH' text (adjust layout weights)
+//        search_bar_community.setOnQueryTextFocusChangeListener { _, hasFocus ->
+//            // hasFocus means searchView is selected
+//            if (hasFocus) {
+//                Log.d("toolbar anim 1", "FIRED")
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    Log.d("toolbar anim 1a", "FIRED")
+//                    circleReveal(toolbar_community, 1, true, false)
+//                } else {
+//                    Log.d("toolbar anim 1b", "FIRED")
+//                    toolbar_community.visibility = View.GONE
+//                }
+//            } else {
+//                // changing layout weights
+//                hideSearchText()
+//            }
+//        }
+
+//        search_bar_community.setOnSearchClickListener {
+//            Log.d("toolbar anim 2", "FIRED")
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) circleReveal(toolbar_community, 1, true, false)
+//            else toolbar_community.visibility = View.GONE
+//        }
     }
 
 //    public fun configureSearchToolbar() {
@@ -179,8 +191,7 @@ class CommunityFragment : Fragment() {
 //        })
 //    }
 
-
-    public fun circleReveal(
+    fun circleReveal(
         viewID: View,
         posFromRight: Int,
         containsOverflow: Boolean,
@@ -199,27 +210,18 @@ class CommunityFragment : Fragment() {
 
         val cx: Int = width
         val cy: Int = myView.height / 2
-
         val anim: Animator
 
-        if (isShow)
-            anim =
-                    // pop from circle, then animation from right to left
-                ViewAnimationUtils.createCircularReveal(myView, cx, cy, width.toFloat(), 0.0F)
-
-//                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0.0F, width.toFloat())
-        else
-            anim =
-                    // animate from left to right, then pop as circle
-                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0.0F, width.toFloat())
-//                ViewAnimationUtils.createCircularReveal(myView, cx, cy, width.toFloat(), 0.0F)
+        anim = if (isShow) ViewAnimationUtils.createCircularReveal(myView, cx, cy, width.toFloat(), 0.0F)
+//        ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0.0F, width.toFloat())
+        else ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0.0F, width.toFloat())
+//        ViewAnimationUtils.createCircularReveal(myView, cx, cy, width.toFloat(), 0.0F)
 
         anim.duration = 800
 
         // Change View to Invisible after animation has completed
         anim.addListener {
             if (!isShow) {
-
                 myView.visibility = View.INVISIBLE
             }
         }
@@ -234,15 +236,11 @@ class CommunityFragment : Fragment() {
             {
                 fragmentUtils.replace(
                     CommunitySearchFragment(),
-                    null,
                     animate = false
                 )
             }, 550
-
         )
-
     }
-
 
     private fun hideSearchText() {
         val param = LinearLayout.LayoutParams(

@@ -9,7 +9,6 @@ import com.tellago.services.ExitService
 import com.tellago.utilities.FragmentUtils
 
 class DisplayCommunityActivity : AppCompatActivity() {
-
     private val fragmentUtils = FragmentUtils(supportFragmentManager, R.id.display_community_fragment_container)
     private val communityTabsFragment = CommunityTabsFragment()
 
@@ -24,15 +23,11 @@ class DisplayCommunityActivity : AppCompatActivity() {
 
         // Display communityTabsFragment by default
         fragmentUtils.replace(communityTabsFragment, null, enter = R.anim.slide_in_up_slow, exit = R.anim.slide_out_up_slow)
-
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
 
         this.overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
     }
-
-
 }

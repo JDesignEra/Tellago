@@ -5,9 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.tellago.R
+import com.tellago.fragments.CommunitySearchFragment
+import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.layout_communities_category.view.*
 
 class CommunitiesCategoryAdapter(
@@ -19,6 +22,19 @@ class CommunitiesCategoryAdapter(
         val cardView: MaterialCardView = itemView.communityCategory_mcv
         val categoryTextView: TextView = itemView.category_tv
         val categoryImageView: ImageView = itemView.category_iv
+
+        init {
+            val activity: AppCompatActivity = itemView.context as AppCompatActivity
+
+            cardView.setOnClickListener {
+                FragmentUtils(
+                    activity.supportFragmentManager,
+                    R.id.coord_layout_community
+                ).replace(
+                    CommunitySearchFragment()
+                )
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder {
