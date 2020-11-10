@@ -41,6 +41,7 @@ class CreatePostFragment : Fragment() {
     private var post = Post()
     private var selectedJourneyTitles: ArrayList<String> = ArrayList()
     private var selectedJids: ArrayList<String> = ArrayList()
+    private var selectedCommunityNames: ArrayList<String> = ArrayList()
     private var selectedCids: ArrayList<String> = ArrayList()
     private var imageUri: Uri? = null
 
@@ -124,6 +125,23 @@ class CreatePostFragment : Fragment() {
                 linearLayout_selected_journey_titles.addView(textView)
             }
         }
+
+
+        if (selectedCommunityNames.isNotEmpty()) {
+            linearLayout_selected_community_names.removeAllViews()
+
+            for (name in selectedCommunityNames) {
+                val textView = TextView(requireContext()).apply {
+                    text = name
+                    setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
+                    setTypeface(null, Typeface.BOLD)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextDarkGray))
+                }
+                linearLayout_selected_community_names.addView(textView)
+            }
+
+        }
+
 
         media_imageView.setOnClickListener {
             it.hideKeyboard()
@@ -248,6 +266,7 @@ class CreatePostFragment : Fragment() {
                 -1 -> {
                     selectedJourneyTitles = data?.getStringArrayListExtra("selectedJourneyTitles") ?: ArrayList()
                     selectedJids = data?.getStringArrayListExtra("selectedJids") ?: ArrayList()
+                    selectedCommunityNames = data?.getStringArrayListExtra("selectedCommunityNames") ?: ArrayList()
                     selectedCids = data?.getStringArrayListExtra("selectedCids") ?: ArrayList()
                     post = data?.getParcelableExtra(post::class.java.name) ?: Post()
                     data?.getStringExtra("imageUri").let {

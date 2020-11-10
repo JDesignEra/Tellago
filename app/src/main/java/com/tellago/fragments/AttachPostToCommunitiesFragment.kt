@@ -50,7 +50,7 @@ class AttachPostToCommunitiesFragment : Fragment() {
         adapter = ShowAvailableCommunitiesForPostAttachRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Communities>()
                 .setQuery(
-                    Communities.collection.whereIn("uids", currentUserID),
+                    Communities.collection,
                     Communities::class.java
                 ).build()
 
@@ -84,14 +84,14 @@ class AttachPostToCommunitiesFragment : Fragment() {
         adapter.startListening()
 
         // Code to view query result in Logcat
-        val db = FirebaseFirestore.getInstance()
-        val communities = db.collection("communities")
-        val currentUserID = mutableListOf(user?.uid)
-        communities.whereEqualTo(FieldPath.documentId(), "DoTDiLBZVLQU8nVVkCd4").get().addOnSuccessListener {
-            Log.d("QuerySnap: ", it.toString())
-            Log.d("Documents: ", it.documents.toString())
-            Log.d("Document Count: ", it.documents.size.toString())
-        }
+//        val db = FirebaseFirestore.getInstance()
+//        val communities = db.collection("communities")
+//        val currentUserID = mutableListOf(user?.uid)
+//        communities.whereEqualTo(FieldPath.documentId(), "DoTDiLBZVLQU8nVVkCd4").get().addOnSuccessListener {
+//            Log.d("QuerySnap: ", it.toString())
+//            Log.d("Documents: ", it.documents.toString())
+//            Log.d("Document Count: ", it.documents.size.toString())
+//        }
 
 
 
