@@ -215,7 +215,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.view_Life_Aspiration -> {
                 val intent = Intent(this, GoalsActivity::class.java)
-                intent.putExtra(this::class.java.name, "show")
+                intent.putExtra(HomeFragment::class.java.name, "show")
                 startActivity(intent).apply {
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 }
