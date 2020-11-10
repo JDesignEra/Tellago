@@ -17,6 +17,7 @@ import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Communities
 import com.tellago.models.Post
 import com.tellago.models.User
+import kotlinx.android.synthetic.main.fragment_display_other_user.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
@@ -62,6 +63,29 @@ class ProfileFragment : Fragment() {
                 tv_profile_follower_count.text = it.followerUids.size.toString()
                 tv_profile_following_count.text = it.followingUids.size.toString()
                 //tv_profile_community_count.text
+
+
+                if (it.followerUids.size == 1)
+                {
+                    // small change for grammar
+                    tv_profile_follower_count.text = "1"
+                    tv_profile_follower_display.text = "Follower"
+                }
+
+                if (it.followingUids.size == 1)
+                {
+                    // small change for grammar
+                    tv_profile_following_count.text = "1"
+//                    tv_profile_following_display.text = "following"
+                }
+
+//                if (tv_profile_community_count.text == "1")
+//                {
+//                    // small change for grammar
+//                    tv_profile_community_count.text = "1"
+//                    tv_profile_community_display.text = "community"
+//                }
+
             }
         }
 

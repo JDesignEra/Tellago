@@ -83,6 +83,29 @@ class DisplayOtherUserFragment : Fragment() {
                 tv_other_user_following_count.text = it.followingUids.size.toString()
                 //tv_other_user_community_count.text
 
+
+                if (it.followerUids.size == 1)
+                {
+                    // small change for grammar
+                    tv_other_user_follower_count.text = "1"
+                    tv_other_user_follower_display.text = "Follower"
+                }
+
+                if (it.followingUids.size == 1)
+                {
+                    // small change for grammar
+                    tv_other_user_following_count.text = "1"
+//                    tv_other_user_following_display.text = "following"
+                }
+
+//                if (tv_other_user_community_count.text == "1")
+//                {
+//                    // small change for grammar
+//                    tv_other_user_community_count.text = "1"
+//                    tv_other_user_community_display.text = "community"
+//                }
+
+
             }
 
             recycler_view_display_other_user_profile_fragment.layoutManager =
@@ -120,6 +143,14 @@ class DisplayOtherUserFragment : Fragment() {
         }
 
 
+        // Variable checks if current user was originally a follower of intended user
+        var initialFollower = 0
+        if (Auth.user?.uid in user.followerUids)
+        {
+            initialFollower = 1
+        }
+
+
         // simple layout change to toggle the 'Following' status of the current profile
         linear_layout_follow_other_user_yetToFollow.setOnClickListener {
             // Function to 'Follow' intended User
@@ -127,6 +158,27 @@ class DisplayOtherUserFragment : Fragment() {
             user.userFollowUser(currentUser.uid, intendedUserID)
             linear_layout_follow_other_user_yetToFollow.visibility = View.GONE
             linear_layout_follow_other_user_followed.visibility = View.VISIBLE
+
+
+            // Update follower count (force client-facing layout to update manually)
+            // if current user was not an initial follower, then following will
+            // increase intended follower size by 1
+            if (initialFollower == 0)
+            {
+                tv_other_user_follower_count.text = "${user.followerUids.size + 1}"
+            }
+            else
+            {
+                tv_other_user_follower_count.text = "${user.followerUids.size}"
+            }
+
+            if (tv_other_user_follower_count.text == "1")
+            {
+                // small change for grammar
+                tv_other_user_follower_display.text = "Follower"
+            }
+
+
         }
 
         linear_layout_follow_other_user_followed.setOnClickListener {
@@ -134,6 +186,27 @@ class DisplayOtherUserFragment : Fragment() {
             user.userFollowUser(currentUser.uid, intendedUserID)
             linear_layout_follow_other_user_followed.visibility = View.GONE
             linear_layout_follow_other_user_yetToFollow.visibility = View.VISIBLE
+
+
+            // Update follower count (force client-facing layout to update manually)
+            // if current user was an initial follower, then unfollowing will decrease
+            // intended follower size by 1
+            if (initialFollower == 1)
+            {
+                tv_other_user_follower_count.text = "${user.followerUids.size - 1}"
+            }
+            else
+            {
+                tv_other_user_follower_count.text = "${user.followerUids.size}"
+            }
+
+            if (user.followerUids.size == 1)
+            {
+                // small change for grammar
+                tv_other_user_follower_count.text = "1"
+                tv_other_user_follower_display.text = "Follower"
+            }
+
 
         }
 

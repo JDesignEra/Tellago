@@ -159,6 +159,7 @@
                             android:layout_marginBottom="16dp">
 
                             <TextView
+                                android:id="@+id/tv_profile_follower_display"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.333"
@@ -169,6 +170,7 @@
                             </TextView>
 
                             <TextView
+                                android:id="@+id/tv_profile_following_display"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.333"
@@ -179,6 +181,7 @@
                             </TextView>
 
                             <TextView
+                                android:id="@+id/tv_profile_community_display"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.333"

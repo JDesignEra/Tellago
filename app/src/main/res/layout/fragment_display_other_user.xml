@@ -157,7 +157,7 @@
                             <TextView
                                 android:id="@+id/tv_other_user_follower_count"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_weight="0.333"
                                 android:text="215"
                                 android:textAlignment="center"
@@ -201,6 +201,7 @@
                             android:layout_marginBottom="16dp">
 
                             <TextView
+                                android:id="@+id/tv_other_user_follower_display"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.333"
@@ -211,6 +212,7 @@
                             </TextView>
 
                             <TextView
+                                android:id="@+id/tv_other_user_following_display"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.333"
@@ -221,6 +223,7 @@
                             </TextView>
 
                             <TextView
+                                android:id="@+id/tv_other_user_community_display"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.333"
