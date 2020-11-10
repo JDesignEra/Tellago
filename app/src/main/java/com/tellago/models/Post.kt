@@ -65,7 +65,7 @@ data class Post(
     }
 
 
-    fun assignCids(selected_cids: ArrayList<String>, onComplete: ((post: Post?) -> Unit)?) {
+    fun addWithCids(selected_cids: ArrayList<String>, onComplete: ((post: Post?) -> Unit)?) {
         cids = selected_cids
 
         add {

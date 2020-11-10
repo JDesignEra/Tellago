@@ -236,41 +236,50 @@ class CreatePostFragment : Fragment() {
                 errors["pollMsg]"]?.let { pollMsg_et.error = it }
                 errors["pollOptions"]?.let { if (it.isNotBlank()) toast.error(it) }
             } else {
-                post.add {
-                    if (it != null) {
-                        if (it.postType == "multimedia") imageUri?.let { uri ->
-                            it.uploadPostMedia(
-                                uri
-                            )
-                        }
-
-
-                        if (selectedCids.isNotEmpty())
-                        {
-
-                            it.assignCids(selectedCids) {
-
-                                toast.success("Post created successfully")
-                                fragmentUtils.popBackStack()
-
+                if (selectedCids.isNotEmpty()) {
+                    post.addWithCids(selectedCids) {
+                        if (it != null) {
+                            // if post has Cids & is of postType 'multimedia'
+                            if (it.postType == "multimedia") imageUri?.let { uri ->
+                                it.uploadPostMedia(
+                                    uri
+                                )
                             }
 
-                        }
-
-                        if (selectedJids.isNotEmpty()) {
-                            for ((i, jid) in selectedJids.withIndex()) {
-                                it.pid?.let { pid -> Journey(jid).addPidByJid(pid) }
-
-                                if (i >= selectedJids.size - 1) {
-                                    toast.success("Post created successfully")
-                                    fragmentUtils.popBackStack()
-                                }
-                            }
-                        } else {
                             toast.success("Post created successfully")
                             fragmentUtils.popBackStack()
+
                         }
-                    } else toast.error("Fail to create post, please try again")
+
+                    }
+                }
+                else
+                {
+                    post.add {
+                        if (it != null) {
+                            // if post has no Cids & is of postType 'multimedia'
+                            if (it.postType == "multimedia") imageUri?.let { uri ->
+                                it.uploadPostMedia(
+                                    uri
+                                )
+                            }
+
+
+                            if (selectedJids.isNotEmpty()) {
+                                for ((i, jid) in selectedJids.withIndex()) {
+                                    it.pid?.let { pid -> Journey(jid).addPidByJid(pid) }
+
+                                    if (i >= selectedJids.size - 1) {
+                                        toast.success("Post created successfully")
+                                        fragmentUtils.popBackStack()
+                                    }
+                                }
+                            } else {
+                                toast.success("Post created successfully")
+                                fragmentUtils.popBackStack()
+                            }
+                        } else toast.error("Fail to create post, please try again")
+                    }
                 }
             }
 
