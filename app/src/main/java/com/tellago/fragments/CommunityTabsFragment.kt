@@ -72,7 +72,7 @@ class CommunityTabsFragment : Fragment() {
                 user?.uid?.let { uid ->
                     Communities(cid = communityID_received).followByCid(uid) {
                         if (it != null) {
-                            toast.success("Community ${if (it.uids.containsKey(user?.uid!!)) "join" else "leave"} successfully")
+                            toast.success("Community ${if (it.uids.containsKey(user?.uid!!)) "Join" else "Leave"} Successful")
                             updateJoinBtn(it.uids.containsKey(user?.uid!!))
                         }
                         else {

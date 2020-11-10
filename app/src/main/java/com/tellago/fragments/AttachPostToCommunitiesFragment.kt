@@ -44,18 +44,20 @@ class AttachPostToCommunitiesFragment : Fragment() {
         post = bundle?.getParcelable(post::class.java.name) ?: Post()
         Log.e(this::class.java.name, post.poll.size.toString())
 
-
-        val currentUserID = mutableListOf(user?.uid)
+        // Query uids map based on user?uid as key
+        val documentField = "uids.${user?.uid}"
+        val communityRole : ArrayList<String> = ArrayList()
+        communityRole.add("user")
+        communityRole.add("admin")
 
         adapter = ShowAvailableCommunitiesForPostAttachRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Communities>()
                 .setQuery(
-                    Communities.collection,
+                    Communities.collection.whereIn(documentField, communityRole),
                     Communities::class.java
                 ).build()
 
         )
-
 
 
 
@@ -74,25 +76,13 @@ class AttachPostToCommunitiesFragment : Fragment() {
 
         configureToolbar()
 
-        recycler_view_show_availableCommunity_posts_fragment.layoutManager = LinearLayoutManager(requireContext())
+        recycler_view_show_availableCommunity_posts_fragment.layoutManager =
+            LinearLayoutManager(requireContext())
         recycler_view_show_availableCommunity_posts_fragment.adapter = adapter.apply {
             bundle?.getStringArrayList("selectedCids")?.let {
                 setSelectedCids(it)
             }
         }
-
-        adapter.startListening()
-
-        // Code to view query result in Logcat
-//        val db = FirebaseFirestore.getInstance()
-//        val communities = db.collection("communities")
-//        val currentUserID = mutableListOf(user?.uid)
-//        communities.whereEqualTo(FieldPath.documentId(), "DoTDiLBZVLQU8nVVkCd4").get().addOnSuccessListener {
-//            Log.d("QuerySnap: ", it.toString())
-//            Log.d("Documents: ", it.documents.toString())
-//            Log.d("Document Count: ", it.documents.size.toString())
-//        }
-
 
 
         for (s in post.poll) {
@@ -114,15 +104,15 @@ class AttachPostToCommunitiesFragment : Fragment() {
         }
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        adapter.startListening()
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        adapter.stopListening()
-//    }
+    override fun onStart() {
+        super.onStart()
+        adapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.stopListening()
+    }
 
     private fun configureToolbar() {
         toolbar_view_availableCommunity_posts.setNavigationIcon(R.drawable.toolbar_back_icon)
