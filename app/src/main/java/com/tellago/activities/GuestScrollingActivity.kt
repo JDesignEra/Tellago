@@ -38,6 +38,12 @@ class GuestScrollingActivity : AppCompatActivity() {
         startService(Intent(this, ExitService::class.java))
     }
 
+    override fun onStop() {
+        super.onStop()
+    }
+
+
+
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) hideSystemUI()
