@@ -41,6 +41,7 @@ class CreatePostFragment : Fragment() {
     private var post = Post()
     private var selectedJourneyTitles: ArrayList<String> = ArrayList()
     private var selectedJids: ArrayList<String> = ArrayList()
+    private var selectedCids: ArrayList<String> = ArrayList()
     private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -157,6 +158,25 @@ class CreatePostFragment : Fragment() {
             )
         }
 
+        attach_community_iv.setOnClickListener {
+            val attachPostToCommunitiesFragment = AttachPostToCommunitiesFragment()
+            it.hideKeyboard()
+            setPostModel()
+
+            attachPostToCommunitiesFragment.arguments = Bundle().apply {
+                putParcelable(post::class.java.name, post)
+                putStringArrayList("selectedCids", selectedCids)
+                if (post.postType == "multimedia") putString("imageUri", imageUri.toString())
+            }
+
+            fragmentUtils.replace(
+                attachPostToCommunitiesFragment,
+                setTargetFragment = this,
+                requestCode = -1
+            )
+        }
+
+
         constraint_layout_create_post.setOnClickListener {
             it.hideKeyboard()
             setPostModel()
@@ -228,6 +248,7 @@ class CreatePostFragment : Fragment() {
                 -1 -> {
                     selectedJourneyTitles = data?.getStringArrayListExtra("selectedJourneyTitles") ?: ArrayList()
                     selectedJids = data?.getStringArrayListExtra("selectedJids") ?: ArrayList()
+                    selectedCids = data?.getStringArrayListExtra("selectedCids") ?: ArrayList()
                     post = data?.getParcelableExtra(post::class.java.name) ?: Post()
                     data?.getStringExtra("imageUri").let {
                         if (it != null) Uri.parse(it)

@@ -81,7 +81,7 @@
             android:id="@+id/header_mcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
             android:layout_marginHorizontal="14dp"
             app:cardElevation="0dp"
             app:cardBackgroundColor="@color/colorBackgroundTintGrey"
@@ -94,7 +94,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="14dp">
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -467,6 +468,86 @@
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/community_mcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:layout_marginHorizontal="14dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/colorBackgroundTintGrey"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/journey_mcv"
+            app:layout_constraintHeight_max="200dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="14dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="171dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="Post To Community (Optional)"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorTextLightGray"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/attach_community_iv"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_people_outline_48_primary" />
+
+                </RelativeLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="21dp"
+                    android:paddingHorizontal="14dp"
+                    android:clipToPadding="false">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_selected_community_names"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/communityPlaceholder_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add this post to a Community?"
+                            android:textSize="16sp"
+                            android:textStyle="italic"
+                            android:textColor="@color/colorTextLightGray" />
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
