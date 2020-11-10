@@ -75,6 +75,12 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
             user_display_name.text = user.displayName
             user_total_followers.text = "${user.followerUids.size} followers"
 
+            if (user.followerUids.size == 1)
+            {
+                // small change for grammar
+                user_total_followers.text = "1 follower"
+            }
+
 
             // if user is already a member of the Community, do not display either follow or unfollow layout
             if (Auth.user!!.uid == user.uid)
@@ -100,6 +106,14 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
             }
 
 
+            // Variable checks if current user was originally a follower of intended user
+            var initialFollower = 0
+            if (Auth.user?.uid in user.followerUids)
+            {
+                initialFollower = 1
+            }
+
+
             // launch 'follow' or 'unfollow' action when user clicks on relevant layout
             follow_layout.setOnClickListener {
 
@@ -113,11 +127,25 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
                     unfollow_layout.visibility = View.VISIBLE
                     follow_layout.visibility = View.GONE
 
-                    user.update()
                     Handler().postDelayed(
                         {
                             // Update follower count (force client-facing layout to update manually)
-                            user_total_followers.text = "${user.followerUids.size + 1} followers"
+                            // if current user was not an initial follower, then following will
+                            // increase intended follower size by 1
+                            if (initialFollower == 0)
+                            {
+                                user_total_followers.text = "${user.followerUids.size + 1} followers"
+                            }
+                            else
+                            {
+                                user_total_followers.text = "${user.followerUids.size} followers"
+                            }
+
+                            if (user_total_followers.text == "1 followers")
+                            {
+                                // small change for grammar
+                                user_total_followers.text = "1 follower"
+                            }
                         }, 500
                     )
 
@@ -129,11 +157,25 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
                 follow_layout.visibility = View.VISIBLE
                 unfollow_layout.visibility = View.GONE
 
-                user.update()
                 Handler().postDelayed(
                     {
                         // Update follower count (force client-facing layout to update manually)
-                        user_total_followers.text = "${user.followerUids.size - 1} followers"
+                        // if current user was an initial follower, then unfollowing will decrease
+                        // intended follower size by 1
+                        if (initialFollower == 1)
+                        {
+                            user_total_followers.text = "${user.followerUids.size - 1} followers"
+                        }
+                        else
+                        {
+                            user_total_followers.text = "${user.followerUids.size} followers"
+                        }
+
+                        if (user_total_followers.text == "1 followers")
+                        {
+                            // small change for grammar
+                            user_total_followers.text = "1 follower"
+                        }
                     }, 500
                 )
             }
