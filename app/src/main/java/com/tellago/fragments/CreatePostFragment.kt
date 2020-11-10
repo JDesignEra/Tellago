@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +56,11 @@ class CreatePostFragment : Fragment() {
         )
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_create_post, container, false)
     }
 
@@ -71,7 +76,7 @@ class CreatePostFragment : Fragment() {
                 poll_mcv.visibility = View.GONE
                 media_mcv.visibility = View.VISIBLE
 
-                imageUri?.let {setImage(it) }
+                imageUri?.let { setImage(it) }
             }
             "poll" -> {
                 chip_poll_radioToggle.isChecked = true
@@ -119,7 +124,12 @@ class CreatePostFragment : Fragment() {
                     text = title
                     setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
                     setTypeface(null, Typeface.BOLD)
-                    setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextDarkGray))
+                    setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorTextDarkGray
+                        )
+                    )
                 }
 
                 linearLayout_selected_journey_titles.addView(textView)
@@ -135,7 +145,12 @@ class CreatePostFragment : Fragment() {
                     text = name
                     setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
                     setTypeface(null, Typeface.BOLD)
-                    setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextDarkGray))
+                    setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.colorTextDarkGray
+                        )
+                    )
                 }
                 linearLayout_selected_community_names.addView(textView)
             }
@@ -198,18 +213,20 @@ class CreatePostFragment : Fragment() {
         constraint_layout_create_post.setOnClickListener {
             it.hideKeyboard()
             setPostModel()
-            it.hideKeyboard()
+
 
             val errors: MutableMap<String, String> = mutableMapOf()
 
-            if (chip_message_radioToggle.isChecked && msg_et.text.isNullOrBlank()) errors["msg"] = "Field is required"
+            if (chip_message_radioToggle.isChecked && msg_et.text.isNullOrBlank()) errors["msg"] =
+                "Field is required"
             else if (chip_multimedia_radioToggle.isChecked) {
                 if (mediaMsg_et.text.isNullOrBlank()) errors["mediaMsg"] = "Field is required"
-                if (imageUri == null) errors["mediaImage"] = "You have not picked an image for your post."
-            }
-            else if (chip_poll_radioToggle.isChecked) {
+                if (imageUri == null) errors["mediaImage"] =
+                    "You have not picked an image for your post."
+            } else if (chip_poll_radioToggle.isChecked) {
                 if (pollMsg_et.text.isNullOrBlank()) errors["pollMsg"] = "Field is required"
-                if (post.poll.isNullOrEmpty()) errors["pollOptions"] = "You need at least 1 poll option"
+                if (post.poll.isNullOrEmpty()) errors["pollOptions"] =
+                    "You need at least 1 poll option"
             }
 
             if (errors.isNotEmpty()) {
@@ -218,11 +235,27 @@ class CreatePostFragment : Fragment() {
                 errors["mediaImage"]?.let { if (it.isNotBlank()) toast.error(it) }
                 errors["pollMsg]"]?.let { pollMsg_et.error = it }
                 errors["pollOptions"]?.let { if (it.isNotBlank()) toast.error(it) }
-            }
-            else {
+            } else {
                 post.add {
                     if (it != null) {
-                        if (it.postType == "multimedia") imageUri?.let { uri -> it.uploadPostMedia(uri) }
+                        if (it.postType == "multimedia") imageUri?.let { uri ->
+                            it.uploadPostMedia(
+                                uri
+                            )
+                        }
+
+
+                        if (selectedCids.isNotEmpty())
+                        {
+
+                            it.assignCids(selectedCids) {
+
+                                toast.success("Post created successfully")
+                                fragmentUtils.popBackStack()
+
+                            }
+
+                        }
 
                         if (selectedJids.isNotEmpty()) {
                             for ((i, jid) in selectedJids.withIndex()) {
@@ -233,17 +266,20 @@ class CreatePostFragment : Fragment() {
                                     fragmentUtils.popBackStack()
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             toast.success("Post created successfully")
                             fragmentUtils.popBackStack()
                         }
-                    }
-                    else toast.error("Fail to create post, please try again")
+                    } else toast.error("Fail to create post, please try again")
                 }
             }
 
-            fragmentUtils.replace(ProfileFragment(), null, enter = R.anim.fragment_slide_right_enter, exit = R.anim.fragment_slide_right_exit)
+            fragmentUtils.replace(
+                ProfileFragment(),
+                null,
+                enter = R.anim.fragment_slide_right_enter,
+                exit = R.anim.fragment_slide_right_exit
+            )
 
         }
     }
@@ -252,21 +288,29 @@ class CreatePostFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
-            when(requestCode) {
+            when (requestCode) {
                 CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE -> {
                     val imageUri = CropImage.getPickImageResultUri(requireContext(), data)
 
-                    if (CropImage.isReadExternalStoragePermissionsRequired(requireContext(), imageUri)) {
-                        requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 0)
-                    }
-                    else {
+                    if (CropImage.isReadExternalStoragePermissionsRequired(
+                            requireContext(),
+                            imageUri
+                        )
+                    ) {
+                        requestPermissions(
+                            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                            0
+                        )
+                    } else {
                         startCrop(imageUri)
                     }
                 }
                 -1 -> {
-                    selectedJourneyTitles = data?.getStringArrayListExtra("selectedJourneyTitles") ?: ArrayList()
+                    selectedJourneyTitles =
+                        data?.getStringArrayListExtra("selectedJourneyTitles") ?: ArrayList()
                     selectedJids = data?.getStringArrayListExtra("selectedJids") ?: ArrayList()
-                    selectedCommunityNames = data?.getStringArrayListExtra("selectedCommunityNames") ?: ArrayList()
+                    selectedCommunityNames =
+                        data?.getStringArrayListExtra("selectedCommunityNames") ?: ArrayList()
                     selectedCids = data?.getStringArrayListExtra("selectedCids") ?: ArrayList()
                     post = data?.getParcelableExtra(post::class.java.name) ?: Post()
                     data?.getStringExtra("imageUri").let {
@@ -284,8 +328,7 @@ class CreatePostFragment : Fragment() {
                     imageUri = it
                     setImage(it)
                 }
-            }
-            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 result.error
             }
         }
@@ -398,7 +441,8 @@ class CreatePostFragment : Fragment() {
     }
 
     private fun View.hideKeyboard() {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 }

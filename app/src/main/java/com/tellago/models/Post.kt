@@ -36,7 +36,7 @@ private val todayCalendar = Calendar.getInstance()
 data class Post(
     @DocumentId var pid: String? = null,
     var uid: String? = null,
-    var cid: String? = null,
+    var cids: ArrayList<String> = ArrayList(),
     var messageBody: String? = null,
     val createDate: Date = todayCalendar.time,
     var postType: String? = null,
@@ -62,6 +62,16 @@ data class Post(
             Log.e(this::class.java.name, "Failed to add Post.")
             onComplete?.invoke(null)
         }
+    }
+
+
+    fun assignCids(selected_cids: ArrayList<String>, onComplete: ((post: Post?) -> Unit)?) {
+        cids = selected_cids
+
+        add {
+            onComplete?.invoke(null)
+        }
+
     }
 
     fun displayPostMedia(

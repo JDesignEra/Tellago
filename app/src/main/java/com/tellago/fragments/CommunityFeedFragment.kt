@@ -12,7 +12,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.tellago.R
+import com.tellago.adapters.ShowAvailableCommunitiesForPostAttachRecyclerAdapter
 import com.tellago.adapters.UserPostCommunityRecyclerAdapter
+import com.tellago.models.Auth
 import com.tellago.models.Communities
 import com.tellago.models.Post
 import kotlinx.android.synthetic.main.fragment_community_feed.*
@@ -56,12 +58,19 @@ class CommunityFeedFragment : Fragment() {
         }
 
 
+
+        // Query uids map based on user?uid as key
+        val communityID : ArrayList<String> = ArrayList()
+        communityID_received?.let { communityID.add(it) }
+
+        Log.d("CommunityID is: ", communityID.toString())
+
         // Query from Firestore to be passed to Adapter
         adapter = UserPostCommunityRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Post>()
                 .setQuery(
                     Post.collection
-                        .whereEqualTo("cid", communityID_received)
+                        .whereArrayContainsAny("cids", communityID)
                         .orderBy("createDate", Query.Direction.DESCENDING)
                     ,
                     Post::class.java
@@ -78,11 +87,20 @@ class CommunityFeedFragment : Fragment() {
 //        val db = FirebaseFirestore.getInstance()
 //        val posts = db.collection("posts")
 //
-//        posts.whereEqualTo("cid", communityID_received).get().addOnSuccessListener {
+//        Log.d("CommID is: ", communityID.toString())
+//
+//        posts.whereNotEqualTo("cids", null).get().addOnSuccessListener {
 //            Log.d("QuerySnap: ", it.toString())
 //            Log.d("Documents: ", it.documents.toString())
 //            Log.d("Document Count: ", it.documents.size.toString())
+//            Log.d("Document 1: ", it.documents[0].get("cids").toString())
+//            Log.d("Document 2: ", it.documents[1].get("cids").toString())
+//            Log.d("Document 3: ", it.documents[2].get("cids").toString())
+//            Log.d("Document 4: ", it.documents[3].get("cids").toString())
+//            Log.d("Document 5: ", it.documents[4].get("cids").toString())
+//            Log.d("Document 6: ", it.documents[5].get("cids").toString())
 //        }
+
 
 
     }
