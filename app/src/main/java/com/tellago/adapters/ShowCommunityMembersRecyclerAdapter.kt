@@ -46,7 +46,7 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
         position: Int
     ) {
         holder.bind(currentUid, users[position])
-        
+
     }
 
     override fun getItemCount(): Int {
@@ -74,18 +74,31 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
             user_uid.text = user.uid
             user_display_name.text = user.displayName
             user_total_followers.text = "${user.followerUids.size} followers"
-            // adjust follow_layout background depending on whether the viewing user is a follower
-            // if follower is viewing, then display unfollow_layout
-            if (Auth.user!!.uid in user.followerUids) {
-                unfollow_layout.visibility = View.VISIBLE
-                follow_layout.visibility = View.GONE
-            }
 
-            // if non-follower is viewing, then display follow_layout
-            else {
-                follow_layout.visibility = View.VISIBLE
+
+            // if user is already a member of the Community, do not display either follow or unfollow layout
+            if (Auth.user!!.uid == user.uid)
+            {
+                follow_layout.visibility = View.GONE
                 unfollow_layout.visibility = View.GONE
             }
+            else
+            {
+                // adjust follow_layout background depending on whether the viewing user is a follower
+                // if follower is viewing, then display unfollow_layout
+                if (Auth.user!!.uid in user.followerUids) {
+                    unfollow_layout.visibility = View.VISIBLE
+                    follow_layout.visibility = View.GONE
+                }
+
+                // if non-follower is viewing, then display follow_layout
+                else {
+                    follow_layout.visibility = View.VISIBLE
+                    unfollow_layout.visibility = View.GONE
+                }
+
+            }
+
 
             // launch 'follow' or 'unfollow' action when user clicks on relevant layout
             follow_layout.setOnClickListener {
@@ -95,6 +108,7 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
                     toast = CustomToast(itemView.context)
                     toast.warning("Please sign in or register to follow this user")
                 } else {
+
                     user.userFollowUser(currentUid, user_uid.text.toString())
                     unfollow_layout.visibility = View.VISIBLE
                     follow_layout.visibility = View.GONE
