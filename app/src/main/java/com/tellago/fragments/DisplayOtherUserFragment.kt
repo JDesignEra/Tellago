@@ -79,6 +79,10 @@ class DisplayOtherUserFragment : Fragment() {
 
                 loadOtherUserProfilePic(it.uid)
 
+                tv_other_user_follower_count.text = it.followerUids.size.toString()
+                tv_other_user_following_count.text = it.followingUids.size.toString()
+                //tv_other_user_community_count.text
+
             }
 
             recycler_view_display_other_user_profile_fragment.layoutManager =

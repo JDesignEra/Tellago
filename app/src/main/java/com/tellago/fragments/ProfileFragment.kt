@@ -14,7 +14,9 @@ import com.tellago.activities.EditProfileActivity
 import com.tellago.adapters.NewPostRecyclerAdapter
 import com.tellago.models.Auth.Companion.profile
 import com.tellago.models.Auth.Companion.user
+import com.tellago.models.Communities
 import com.tellago.models.Post
+import com.tellago.models.User
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
@@ -54,6 +56,16 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         profile?.displayProfilePicture(requireContext(), profile_image)
+
+        User(uid = user!!.uid).getUserWithUid {
+            if (it != null) {
+                tv_profile_follower_count.text = it.followerUids.size.toString()
+                tv_profile_following_count.text = it.followingUids.size.toString()
+                //tv_profile_community_count.text
+            }
+        }
+
+
 
         recycler_view_profile_fragment.layoutManager = LinearLayoutManager(requireContext())
         recycler_view_profile_fragment.adapter = adapter
