@@ -1,5 +1,6 @@
 package com.tellago.adapters
 
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -11,16 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.request.RequestOptions
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.progressindicator.ProgressIndicator
-import com.tellago.GlideApp
-import com.tellago.GlideApp.init
 import com.tellago.R
+import com.tellago.models.Auth
 import com.tellago.models.Post
 import com.tellago.models.User
-import com.tellago.models.UserPost
 import kotlinx.android.synthetic.main.layout_user_post_list_item.view.*
 import java.time.Instant
 import java.time.LocalDateTime
@@ -63,8 +61,20 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         holder.like_count.text = model.likes.size.toString()
         holder.comment_count.text = model.comment.size.toString()
 
+
         // use this function to display images using Glide (one for profile pic of poster & one for any multimedia belonging to Post)
         holder.bind(model)
+
+        // change display of 'like_btn' if current user (viewer) has 'liked' this post before
+        val viewingUserUid = Auth.user?.uid
+        Log.d("The likes Array: ", model.likes.toString())
+        if (viewingUserUid in model.likes)
+        {
+            holder.like_btn.visibility = View.GONE
+            holder.like_btn_filled.visibility = View.VISIBLE
+
+        }
+
 
         // change display layout based on post type
         holder.post_title.text = model.messageBody
@@ -134,6 +144,30 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         }
 
 
+        // Change 'like_btn' uids composition based on
+        // current user's clicks on the 'like_btn' & 'like_btn_filled'
+        holder.like_btn.setOnClickListener {
+            if (viewingUserUid != null) {
+                model.addUidToLikes(viewingUserUid)
+            }
+            holder.like_btn.visibility = View.GONE
+            holder.like_btn_filled.visibility = View.VISIBLE
+            val originalLikeCount = holder.like_count.text.toString().toInt()
+            holder.like_count.text = "${originalLikeCount + 1}"
+        }
+
+
+        holder.like_btn_filled.setOnClickListener {
+            if (viewingUserUid != null) {
+                model.removeUidFromLikes(viewingUserUid)
+            }
+            holder.like_btn_filled.visibility = View.GONE
+            holder.like_btn.visibility = View.VISIBLE
+            val originalLikeCount = holder.like_count.text.toString().toInt()
+            holder.like_count.text = "${originalLikeCount - 1}"
+        }
+
+
     }
 
 
@@ -149,6 +183,9 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         val post_title = itemView.user_post_title
         val post_image = itemView.user_post_image
         val post_options = itemView.post_option_menu
+        val like_btn = itemView.like_btn
+        val like_btn_filled = itemView.like_btn_filled
+        val comment_btn = itemView.comment_btn
         val like_count = itemView.likes
         val comment_count = itemView.comments
         val linearLayoutPollOptions = itemView.linearLayout_pollOptions_community

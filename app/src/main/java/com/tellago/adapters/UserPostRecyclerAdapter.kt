@@ -30,6 +30,7 @@ class UserPostRecyclerAdapter(private var items: List<UserPost>) :
     override fun onBindViewHolder(holder: UserPostViewHolder, position: Int) {
 
         holder.bind(items[position])
+
     }
 
 
@@ -68,6 +69,7 @@ class UserPostRecyclerAdapter(private var items: List<UserPost>) :
         val likes: TextView = itemView.likes
         val comments: TextView = itemView.comments
 
+
         // bind method takes user post objects & bind to respective views in the layout
         fun bind(userPost: UserPost) {
             post_title.text = userPost.title
@@ -75,6 +77,7 @@ class UserPostRecyclerAdapter(private var items: List<UserPost>) :
             post_duration.text = userPost.duration
             likes.text = userPost.likes
             comments.text = userPost.comments
+
 
             // use Glide to set image to post_image
             val requestOptions = RequestOptions()

@@ -23,6 +23,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.progressindicator.ProgressIndicator
 import com.tellago.R.color
 import com.tellago.R.layout
+import com.tellago.models.Auth
 import com.tellago.models.Post
 import kotlinx.android.synthetic.main.layout_new_post_list_item.view.*
 import java.time.Instant
@@ -58,6 +59,44 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
     override fun onBindViewHolder(holder: NewPostViewHolder, position: Int, model: Post) {
         holder.model = model
+        holder.like_count.text = model.likes.size.toString()
+        holder.comment_count.text = model.comment.size.toString()
+
+
+        // change display of 'like_btn' if current user (viewer) has 'liked' this post before
+        val viewingUserUid = Auth.user?.uid
+        if (viewingUserUid in model.likes)
+        {
+            holder.like_btn.visibility = View.GONE
+            holder.like_btn_filled.visibility = View.VISIBLE
+
+        }
+
+
+        // Change 'like_btn' uids composition based on
+        // current user's clicks on the 'like_btn' & 'like_btn_filled'
+        holder.like_btn.setOnClickListener {
+            if (viewingUserUid != null) {
+                model.addUidToLikes(viewingUserUid)
+            }
+            holder.like_btn.visibility = View.GONE
+            holder.like_btn_filled.visibility = View.VISIBLE
+            val originalLikeCount = holder.like_count.text.toString().toInt()
+            holder.like_count.text = "${originalLikeCount + 1}"
+        }
+
+
+        holder.like_btn_filled.setOnClickListener {
+            if (viewingUserUid != null) {
+                model.removeUidFromLikes(viewingUserUid)
+            }
+            holder.like_btn_filled.visibility = View.GONE
+            holder.like_btn.visibility = View.VISIBLE
+            val originalLikeCount = holder.like_count.text.toString().toInt()
+            holder.like_count.text = "${originalLikeCount - 1}"
+        }
+
+
         // Use NewPostRecyclerAdapter to handle conditional for displaying Posts based on PostType
         when (model.postType) {
             "text post" -> {
@@ -158,9 +197,9 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         }
 
         holder.post_duration.text = durationStr
-        holder.likes.text = model.likes.size.toString()
+        holder.like_count.text = model.likes.size.toString()
         // need to display comments individually instead of as an entire ArrayList<String>
-        holder.comments.text = model.comment.size.toString()
+        holder.comment_count.text = model.comment.size.toString()
 
         // use this function to display images using Glide (one for profile pic of poster & one for any multimedia belonging to Post)
         holder.bind(model)
@@ -233,8 +272,11 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         val post_image: ImageView = itemView.new_post_image
         val post_title: TextView = itemView.new_post_title
         val post_duration: TextView = itemView.new_post_duration
-        val likes: TextView = itemView.new_post_likes
-        val comments: TextView = itemView.new_post_comments
+        val like_btn: ImageView = itemView.new_post_like_btn
+        val like_btn_filled: ImageView = itemView.new_post_like_btn_filled
+        val comment_btn: ImageView = itemView.new_post_comment_btn
+        val like_count: TextView = itemView.new_post_likes
+        val comment_count: TextView = itemView.new_post_comments
         val linearLayoutPollOptions: LinearLayout = itemView.linearLayout_pollOptions
 
         val activity: AppCompatActivity = itemView.context as AppCompatActivity

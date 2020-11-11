@@ -125,6 +125,16 @@
 
 
                 <ImageView
+                    android:id="@+id/like_btn_filled"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_primary_favorite_24"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/user_post_image" />
+
+
+                <ImageView
                     android:id="@+id/comment_btn"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"

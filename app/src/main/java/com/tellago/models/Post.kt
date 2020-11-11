@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
@@ -58,6 +59,8 @@ data class Post(
         collection.add(this).addOnSuccessListener {
             pid = it.id
             onComplete?.invoke(this)
+            userSelfLikePost(pid!!)
+            
         }.addOnFailureListener {
             Log.e(this::class.java.name, "Failed to add Post.")
             onComplete?.invoke(null)
@@ -73,6 +76,49 @@ data class Post(
         }
 
     }
+
+
+    fun userSelfLikePost(pid : String) {
+        uid?.let { likes.add(it) }
+
+        // update
+        setByPid()
+    }
+
+
+    fun addUidToLikes(uid : String) {
+        likes.add(uid)
+
+        // update {onComplete?.invoke(null)}
+        setByPid()
+    }
+
+
+    fun removeUidFromLikes(uid : String) {
+        if (uid in likes)
+        {
+            likes.remove(uid)
+        }
+
+        // update
+        setByPid()
+    }
+
+
+    fun setByPid(onComplete: ((post: Post?) -> Unit)? = null) {
+
+        if (!pid.isNullOrBlank()) {
+
+            collection.document(pid!!).set(this).addOnSuccessListener {
+                onComplete?.invoke(this)
+            }.addOnFailureListener {
+                Log.e(this::class.java.name, "Failed to update Post.")
+                onComplete?.invoke(null)
+            }
+        }
+
+    }
+
 
     fun displayPostMedia(
         context: Context,
