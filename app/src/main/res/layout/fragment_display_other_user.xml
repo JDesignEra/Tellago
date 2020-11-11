@@ -44,11 +44,6 @@
                         android:orientation="vertical"
                         android:clipChildren="false">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/toolbar_display_other_user_navigation_cancel"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:src="@drawable/toolbar_cancel_icon" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

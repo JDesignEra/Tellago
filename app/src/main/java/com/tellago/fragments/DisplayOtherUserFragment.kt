@@ -115,10 +115,6 @@ class DisplayOtherUserFragment : Fragment() {
         }
 
 
-        toolbar_display_other_user_navigation_cancel.setOnClickListener {
-            requireActivity().finish()
-        }
-
 
         // Initial layout for 'Follow' & 'YetToFollow' based on whether intendedUser's UID is
         // contained within currentUser's followingUids

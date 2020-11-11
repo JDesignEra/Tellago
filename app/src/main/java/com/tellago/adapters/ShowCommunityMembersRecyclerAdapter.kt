@@ -190,6 +190,9 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
             var toast: CustomToast
 
             // when a card view is clicked, open new activity to display that profile
+
+            // if user is navigating to their own profile, display ProfileFragment instead
+
             cardView.setOnClickListener {
 
                 if (Auth.user?.isAnonymous!!) {
