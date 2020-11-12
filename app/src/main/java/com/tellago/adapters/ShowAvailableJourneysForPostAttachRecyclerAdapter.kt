@@ -1,5 +1,6 @@
 package com.tellago.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,6 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
         val tvJourneyTitle = itemView.tv_availableJourneyTitle
         val journeyCardView = itemView.cardview_availableJourney_list_item
     }
-
     private var selectedJourneyTitles: ArrayList<String> = ArrayList()
     private var selectedJids: ArrayList<String> = ArrayList()
 
@@ -45,10 +45,13 @@ class ShowAvailableJourneysForPostAttachRecyclerAdapter(options: FirestoreRecycl
 
         holder.journeyCardView.setOnCheckedChangeListener { card, _ ->
             if (card.isChecked) {
-                model.jid?.let {
-                    selectedJids.add(it)
-                    selectedJourneyTitles.add(model.title)
+                if (!selectedJids.contains(model.jid)) {
+                    model.jid?.let {
+                        selectedJids.add(it)
+                    }
                 }
+
+                selectedJourneyTitles.add(model.title)
             }
             else {
                 model.jid?.let {

@@ -157,7 +157,6 @@ class CreatePostFragment : Fragment() {
 
         }
 
-
         media_imageView.setOnClickListener {
             it.hideKeyboard()
             pickImageIntent()
@@ -173,47 +172,30 @@ class CreatePostFragment : Fragment() {
             addPollOptionView()
         }
 
-        attach_journey_iv.setOnClickListener {
-            val attachPostToJourneysFragment = AttachPostToJourneysFragment()
+        pollPlaceholder_tv.setOnClickListener {
             it.hideKeyboard()
-
-            setPostModel()
-            attachPostToJourneysFragment.arguments = Bundle().apply {
-                putParcelable(post::class.java.name, post)
-                putStringArrayList("selectedJids", selectedJids)
-                if (post.postType == "multimedia") putString("imageUri", imageUri.toString())
-            }
-
-            fragmentUtils.replace(
-                attachPostToJourneysFragment,
-                setTargetFragment = this,
-                requestCode = -1
-            )
+            addPollOptionView()
         }
 
-        attach_community_iv.setOnClickListener {
-            val attachPostToCommunitiesFragment = AttachPostToCommunitiesFragment()
-            it.hideKeyboard()
-            setPostModel()
-
-            attachPostToCommunitiesFragment.arguments = Bundle().apply {
-                putParcelable(post::class.java.name, post)
-                putStringArrayList("selectedCids", selectedCids)
-                if (post.postType == "multimedia") putString("imageUri", imageUri.toString())
-            }
-
-            fragmentUtils.replace(
-                attachPostToCommunitiesFragment,
-                setTargetFragment = this,
-                requestCode = -1
-            )
+        journey_mcv.setOnClickListener {
+            attachJourney(view)
         }
 
+        journeyPlaceholder_tv.setOnClickListener {
+            attachJourney(view)
+        }
+
+        community_mcv.setOnClickListener {
+            attachCommunity(view)
+        }
+
+        communityPlaceholder_tv.setOnClickListener {
+            attachCommunity(view)
+        }
 
         constraint_layout_create_post.setOnClickListener {
             it.hideKeyboard()
             setPostModel()
-
 
             val errors: MutableMap<String, String> = mutableMapOf()
 
@@ -235,26 +217,23 @@ class CreatePostFragment : Fragment() {
                 errors["mediaImage"]?.let { if (it.isNotBlank()) toast.error(it) }
                 errors["pollMsg]"]?.let { pollMsg_et.error = it }
                 errors["pollOptions"]?.let { if (it.isNotBlank()) toast.error(it) }
-            } else {
+            }
+            else {
                 if (selectedCids.isNotEmpty()) {
                     post.addWithCids(selectedCids) {
                         if (it != null) {
                             // if post has Cids & is of postType 'multimedia'
                             if (it.postType == "multimedia") imageUri?.let { uri ->
-                                it.uploadPostMedia(
-                                    uri
-                                )
+                                it.uploadPostMedia(uri)
                             }
 
                             toast.success("Post created successfully")
                             fragmentUtils.popBackStack()
-
                         }
 
                     }
                 }
-                else
-                {
+                else {
                     post.add {
                         if (it != null) {
                             // if post has no Cids & is of postType 'multimedia'
@@ -263,7 +242,6 @@ class CreatePostFragment : Fragment() {
                                     uri
                                 )
                             }
-
 
                             if (selectedJids.isNotEmpty()) {
                                 for ((i, jid) in selectedJids.withIndex()) {
@@ -289,7 +267,6 @@ class CreatePostFragment : Fragment() {
                 enter = R.anim.fragment_slide_right_enter,
                 exit = R.anim.fragment_slide_right_exit
             )
-
         }
     }
 
@@ -315,13 +292,12 @@ class CreatePostFragment : Fragment() {
                     }
                 }
                 -1 -> {
-                    selectedJourneyTitles =
-                        data?.getStringArrayListExtra("selectedJourneyTitles") ?: ArrayList()
+                    selectedJourneyTitles = data?.getStringArrayListExtra("selectedJourneyTitles") ?: ArrayList()
                     selectedJids = data?.getStringArrayListExtra("selectedJids") ?: ArrayList()
-                    selectedCommunityNames =
-                        data?.getStringArrayListExtra("selectedCommunityNames") ?: ArrayList()
+                    selectedCommunityNames = data?.getStringArrayListExtra("selectedCommunityNames") ?: ArrayList()
                     selectedCids = data?.getStringArrayListExtra("selectedCids") ?: ArrayList()
                     post = data?.getParcelableExtra(post::class.java.name) ?: Post()
+
                     data?.getStringExtra("imageUri").let {
                         if (it != null) Uri.parse(it)
                     }
@@ -387,6 +363,47 @@ class CreatePostFragment : Fragment() {
                 )
             }
         }
+    }
+
+    private fun attachJourney(view: View) {
+        val attachPostToJourneysFragment = AttachPostToJourneysFragment()
+        view.hideKeyboard()
+
+        setPostModel()
+        attachPostToJourneysFragment.arguments = Bundle().apply {
+            putParcelable(post::class.java.name, post)
+            putStringArrayList("selectedJids", selectedJids)
+            putStringArrayList("selectedCommunityNames", selectedCommunityNames)
+            putStringArrayList("selectedCids", selectedCids)
+
+            if (post.postType == "multimedia") putString("imageUri", imageUri.toString())
+        }
+
+        fragmentUtils.replace(
+            attachPostToJourneysFragment,
+            setTargetFragment = this,
+            requestCode = -1
+        )
+    }
+
+    private fun attachCommunity(view: View) {
+        val attachPostToCommunitiesFragment = AttachPostToCommunitiesFragment()
+        view.hideKeyboard()
+        setPostModel()
+
+        attachPostToCommunitiesFragment.arguments = Bundle().apply {
+            putParcelable(post::class.java.name, post)
+            putStringArrayList("selectedJourneyTitles", selectedJourneyTitles)
+            putStringArrayList("selectedJids", selectedJids)
+            putStringArrayList("selectedCids", selectedCids)
+            if (post.postType == "multimedia") putString("imageUri", imageUri.toString())
+        }
+
+        fragmentUtils.replace(
+            attachPostToCommunitiesFragment,
+            setTargetFragment = this,
+            requestCode = -1
+        )
     }
 
     private fun addPollOptionView(text: String? = null) {

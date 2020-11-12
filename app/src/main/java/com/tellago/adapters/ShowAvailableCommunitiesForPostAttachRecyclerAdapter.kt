@@ -51,12 +51,14 @@ class ShowAvailableCommunitiesForPostAttachRecyclerAdapter(options: FirestoreRec
         }
 
         holder.communityCardView.setOnCheckedChangeListener { card, isChecked ->
-            if (card.isChecked)
-            {
-                model.cid?.let {
-                    selectedCids.add(it)
-                    model.name?.let { it1 -> selectedCommunityNames.add(it1) }
+            if (card.isChecked) {
+                if (!selectedCids.contains(model.cid)) {
+                    model.cid?.let {
+                        selectedCids.add(it)
+                    }
                 }
+
+                model.name?.let { it1 -> selectedCommunityNames.add(it1) }
             }
             else {
                 model.cid?.let {
@@ -82,5 +84,4 @@ class ShowAvailableCommunitiesForPostAttachRecyclerAdapter(options: FirestoreRec
     fun getSelectedCommunityNames(): ArrayList<String> {
         return this.selectedCommunityNames
     }
-
 }

@@ -35,7 +35,6 @@ class AttachPostToJourneysFragment : Fragment() {
 
         if (this.arguments != null) bundle = requireArguments()
         post = bundle?.getParcelable(post::class.java.name) ?: Post()
-        Log.e(this::class.java.name, post.poll.size.toString())
 
         adapter = ShowAvailableJourneysForPostAttachRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Journey>()
@@ -62,14 +61,12 @@ class AttachPostToJourneysFragment : Fragment() {
             }
         }
 
-        for (s in post.poll) {
-            Log.e(this::class.java.name, s.key.toString())
-        }
-
         btn_confirm_journey_selection.setOnClickListener {
             val intent = Intent(requireContext(), this::class.java).apply {
                 putExtra("selectedJourneyTitles", adapter.getSelectedJourneyTitles())
                 putExtra("selectedJids", adapter.getSelectedJids())
+                putExtra("selectedCommunityNames",bundle?.getStringArrayList("selectedCommunityNames"))
+                putExtra("selectedCids", bundle?.getStringArrayList("selectedCids"))
                 putExtra(post::class.java.name, post)
                 bundle?.getString("imageUri").let {
                     if (!it.isNullOrBlank()) putExtra("imageUri", it)

@@ -42,7 +42,6 @@ class AttachPostToCommunitiesFragment : Fragment() {
 
         if (this.arguments != null) bundle = requireArguments()
         post = bundle?.getParcelable(post::class.java.name) ?: Post()
-        Log.e(this::class.java.name, post.poll.size.toString())
 
         // Query uids map based on user?uid as key
         val documentField = "uids.${user?.uid}"
@@ -56,18 +55,10 @@ class AttachPostToCommunitiesFragment : Fragment() {
                     Communities.collection.whereIn(documentField, communityRole),
                     Communities::class.java
                 ).build()
-
         )
-
-
-
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_attach_post_to_communities, container, false)
     }
 
@@ -84,16 +75,14 @@ class AttachPostToCommunitiesFragment : Fragment() {
             }
         }
 
-
-        for (s in post.poll) {
-            Log.e(this::class.java.name, s.key)
-        }
-
         btn_confirm_community_selection.setOnClickListener {
             val intent = Intent(requireContext(), this::class.java).apply {
                 putExtra("selectedCommunityNames", adapter.getSelectedCommunityNames())
                 putExtra("selectedCids", adapter.getSelectedCids())
+                putExtra("selectedJourneyTitles", bundle?.getStringArrayList("selectedJourneyTitles"))
+                putExtra("selectedJids", bundle?.getStringArrayList("selectedJids"))
                 putExtra(post::class.java.name, post)
+
                 bundle?.getString("imageUri").let {
                     if (!it.isNullOrBlank()) putExtra("imageUri", it)
                 }
