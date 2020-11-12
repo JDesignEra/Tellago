@@ -132,6 +132,7 @@
                     android:background="@color/colorDefaultBackground" />
 
                 <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/agree_cb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="14dp"
