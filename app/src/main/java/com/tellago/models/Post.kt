@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
@@ -97,7 +98,8 @@ data class Post(
 
     fun getPostsByCids(onComplete: ((posts: ArrayList<Post>?) -> Unit)? = null) {
         if (cids.isNotEmpty()) {
-            collection.whereIn("cids", cids).get().addOnSuccessListener {
+            collection.whereArrayContainsAny("cids", cids)
+                .get().addOnSuccessListener {
                 onComplete?.invoke(ArrayList(it.toObjects()))
             }.addOnFailureListener {
                 Log.e(this::class.java.name, "Fail to get posts")

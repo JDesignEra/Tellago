@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.adapters.FeedAdapter
@@ -36,34 +37,41 @@ class FeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         user?.uid?.let { uid ->
-            User(uid = uid).getUserWithUid {user ->
+            User(uid = uid).getUserWithUid { user ->
                 Communities().getByUid(uid) { communities ->
                     Log.e(this::class.java.name, communities?.size.toString())
                     if (user?.followingUids!!.isNotEmpty()) {
                         Post(uid = uid).getPostsByUids(user.followingUids) {
                             val posts = it ?: ArrayList()
 
+
                             Post(cids = communities?.map { it.cid } as ArrayList<String>).getPostsByCids {
                                 if (it != null) posts.addAll(it)
 
-                                feed_recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                                feed_recyclerView.layoutManager =
+                                    LinearLayoutManager(requireContext())
                                 feed_recyclerView.adapter = FeedAdapter(posts)
                             }
                         }
-                    }
-                    else {
-                        Log.e(this::class.java.name,"Fired")
+                    } else {
+                        Log.e(this::class.java.name, "Fired")
 
                         val cids = ArrayList<String>()
                         communities?.forEach {
                             it.cid?.let { it1 -> cids.add(it1) }
                         }
 
+
+
                         Post(cids = cids).getPostsByCids {
-                            Log.e(this::class.java.name,"Fired 1")
+                            Log.e(this::class.java.name, "Fired 1")
                             if (it != null) {
-                                Log.e(this::class.java.name,"Fired 2")
-                                feed_recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                                Log.e(this::class.java.name, "Fired 2")
+                                feed_recyclerView.layoutManager =
+                                    LinearLayoutManager(requireContext())
+
+                                it.sortWith(compareByDescending { it.createDate })
+
                                 feed_recyclerView.adapter = FeedAdapter(it)
                             }
                         }
