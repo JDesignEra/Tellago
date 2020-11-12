@@ -59,7 +59,6 @@ data class Post(
         collection.add(this).addOnSuccessListener {
             pid = it.id
             onComplete?.invoke(this)
-            userSelfLikePost(pid!!)
             
         }.addOnFailureListener {
             Log.e(this::class.java.name, "Failed to add Post.")
@@ -77,13 +76,6 @@ data class Post(
 
     }
 
-
-    fun userSelfLikePost(pid : String) {
-        uid?.let { likes.add(it) }
-
-        // update
-        setByPid()
-    }
 
 
     fun addUidToLikes(uid : String) {
