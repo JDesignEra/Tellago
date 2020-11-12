@@ -181,7 +181,8 @@ class CreatePostFragment : Fragment() {
             attachJourney(view)
         }
 
-        journeyPlaceholder_tv.setOnClickListener {
+
+        linearLayout_selected_journey_titles.setOnClickListener {
             attachJourney(view)
         }
 
@@ -189,7 +190,8 @@ class CreatePostFragment : Fragment() {
             attachCommunity(view)
         }
 
-        communityPlaceholder_tv.setOnClickListener {
+
+        linearLayout_selected_community_names.setOnClickListener {
             attachCommunity(view)
         }
 
