@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.tellago.GlideApp
@@ -66,17 +67,13 @@ data class Post(
         }
     }
 
-
     fun addWithCids(selected_cids: ArrayList<String>, onComplete: ((post: Post?) -> Unit)?) {
         cids = selected_cids
 
         add {
             onComplete?.invoke(null)
         }
-
     }
-
-
 
     fun addUidToLikes(uid : String) {
         likes.add(uid)
@@ -85,6 +82,31 @@ data class Post(
         setByPid()
     }
 
+    fun getPostsByUids(uids: ArrayList<String>, onComplete: ((posts: ArrayList<Post>?) -> Unit)? = null) {
+        if (uids.isNotEmpty()) {
+            collection.whereArrayContains("uid", uids).get().addOnSuccessListener {
+                onComplete?.invoke(ArrayList(it.toObjects()))
+            }.addOnFailureListener {
+                Log.e(this::class.java.name, "Fail to get posts")
+            }
+        }
+        else {
+            Log.e(this::class.java.name, "UIDS is required for getPostsByUid().")
+        }
+    }
+
+    fun getPostsByCids(onComplete: ((posts: ArrayList<Post>?) -> Unit)? = null) {
+        if (cids.isNotEmpty()) {
+            collection.whereIn("cids", cids).get().addOnSuccessListener {
+                onComplete?.invoke(ArrayList(it.toObjects()))
+            }.addOnFailureListener {
+                Log.e(this::class.java.name, "Fail to get posts")
+            }
+        }
+        else {
+            Log.e(this::class.java.name, "CIDS is required for getPostsByCids().")
+        }
+    }
 
     fun removeUidFromLikes(uid : String) {
         if (uid in likes)
@@ -96,11 +118,8 @@ data class Post(
         setByPid()
     }
 
-
     fun setByPid(onComplete: ((post: Post?) -> Unit)? = null) {
-
         if (!pid.isNullOrBlank()) {
-
             collection.document(pid!!).set(this).addOnSuccessListener {
                 onComplete?.invoke(this)
             }.addOnFailureListener {
@@ -108,9 +127,7 @@ data class Post(
                 onComplete?.invoke(null)
             }
         }
-
     }
-
 
     fun displayPostMedia(
         context: Context,

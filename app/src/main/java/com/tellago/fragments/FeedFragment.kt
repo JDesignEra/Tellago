@@ -1,33 +1,27 @@
 package com.tellago.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.Query
 import com.tellago.R
+import com.tellago.adapters.FeedAdapter
+import com.tellago.adapters.UserPostCommunityRecyclerAdapter
+import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.user
+import com.tellago.models.Communities
+import com.tellago.models.Post
+import com.tellago.models.User
+import kotlinx.android.synthetic.main.fragment_feed.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FeedFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FeedFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -38,23 +32,44 @@ class FeedFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_feed, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FeedFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FeedFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        user?.uid?.let { uid ->
+            User(uid = uid).getUserWithUid {user ->
+                Communities().getByUid(uid) { communities ->
+                    Log.e(this::class.java.name, communities?.size.toString())
+                    if (user?.followingUids!!.isNotEmpty()) {
+                        Post(uid = uid).getPostsByUids(user.followingUids) {
+                            val posts = it ?: ArrayList()
+
+                            Post(cids = communities?.map { it.cid } as ArrayList<String>).getPostsByCids {
+                                if (it != null) posts.addAll(it)
+
+                                feed_recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                                feed_recyclerView.adapter = FeedAdapter(posts)
+                            }
+                        }
+                    }
+                    else {
+                        Log.e(this::class.java.name,"Fired")
+
+                        val cids = ArrayList<String>()
+                        communities?.forEach {
+                            it.cid?.let { it1 -> cids.add(it1) }
+                        }
+
+                        Post(cids = cids).getPostsByCids {
+                            Log.e(this::class.java.name,"Fired 1")
+                            if (it != null) {
+                                Log.e(this::class.java.name,"Fired 2")
+                                feed_recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                                feed_recyclerView.adapter = FeedAdapter(it)
+                            }
+                        }
+                    }
                 }
             }
+        }
     }
 }

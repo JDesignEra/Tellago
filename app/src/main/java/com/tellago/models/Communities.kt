@@ -75,6 +75,17 @@ data class Communities(
         } else Log.e(this::class.java.name, "CID is required for getByCid().")
     }
 
+    fun getByUid(uid: String, onComplete: ((communities: ArrayList<Communities>?) -> Unit)? = null) {
+        collection.get().addOnSuccessListener {
+            var t = ArrayList(it.toObjects<Communities>())
+            t = ArrayList(t.filter { it.uids.containsKey(uid) })
+
+            onComplete?.invoke(t)
+        }.addOnFailureListener {
+            Log.e(this::class.java.name, "Failed to get communities by uid.")
+        }
+    }
+
     fun getCategories(onComplete: ((categories: ArrayList<String>?) -> Unit)? = null) {
         getAll {
             if (it != null) {
