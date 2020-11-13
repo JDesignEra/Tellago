@@ -54,9 +54,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         }
     }
 
-
     override fun onBindViewHolder(holder: CommunityPostViewHolder, position: Int, model: Post) {
-
         holder.model = model
         holder.like_count.text = model.likes.size.toString()
         holder.comment_count.text = model.comment.size.toString()
@@ -136,11 +134,9 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
                 }
 
             }
-
             "multimedia" -> {
                 holder.post_image.visibility = View.VISIBLE
             }
-
         }
 
 
@@ -156,7 +152,6 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
             holder.like_count.text = "${originalLikeCount + 1}"
         }
 
-
         holder.like_btn_filled.setOnClickListener {
             if (viewingUserUid != null) {
                 model.removeUidFromLikes(viewingUserUid)
@@ -166,8 +161,6 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
             val originalLikeCount = holder.like_count.text.toString().toInt()
             holder.like_count.text = "${originalLikeCount - 1}"
         }
-
-
     }
 
 
@@ -189,10 +182,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         val like_count = itemView.likes
         val comment_count = itemView.comments
         val linearLayoutPollOptions = itemView.linearLayout_pollOptions_community
-
-
         val activity: AppCompatActivity = itemView.context as AppCompatActivity
-
 
         fun bind(post: Post) {
             // Assign post media
@@ -232,7 +222,6 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
 
             post_duration.text = durationStr
 
-
             // Assign post author and profile picture
             post.uid?.let {
                 User(uid = it).getUserWithUid {
@@ -245,11 +234,5 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
             }
 
         }
-
-
-
     }
-
-
-
 }

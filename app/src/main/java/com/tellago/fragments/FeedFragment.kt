@@ -25,11 +25,7 @@ class FeedFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_feed, container, false)
     }
 
@@ -39,7 +35,6 @@ class FeedFragment : Fragment() {
         user?.uid?.let { uid ->
             User(uid = uid).getUserWithUid { user ->
                 Communities().getByUid(uid) { communities ->
-                    Log.e(this::class.java.name, communities?.size.toString())
                     if (user?.followingUids!!.isNotEmpty()) {
                         Post(uid = uid).getPostsByUids(user.followingUids) {
                             val posts = it ?: ArrayList()
@@ -48,8 +43,7 @@ class FeedFragment : Fragment() {
                             Post(cids = communities?.map { it.cid } as ArrayList<String>).getPostsByCids {
                                 if (it != null) posts.addAll(it)
 
-                                feed_recyclerView.layoutManager =
-                                    LinearLayoutManager(requireContext())
+                                feed_recyclerView.layoutManager = LinearLayoutManager(requireContext())
                                 feed_recyclerView.adapter = FeedAdapter(posts)
                             }
                         }
@@ -61,17 +55,10 @@ class FeedFragment : Fragment() {
                             it.cid?.let { it1 -> cids.add(it1) }
                         }
 
-
-
                         Post(cids = cids).getPostsByCids {
-                            Log.e(this::class.java.name, "Fired 1")
                             if (it != null) {
-                                Log.e(this::class.java.name, "Fired 2")
-                                feed_recyclerView.layoutManager =
-                                    LinearLayoutManager(requireContext())
-
                                 it.sortWith(compareByDescending { it.createDate })
-
+                                feed_recyclerView.layoutManager = LinearLayoutManager(requireContext())
                                 feed_recyclerView.adapter = FeedAdapter(it)
                             }
                         }
