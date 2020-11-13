@@ -1,13 +1,11 @@
 package com.tellago.fragments
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -20,10 +18,7 @@ import com.tellago.adapters.NewPostRecyclerAdapter
 import com.tellago.models.Auth
 import com.tellago.models.Post
 import com.tellago.models.User
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_display_other_user.*
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.profile_image
 
 
 class DisplayOtherUserFragment : Fragment() {

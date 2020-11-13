@@ -1,10 +1,8 @@
 package com.tellago.fragments
 
 import android.animation.Animator
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -15,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.tellago.R
 import com.tellago.adapters.CommunitiesCategoryAdapter
-import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Communities
 import com.tellago.utilities.FragmentUtils

@@ -2,7 +2,6 @@ package com.tellago.adapters
 
 import android.content.Intent
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +10,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tellago.R
 import com.tellago.activities.DisplayOtherUserActivity
 import com.tellago.models.Auth
 import com.tellago.models.User
 import com.tellago.utilities.CustomToast
-import kotlinx.android.synthetic.main.fragment_community_tabs.*
 import kotlinx.android.synthetic.main.layout_community_member_item.view.*
 
 

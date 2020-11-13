@@ -7,13 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.adapters.FeedAdapter
-import com.tellago.adapters.UserPostCommunityRecyclerAdapter
-import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Communities
 import com.tellago.models.Post

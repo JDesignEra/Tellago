@@ -1,15 +1,12 @@
 package com.tellago.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.google.firebase.firestore.Query
+import androidx.appcompat.app.AppCompatActivity
 import com.tellago.R
 import com.tellago.fragments.DisplayOtherUserFragment
 import com.tellago.fragments.ProfileFragment
 import com.tellago.models.Auth
-import com.tellago.models.Post
-import com.tellago.models.User
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.activity_display_other_user.*
 

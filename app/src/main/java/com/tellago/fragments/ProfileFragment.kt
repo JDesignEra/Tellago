@@ -14,10 +14,8 @@ import com.tellago.activities.EditProfileActivity
 import com.tellago.adapters.NewPostRecyclerAdapter
 import com.tellago.models.Auth.Companion.profile
 import com.tellago.models.Auth.Companion.user
-import com.tellago.models.Communities
 import com.tellago.models.Post
 import com.tellago.models.User
-import kotlinx.android.synthetic.main.fragment_display_other_user.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {

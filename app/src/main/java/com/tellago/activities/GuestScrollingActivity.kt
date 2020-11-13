@@ -10,18 +10,13 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.tellago.DataSource
 import com.tellago.R
-import com.tellago.TopSpacingItemDecoration
 import com.tellago.adapters.UserPostRecyclerAdapter
 import com.tellago.fragments.CommunityFragment
-import com.tellago.models.UserPost
 import com.tellago.services.ExitService
 import com.tellago.utilities.FragmentUtils
 import kotlinx.android.synthetic.main.bottom_guest_to_sign_in_up.*
-import kotlinx.android.synthetic.main.fragment_community_tabs.*
 
 
 class GuestScrollingActivity : AppCompatActivity() {

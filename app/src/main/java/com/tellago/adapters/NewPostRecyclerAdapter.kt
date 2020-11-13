@@ -2,7 +2,6 @@ package com.tellago.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -13,13 +12,11 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.progressindicator.ProgressIndicator
 import com.tellago.R.color
 import com.tellago.R.layout

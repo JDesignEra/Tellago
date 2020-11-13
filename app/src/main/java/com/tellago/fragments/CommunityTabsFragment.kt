@@ -12,7 +12,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.tellago.R
 import com.tellago.adapters.ViewPagerBucketListItemsFragmentStateAdapter
-import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Communities
 import com.tellago.utilities.CustomToast
