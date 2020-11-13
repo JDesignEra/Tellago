@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.progressindicator.ProgressIndicator
 import com.tellago.R
@@ -30,6 +31,17 @@ class FeedAdapter(private var posts: ArrayList<Post>) : RecyclerView.Adapter<Fee
         val user_profilePic = itemView.user_post_profile_pic
         val like_count = itemView.likes
         val comment_count = itemView.comments
+    }
+
+    override fun onViewAttachedToWindow(holder: FeedHolder) {
+        super.onViewAttachedToWindow(holder)
+        for (v in holder.linearLayoutPollOptions.children) {
+            if (v is LinearLayout) {
+                for (l in v.children) {
+                    if (l is ProgressIndicator) l.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedHolder {

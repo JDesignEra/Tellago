@@ -29,9 +29,7 @@ import kotlin.math.roundToInt
 class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
     FirestoreRecyclerAdapter<Post, UserPostCommunityRecyclerAdapter.CommunityPostViewHolder>(options) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityPostViewHolder {
-
         return CommunityPostViewHolder(
             // Layout inflator to inflate FROM layout_user_post_list_item
             LayoutInflater.from(parent.context).inflate(
@@ -41,7 +39,6 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
             )
         )
     }
-
 
     override fun onViewAttachedToWindow(holder: CommunityPostViewHolder) {
         super.onViewAttachedToWindow(holder)
