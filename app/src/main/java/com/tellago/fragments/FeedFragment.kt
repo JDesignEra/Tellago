@@ -33,11 +33,12 @@ class FeedFragment : Fragment() {
                     if (user?.followingUids!!.isNotEmpty()) {
                         Post(uid = uid).getPostsByUids(user.followingUids) {
                             val posts = it ?: ArrayList()
-
-
+                            
                             Post(cids = communities?.map { it.cid } as ArrayList<String>).getPostsByCids {
-                                if (it != null) posts.addAll(it)
-
+                                if (it != null) {
+                                    it.sortWith(compareByDescending { it.createDate })
+                                    posts.addAll(it)
+                                }
                                 feed_recyclerView.layoutManager = LinearLayoutManager(requireContext())
                                 feed_recyclerView.adapter = FeedAdapter(posts)
                             }
