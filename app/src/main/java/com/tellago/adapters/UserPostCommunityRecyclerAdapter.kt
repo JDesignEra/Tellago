@@ -17,6 +17,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.progressindicator.ProgressIndicator
 import com.tellago.R
 import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Post
 import com.tellago.models.User
 import kotlinx.android.synthetic.main.layout_user_post_list_item.view.*
@@ -61,15 +62,12 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         holder.bind(model)
 
         // change display of 'like_btn' if current user (viewer) has 'liked' this post before
-        val viewingUserUid = Auth.user?.uid
+        val viewingUserUid = user?.uid
         Log.d("The likes Array: ", model.likes.toString())
-        if (viewingUserUid in model.likes)
-        {
+        if (viewingUserUid in model.likes) {
             holder.like_btn.visibility = View.GONE
             holder.like_btn_filled.visibility = View.VISIBLE
-
         }
-
 
         // change display layout based on post type
         holder.post_title.text = model.messageBody
@@ -125,6 +123,13 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
                         pollOptionHorizontalLinearLayout.addView(percentTextView)
                         pollOptionHorizontalLinearLayout.addView(progressIndicator)
 
+                        pollOptionHorizontalLinearLayout.setOnClickListener {
+                            user?.uid?.let { model.poll[k]?.add(it) }
+                            model.setByPid()
+
+//                            notifyDataSetChanged()
+                        }
+
                         holder.linearLayoutPollOptions.addView(pollOptionTextView)
                         holder.linearLayoutPollOptions.addView(pollOptionHorizontalLinearLayout)
                     }
@@ -160,8 +165,6 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         }
     }
 
-
-
     class CommunityPostViewHolder constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var model: Post? = null
@@ -184,7 +187,6 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         fun bind(post: Post) {
             // Assign post media
             if (post.postType == "multimedia") post.displayPostMedia(activity.application.baseContext, post_image)
-
 
             // Assign post duration
             val today = LocalDateTime.now()
