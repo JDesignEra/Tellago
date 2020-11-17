@@ -96,6 +96,7 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="10dp"
+                android:visibility="gone"
                 android:src="@drawable/ic_baseline_more_vert_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -134,6 +135,7 @@
                     android:id="@+id/new_post_share_btn"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:src="@drawable/ic_baseline_share_24" />
             </LinearLayout>
 
