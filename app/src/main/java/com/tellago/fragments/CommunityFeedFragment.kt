@@ -32,7 +32,6 @@ class CommunityFeedFragment : Fragment() {
         Log.d("CID in CommFeed is: ", communityID_received)
 
         if (this.arguments != null) bundle = requireArguments()
-
     }
 
     override fun onCreateView(
@@ -53,8 +52,6 @@ class CommunityFeedFragment : Fragment() {
                 Log.d("Community Feed ID: ", it.cid)
             }
         }
-
-
 
         // Query uids map based on user?uid as key
         val communityID : ArrayList<String> = ArrayList()
@@ -79,28 +76,5 @@ class CommunityFeedFragment : Fragment() {
         recycler_view_community_feed.adapter = adapter
 
         adapter.startListening()
-
-        // Code to view query result in Logcat
-//        val db = FirebaseFirestore.getInstance()
-//        val posts = db.collection("posts")
-//
-//        Log.d("CommID is: ", communityID.toString())
-//
-//        posts.whereNotEqualTo("cids", null).get().addOnSuccessListener {
-//            Log.d("QuerySnap: ", it.toString())
-//            Log.d("Documents: ", it.documents.toString())
-//            Log.d("Document Count: ", it.documents.size.toString())
-//            Log.d("Document 1: ", it.documents[0].get("cids").toString())
-//            Log.d("Document 2: ", it.documents[1].get("cids").toString())
-//            Log.d("Document 3: ", it.documents[2].get("cids").toString())
-//            Log.d("Document 4: ", it.documents[3].get("cids").toString())
-//            Log.d("Document 5: ", it.documents[4].get("cids").toString())
-//            Log.d("Document 6: ", it.documents[5].get("cids").toString())
-//        }
-
-
-
     }
-
-
 }

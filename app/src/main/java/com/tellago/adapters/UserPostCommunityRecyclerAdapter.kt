@@ -81,6 +81,8 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
                 if (model.poll.isNotEmpty()) {
                     val totalVotes = model.poll.toMutableMap().flatMap { it.value }.count()
 
+                    holder.linearLayoutPollOptions.removeAllViews()
+
                     for ((k, v) in model.poll) {
                         val pollOptionTextView = TextView(holder.itemView.context).apply {
                             text = "$k"
