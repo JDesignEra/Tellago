@@ -18,6 +18,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.progressindicator.ProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.firestore.Query
 import com.tellago.R
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Comment
@@ -198,7 +199,8 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         val adapter = CommentsRecyclerAdapter(
             FirestoreRecyclerOptions.Builder<Comment>().setQuery(
                 Comment.collection
-                    .whereEqualTo("pid", model.pid),
+                    .whereEqualTo("pid", model.pid)
+                    .orderBy("createdDate", Query.Direction.DESCENDING),
                 Comment::class.java
             ).build()
         )
