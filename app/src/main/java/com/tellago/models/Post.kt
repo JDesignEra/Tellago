@@ -108,13 +108,26 @@ data class Post(
     }
 
     fun removeUidFromLikes(uid : String) {
-        if (uid in likes)
-        {
+        if (uid in likes) {
             likes.remove(uid)
         }
 
-        // update
         setByPid()
+    }
+
+    fun addVoteByPid(uid: String, key: String) {
+        if (!pid.isNullOrBlank()) {
+            if (poll.containsKey(key)) {
+                for ((k, v) in poll) {
+                    if (v.contains(uid)) poll[k]?.remove(uid)
+                }
+
+                poll[key]?.add(uid)
+                poll[key]?.distinct()?.let { poll[key] = ArrayList(it) }
+            }
+
+            setByPid()
+        }
     }
 
     fun setByPid(onComplete: ((post: Post?) -> Unit)? = null) {

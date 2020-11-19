@@ -63,7 +63,6 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
 
         // change display of 'like_btn' if current user (viewer) has 'liked' this post before
         val viewingUserUid = user?.uid
-        Log.d("The likes Array: ", model.likes.toString())
         if (viewingUserUid in model.likes) {
             holder.like_btn.visibility = View.GONE
             holder.like_btn_filled.visibility = View.VISIBLE
@@ -126,10 +125,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
                         pollOptionHorizontalLinearLayout.addView(progressIndicator)
 
                         pollOptionHorizontalLinearLayout.setOnClickListener {
-                            user?.uid?.let { model.poll[k]?.add(it) }
-                            model.setByPid()
-
-//                            notifyDataSetChanged()
+                            user?.uid?.let { model.addVoteByPid(it, k) }
                         }
 
                         holder.linearLayoutPollOptions.addView(pollOptionTextView)
