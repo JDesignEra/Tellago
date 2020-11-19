@@ -1,25 +1,29 @@
 package com.tellago.adapters
 
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.progressindicator.ProgressIndicator
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.tellago.R
-import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
+import com.tellago.models.Comment
 import com.tellago.models.Post
 import com.tellago.models.User
+import com.tellago.utilities.CustomToast
 import kotlinx.android.synthetic.main.layout_user_post_list_item.view.*
 import java.time.Instant
 import java.time.LocalDateTime
@@ -57,7 +61,6 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         holder.like_count.text = model.likes.size.toString()
         holder.comment_count.text = model.comment.size.toString()
 
-
         // use this function to display images using Glide (one for profile pic of poster & one for any multimedia belonging to Post)
         holder.bind(model)
 
@@ -73,12 +76,10 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
 
         when (model.postType)
         {
-            // nothing special when postType = "text post"
             "text post" -> {
                 holder.linearLayoutPollOptions.visibility = View.GONE
                 holder.post_image.visibility = View.GONE
             }
-
             "poll" -> {
                 holder.linearLayoutPollOptions.visibility = View.VISIBLE
 
@@ -137,14 +138,12 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
                         holder.linearLayoutPollOptions.addView(pollOptionHorizontalLinearLayout)
                     }
                 }
-
             }
             "multimedia" -> {
                 holder.linearLayoutPollOptions.visibility = View.GONE
                 holder.post_image.visibility = View.VISIBLE
             }
         }
-
 
         // Change 'like_btn' uids composition based on
         // current user's clicks on the 'like_btn' & 'like_btn_filled'
@@ -167,6 +166,46 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
             val originalLikeCount = holder.like_count.text.toString().toInt()
             holder.like_count.text = "${originalLikeCount - 1}"
         }
+
+
+        Comment(pid = model!!.pid).getCommentByPid() {
+            holder.commentTextView.text = it.size.toString()
+        }
+
+        holder.commentImageView.setOnClickListener {
+            if (holder.commentsLinearLayout.visibility == View.VISIBLE) holder.commentsLinearLayout.visibility = View.GONE
+            else holder.commentsLinearLayout.visibility = View.VISIBLE
+        }
+
+        holder.commentTextInputLayout.setEndIconOnClickListener {
+            holder.commentTextInputEditText.error = null
+
+            if (holder.commentTextInputEditText.text.isNullOrBlank()) {
+                holder.commentTextInputEditText.error = "Field is reuired"
+            }
+            else {
+                Comment(pid = model!!.pid, uid = user?.uid, comment = holder.commentTextInputEditText.text.toString()).add {
+                    if (it != null) {
+                        CustomToast(holder.itemView.context).success("Commented Successfully")
+                        holder.commentTextInputEditText.error = null
+                        holder.commentTextInputEditText.setText("")
+                    }
+                    else CustomToast(holder.itemView.context).error("Fail to comment")
+                }
+            }
+        }
+
+        val adapter = CommentsRecyclerAdapter(
+            FirestoreRecyclerOptions.Builder<Comment>().setQuery(
+                Comment.collection
+                    .whereEqualTo("pid", model.pid),
+                Comment::class.java
+            ).build()
+        )
+
+        holder.commentsRecyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
+        holder.commentsRecyclerView.adapter = adapter
+        adapter.startListening()
     }
 
     class CommunityPostViewHolder constructor(itemView: View) :
@@ -186,6 +225,12 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         val like_count = itemView.likes
         val comment_count = itemView.comments
         val linearLayoutPollOptions = itemView.linearLayout_pollOptions_community
+        val commentImageView: ImageView = itemView.comment_btn
+        val commentTextView: TextView = itemView.comments
+        val commentsLinearLayout: LinearLayout = itemView.comments_linearLayout
+        val commentsRecyclerView: RecyclerView = itemView.comments_recyclerView
+        val commentTextInputLayout: TextInputLayout = itemView.comment_textInputLayout
+        val commentTextInputEditText: TextInputEditText = itemView.comment_textInputEditText
         val activity: AppCompatActivity = itemView.context as AppCompatActivity
 
         fun bind(post: Post) {
@@ -195,8 +240,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
             // Assign post duration
             val today = LocalDateTime.now()
             val createdDateTime =
-                Instant.ofEpochMilli(model!!.createDate.time).atZone(ZoneId.systemDefault())
-                    .toLocalDateTime()
+                Instant.ofEpochMilli(model!!.createDate.time).atZone(ZoneId.systemDefault()).toLocalDateTime()
             val durationStr: String
 
             when {
@@ -232,10 +276,8 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
                         user_displayName.text = it.displayName
                         it.displayProfilePicture(itemView.context, user_profilePic)
                     }
-
                 }
             }
-
         }
     }
 }

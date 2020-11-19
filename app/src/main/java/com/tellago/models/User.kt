@@ -116,9 +116,6 @@ data class User(
 
     }
 
-
-
-
     fun displayProfilePicture(
         context: Context,
         imageView: ImageView,

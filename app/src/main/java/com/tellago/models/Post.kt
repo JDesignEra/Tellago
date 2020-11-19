@@ -102,9 +102,7 @@ data class Post(
                 Log.e(this::class.java.name, "Fail to get posts")
             }
         }
-        else {
-            Log.e(this::class.java.name, "CIDS is required for getPostsByCids().")
-        }
+        else Log.e(this::class.java.name, "CIDS is required for getPostsByCids().")
     }
 
     fun removeUidFromLikes(uid : String) {
@@ -128,6 +126,7 @@ data class Post(
 
             setByPid()
         }
+        else Log.e(this::class.java.name, "PID is required for addVoteByPid().")
     }
 
     fun setByPid(onComplete: ((post: Post?) -> Unit)? = null) {
