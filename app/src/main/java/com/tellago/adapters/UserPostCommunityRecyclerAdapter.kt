@@ -74,6 +74,11 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         when (model.postType)
         {
             // nothing special when postType = "text post"
+            "text post" -> {
+                holder.linearLayoutPollOptions.visibility = View.GONE
+                holder.post_image.visibility = View.GONE
+            }
+
             "poll" -> {
                 holder.linearLayoutPollOptions.visibility = View.VISIBLE
 
@@ -135,6 +140,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
 
             }
             "multimedia" -> {
+                holder.linearLayoutPollOptions.visibility = View.GONE
                 holder.post_image.visibility = View.VISIBLE
             }
         }
