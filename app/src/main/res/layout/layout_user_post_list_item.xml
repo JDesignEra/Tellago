@@ -189,7 +189,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:paddingBottom="16dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/icon_display_container">
