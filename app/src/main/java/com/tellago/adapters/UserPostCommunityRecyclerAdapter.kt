@@ -1,6 +1,7 @@
 package com.tellago.adapters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -181,7 +182,15 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
 
         holder.commentImageView.setOnClickListener {
             if (holder.commentsConstraintLayout.visibility == View.VISIBLE) holder.commentsConstraintLayout.visibility = View.GONE
-            else holder.commentsConstraintLayout.visibility = View.VISIBLE
+
+            else {
+            // show profile picture of current user beside text input field for new comment
+            if (user?.uid != null) {
+                User(uid = user?.uid!!).displayProfilePicture(holder.itemView.context, holder.currentUserCommenterPicImageView)
+            }
+            holder.commentsConstraintLayout.visibility = View.VISIBLE
+        }
+
         }
 
         holder.commentTextInputLayout.setEndIconOnClickListener {
@@ -235,6 +244,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         val commentTextView: TextView = itemView.comments
         val commentsConstraintLayout: ConstraintLayout = itemView.comments_constraintLayout
         val commentsRecyclerView: RecyclerView = itemView.comments_recyclerView
+        val currentUserCommenterPicImageView: ImageView = itemView.commenter_displayPic_iv
         val commentTextInputLayout: TextInputLayout = itemView.comment_textInputLayout
         val commentTextInputEditText: TextInputEditText = itemView.comment_textInputEditText
         val commentScrollView: NestedScrollView = itemView.comments_scrollView
