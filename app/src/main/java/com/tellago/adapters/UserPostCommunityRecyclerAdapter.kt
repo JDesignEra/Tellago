@@ -1,6 +1,6 @@
 package com.tellago.adapters
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -10,12 +10,15 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.progressindicator.ProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -58,6 +61,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: CommunityPostViewHolder, position: Int, model: Post) {
         holder.model = model
         holder.like_count.text = model.likes.size.toString()
@@ -169,21 +173,15 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
             holder.like_count.text = "${originalLikeCount - 1}"
         }
 
+        holder.commentScrollView.isNestedScrollingEnabled = true
 
-        Comment(pid = model!!.pid).getCommentByPid() {
+        Comment(pid = model.pid).getCommentByPid() {
             holder.commentTextView.text = it.size.toString()
         }
 
         holder.commentImageView.setOnClickListener {
-            if (holder.commentsLinearLayout.visibility == View.VISIBLE) holder.commentsLinearLayout.visibility = View.GONE
-            else {
-                // show profile picture of current user beside text input field for new comment
-                Log.d("the user uid =", user?.uid.toString())
-                if (user?.uid != null) {
-                    User(uid = user?.uid!!).displayProfilePicture(holder.itemView.context, holder.currentUserCommenterPicImageView)
-                }
-                holder.commentsLinearLayout.visibility = View.VISIBLE
-            }
+            if (holder.commentsConstraintLayout.visibility == View.VISIBLE) holder.commentsConstraintLayout.visibility = View.GONE
+            else holder.commentsConstraintLayout.visibility = View.VISIBLE
         }
 
         holder.commentTextInputLayout.setEndIconOnClickListener {
@@ -193,7 +191,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
                 holder.commentTextInputEditText.error = "Field is required"
             }
             else {
-                Comment(pid = model!!.pid, uid = user?.uid, comment = holder.commentTextInputEditText.text.toString()).add {
+                Comment(pid = model.pid, uid = user?.uid, comment = holder.commentTextInputEditText.text.toString()).add {
                     if (it != null) {
                         CustomToast(holder.itemView.context).success("Commented Successfully")
                         holder.commentTextInputEditText.error = null
@@ -228,20 +226,19 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         val post_duration = itemView.post_duration
         val post_title = itemView.user_post_title
         val post_image = itemView.user_post_image
-        val post_options = itemView.post_option_menu
         val like_btn = itemView.like_btn
         val like_btn_filled = itemView.like_btn_filled
-        val comment_btn = itemView.comment_btn
         val like_count = itemView.likes
         val comment_count = itemView.comments
         val linearLayoutPollOptions = itemView.linearLayout_pollOptions_community
         val commentImageView: ImageView = itemView.comment_btn
         val commentTextView: TextView = itemView.comments
-        val currentUserCommenterPicImageView: ImageView = itemView.commenter_displayPic_iv
-        val commentsLinearLayout: LinearLayout = itemView.comments_linearLayout
+        val commentsConstraintLayout: ConstraintLayout = itemView.comments_constraintLayout
         val commentsRecyclerView: RecyclerView = itemView.comments_recyclerView
         val commentTextInputLayout: TextInputLayout = itemView.comment_textInputLayout
         val commentTextInputEditText: TextInputEditText = itemView.comment_textInputEditText
+        val commentScrollView: NestedScrollView = itemView.comments_scrollView
+        val postCardView: MaterialCardView = itemView.post_cardView
         val activity: AppCompatActivity = itemView.context as AppCompatActivity
 
         fun bind(post: Post) {
@@ -279,7 +276,6 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
             }
 
             post_duration.text = durationStr
-
 
             // Assign post author and profile picture
             post.uid?.let {

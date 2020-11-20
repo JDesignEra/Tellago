@@ -1,5 +1,7 @@
 package com.tellago.adapters
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +15,6 @@ import com.tellago.R
 import com.tellago.models.Comment
 import com.tellago.models.User
 import kotlinx.android.synthetic.main.layout_comment.view.*
-import kotlinx.android.synthetic.main.layout_comment.view.comments_linearLayout
-import kotlinx.android.synthetic.main.layout_user_post_list_item.view.*
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -22,7 +22,7 @@ import java.time.temporal.ChronoUnit
 
 class CommentsRecyclerAdapter(opton: FirestoreRecyclerOptions<Comment>) : FirestoreRecyclerAdapter<Comment, CommentsRecyclerAdapter.CommentViewHolder>(opton) {
     class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val commentsLinearLayout: LinearLayout = itemView.comments_linearLayout
+        val commentsLinearLayout: LinearLayout = itemView.comments_constraintLayout
         val displayPicImageView: ImageView = itemView.displayPic_iv
         val displayNameTextView: TextView = itemView.displayName_tv
         val commentTextView: TextView = itemView.comment_tv
@@ -44,6 +44,7 @@ class CommentsRecyclerAdapter(opton: FirestoreRecyclerOptions<Comment>) : Firest
         )
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int, model: Comment) {
         holder.commentTextView.text = model.comment
         model.uid?.let {
@@ -88,6 +89,15 @@ class CommentsRecyclerAdapter(opton: FirestoreRecyclerOptions<Comment>) : Firest
 
 
             }
+        }
+
+        holder.commentsLinearLayout.setOnTouchListener { v, event ->
+            Log.e(this::class.java.name, "touchListener")
+            v?.parent?.parent?.requestDisallowInterceptTouchEvent(false)
+            v?.parent?.parent?.parent?.requestDisallowInterceptTouchEvent(true)
+
+            v?.onTouchEvent(event)
+            true
         }
     }
 }
