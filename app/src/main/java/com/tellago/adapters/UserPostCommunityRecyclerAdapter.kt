@@ -1,5 +1,6 @@
 package com.tellago.adapters
 
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -175,14 +176,21 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
 
         holder.commentImageView.setOnClickListener {
             if (holder.commentsLinearLayout.visibility == View.VISIBLE) holder.commentsLinearLayout.visibility = View.GONE
-            else holder.commentsLinearLayout.visibility = View.VISIBLE
+            else {
+                // show profile picture of current user beside text input field for new comment
+                Log.d("the user uid =", user?.uid.toString())
+                if (user?.uid != null) {
+                    User(uid = user?.uid!!).displayProfilePicture(holder.itemView.context, holder.currentUserCommenterPicImageView)
+                }
+                holder.commentsLinearLayout.visibility = View.VISIBLE
+            }
         }
 
         holder.commentTextInputLayout.setEndIconOnClickListener {
             holder.commentTextInputEditText.error = null
 
             if (holder.commentTextInputEditText.text.isNullOrBlank()) {
-                holder.commentTextInputEditText.error = "Field is reuired"
+                holder.commentTextInputEditText.error = "Field is required"
             }
             else {
                 Comment(pid = model!!.pid, uid = user?.uid, comment = holder.commentTextInputEditText.text.toString()).add {
@@ -191,7 +199,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
                         holder.commentTextInputEditText.error = null
                         holder.commentTextInputEditText.setText("")
                     }
-                    else CustomToast(holder.itemView.context).error("Fail to comment")
+                    else CustomToast(holder.itemView.context).error("Failed to comment")
                 }
             }
         }
@@ -229,6 +237,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         val linearLayoutPollOptions = itemView.linearLayout_pollOptions_community
         val commentImageView: ImageView = itemView.comment_btn
         val commentTextView: TextView = itemView.comments
+        val currentUserCommenterPicImageView: ImageView = itemView.commenter_displayPic_iv
         val commentsLinearLayout: LinearLayout = itemView.comments_linearLayout
         val commentsRecyclerView: RecyclerView = itemView.comments_recyclerView
         val commentTextInputLayout: TextInputLayout = itemView.comment_textInputLayout
@@ -270,6 +279,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
             }
 
             post_duration.text = durationStr
+
 
             // Assign post author and profile picture
             post.uid?.let {
