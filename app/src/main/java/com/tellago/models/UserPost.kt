@@ -1,9 +1,6 @@
 package com.tellago.models
 
 data class UserPost(
-
-    // This class was first created to test RecyclerView for GuestScrollingActivity.kt
-
     var title: String,
     var image: String,
     var displayName: String,
@@ -11,7 +8,4 @@ data class UserPost(
     var duration: String,
     var likes: String,
     var comments: String
-
-//    val postID: String = ""
-
 )

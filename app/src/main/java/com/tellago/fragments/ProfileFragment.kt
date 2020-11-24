@@ -60,34 +60,19 @@ class ProfileFragment : Fragment() {
             if (it != null) {
                 tv_profile_follower_count.text = it.followerUids.size.toString()
                 tv_profile_following_count.text = it.followingUids.size.toString()
-                //tv_profile_community_count.text
 
-
-                if (it.followerUids.size == 1)
-                {
+                if (it.followerUids.size == 1) {
                     // small change for grammar
                     tv_profile_follower_count.text = "1"
                     tv_profile_follower_display.text = "Follower"
                 }
 
-                if (it.followingUids.size == 1)
-                {
+                if (it.followingUids.size == 1) {
                     // small change for grammar
                     tv_profile_following_count.text = "1"
-//                    tv_profile_following_display.text = "following"
                 }
-
-//                if (tv_profile_community_count.text == "1")
-//                {
-//                    // small change for grammar
-//                    tv_profile_community_count.text = "1"
-//                    tv_profile_community_display.text = "community"
-//                }
-
             }
         }
-
-
 
         recycler_view_profile_fragment.layoutManager = LinearLayoutManager(requireContext())
         recycler_view_profile_fragment.adapter = adapter
@@ -106,8 +91,6 @@ class ProfileFragment : Fragment() {
         profile_bio.text = profile?.bio ?: "Introduce yourself to the others."
         // Updated profile picture
         profile?.displayProfilePicture(requireContext(), profile_image)
-
-
     }
 
     override fun onStop() {

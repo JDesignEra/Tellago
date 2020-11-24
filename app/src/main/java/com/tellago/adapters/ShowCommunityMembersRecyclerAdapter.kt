@@ -38,18 +38,13 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
         )
     }
 
-    override fun onBindViewHolder(
-        holder: UserViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bind(currentUid, users[position])
-
     }
 
     override fun getItemCount(): Int {
         return users.size
     }
-
 
     // Constructor for User ViewHolder
     class UserViewHolder constructor(
@@ -72,21 +67,17 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
             user_display_name.text = user.displayName
             user_total_followers.text = "${user.followerUids.size} followers"
 
-            if (user.followerUids.size == 1)
-            {
+            if (user.followerUids.size == 1) {
                 // small change for grammar
                 user_total_followers.text = "1 follower"
             }
 
-
             // if user is already a member of the Community, do not display either follow or unfollow layout
-            if (Auth.user!!.uid == user.uid)
-            {
+            if (Auth.user!!.uid == user.uid) {
                 follow_layout.visibility = View.GONE
                 unfollow_layout.visibility = View.GONE
             }
-            else
-            {
+            else {
                 // adjust follow_layout background depending on whether the viewing user is a follower
                 // if follower is viewing, then display unfollow_layout
                 if (Auth.user!!.uid in user.followerUids) {
@@ -99,53 +90,44 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
                     follow_layout.visibility = View.VISIBLE
                     unfollow_layout.visibility = View.GONE
                 }
-
             }
-
 
             // Variable checks if current user was originally a follower of intended user
             var initialFollower = 0
-            if (Auth.user?.uid in user.followerUids)
-            {
-                initialFollower = 1
-            }
-
+            if (Auth.user?.uid in user.followerUids) initialFollower = 1
 
             // launch 'follow' or 'unfollow' action when user clicks on relevant layout
             follow_layout.setOnClickListener {
-
                 val toast: CustomToast
+
                 if (Auth.user?.isAnonymous!!) {
                     toast = CustomToast(itemView.context)
                     toast.warning("Please sign in or register to follow this user")
-                } else {
-
+                }
+                else {
                     user.userFollowUser(currentUid, user_uid.text.toString())
                     unfollow_layout.visibility = View.VISIBLE
                     follow_layout.visibility = View.GONE
 
-                    Handler().postDelayed(
+                    Handler().postDelayed({
+                        // Update follower count (force client-facing layout to update manually)
+                        // if current user was not an initial follower, then following will
+                        // increase intended follower size by 1
+                        if (initialFollower == 0)
                         {
-                            // Update follower count (force client-facing layout to update manually)
-                            // if current user was not an initial follower, then following will
-                            // increase intended follower size by 1
-                            if (initialFollower == 0)
-                            {
-                                user_total_followers.text = "${user.followerUids.size + 1} followers"
-                            }
-                            else
-                            {
-                                user_total_followers.text = "${user.followerUids.size} followers"
-                            }
+                            user_total_followers.text = "${user.followerUids.size + 1} followers"
+                        }
+                        else
+                        {
+                            user_total_followers.text = "${user.followerUids.size} followers"
+                        }
 
-                            if (user_total_followers.text == "1 followers")
-                            {
-                                // small change for grammar
-                                user_total_followers.text = "1 follower"
-                            }
-                        }, 500
-                    )
-
+                        if (user_total_followers.text == "1 followers")
+                        {
+                            // small change for grammar
+                            user_total_followers.text = "1 follower"
+                        }
+                    }, 500)
                 }
             }
 
@@ -154,8 +136,7 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
                 follow_layout.visibility = View.VISIBLE
                 unfollow_layout.visibility = View.GONE
 
-                Handler().postDelayed(
-                    {
+                Handler().postDelayed({
                         // Update follower count (force client-facing layout to update manually)
                         // if current user was an initial follower, then unfollowing will decrease
                         // intended follower size by 1
@@ -173,32 +154,22 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
                             // small change for grammar
                             user_total_followers.text = "1 follower"
                         }
-                    }, 500
-                )
+                    }, 500)
             }
-
-
         }
-
 
         init {
             val activity: AppCompatActivity = itemView.context as AppCompatActivity
-
             var toast: CustomToast
 
             // when a card view is clicked, open new activity to display that profile
-
             // if user is navigating to their own profile, display ProfileFragment instead
-
             cardView.setOnClickListener {
-
                 if (Auth.user?.isAnonymous!!) {
                     toast = CustomToast(itemView.context)
                     toast.warning("Please sign in or register to view this profile")
                 }
-
                 else {
-
                     val intent = Intent(it.context, DisplayOtherUserActivity::class.java)
                     // use intent.putExtra to pass the unique user ID to be displayed
                     val intendedUserID = user_uid.text
@@ -207,10 +178,6 @@ class ShowCommunityMembersRecyclerAdapter(currentUserUid: String, private var us
                     activity.startActivity(intent)
                 }
             }
-
         }
-
-
     }
-
 }

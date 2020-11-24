@@ -73,6 +73,7 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
 
         // change display of 'like_btn' if current user (viewer) has 'liked' this post before
         val viewingUserUid = user?.uid
+
         if (viewingUserUid in model.likes) {
             holder.like_btn.visibility = View.GONE
             holder.like_btn_filled.visibility = View.VISIBLE
@@ -181,16 +182,17 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
         }
 
         holder.commentImageView.setOnClickListener {
-            if (holder.commentsConstraintLayout.visibility == View.VISIBLE) holder.commentsConstraintLayout.visibility = View.GONE
-
-            else {
-            // show profile picture of current user beside text input field for new comment
-            if (user?.uid != null) {
-                User(uid = user?.uid!!).displayProfilePicture(holder.itemView.context, holder.currentUserCommenterPicImageView)
+            if (holder.commentsConstraintLayout.visibility == View.VISIBLE) {
+                holder.commentsConstraintLayout.visibility = View.GONE
             }
-            holder.commentsConstraintLayout.visibility = View.VISIBLE
-        }
+            else {
+                // show profile picture of current user beside text input field for new comment
+                if (user?.uid != null) {
+                    User(uid = user?.uid!!).displayProfilePicture(holder.itemView.context, holder.currentUserCommenterPicImageView)
+                }
 
+                holder.commentsConstraintLayout.visibility = View.VISIBLE
+            }
         }
 
         holder.commentTextInputLayout.setEndIconOnClickListener {

@@ -12,16 +12,24 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
+import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.progressindicator.ProgressIndicator
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.firestore.Query
 import com.tellago.R.color
 import com.tellago.R.layout
-import com.tellago.models.Auth
+import com.tellago.models.Auth.Companion.user
+import com.tellago.models.Comment
 import com.tellago.models.Post
+import com.tellago.utilities.CustomToast
 import kotlinx.android.synthetic.main.layout_new_post_list_item.view.*
 import java.time.Instant
 import java.time.LocalDateTime
@@ -56,58 +64,58 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
 
     override fun onBindViewHolder(holder: NewPostViewHolder, position: Int, model: Post) {
         holder.model = model
-        holder.like_count.text = model.likes.size.toString()
-        holder.comment_count.text = model.comment.size.toString()
-
+        holder.likeCount.text = model.likes.size.toString()
+        holder.commentCount.text = model.comment.size.toString()
 
         // change display of 'like_btn' if current user (viewer) has 'liked' this post before
-        val viewingUserUid = Auth.user?.uid
-        if (viewingUserUid in model.likes)
-        {
-            holder.like_btn.visibility = View.GONE
-            holder.like_btn_filled.visibility = View.VISIBLE
+        val viewingUserUid = user?.uid
 
+        if (viewingUserUid in model.likes) {
+            holder.likeBtn.visibility = View.GONE
+            holder.likeBtnFilled.visibility = View.VISIBLE
         }
 
 
         // Change 'like_btn' uids composition based on
         // current user's clicks on the 'like_btn' & 'like_btn_filled'
-        holder.like_btn.setOnClickListener {
-            if (viewingUserUid != null) {
-                model.addUidToLikes(viewingUserUid)
-            }
-            holder.like_btn.visibility = View.GONE
-            holder.like_btn_filled.visibility = View.VISIBLE
-            val originalLikeCount = holder.like_count.text.toString().toInt()
-            holder.like_count.text = "${originalLikeCount + 1}"
+        holder.likeBtn.setOnClickListener {
+            if (viewingUserUid != null) model.addUidToLikes(viewingUserUid)
+
+            holder.likeBtn.visibility = View.GONE
+            holder.likeBtnFilled.visibility = View.VISIBLE
+
+            val originalLikeCount = holder.likeCount.text.toString().toInt()
+            holder.likeCount.text = "${originalLikeCount + 1}"
         }
 
-
-        holder.like_btn_filled.setOnClickListener {
+        holder.likeBtnFilled.setOnClickListener {
             if (viewingUserUid != null) {
                 model.removeUidFromLikes(viewingUserUid)
             }
-            holder.like_btn_filled.visibility = View.GONE
-            holder.like_btn.visibility = View.VISIBLE
-            val originalLikeCount = holder.like_count.text.toString().toInt()
-            holder.like_count.text = "${originalLikeCount - 1}"
-        }
 
+            holder.likeBtnFilled.visibility = View.GONE
+            holder.likeBtn.visibility = View.VISIBLE
+
+            val originalLikeCount = holder.likeCount.text.toString().toInt()
+            holder.likeCount.text = "${originalLikeCount - 1}"
+        }
 
         // Use NewPostRecyclerAdapter to handle conditional for displaying Posts based on PostType
         when (model.postType) {
             "text post" -> {
-                holder.post_title.visibility = View.VISIBLE
-                holder.post_title.text = model.messageBody
+                holder.postTitle.visibility = View.VISIBLE
+                holder.postTitle.text = model.messageBody
             }
             "poll" -> {
-                holder.post_title.visibility = View.VISIBLE
+                holder.postTitle.visibility = View.VISIBLE
                 val pollQn = model.messageBody
-                holder.post_title.text = "$pollQn"
+                holder.postTitle.text = "$pollQn"
                 holder.linearLayoutPollOptions.visibility = View.VISIBLE
 
                 if (model.poll.isNotEmpty()) {
                     val totalVotes = model.poll.toMutableMap().flatMap { it.value }.count()
+
+                    holder.linearLayoutPollOptions.removeAllViews()
 
                     for ((k, v) in model.poll) {
                         val pollOptionTextView = TextView(holder.itemView.context).apply {
@@ -129,6 +137,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
                             layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT).apply {
                                 gravity = Gravity.CENTER_VERTICAL
                             }
+
                             isIndeterminate = false
                             progress = if (v.size > 0) (v.size.toDouble() / totalVotes.toDouble() * 100).roundToInt() else 0
                             indicatorSize = 24 * TypedValue.COMPLEX_UNIT_DIP
@@ -151,15 +160,19 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
                         pollOptionHorizontalLinearLayout.addView(percentTextView)
                         pollOptionHorizontalLinearLayout.addView(progressIndicator)
 
+                        pollOptionHorizontalLinearLayout.setOnClickListener {
+                            user?.uid?.let { model.addVoteByPid(it, k) }
+                        }
+
                         holder.linearLayoutPollOptions.addView(pollOptionTextView)
                         holder.linearLayoutPollOptions.addView(pollOptionHorizontalLinearLayout)
                     }
                 }
             }
             "multimedia" -> {
-                holder.post_image.visibility = View.VISIBLE
-                holder.post_title.visibility = View.VISIBLE
-                holder.post_title.text = model.messageBody
+                holder.postImage.visibility = View.VISIBLE
+                holder.postTitle.visibility = View.VISIBLE
+                holder.postTitle.text = model.messageBody
             }
         }
 
@@ -193,16 +206,58 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
             }
         }
 
-        holder.post_duration.text = durationStr
-        holder.like_count.text = model.likes.size.toString()
-        // need to display comments individually instead of as an entire ArrayList<String>
-        holder.comment_count.text = model.comment.size.toString()
+        holder.postDuration.text = durationStr
+        holder.likeCount.text = model.likes.size.toString()
 
         // use this function to display images using Glide (one for profile pic of poster & one for any multimedia belonging to Post)
         holder.bind(model)
 
-    }
+        holder.commentScrollView.isNestedScrollingEnabled = true
 
+        Comment(pid = model.pid).getCommentByPid() {
+            holder.commentCount.text = it.size.toString()
+        }
+
+        holder.commentImageView.setOnClickListener {
+            if (holder.commentsConstraintLayout.visibility == View.VISIBLE) {
+                holder.commentsConstraintLayout.visibility = View.GONE
+            }
+            else {
+                holder.commentsConstraintLayout.visibility = View.VISIBLE
+            }
+        }
+
+        holder.commentTextInputLayout.setEndIconOnClickListener {
+            holder.commentTextInputEditText.error = null
+
+            if (holder.commentTextInputEditText.text.isNullOrBlank()) {
+                holder.commentTextInputEditText.error = "Field is required"
+            }
+            else {
+                Comment(pid = model.pid, uid = user?.uid, comment = holder.commentTextInputEditText.text.toString()).add {
+                    if (it != null) {
+                        CustomToast(holder.itemView.context).success("Commented Successfully")
+                        holder.commentTextInputEditText.error = null
+                        holder.commentTextInputEditText.setText("")
+                    }
+                    else CustomToast(holder.itemView.context).error("Failed to comment")
+                }
+            }
+        }
+
+        val adapter = CommentsRecyclerAdapter(
+            FirestoreRecyclerOptions.Builder<Comment>().setQuery(
+                Comment.collection
+                    .whereEqualTo("pid", model.pid)
+                    .orderBy("createdDate", Query.Direction.DESCENDING),
+                Comment::class.java
+            ).build()
+        )
+
+        holder.commentsRecyclerView.layoutManager = LinearLayoutManager(holder.itemView.context)
+        holder.commentsRecyclerView.adapter = adapter
+        adapter.startListening()
+    }
 
     private fun populateNewPollOptionTextView(context: Context, userOptionInput: String): TextView {
         val lparams = LinearLayout.LayoutParams(
@@ -219,18 +274,13 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
     }
 
     @SuppressLint("ResourceAsColor")
-    private fun populateNewPollVotesProgressBar(
-        context: Context,
-        optionVote: Int,
-        totalVoteCount: Int
-    ): ProgressBar {
-
+    private fun populateNewPollVotesProgressBar(context: Context, optionVote: Int, totalVoteCount: Int): ProgressBar {
         val lparams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             50
         )
-        val progressBarOptionVote =
-            ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal)
+
+        val progressBarOptionVote = ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal)
         progressBarOptionVote.setBackgroundResource(color.colorWhiteBackground)
         progressBarOptionVote.isIndeterminate = false
         progressBarOptionVote.scaleY = 1.toFloat()
@@ -242,11 +292,7 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
     }
 
     @SuppressLint("SetTextI18n")
-    private fun populateNewPollVotesAsText(
-        context: Context,
-        optionVote: Int,
-        totalVoteCount: Int
-    ): TextView {
+    private fun populateNewPollVotesAsText(context: Context, optionVote: Int, totalVoteCount: Int): TextView {
         val lparams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             50
@@ -266,20 +312,25 @@ class NewPostRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) :
         var model: Post? = null
 
         // Setting properties to the View (reference to layout_new_post_list_item item ID)
-        val post_image: ImageView = itemView.new_post_image
-        val post_title: TextView = itemView.new_post_title
-        val post_duration: TextView = itemView.new_post_duration
-        val like_btn: ImageView = itemView.new_post_like_btn
-        val like_btn_filled: ImageView = itemView.new_post_like_btn_filled
-        val comment_btn: ImageView = itemView.new_post_comment_btn
-        val like_count: TextView = itemView.new_post_likes
-        val comment_count: TextView = itemView.new_post_comments
+        val postImage: ImageView = itemView.new_post_image
+        val postTitle: TextView = itemView.new_post_title
+        val postDuration: TextView = itemView.new_post_duration
+        val likeBtn: ImageView = itemView.new_post_like_btn
+        val likeBtnFilled: ImageView = itemView.new_post_like_btn_filled
+        val likeCount: TextView = itemView.new_post_likes
+        val commentImageView: ImageView = itemView.new_post_comment_btn
+        val commentCount: TextView = itemView.new_post_comments
+        val commentScrollView: NestedScrollView = itemView.comments_scrollView
+        val commentsConstraintLayout: ConstraintLayout = itemView.comments_constraintLayout
+        val commentTextInputLayout: TextInputLayout = itemView.comment_textInputLayout
+        val commentTextInputEditText: TextInputEditText = itemView.comment_textInputEditText
+        val commentsRecyclerView: RecyclerView = itemView.comments_recyclerView
         val linearLayoutPollOptions: LinearLayout = itemView.linearLayout_pollOptions
 
         val activity: AppCompatActivity = itemView.context as AppCompatActivity
 
         fun bind(post: Post) {
-            if (post.postType == "multimedia") post.displayPostMedia(activity.application.baseContext, post_image)
+            if (post.postType == "multimedia") post.displayPostMedia(activity.application.baseContext, postImage)
         }
     }
 }
