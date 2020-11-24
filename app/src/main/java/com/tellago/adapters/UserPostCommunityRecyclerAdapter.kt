@@ -1,6 +1,7 @@
 package com.tellago.adapters
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
@@ -25,6 +26,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.firestore.Query
 import com.tellago.R
+import com.tellago.activities.DisplayOtherUserActivity
+import com.tellago.models.Auth
 import com.tellago.models.Auth.Companion.user
 import com.tellago.models.Comment
 import com.tellago.models.Post
@@ -152,6 +155,44 @@ class UserPostCommunityRecyclerAdapter(options: FirestoreRecyclerOptions<Post>) 
                 holder.post_image.visibility = View.VISIBLE
             }
         }
+
+        // Navigate to user profile by clicking on their Profile Picture
+        holder.user_profilePic.setOnClickListener {
+            val toast: CustomToast
+            if (Auth.user?.isAnonymous!!) {
+                toast = CustomToast(it.context)
+                toast.warning("Please sign in or register to view this profile")
+            }
+            else {
+                val intent = Intent(it.context, DisplayOtherUserActivity::class.java)
+                // use intent.putExtra to pass the unique user ID to be displayed
+                val intendedUserID = model.uid
+                intent.putExtra("userID", intendedUserID)
+
+                it.context.startActivity(intent)
+
+            }
+        }
+
+
+        // Navigate to user profile by clicking on their Display Name
+        holder.user_displayName.setOnClickListener {
+            val toast: CustomToast
+            if (Auth.user?.isAnonymous!!) {
+                toast = CustomToast(it.context)
+                toast.warning("Please sign in or register to view this profile")
+            }
+            else {
+                val intent = Intent(it.context, DisplayOtherUserActivity::class.java)
+                // use intent.putExtra to pass the unique user ID to be displayed
+                val intendedUserID = model.uid
+                intent.putExtra("userID", intendedUserID)
+
+                it.context.startActivity(intent)
+
+            }
+        }
+
 
         // Change 'like_btn' uids composition based on
         // current user's clicks on the 'like_btn' & 'like_btn_filled'

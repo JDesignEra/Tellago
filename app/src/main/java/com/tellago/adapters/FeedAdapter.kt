@@ -1,5 +1,6 @@
 package com.tellago.adapters
 
+import android.content.Intent
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -12,8 +13,11 @@ import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.progressindicator.ProgressIndicator
 import com.tellago.R
+import com.tellago.activities.DisplayOtherUserActivity
+import com.tellago.models.Auth
 import com.tellago.models.Post
 import com.tellago.models.User
+import com.tellago.utilities.CustomToast
 import kotlinx.android.synthetic.main.layout_user_post_list_item.view.*
 import java.time.Instant
 import java.time.LocalDateTime
@@ -56,6 +60,46 @@ class FeedAdapter(private var posts: ArrayList<Post>) : RecyclerView.Adapter<Fee
                 if (it != null) {
                     holder.userNameTxtView.text = it.displayName
                     it.displayProfilePicture(holder.itemView.context, holder.user_profilePic)
+
+                    val userID = it.uid
+
+
+                    // Navigate to user profile by clicking on their Profile Picture
+                    holder.user_profilePic.setOnClickListener {
+                        val toast: CustomToast
+                        if (Auth.user?.isAnonymous!!) {
+                            toast = CustomToast(it.context)
+                            toast.warning("Please sign in or register to view this profile")
+                        }
+                        else {
+                            val intent = Intent(it.context, DisplayOtherUserActivity::class.java)
+                            // use intent.putExtra to pass the unique user ID to be displayed
+                            val intendedUserID = userID
+                            intent.putExtra("userID", intendedUserID)
+
+                            it.context.startActivity(intent)
+
+                        }
+                    }
+
+                    // Navigate to user profile by clicking on their Display Name
+                    holder.userNameTxtView.setOnClickListener {
+                        val toast: CustomToast
+                        if (Auth.user?.isAnonymous!!) {
+                            toast = CustomToast(it.context)
+                            toast.warning("Please sign in or register to view this profile")
+                        }
+                        else {
+                            val intent = Intent(it.context, DisplayOtherUserActivity::class.java)
+                            // use intent.putExtra to pass the unique user ID to be displayed
+                            val intendedUserID = userID
+                            intent.putExtra("userID", intendedUserID)
+
+                            it.context.startActivity(intent)
+
+                        }
+                    }
+                    
                 }
             }
         }
@@ -150,6 +194,8 @@ class FeedAdapter(private var posts: ArrayList<Post>) : RecyclerView.Adapter<Fee
                 holder.post_duration.text = "${createdDateTime.until(today, ChronoUnit.SECONDS)} secs ago"
             }
         }
+
+
     }
 
     override fun getItemCount(): Int {
