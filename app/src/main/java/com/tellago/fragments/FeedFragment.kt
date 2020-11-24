@@ -37,8 +37,20 @@ class FeedFragment : Fragment() {
                             Post(cids = communities?.map { it.cid } as ArrayList<String>).getPostsByCids {
                                 if (it != null) {
                                     it.sortWith(compareByDescending { it.createDate })
-                                    posts.addAll(it)
+
+                                    // Do not include Posts created by current user in the Feed Fragment
+                                    val filteredPosts : ArrayList<Post> = ArrayList()
+                                    for (post in it)
+                                    {
+                                        if (post.uid != uid)
+                                        {
+                                            filteredPosts.add(post)
+                                        }
+                                    }
+
+                                    posts.addAll(filteredPosts)
                                 }
+
                                 feed_recyclerView.layoutManager = LinearLayoutManager(requireContext())
                                 feed_recyclerView.adapter = FeedAdapter(posts)
                             }

@@ -99,7 +99,7 @@ class FeedAdapter(private var posts: ArrayList<Post>) : RecyclerView.Adapter<Fee
 
                         }
                     }
-                    
+
                 }
             }
         }
